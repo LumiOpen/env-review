@@ -1,0 +1,33 @@
+schema_version: '1'
+id: ER-7eb9a86f
+dataset: hf:allenai/Dolci-Think-SFT-7B
+revision: 72ec0fe32428bada1ec686a9168a0681eecd2094
+title: Stored final answer uses a banned exclamation mark
+status: confirmed
+category: incorrect_reference
+tasks:
+  - id: persona-precise-if-r1-final-content-filtered-chinese-filtered_bf4d51e6-83e7-4781-91cb-8899c69bde35-travel
+    config: default
+    split: train
+    row_index: 1060881
+problem:
+  description: The user forbids exclamation marks anywhere in the response, but the stored final answer ends a sentence with one.
+  expected: The SFT target's final answer should satisfy the explicit punctuation constraint.
+  actual: The final email draft includes “Looking forward to your thoughts and suggestions!”
+evidence:
+  - source: data/train-00072-of-00156.parquet
+    note: Global train row 1060881, user message; local shard row 14001.
+    quote: do not use any exclamation marks anywhere in your response.
+  - source: data/train-00072-of-00156.parquet
+    note: Same row, assistant final answer after its sole `</think>` tag.
+    quote: Looking forward to your thoughts and suggestions!
+validation:
+  method: static
+  summary: Matched the exact no-exclamation instruction and checked only the final answer after the last `</think>`. Four of 5727 matching IF rows contain `!` in that span. This finding records one reviewed row.
+  assumptions:
+    - The instruction applies to the final answer, excluding the reasoning block.
+  not_run:
+    - Original verification functions, which are not included in this SFT schema.
+  reproducer: https://datasets-server.huggingface.co/rows?dataset=allenai%2FDolci-Think-SFT-7B&config=default&split=train&offset=1060881&length=1
+provenance:
+  discovered_by: AI-assisted full IF-source static scan, 2026-10-20
