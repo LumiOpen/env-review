@@ -1,0 +1,46 @@
+{
+  "name": "unstable-test-identifier-screen",
+  "scope": {
+    "split": "train",
+    "tasks": 32079,
+    "fields": [
+      "FAIL_TO_PASS",
+      "PASS_TO_PASS"
+    ]
+  },
+  "method": {
+    "type": "static-regex-screen",
+    "patterns": {
+      "datetime": "\\b20\\d\\d-\\d\\d-\\d\\d[T ]\\d\\d:\\d\\d|\\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d\\d? 20\\d\\d \\d\\d:\\d\\d",
+      "duration": "[\\(\\[]\\s*\\d+(\\.\\d+)?\\s*(ms|s|sec|seconds|milliseconds)\\s*[\\)\\]]|\\bin \\d+(\\.\\d+)?\\s*(ms|s)\\b|\\d+(\\.\\d+)? milliseconds",
+      "host_port": "\\b(127\\.0\\.0\\.1|localhost|0\\.0\\.0\\.0):\\d{4,5}\\b",
+      "address": "\\b0[xX][0-9a-fA-F]{8,}\\b",
+      "tmp_path": "/tmp/[\\w.-]*\\d{4,}|pytest-of-\\w+/pytest-\\d+"
+    }
+  },
+  "candidate_counts": {
+    "tasks_with_f2p_match": 1539,
+    "tasks_where_every_f2p_id_matches": 895,
+    "tasks_with_p2p_match": 2081,
+    "tasks_with_match_in_either_list": 2513,
+    "f2p_tasks_by_pattern": {
+      "datetime": 286,
+      "duration": 1021,
+      "host_port": 113,
+      "address": 109,
+      "tmp_path": 79
+    },
+    "f2p_matched_tasks_with_dataset_metadata_code_A": 994
+  },
+  "execution": {
+    "completed_analysis": true,
+    "per_task_output_saved": false,
+    "reason": "The exploratory script completed aggregation but lacked permission to write its per-task CSV."
+  },
+  "interpretation": [
+    "Counts are textual detector candidates, not confirmed defects.",
+    "A duration or port in a stored identifier is harmful only if the applicable published parser compares it without normalization.",
+    "The high PHP duration-match count particularly requires parser-aware review.",
+    "The screen output must not be presented as a defect-rate estimate."
+  ]
+}

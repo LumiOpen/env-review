@@ -1,0 +1,75 @@
+schema_version: '1'
+id: ER-074ce6c7
+dataset: gh:PrimeIntellect-ai/community-environments
+revision: cf220ee86500e94b5415d8b226557ce5d950f1db
+title: hanabi points_reward_func parses score from any JSON in model messages, enabling reward injection
+status: confirmed
+category: reward_shortcut
+tasks:
+  - id: hanabi
+problem:
+  description: >
+    points_reward_func iterates over completion messages in reverse and attempts
+    to parse each message's content as JSON. If parsing fails and the "Current
+    game state:" marker is absent, the entire message content is parsed as JSON.
+    A model message that is valid JSON containing a "score" key returns that
+    value as the reward — with no cap and no cross-check against the actual
+    game state. A model that outputs {"score": 25} in any message receives
+    the maximum possible reward regardless of game outcome.
+  expected: >
+    Reward must be extracted only from system-generated game state messages,
+    not from any message in the completion that happens to parse as JSON
+    with a "score" key.
+  actual: >
+    Lines 398-405: when the "Current game state:\n" marker is absent, the
+    full message content is passed to json.loads. If successful and the result
+    is a dict containing "score", that value is returned as a float with no
+    validation against the actual game. The function iterates messages in
+    reverse and returns on the first match, so a model message appearing
+    after the last game state update will shadow the real score.
+evidence:
+  - source: environments/hanabi/hanabi/hanabi.py
+    line_start: 389
+    line_end: 408
+    quote: |
+      def points_reward_func(completion: Messages, **kwargs) -> float:
+          """Extract final game score (0-25) from the completion messages."""
+          for msg in reversed(completion):
+              if not isinstance(msg, dict):
+                  continue
+              content = msg.get("content", "")
+              if isinstance(content, str):
+                  # Find JSON after "Current game state:" prefix
+                  marker = "Current game state:\n"
+                  if marker in content:
+                      json_str = content.split(marker, 1)[1]
+                  else:
+                      json_str = content
+                  try:
+                      data = json.loads(json_str)
+                      if isinstance(data, dict) and "score" in data:
+                          return float(data["score"])
+                  except (json.JSONDecodeError, ValueError):
+                      continue
+          return 0.0
+validation:
+  method: static
+  summary: >
+    Static reading of points_reward_func (lines 389-408) confirms: (1) when
+    the game state marker is absent, the full message content is JSON-parsed;
+    (2) any dict with a "score" key returns float(data["score"]) immediately
+    with no bounds check or cross-validation; (3) messages are iterated in
+    reverse so the last message in the completion is checked first. A model
+    that appends {"score": 25} as its final message receives reward 25.0
+    before any real game state message is reached.
+  assumptions:
+    - Model-generated messages are included in the completion list alongside system game state messages.
+    - No upstream reward normalisation caps the returned value.
+  not_run:
+    - End-to-end game trace confirming the model can produce a message that is parsed as JSON before the game state message.
+provenance:
+  discovered_by: AI-assisted static code review, 2026-10-20
+discussion: >
+  Fix: restrict JSON parsing to messages with a known system role or the
+  "Current game state:" marker. Never fall back to parsing arbitrary message
+  content as JSON. Add an explicit cap: min(float(data["score"]), 25.0).

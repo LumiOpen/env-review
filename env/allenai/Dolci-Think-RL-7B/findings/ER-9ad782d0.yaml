@@ -1,0 +1,90 @@
+schema_version: '1'
+id: ER-9ad782d0
+dataset: hf:allenai/Dolci-Think-RL-7B
+revision: 0fb6466d31ef3a9dd16985ef635e6429e05a6491
+title: The published passrate is not a comparable difficulty label - denominators vary from 0 to 8 and duplicate copies are not independent measurements
+status: confirmed
+category: scoring
+tasks:
+- id: AceReason-Math_filtered-request-86-9
+  config: default
+  split: train
+  row_index: 1167
+- id: AceReason-Math_filtered-request-13-73
+  config: default
+  split: train
+  row_index: 176
+- id: AceReason-Math_filtered-request-486-60
+  config: default
+  split: train
+  row_index: 6557
+problem:
+  description: Every row publishes passrate together with total_correct_rollouts and total_rollouts,
+    and no row in the whole dataset exceeds 0.625, which is 5 of 8. The column therefore records a
+    difficulty screen applied before release, and it is the natural field to reuse when selecting or
+    weighting prompts for training. It does not support that use. The denominator varies by row, 14
+    math rows carry a pass rate computed from zero rollouts, and copies of one prompt agree with each
+    other far more closely than independent sampling of one policy allows, so the numbers are neither
+    equally precise nor independent measurements.
+  expected: A per-row difficulty label is measured the same way on every row, so that one threshold
+    means the same thing everywhere and two measurements of one prompt differ only by sampling error.
+  actual: 'Among the 30180 math rows, total_rollouts takes every value from 0 to 8: 14 rows at 0, 28
+    at 1, 127 at 2, 202 at 3, 385 at 4, 765 at 5, 1459 at 6, 5130 at 7 and 22070 at 8. The 14 rows
+    with zero rollouts publish passrate 0.0 from no measurement at all, and would be kept by any
+    filter that selects unsolved prompts. The release threshold is a single value applied to all of
+    them: the maximum pass rate at each denominator is exactly the largest multiple of 1/n at or
+    below 0.625 - 0.500 at n=2, 0.333 at n=3, 0.500 at n=4, 0.600 at n=5, 0.500 at n=6, 0.571 at n=7
+    and 0.625 at n=8 - so a prompt measured 5 times faced a different effective cut than one measured
+    8 times. Separately, among the 1700 prompts published exactly twice with the same reference and 8
+    rollouts on both copies, the mean gap between the two correct counts is 0.996 rollouts where
+    independent sampling of a shared policy requires 1.462 (ratio 0.68, z = -16.5), so the copies are
+    positively correlated rather than independent re-measurements.'
+evidence:
+- source: data/train-00000-of-00009.parquet
+  quote: '0'
+  note: total_rollouts column, row_index 1167, with passrate 0.0 and total_correct_rollouts 0. The row
+    carries reference answer "2" and was never measured. 13 further math rows share this pattern.
+- source: data/train-00000-of-00009.parquet
+  quote: '0.6'
+  note: passrate column, row_index 176, from 3 correct of 5 rollouts - above the 0.625 ceiling's
+    nearest 8-rollout value of 0.5 and admitted, where an 8-rollout row at the same true difficulty
+    would need 5 or fewer.
+- source: data/train-00000-of-00009.parquet
+  quote: '04'
+  note: ground_truth column, row_index 6557. The same prompt and reference appear at row_index 10127
+    and 29667; the three copies record 0 of 7, 4 of 8 and 5 of 8 correct, spanning 0.000 to 0.625.
+validation:
+  method: static
+  summary: Read all 102014 rows of the pinned snapshot and confirmed 0.625 is the maximum pass rate
+    anywhere, then tabulated total_rollouts and the per-denominator maximum across the 30180 math
+    rows. For the dispersion test, took every prompt published exactly twice whose copies share a
+    reference answer and report 8 rollouts each (1700 pairs), asserted passrate equals
+    total_correct_rollouts / total_rollouts on each, and compared the observed gap between the two
+    correct counts against its exact null. Conditioning on the pooled correct count makes the split
+    hypergeometric, so the null needs no estimate of the underlying pass rate and no asymptotic
+    approximation. The deficit is spread across the whole distribution rather than concentrated at
+    zero - gaps of 0 and 1 are over-represented (32.4% and 43.4% against 21.9% and 35.6% expected)
+    and every gap of 2 or more is under-represented - so it is not a subset of rows whose metadata
+    was copied verbatim.
+  assumptions:
+  - The dispersion null assumes each copy's correct count came from its own independent rollouts of a
+    shared policy. That is the assumption being tested, and it is rejected.
+  - Rows are compared as published. No claim is made about which copy of a duplicated prompt is the
+    more accurate measurement.
+  not_run:
+  - The mechanism behind the correlation is not established. Shared or overlapping rollouts between
+    copies, a pass rate derived from a larger pool and re-expressed as k/n, and a scoring pass run
+    once per deduplicated problem would all produce it, and the published columns cannot distinguish
+    them.
+  - No rollouts were generated and the dataset's own verifier was not run.
+  reproducer: scripts/check_dolci_dispersion.py
+provenance:
+  discovered_by: Kai Hakala
+  experiment: env/allenai/Dolci-Think-RL-7B/runs/2026-10-20-duplicate-screen
+discussion: 'The practical consequence is that a threshold on this column is softer than it reads.
+  Taking the published numbers at face value as 8-rollout estimates, the probability that a prompt of
+  true pass rate p is recorded at or below the 5/8 release cut is 68% at p=0.6, 45% at p=0.7, 32% at
+  p=0.75, 20% at p=0.8 and 4% at p=0.9, so the retained set is a soft difficulty band rather than a
+  hard one. The dispersion result cuts the other way and is the more interesting half: because the
+  copies are not independent, their close agreement cannot be used to argue the published pass rates
+  are precise. Settling this needs the release scoring configuration, not more of the published data.'

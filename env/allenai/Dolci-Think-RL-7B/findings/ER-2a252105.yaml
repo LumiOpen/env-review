@@ -1,0 +1,70 @@
+schema_version: '1'
+id: ER-2a252105
+dataset: hf:allenai/Dolci-Think-RL-7B
+revision: 0fb6466d31ef3a9dd16985ef635e6429e05a6491
+title: Dataset card claims strict deduplication, but a third of math rows share a byte-identical prompt with another row
+status: confirmed
+category: specification
+tasks:
+- id: omega-combined-no-boxed_filtered-request-618-33
+  config: default
+  split: train
+  row_index: 13518
+- id: AceReason-Math_filtered-request-90-87
+  config: default
+  split: train
+  row_index: 1234
+problem:
+  description: The dataset card lists "Strict deduplication" among the processing steps. In the math
+    subset the claim does not hold at the simplest level, that of byte-identical prompts. The
+    duplication is mostly across the source corpora the subset was assembled from, so a problem
+    collected into two upstream sets survives twice. This inflates the effective sampling weight of
+    duplicated problems and is the mechanism behind the conflicting and placeholder references
+    recorded in ER-a3060c49 and ER-1932eb19.
+  expected: After strict deduplication, a prompt appears at most once in the split.
+  actual: 4087 distinct prompts in the math subset appear more than once. 10079 of the 30180 math
+    rows (33.4%) sit in such a group, of which 5992 (19.9%) are copies beyond the first. Group sizes
+    run 2 copies for 2856 prompts, 3 for 803, 4 for 247, 5 for 118, 6 for 62 and 8 for 1. Counting a
+    group by the source corpus of its first copy gives omega-combined 2359, AceReason-Math 1383,
+    DAPO-Math-17k 288, MathSub-30K 42 and rlvr_orz_math_57k 15; the same pentagon problem appears in
+    AceReason-Math, MathSub-30K and rlvr_orz_math_57k at once.
+evidence:
+- source: README.md
+  line_start: 142
+  line_end: 142
+  quote: "- **Strict deduplication**  "
+  note: listed under "Processing & Filtering" in the dataset card. No scope is given, so the claim is
+    read as applying to the published rows.
+- source: data/train-00001-of-00009.parquet
+  quote: 'user: Let N denote the number of ordered pairs of positive integers (a, b) such that a,
+    b <= 3^3 and a^3 + b^3 is a multiple of 3^4. Find N mod 1000.'
+  note: prompt column, row_index 13518. The same bytes appear at row_index 14616, 16820, 20373, 21065,
+    24879, 25012 and 26061 - the largest duplicate group in the subset, eight copies, all from
+    omega-combined.
+- source: data/train-00000-of-00009.parquet
+  quote: 'user: A circle of radius $2$ has center at $(2,0)$. A circle of radius $1$ has center at
+    $(5,0)$. A line is tangent to the two circles at points in th'
+  note: opening of the prompt column at row_index 1234 (AceReason-Math), repeated byte-for-byte at
+    row_index 9989 (MathSub-30K) - a cross-corpus duplicate.
+validation:
+  method: static
+  summary: Read all 102014 rows of the pinned snapshot, selected the 30180 rows with dataset == "math",
+    and grouped them on the SHA-1 of the exact prompt bytes. Counted groups, member rows, copies beyond
+    the first, and the group-size histogram. Source corpora were read off the custom_id prefix. Only 3
+    math prompts also occur outside the math subset, so this is duplication within the subset rather
+    than overlap with the other tasks.
+  assumptions:
+  - 'The card''s "Strict deduplication" is read as a claim about the published rows. If it describes
+    only an intermediate stage, or deduplication within each source corpus separately, the card is
+    ambiguous rather than wrong - but the duplicates are present either way.'
+  not_run:
+  - Near-duplicate and paraphrase detection; only byte-identical prompts were compared, so this is a
+    lower bound. The corridor problem in ER-a3060c49 appears in two wordings that differ by one comma
+    and is counted here as two separate groups.
+  reproducer: src/eval_audit/duplicate_screen.py
+provenance:
+  discovered_by: Kai Hakala
+  experiment: env/allenai/Dolci-Think-RL-7B/runs/2026-10-20-duplicate-screen
+discussion: Only the math subset was screened. A first pass across all subsets found the same pattern
+  elsewhere - in general-quality the prompt "hi, how are you?" appears 164 times with 31 distinct
+  reference responses - but those rows were not inspected further and are not claimed here.

@@ -1,0 +1,50 @@
+{
+  "task": {
+    "instance_id": "eslint__eslint-14837",
+    "config": "default",
+    "split": "train",
+    "row_index": 13024
+  },
+  "source": {
+    "revision": "10483de0f50fe5da545942705a76c6150171af7f",
+    "path": "data/train-00000-of-00001.parquet",
+    "artifact_sha256": "0e0bf9355f892ad74ae98d4e1c404f39fd6654a8e351ee3e6ab162e4a64cd3ad",
+    "field_sha256": {
+      "problem_statement": "1eb355e6c871b9251fba120e50a2a16c61627ccb084851e192791a08bf2054db",
+      "interface": "27bc05301225085caec39f9d6677362efb49aab75bd175e1d2376e0976bad338",
+      "patch": "753bbd95f634305798ba3a69fd891ee1f5ac43bd9605ff8fe6cf78e50bd2497e",
+      "test_patch": "9cf601f11825d702bf5a9215d09a0d94d518db8140061ae48d65bb1ec7f59f06"
+    }
+  },
+  "problem_statement_quotes": [
+    "\"comma-style\" doesn't like ignored, multiline destructured array elements.",
+    "In both cases I get a `Bad line breaking before and after ','. (comma-style)` error message for the second comma.",
+    "Seems to me like the rule should understand ignored elements (bug), or we should have another exception/handling for these consecutive commas."
+  ],
+  "fail_to_pass": [
+    "should not change exit code if no fatal errors are reported",
+    "should exit with exit code 1 if no fatal errors are found, but rule violations are found"
+  ],
+  "reference_patch_quotes": {
+    "requested_comma_fix": [
+      "diff --git a/lib/rules/comma-style.js b/lib/rules/comma-style.js",
+      "+                    } else {",
+      "+                        previousItemToken = currentItemToken;"
+    ],
+    "unrelated_exit_feature": [
+      "diff --git a/lib/cli.js b/lib/cli.js",
+      "+            const shouldExitForFatalErrors =",
+      "+                options.exitOnFatalError && fatalErrorCount > 0;",
+      "+            if (shouldExitForFatalErrors) {",
+      "+                return 2;"
+    ]
+  },
+  "test_patch_quotes": [
+    "describe(\"when given the exit-on-fatal-error flag\", () => {",
+    "it(\"should not change exit code if no fatal errors are reported\", async () => {",
+    "const exitCode = await cli.execute(`--no-ignore --exit-on-fatal-error ${filePath}`);",
+    "assert.strictEqual(exitCode, 0);",
+    "it(\"should exit with exit code 1 if no fatal errors are found, but rule violations are found\", async () => {",
+    "assert.strictEqual(exitCode, 1);"
+  ]
+}

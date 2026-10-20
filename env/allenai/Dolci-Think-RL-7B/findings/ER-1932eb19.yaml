@@ -1,0 +1,71 @@
+schema_version: '1'
+id: ER-1932eb19
+dataset: hf:allenai/Dolci-Think-RL-7B
+revision: 0fb6466d31ef3a9dd16985ef635e6429e05a6491
+title: 174 math rows ship "-1" as the reference answer, and 165 of them still record rollouts scored correct
+status: confirmed
+category: incorrect_reference
+tasks:
+- id: DAPO-Math-17k-Processed_filtered-request-56-68
+  config: default
+  split: train
+  row_index: 7896
+- id: DAPO-Math-17k-Processed_filtered-request-57-63
+  config: default
+  split: train
+  row_index: 7910
+problem:
+  description: 174 rows in the math subset carry the literal string "-1" in ground_truth. Two of them
+    duplicate a prompt that is also published with a real answer, which shows "-1" is a failed answer
+    extraction stored as a label rather than the answer to the problem. 165 of the 174 nevertheless
+    record a non-zero pass rate, so rollouts were marked correct against the placeholder.
+  expected: Every row carries the answer to its problem, or is withheld if the answer could not be
+    extracted.
+  actual: '"-1" is used as an extraction-failure placeholder. Row 7896 labels the inscribed-triangle
+    problem -1 while its byte-identical duplicate at row 4315 labels it 554; row 7910 labels the cube
+    reflection problem -1 while its duplicate at row 8576 labels it 230. In both pairs the placeholder
+    row records pass rate 0.000 and the real-answer row records 0.625 and 0.333. Across all 174 rows,
+    165 record a non-zero pass rate and 9 record zero, so most of these rows both withhold the correct
+    answer and reward some other string for matching -1.'
+evidence:
+- source: data/train-00000-of-00009.parquet
+  quote: '-1'
+  note: ground_truth column, row_index 7896. The byte-identical prompt at row_index 4315 carries 554.
+- source: data/train-00000-of-00009.parquet
+  quote: 'user: The sides of rectangle $ABCD$ have lengths $10$ and $11$. An equilateral triangle is
+    drawn so that no point of the triangle lies outside $ABCD$.'
+  note: opening of the prompt column shared byte-for-byte by row_index 7896 (ground_truth -1) and
+    row_index 4315 (ground_truth 554).
+- source: data/train-00000-of-00009.parquet
+  quote: '-1'
+  note: ground_truth column, row_index 7910. The byte-identical prompt at row_index 8576 carries 230.
+- source: data/train-00000-of-00009.parquet
+  quote: 'user: Let $ABCD$ and $BCFG$ be two faces of a cube with $AB=12$. A beam of light emanates
+    from vertex $A$ and reflects off face $BCFG$ at point $P$, w'
+  note: opening of the prompt column shared byte-for-byte by row_index 7910 (ground_truth -1) and
+    row_index 8576 (ground_truth 230).
+- source: data/train-00002-of-00009.parquet
+  quote: '230'
+  note: ground_truth column, row_index 8576, with passrate 0.333 against the 0.000 recorded for the
+    placeholder copy at row_index 7910.
+validation:
+  method: static
+  summary: Counted exact "-1" values in ground_truth across the 30180 math rows of the pinned snapshot
+    (174 rows), split them by whether passrate is zero (9) or non-zero (165), and grouped all math rows
+    by byte-identical prompt to find the two cases where a placeholder row is duplicated by a row
+    carrying a real answer. No empty, null or "N/A" reference values exist in the subset, so "-1" is
+    the only placeholder form present.
+  assumptions:
+  - -1 is not the intended answer to the two adjudicated problems; both are counts or lengths that
+    cannot be negative.
+  - The remaining 172 rows are flagged by the shared placeholder value, not individually adjudicated.
+  not_run:
+  - Execution of the dataset's own verifier against the "-1" rows
+  - Independent solution of the 172 unadjudicated problems
+  reproducer: src/eval_audit/duplicate_screen.py
+provenance:
+  discovered_by: Kai Hakala
+  experiment: env/allenai/Dolci-Think-RL-7B/runs/2026-10-20-duplicate-screen
+discussion: The non-zero pass rates are the part worth resolving upstream. They imply the scoring run
+  accepted some completion as matching "-1", which would positively reinforce a wrong answer on 165 rows.
+  Confirming the mechanism needs the dataset's own verifier, which was not run here.

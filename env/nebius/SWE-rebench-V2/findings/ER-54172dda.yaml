@@ -1,0 +1,81 @@
+schema_version: '1'
+id: ER-54172dda
+dataset: hf:nebius/SWE-rebench-V2
+revision: 10483de0f50fe5da545942705a76c6150171af7f
+title: eslint comma-style task targets unrelated fatal-error exit-code tests
+status: candidate
+category: grader_mismatch
+tasks:
+  - id: eslint__eslint-14837
+    config: default
+    split: train
+    row_index: 13024
+problem:
+  description: >
+    The solver-visible problem asks for the comma-style rule to handle ignored
+    elements in multiline array destructuring. Both designated FAIL_TO_PASS
+    tests instead exercise an exit-on-fatal-error CLI option. The reference
+    patch bundles implementations of both behaviors, allowing it to validate
+    while leaving the task's positive reward checks unrelated to the stated
+    bug.
+  expected: >
+    The target tests that determine positive task reward should exercise the
+    requested comma-style behavior, so a permitted implementation that fixes
+    ignored multiline array elements can receive credit.
+  actual: >
+    The two FAIL_TO_PASS identifiers are "should not change exit code if no
+    fatal errors are reported" and "should exit with exit code 1 if no fatal
+    errors are found, but rule violations are found". The corresponding test
+    patch invokes --exit-on-fatal-error and asserts process exit codes 0 and 1.
+evidence:
+  - source: data/train-00000-of-00001.parquet
+    quote: |
+      "comma-style" doesn't like ignored, multiline destructured array elements.
+
+      In both cases I get a `Bad line breaking before and after ','. (comma-style)` error message for the second comma.
+    note: problem_statement field for train row 13024
+  - source: data/train-00000-of-00001.parquet
+    quote: |
+      should not change exit code if no fatal errors are reported
+      should exit with exit code 1 if no fatal errors are found, but rule violations are found
+    note: complete FAIL_TO_PASS field for train row 13024
+  - source: data/train-00000-of-00001.parquet
+    quote: |
+      describe("when given the exit-on-fatal-error flag", () => {
+          it("should not change exit code if no fatal errors are reported", async () => {
+              const filePath = getFixturePath("exit-on-fatal-error", "no-fatal-error.js");
+              const exitCode = await cli.execute(`--no-ignore --exit-on-fatal-error ${filePath}`);
+
+              assert.strictEqual(exitCode, 0);
+          });
+    note: test_patch field for train row 13024
+  - source: data/train-00000-of-00001.parquet
+    quote: |
+      diff --git a/lib/rules/comma-style.js b/lib/rules/comma-style.js
+      +                    } else {
+      +                        previousItemToken = currentItemToken;
+    note: patch field for train row 13024; requested comma-style fix is bundled with the unrelated CLI feature
+validation:
+  method: static
+  summary: >
+    Compared the problem_statement, complete FAIL_TO_PASS list, test_patch, and
+    reference patch in the pinned parquet row. The two target tests are located
+    under "when given the exit-on-fatal-error flag" and assert CLI exit codes;
+    neither exercises comma-style. The reference patch separately contains the
+    requested change in lib/rules/comma-style.js, demonstrating that unrelated
+    behaviors were bundled in the source patch.
+  assumptions:
+    - The published task presentation uses problem_statement as the solver request.
+    - FAIL_TO_PASS identifies the tests used to award positive task credit, with PASS_TO_PASS acting as a regression gate.
+  not_run:
+    - The repository test suite, reference patch, or alternative comma-style-only patch.
+    - The deployed Kolibri environment or its task-selection transformation.
+    - Reconstruction of the SWE-rebench V2 collection step that selected these FAIL_TO_PASS tests.
+  reproducer: evidence/ER-54172dda/witness.json
+provenance:
+  discovered_by: Cursor agent-assisted static review with Raimondas Luuk, 2026-10-20
+  experiment: experiments/lightweight-rl-audit
+discussion: >
+  This task was used while developing the experimental rubric and is not a
+  held-out detection result. The dataset metadata labels it code A with complete
+  intent, but that metadata is not used as evidence for the mismatch.

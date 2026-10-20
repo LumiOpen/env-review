@@ -1,0 +1,45 @@
+# Agent response only. The runner attaches dataset/task identity, source
+# revision, packet hashes, model settings, timing, and cost.
+task_summary:
+  requested_behavior: null
+  rewarded_behavior: null
+  environment_contract: null
+  reference_visible: false
+
+review:
+  local_label: uncertain
+  # valid_signal_observed | no_signal_candidate | noisy_signal_candidate |
+  # wrong_signal_candidate | reward_shortcut_candidate | uncertain
+  mechanisms: []
+  correct_alternative_can_pass: unknown # yes | no | unknown
+  substantive_violation_can_pass: unknown # yes | no | unknown
+  rationale: null
+  evidence: []
+  # - source: relative/path/in/input-packet
+  #   quote: Exact supporting text.
+  #   line_start: 1
+  assumptions: []
+  gaps: []
+  not_run: []
+
+reference_pass:
+  revealed: false
+  bundled_unrelated_behavior: unknown # yes | no | unknown
+  changed_label: false
+  rationale: null
+  evidence: []
+
+candidate_claims: []
+# - id: C1
+#   mechanism: specification_verifier_mismatch
+#   expected: Behavior required by the published task contract.
+#   actual: Behavior checked or rewarded by the verifier.
+#   consequence: Concrete effect on score or training signal.
+#   witness: Minimal permitted solution or violation-to-score path.
+#   attempted_refutation: Strongest counterevidence checked.
+#   assumptions: []
+#   unresolved: []
+#   not_run: []
+#   evidence:
+#     - source: relative/path/in/input-packet
+#       quote: Exact supporting text.

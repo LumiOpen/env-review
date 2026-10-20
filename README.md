@@ -21,9 +21,10 @@ are deferred separately. See [review scope](docs/scope.md) for this boundary.
 ## Datasets
 
 - [XiaomiMiMo / MiMo-V2.6-RL-oss](env/XiaomiMiMo/MiMo-V2.6-RL-oss): initial exploration of exposed knowledge-work environments.
-- [allenai / Dolci-Think-RL-7B](env/allenai/Dolci-Think-RL-7B): full-split audit with an instruction-contradiction witness.
+- [allenai / Dolci-Think-RL-7B](env/allenai/Dolci-Think-RL-7B): full-split audit with an instruction-contradiction witness, and a duplicate-prompt screen of the math subset covering contradictory and placeholder reference answers and pass rates that are not comparable across rows.
 - [allenai / Dolci-Think-SFT-7B](env/allenai/Dolci-Think-SFT-7B): IF-source audit of contradictory constraints and stored reasoning-format mismatches.
 - [LumiOpen / AutoIF-FI](env/LumiOpen/AutoIF-FI): full-split audit of saved prompts and focused verifier review.
+- [nebius / SWE-rebench-V2](env/nebius/SWE-rebench-V2): exploratory agent-assisted static review of specification and verifier alignment.
 
 ## Layout
 
