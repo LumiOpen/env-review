@@ -37,9 +37,15 @@
     "LEAK": 1
   },
   "review_status": {
-    "promoted_findings": [],
+    "promoted_findings": [
+      {
+        "id": "ER-54172dda",
+        "status": "candidate",
+        "task_id": "eslint__eslint-14837"
+      }
+    ],
     "rejected_claims": [],
-    "unresolved": "All task labels require repository-style claim review. This run records discovery outputs only."
+    "unresolved": "The other task labels require repository-style claim review. This run otherwise records discovery outputs only."
   },
   "metric_limits": "The sample is development data, the reference set is incomplete, and annotator severity varied. Do not report these rates as SWE-rebench V2 corpus defect prevalence, false-positive rate, or method recall."
 }

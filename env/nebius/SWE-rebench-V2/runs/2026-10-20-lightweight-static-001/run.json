@@ -11,6 +11,9 @@
   },
   "sample": "sample.json",
   "assignments": "assignments.json",
+  "packet_construction": "packet-construction.json",
+  "rubric": "legacy-rubric.md",
+  "prompt_template": "prompt-template.txt",
   "raw_outputs": [
     "raw-labels/agent_0.jsonl",
     "raw-labels/agent_1.jsonl",
@@ -18,6 +21,7 @@
     "raw-labels/agent_3.jsonl"
   ],
   "detector": "unstable-id-screen.json",
+  "adjudications": "adjudications.json",
   "summary": "summary.json",
   "reviewers": [
     {
@@ -50,6 +54,7 @@
     "The labels BROKEN, QUESTIONABLE, and VALID are legacy local rubric labels, not catalog statuses.",
     "All reviews are agent-assisted static judgments, not independent human validation.",
     "No repository, task tests, grader, setup script, reference patch, or candidate patch was executed.",
+    "Seventeen rendered task packets contained at least one explicit truncation marker.",
     "Annotator severity differed substantially across primary batches.",
     "Unflagged tasks remain unlabeled; sample outcomes are not corpus prevalence.",
     "The unstable-ID screen identifies textual candidates. It does not establish that the published parser compares those strings without normalization."

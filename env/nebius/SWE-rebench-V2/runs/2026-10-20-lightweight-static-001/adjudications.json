@@ -1,0 +1,28 @@
+[
+  {
+    "task_id": "eslint__eslint-14837",
+    "raw_outputs": [
+      "raw-labels/agent_0.jsonl:4",
+      "raw-labels/agent_3.jsonl:29"
+    ],
+    "agreement": {
+      "legacy_verdict": "BROKEN",
+      "mechanism": "Both reviewers identified a specification/test mismatch."
+    },
+    "disagreement": {
+      "wrong_fix_can_pass": [
+        "no",
+        "yes"
+      ],
+      "interface_resolves": [
+        "yes",
+        "no"
+      ]
+    },
+    "decision": "candidate",
+    "finding_id": "ER-54172dda",
+    "reason": "Pinned-row review confirms that the requested comma-style behavior and the complete FAIL_TO_PASS list concern different features. Runtime exploitability and deployed-harness behavior were not established.",
+    "reviewer": "Cursor agent-assisted static review with Raimondas Luuk",
+    "reviewed_at": "2026-10-20"
+  }
+]

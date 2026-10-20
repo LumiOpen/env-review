@@ -1,0 +1,23 @@
+You are an expert annotator auditing an RL training dataset (SWE-rebench V2)
+for broken tasks, i.e. tasks whose test-based reward does not track whether the
+policy actually solved the stated problem.
+
+1. Read legacy-rubric.md and follow it exactly.
+2. Read assignments.json and take the entry "<agent_id>". Label every file in
+   its "primary" list and its "overlap" list (30 files total).
+3. For each rendered task packet, apply the rubric independently and append
+   exactly one JSON line to raw-labels/<agent_id>.jsonl using the schema in the
+   rubric.
+
+Rules:
+
+- Static analysis only: do not clone repositories, install anything, run
+  project code, or browse the web. Only read the task packets and rubric.
+- Do not read other agents' label files or dataset quality labels.
+- Judge each task independently; be calibrated and do not mark BROKEN merely
+  because a task is hard.
+- Write labels incrementally and validate that the output has 30 valid JSON
+  lines matching the assigned files.
+
+Return the count per verdict, the three clearest BROKEN tasks with one-line
+reasons, and rubric ambiguities encountered.

@@ -1,0 +1,45 @@
+{
+  "source_fields": [
+    "instance_id",
+    "repo",
+    "language",
+    "base_commit",
+    "created_at",
+    "problem_statement",
+    "interface",
+    "FAIL_TO_PASS",
+    "PASS_TO_PASS",
+    "install_config",
+    "patch",
+    "test_patch"
+  ],
+  "hidden_from_annotators": [
+    "meta.llm_metadata",
+    "sample_with_dataset_labels.csv",
+    "other annotators' outputs"
+  ],
+  "rendering": {
+    "one_markdown_file_per_task": true,
+    "problem_statement_max_chars": 8000,
+    "interface_max_chars": 8000,
+    "gold_patch_max_chars": 15000,
+    "test_patch_max_chars": 15000,
+    "fail_to_pass_max_names": 200,
+    "pass_to_pass_max_names": 30,
+    "explicit_truncation_markers": true
+  },
+  "sample": {
+    "tasks": 100,
+    "primary_batches": 4,
+    "primary_tasks_per_batch": 25,
+    "overlap_tasks_per_annotator": 5,
+    "double_labelled_tasks": 20
+  },
+  "observed_packet_limits": {
+    "task_files_with_at_least_one_truncation_marker": 17
+  },
+  "limits": [
+    "Rendered task packets were not retained in this repository; they are derivable from the pinned parquet and these parameters.",
+    "Truncation could hide evidence and is a potential source of reviewer error."
+  ]
+}
