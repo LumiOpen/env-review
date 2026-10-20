@@ -1,0 +1,5 @@
+# Dolci-Think-RL-7B: audit summary
+
+At revision `0fb6466d31ef3a9dd16985ef635e6429e05a6491`, a scan of all **102,014** train rows found **674 provably incompatible instruction rows among 29,813 `ifeval` rows** (2.26%, seven conservative rules). [Row 51575](https://datasets-server.huggingface.co/rows?dataset=allenai%2FDolci-Think-RL-7B&config=default&split=train&offset=51575&length=1) requires exactly seven paragraphs and a word at the start of paragraph eight; [the finding](findings/ER-c08cf224.yaml) records this witness.
+
+Other main observations: **7,133 exact prompt repeats** beyond one copy per prompt (6.99% of all rows); **nine individually verified wrong math keys** across five problem families; one code task with identical test inputs and conflicting expected outputs; and **1,442 code prompts with literal image markers** that need review for missing essential figures. The image count is a review queue, not a measured unsolvable-task rate. Counts overlap and do not measure a model's evaluation score. See the [source dataset](https://huggingface.co/datasets/allenai/Dolci-Think-RL-7B) for row content.

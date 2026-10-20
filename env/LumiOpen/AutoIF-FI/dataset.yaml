@@ -1,0 +1,15 @@
+schema_version: '1'
+id: hf:LumiOpen/AutoIF-FI
+source:
+  provider: huggingface
+  url: https://huggingface.co/datasets/LumiOpen/AutoIF-FI
+  revision: abeaec4f62f5f875810de0514176d9a5fc0506ea
+review_status: exploring
+task_identity:
+  fields:
+    - split
+    - row_index
+  config: default
+  notes: No published stable per-row ID; row indices are valid only at the pinned revision.
+notes: Full scan of 30000 train and 150 test conversations. Snapshot-matched Parquet
+  SHA-256 hashes and scoped results are in README.md.

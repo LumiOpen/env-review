@@ -1,0 +1,34 @@
+schema_version: '1'
+id: ER-c08cf224
+dataset: hf:allenai/Dolci-Think-RL-7B
+revision: 0fb6466d31ef3a9dd16985ef635e6429e05a6491
+title: An instruction requires paragraph eight in a seven-paragraph response
+status: confirmed
+category: specification
+tasks:
+  - id: IF_multi_constraints_upto5_filtered-request-627-34
+    config: default
+    split: train
+    row_index: 51575
+problem:
+  description: The row combines mutually exclusive paragraph-count and indexed-paragraph requirements.
+  expected: An instruction-following task should admit a response satisfying every required constraint.
+  actual: No text can have exactly seven paragraphs and also have an eighth paragraph beginning with "guest".
+evidence:
+  - source: train.parquet
+    note: Row 51575, prompt; the published datasets-server row API exposes the same text.
+    quote: |
+      There should be 7 paragraphs. Paragraphs and only paragraphs are separated with each other by two new lines as if it was '\n\n' in python. Paragraph 8 must start with word guest.
+  - source: train.parquet
+    note: Row 51575, ground_truth constraint kwargs.
+    quote: "{'num_paragraphs': 7, 'nth_paragraph': 8, 'first_word': 'guest'}"
+validation:
+  method: static
+  summary: The indexed paragraph cannot exist under the exact paragraph-count requirement. This is one validated witness from a broader conservative contradiction scan; the broader count is not represented as 674 individually adjudicated findings.
+  assumptions:
+    - Both paragraph instructions apply to the same response, as stated in the single published prompt.
+  not_run:
+    - Training-time verifier execution or model rollout.
+  reproducer: https://datasets-server.huggingface.co/rows?dataset=allenai%2FDolci-Think-RL-7B&config=default&split=train&offset=51575&length=1
+provenance:
+  discovered_by: AI-assisted full-dataset audit, 2026-10-20
