@@ -1,0 +1,57 @@
+{
+  "id": "2026-10-20-lightweight-static-001",
+  "dataset": "hf:nebius/SWE-rebench-V2",
+  "revision": "10483de0f50fe5da545942705a76c6150171af7f",
+  "purpose": "Exploratory development run of a lightweight static task-quality audit; not held-out method evaluation",
+  "experiment": "experiments/lightweight-rl-audit",
+  "source_artifact": {
+    "path": "data/train-00000-of-00001.parquet",
+    "size_bytes": 428839266,
+    "sha256": "0e0bf9355f892ad74ae98d4e1c404f39fd6654a8e351ee3e6ab162e4a64cd3ad"
+  },
+  "sample": "sample.json",
+  "assignments": "assignments.json",
+  "raw_outputs": [
+    "raw-labels/agent_0.jsonl",
+    "raw-labels/agent_1.jsonl",
+    "raw-labels/agent_2.jsonl",
+    "raw-labels/agent_3.jsonl"
+  ],
+  "detector": "unstable-id-screen.json",
+  "summary": "summary.json",
+  "reviewers": [
+    {
+      "id": "agent_0",
+      "agent_id": "ecb8ab98-e900-4f80-856c-9ccbcadc0c4e",
+      "type": "Cursor generalPurpose subagent",
+      "model": "inherit (session model: GPT-5.6 Sol)"
+    },
+    {
+      "id": "agent_1",
+      "agent_id": "1834e314-f4ce-4a4e-be25-189d9a132b74",
+      "type": "Cursor generalPurpose subagent",
+      "model": "inherit (session model: GPT-5.6 Sol)"
+    },
+    {
+      "id": "agent_2",
+      "agent_id": "fcb60053-f28f-43ae-be5a-3991ce635530",
+      "type": "Cursor generalPurpose subagent",
+      "model": "inherit (session model: GPT-5.6 Sol)"
+    },
+    {
+      "id": "agent_3",
+      "agent_id": "644d410a-62b0-43e8-99f0-8700b7c373e5",
+      "type": "Cursor generalPurpose subagent",
+      "model": "inherit (session model: GPT-5.6 Sol)"
+    }
+  ],
+  "limits": [
+    "The run predates the frozen experimental skill and helped design it; it is development data.",
+    "The labels BROKEN, QUESTIONABLE, and VALID are legacy local rubric labels, not catalog statuses.",
+    "All reviews are agent-assisted static judgments, not independent human validation.",
+    "No repository, task tests, grader, setup script, reference patch, or candidate patch was executed.",
+    "Annotator severity differed substantially across primary batches.",
+    "Unflagged tasks remain unlabeled; sample outcomes are not corpus prevalence.",
+    "The unstable-ID screen identifies textual candidates. It does not establish that the published parser compares those strings without normalization."
+  ]
+}
