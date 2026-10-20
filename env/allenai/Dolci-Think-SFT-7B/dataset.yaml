@@ -1,0 +1,15 @@
+schema_version: '1'
+id: hf:allenai/Dolci-Think-SFT-7B
+source:
+  provider: huggingface
+  url: https://huggingface.co/datasets/allenai/Dolci-Think-SFT-7B
+  revision: 72ec0fe32428bada1ec686a9168a0681eecd2094
+review_status: exploring
+task_identity:
+  fields:
+    - id
+  config: default
+  split: train
+  notes: Published IDs are supplemented with zero-based row indices at this revision.
+notes: The 358915-row IF scan covers the contiguous Persona IF and Precise IF
+  source blocks, not the full 2268178-row SFT mix. See README.md.
