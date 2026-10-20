@@ -14,6 +14,10 @@ The current proposal reviews tasks at pinned dataset revisions under the
 defects, with harness bugs deferred. The sections below describe this method's
 suggested procedure, not the shared contribution requirements.
 
+The [ALE blog coverage comparison](ale-blog-coverage.md) maps external examples
+to this proposal and the narrower implemented screens. It does not establish
+detector recall or add adjudicated ALE findings.
+
 ## State relevant presentation assumptions
 
 Distinguish the task-solving agent, the grading agent, and our audit agents.
@@ -70,6 +74,10 @@ For `answer_exposure`, examine:
   label-bearing fields accidentally included in prompts or tool responses.
 - Intended workspace files, notebooks, task-provided logs and history, or other
   deliberately visible materials that contain answers.
+- Answers encoded by filenames, IDs, ordering, or grouping in solver-visible
+  assets, even when no literal answer key is present. Review relationships
+  across those assets; corpus relationships visible only to the auditor do not
+  establish solver access.
 - Task tool APIs whose declared responses expose answer-bearing columns or
   files. Generic isolation and dispatch failures are outside this pass.
 - Online lookup of public benchmark answers, upstream fixes, solved versions,
