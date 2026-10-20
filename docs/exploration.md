@@ -1,5 +1,10 @@
 # Reproducing the initial exploration
 
+This records the Codex/Luna investigation's methods and outcomes. These screens
+are independent experiments, not the repository's required detection method.
+The later [static-review proposal](../experiments/codex-static-review/proposal.md)
+is another unvalidated proposal from this investigation.
+
 The initial discovery run is in
 [`env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-initial`](../env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-initial).
 It pins revision `e8e81e4945270b6212204bad99de1e598f7fb077` and records 34 task IDs.

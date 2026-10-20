@@ -1,4 +1,10 @@
-# MiMo reference runtime and information access
+# Deferred notes: MiMo reference runtime and information access
+
+Status: background from the Codex investigation; harness work is deferred.
+These observations are outside the canonical task findings and dataset defect
+counts. Dataset investigations currently assume correct intended presentation,
+as described in [review scope](../../docs/scope.md). This note does not make a
+harness audit a prerequisite or prescribe an implementation for contributors.
 
 Source review on 2026-10-20. This describes the published reproduction code and
 the inspected task sample. It does not establish the original training
@@ -145,6 +151,9 @@ dispatch evidence, pending isolated reproduction. It does not establish
 successful answer retrieval or the original training deployment's behavior.
 
 ## Reusing the data with another runner
+
+The following considerations are preserved for possible future harness work.
+They are not requirements for the current dataset-focused investigation.
 
 Extract an implementation-independent execution contract before choosing a
 runner. Preserve the prompt, tools and their validation, initial state,

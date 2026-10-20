@@ -1,22 +1,29 @@
-# Static review rubric v1
+# Codex static-review experiment proposal
 
-This is the protocol for the next systematic pass. The initial exploration did
-not apply this rubric uniformly; its original prompts and outcomes remain in
-the initial run. No v1 corpus-wide run has been completed.
+Author: Codex, from this investigation with Jonathan. Status: proposed; not
+validated or adopted by the collaboration. This is one possible detection
+method to compare with independent investigations. It is not a repository
+standard or a required next step for contributors.
 
-The review unit is a task at a dataset revision **under a named execution
-profile**. Pin the harness and dependency revisions, resolved configuration,
-and image digest when known. A different runner can change answer visibility,
-reachable actions, and grading. Record unknown deployment facts explicitly.
+The initial Codex/Luna exploration did not apply this checklist uniformly;
+its original prompts and outcomes remain in the initial run. No corpus-wide
+run of this proposed method has been completed.
 
-## Establish the execution profile first
+The current proposal reviews tasks at pinned dataset revisions under the
+[intended-presentation assumption](../../docs/scope.md). It focuses on dataset
+defects, with harness bugs deferred. The sections below describe this method's
+suggested procedure, not the shared contribution requirements.
+
+## State relevant presentation assumptions
 
 Distinguish the task-solving agent, the grading agent, and our audit agents.
 Audit agents can inspect private grading materials as evidence; this does not
 make those materials visible to the task-solving agent.
 
-Record these properties, with source references and one of `declared`,
-`inferred_from_source`, `observed_runtime`, or `unknown` for each conclusion:
+For checks that depend on presentation, record the relevant assumptions and
+sources. Distinguish declared behavior, source inference, runtime observation,
+and unknown facts. A complete harness audit is not a prerequisite. Useful
+context can include:
 
 - Agent-visible prompt and tool schemas, including shell and file tools.
 - File and database visibility, mount permissions, process users, and timing:
@@ -26,15 +33,16 @@ Record these properties, with source references and one of `declared`,
 - Instructions about external information, reference solutions, hidden tests,
   and grading materials. Record `unspecified` when the inspected instructions
   say nothing; this is not evidence of either permission or technical blocking.
-- Enforced restrictions: network policy, tool allowlists, action guards, file
-  isolation, and cleanup. Follow the actual execution path to confirm that a
-  configured restriction is used.
+- Intended restrictions: tool allowlists, file isolation, and cleanup. Assume
+  the harness enforces these for the dataset review; implementation failures
+  belong in deferred harness notes.
 - Grader inputs, execution identity, feedback exposed during rollout, and
   opportunities for repeated submissions or state reuse.
 - Public availability of task solutions or grading artifacts at the time of
   the run. A release published after training cannot establish a training leak.
 
-See the [MiMo runtime review](mimo-runtime.md) for the first source-based profile.
+The [deferred MiMo runtime note](../../notes/harness/mimo-reference-runtime.md)
+provides background. This method does not require extending that investigation.
 
 ## Criteria
 
@@ -46,10 +54,10 @@ See the [MiMo runtime review](mimo-runtime.md) for the first source-based profil
 | false_positive | Invalid behavior rewarded | Can a substantive obligation or prohibition be violated without affecting the relevant grade? Include state and trajectory requirements. |
 | reference | Correct references | Reconcile authoritative data, calculations, identifiers, dates, and expected values. |
 | feasibility | Reachable result | Can exposed tools transform initial state into the required result? Check tool-enforced invariants and alternative paths. |
-| verifier | Reliable grading | Trace actual evidence selection, exceptions, truncation, skipped checks, and runtime assumptions. |
+| verifier | Task grading logic | Inspect the supplied task checks and evidence requirements, assuming correct delivery by the runner. Defer generic runner failures. |
 | reward | Meaningful scoring | Explain weights, defaults, gates, aggregation, and no-op behavior. An unusual reward offset is not automatically a defect. |
-| answer_exposure | Protected information reachable | Trace hidden answers, tests, private grading details, or reference solutions to an agent-visible observation during the task. |
-| grader_tampering | Grading process influence | Can the solver alter grading inputs, protected state, test infrastructure, reward files, or judge instructions to gain reward without satisfying the task? |
+| answer_exposure | Answers in intended inputs | Do intended task materials or tool responses reveal answers that undermine the task? Defer accidental harness leaks. |
+| grader_tampering | Grading process influence | Can intended task inputs or permitted tool actions influence grading without satisfying the task, while evaluator-only files remain protected? |
 
 ## Answer exposure and reward hacking
 
@@ -57,19 +65,21 @@ For `answer_exposure`, examine:
 
 - Answer keys, reference solutions, hidden tests, private rubric details, and
   label-bearing fields accidentally included in prompts or tool responses.
-- Container contents, workspace files, temporary files, logs, caches, notebooks,
-  build residue, Git history, remote refs, and artifacts from earlier attempts.
-- Tool APIs that expose more columns or files than intended, unrestricted query
-  interfaces, and paths that cross a filesystem or service boundary.
+- Intended workspace files, notebooks, task-provided logs and history, or other
+  deliberately visible materials that contain answers.
+- Task tool APIs whose declared responses expose answer-bearing columns or
+  files. Generic isolation and dispatch failures are outside this pass.
 - Online lookup of public benchmark answers, upstream fixes, solved versions,
-  task-specific discussions, or the released dataset's own grading materials.
+  or task-specific discussions when external retrieval is an intended task
+  capability. Unknown egress is not grounds to flag the dataset.
 - Feedback that lets the solver extract hidden answers or optimize against a
   supposedly held-out test through repeated submissions.
 
-For `grader_tampering`, include changes to the judge's environment, test runner,
-reward output, or source evidence, and instructions embedded in a submitted
-artifact that try to redirect an LLM judge. A suggestive phrase alone does not
-prove that the judge follows it.
+For `grader_tampering`, consider task-tool changes to source evidence and
+instructions embedded in a submitted artifact that try to redirect an LLM
+judge. A suggestive phrase alone does not prove that the judge follows it.
+Access to protected judge files or reward outputs caused by a harness mistake
+is deferred rather than counted as a dataset defect.
 
 Every candidate must describe the chain:
 
@@ -92,8 +102,8 @@ a model memorized or actually used a particular solution.
 2. Map obligations to grader checks, tools, and evidence.
 3. Review every criterion, tracing relevant source and data paths.
 4. For a candidate, construct a minimal witness or precise contradiction.
-5. Try to refute it: inspect tool validation, alternate paths, mount boundaries,
-   cleanup, upload timing, and the actual dispatch path.
+5. Try to refute it: inspect task-tool validation, alternate legitimate paths,
+   the intended information boundary, and counterevidence in the task materials.
 
 Produce a per-task coverage record with every criterion marked:
 
@@ -115,8 +125,9 @@ until an appropriate isolated reproduction is available.
 
 ## Scaling and adjudication
 
-Review identical runtime components once per hash and execution profile, then
-check applicability to each task. Apply cheap structural checks to all tasks;
+Review identical task grading/tool components once per hash, then
+check applicability to each task under intended presentation. Defer generic
+harness components. This experiment proposes cheap structural checks on tasks;
 give each task a bounded model review using the same protocol. Independently
 review candidates and a random sample of unflagged tasks. Keep source evidence
 and raw detector output separate from adjudication.

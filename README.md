@@ -1,12 +1,22 @@
 # env-review
 
-Collaborative, evidence-based review of evaluation datasets and RL environments.
-We try inexpensive checks, investigate their candidates, and build a versioned
-reference set against which future detection methods can be compared.
+Collect canonical, evidence-backed information about broken tasks in evaluation
+datasets and RL environments. Independent investigations contribute findings
+to a shared, versioned reference set so different detection methods can be
+evaluated against it.
+
+The repository standardizes finding records and evidence, not a detection
+method. Contributors can use different models, prompts, tools, and review
+procedures; a joint method can be developed after comparing their results.
 
 Findings describe specific tasks and source revisions. An unflagged task is
 **unlabeled**, not known good. A rejected finding rejects that claim, not every
 possible problem with the task.
+
+The current focus is dataset defects assuming the task is presented correctly.
+Harness implementation bugs are deferred separately. See [review scope](docs/scope.md)
+for this boundary, including which grading and answer-exposure issues remain
+in scope.
 
 ## Datasets
 
@@ -24,6 +34,8 @@ env/<org>/<dataset>/
 schemas/                       # JSON Schemas for the YAML records
 templates/finding.yaml         # copy to contribute a finding
 src/eval_audit/                # small screening and catalog utilities
+experiments/<investigation>/  # optional independent method proposals and notes
+notes/harness/                # deferred harness observations, outside the task index
 tests/
 ```
 
@@ -45,11 +57,6 @@ uv run python -m eval_audit.catalog index --output reports/index.json
 The generated index includes each task's finding IDs, statuses, categories, and
 source revisions. It does not convert candidates into confirmed defects.
 CI validates contributions and publishes the generated index as a workflow artifact.
-
-The [static review rubric](docs/review-rubric.md) defines the next systematic
-pass, including answer exposure and grader tampering. The
-[MiMo runtime review](docs/mimo-runtime.md) records intended execution boundaries
-and what remains unknown about internet access.
 
 ## Contributing
 

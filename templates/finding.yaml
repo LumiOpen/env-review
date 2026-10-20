@@ -1,6 +1,8 @@
 # Copy to env/<org>/<dataset>/findings/<finding-id>.yaml and replace placeholders.
 # Generate a stable unique ID: ER- followed by eight lowercase hexadecimal digits.
 # Keep candidates visible as candidates; confirmation requires reviewed evidence.
+# Current scope: dataset defects assuming correct intended presentation.
+# Preserve runner-only bugs in notes/harness/ instead of adding task findings.
 schema_version: "1"
 id: ER-01234567
 dataset: hf:ORG/DATASET
@@ -26,7 +28,7 @@ validation:
   method: static
   summary: Describe the checks actually performed and their results.
   assumptions:
-    - State any runtime conditions needed for the claimed effect.
+    - State the intended presentation and any additional conditions this claim needs.
   not_run:
     - State which runtime or end-to-end checks remain unperformed.
   # reproducer: Relative path or documented command, if available.

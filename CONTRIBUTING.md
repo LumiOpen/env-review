@@ -1,5 +1,24 @@
 # Contributing
 
+Investigations are independent. Use whichever detection approach you want;
+there is no required review rubric, model, or screening sequence. The shared
+contract is a finding with a stable task identity, evidence, assumptions, and
+review status, so we can compare methods against the same reference set.
+
+## Current scope
+
+Review the dataset assuming correct intended presentation. Instructions, task
+inputs, reference answers, criteria, and task-specific tool/grading behavior
+remain open to scrutiny. Runner mistakes in file delivery, tool dispatch,
+isolation, or reward plumbing are deferred in `notes/harness/`, outside the
+task index. See [scope and examples](docs/scope.md).
+
+Use the existing `validation.assumptions` field for the conditions a dataset
+claim needs. A harness audit is not a prerequisite to contributing a task
+finding. If a claim depends on an unresolved presentation choice, record that
+dependency instead of assuming the worst deployment or declaring the task
+broken.
+
 ## Add or review a finding
 
 1. Choose `env/<source-org>/<dataset>/`. Add `dataset.yaml` when introducing a dataset.
@@ -36,6 +55,11 @@ in `discussion` when useful. Do not include secrets, full rollout credentials,
 or unrelated private material. Avoid committing entire source datasets.
 
 ## Record an experiment
+
+Method proposals and design notes can go in `experiments/<investigation>/`,
+with authorship and a clear proposed/running/completed status. These describe
+one investigation and do not become repository-wide requirements. Recording
+an experiment here is optional; findings can also come from external work.
 
 Use a new directory under the dataset's `runs/`, with a date and a unique suffix.
 Keep immutable raw candidate outputs separate from adjudications. Record:
