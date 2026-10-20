@@ -1,0 +1,194 @@
+task_summary:
+  intended_capability: >-
+    Synthesize September chilled-storage excursion evidence into a ranked cause
+    summary, trace equipment and handling findings to source records, separate
+    root causes from immediate corrections and corrective actions, and report
+    repair and verification status without altering source files.
+  required_result: >-
+    Rank equipment as the primary category and handling as the contributing
+    category; identify condenser fouling/restricted airflow and the split lower
+    door gasket, plus overfilled shelving and prolonged door access; cite
+    traceable records; distinguish causes from response actions; and note
+    stabilization after cleaning and the still-open gasket/30-day verification.
+  environment_and_access: >-
+    The named monitoring CSV, maintenance-history CSV, root-cause workbook, and
+    issued NCR are present in the workspace. The manifest declares separate
+    read/write MCP APIs, but the task expressly says not to modify workspace
+    files. Review was static and read-only; no MCP action was called.
+  repair_intent: ordinary_setup
+  intent_evidence:
+    - source: instruction.md
+      quote: "Review the September CH-01 monitoring evidence in Meadow_View_Chiller_Monitoring_2025-09.csv, the relevant maintenance history in Meadow_View_Refrigeration_Service_History_2025.csv, the factor analysis in Meadow_View_Cold_Storage_Root_Cause_Analysis.xlsx, and the issued nonconformance report."
+    - source: manifest.json
+      quote: '"source": "workspace", "target": "/work/workspace", "container": "main"'
+checks:
+  specification:
+    status: checked_no_issue
+    rationale: >-
+      The task specifies the two ranked cause categories, traceability, the
+      cause-versus-response distinction, and required follow-up reconciliation.
+      These requirements are supported by the report and analysis workbook.
+    evidence:
+      - source: instruction.md
+        quote: "In your final response, rank the two strongest recurring cause categories, clearly separate equipment evidence from staff-handling evidence, and cite the source record IDs or work-order/evidence references that make each attribution traceable."
+      - source: workspace/02_Findings_and_Controls/NCR-2025-017_Cold_Storage_Temperature_Control.docx
+        quote: "The confirmed primary equipment cause was a split lower-door gasket and restricted condenser airflow on Walk-in Chiller CH-01; contributing handling causes were overfilled shelving that obstructed air circulation and three door-open periods longer than 10 minutes."
+    claim_ids: []
+    gaps: []
+  inputs:
+    status: checked_no_issue
+    rationale: >-
+      Each named workspace file is present. The service-history CSV contains the
+      August and September fault records and the September gasket evidence
+      required for traceability; the workbook and NCR contain the factor and
+      follow-up summaries.
+    evidence:
+      - source: workspace/01_Evidence/Raw_Exports/Meadow_View_Refrigeration_Service_History_2025.csv
+        quote: "FC-2025-009; 2025-08-04; CH-01; Condenser fouling; MVRC-COLD-250804-01-57"
+      - source: workspace/01_Evidence/Raw_Exports/Meadow_View_Refrigeration_Service_History_2025.csv
+        quote: "FC-2025-011; 2025-09-02; CH-01; Condenser fouling; MVRC-COLD-250902-01-65"
+      - source: workspace/01_Evidence/Raw_Exports/Meadow_View_Refrigeration_Service_History_2025.csv
+        quote: "WR-2025-011; 2025-09-29; CH-01; Door-seal deterioration; MVRC-COLD-250929-01-68"
+    claim_ids: []
+    gaps: []
+  environment_specification:
+    status: checked_no_issue
+    rationale: >-
+      The manifest uploads the workspace to the main container and declares the
+      associated APIs separately. The task asks for analysis and explicitly
+      prohibits workspace changes; no additional access boundary is required to
+      satisfy the requested report.
+    evidence:
+      - source: manifest.json
+        quote: '"source": "workspace", "target": "/work/workspace", "container": "main"'
+        line_start: 5
+      - source: instruction.md
+        quote: "Do not modify any workspace files."
+    claim_ids: []
+    gaps: []
+  feasibility:
+    status: checked_no_issue
+    rationale: >-
+      The workbook maps review-row IDs to the cause evidence and lists the three
+      measured long door-open periods; the raw monitoring and service-history
+      exports supply corresponding traceable IDs and equipment records. The NCR
+      reconciles stabilization and open actions.
+    evidence:
+      - source: workspace/01_Evidence/Analysis/Meadow_View_Cold_Storage_Root_Cause_Analysis.xlsx
+        quote: "Review CSV!A6:J11: REV-001/REV-002 confirmed equipment findings; REV-003 records obstructed lower-rack airflow; REV-004/REV-005/REV-006 record door-open periods of 11.6/13.2/14.8 minutes."
+      - source: workspace/02_Findings_and_Controls/NCR-2025-017_Cold_Storage_Temperature_Control.docx
+        quote: "Stabilization after cleaning supports the condenser attribution as response/effectiveness evidence; the open gasket replacement evidence supports an unresolved equipment condition rather than making the replacement itself a cause."
+    claim_ids: []
+    gaps: []
+  reference:
+    status: checked_no_issue
+    rationale: >-
+      The category ranking and attributed conditions agree across the workbook
+      reconciliation rows, the factor table in the issued NCR, and the cited
+      maintenance and monitoring records. The source references in the task's
+      pass anchors are present and correspond to the underlying records.
+    evidence:
+      - source: workspace/01_Evidence/Analysis/Meadow_View_Cold_Storage_Root_Cause_Analysis.xlsx
+        quote: "Reconciliation!E32: Confirmed primary equipment cause — split lower-door gasket and restricted condenser airflow on Walk-in Chiller CH-01; E33: Contributing handling causes — overfilled shelving obstructed air circulation and three door-open periods longer than 10 minutes."
+      - source: workspace/01_Evidence/Raw_Exports/Meadow_View_Chiller_Monitoring_2025-09.csv
+        quote: "MVRC-20250919-CH01-03: Stock rotation had obstructed the lower shelf air path; repeat reading at 14:47 was 5.1 C."
+      - source: workspace/02_Findings_and_Controls/NCR-2025-017_Cold_Storage_Temperature_Control.docx
+        quote: "Factor Category | Finding | Evidence Reference | Likelihood | Consequence | Risk Rating; Equipment | Split lower-door gasket on CH-01 allowed thermal leakage. | MV-FAC-2025-184; Peak Cooling note | Likely | Major | High"
+    claim_ids: []
+    gaps: []
+  false_negative:
+    status: checked_no_issue
+    rationale: >-
+      The instructions require traceable citations but permit source-record IDs or
+      work-order/evidence references; the LLM anchors accept equivalent wording
+      and multiple valid references. No incompatible required format or hidden
+      key was identified.
+    evidence:
+      - source: verifier_meta.json
+        quote: "Equivalent wording is acceptable"
+        json_pointer: /items/0/pass_anchor
+      - source: instruction.md
+        quote: "cite the source record IDs or work-order/evidence references that make each attribution traceable."
+    claim_ids: []
+    gaps:
+      - "The LLM judge was not run; actual acceptance of paraphrases was not tested."
+  false_positive:
+    status: checked_no_issue
+    rationale: >-
+      All material requirements are scored in answer.md, including both cause
+      categories, equipment/handling findings, record traceability, the causal
+      boundary, and open-action reconciliation. A response that ranks an
+      immediate correction or corrective action as a cause misses a critical
+      criterion.
+    evidence:
+      - source: verifier_meta.json
+        quote: "The response must explain that the ranked causes are pre-existing or recurring conditions that produced or amplified temperature excursions."
+        json_pointer: /items/5/pass_anchor
+      - source: verifier_meta.json
+        quote: "It must not rank stock relocation/disposal, repeat readings, condenser cleaning, gasket replacement, training, or verification as a root cause."
+        json_pointer: /items/5/pass_anchor
+    claim_ids: []
+    gaps: []
+  answer_exposure:
+    status: observation
+    rationale: >-
+      The solver-visible workbook reconciliation and issued NCR state the primary
+      and contributing cause conclusions directly, so a solver can use the
+      existing analysis rather than independently derive the ranking. Because
+      the prompt explicitly asks the solver to review those analysis/report
+      artifacts and still requires traceability and causal-boundary explanation,
+      the static evidence does not establish a material shortcut defect.
+    evidence:
+      - source: workspace/01_Evidence/Analysis/Meadow_View_Cold_Storage_Root_Cause_Analysis.xlsx
+        quote: "Reconciliation!E32: Confirmed primary equipment cause — split lower-door gasket and restricted condenser airflow on Walk-in Chiller CH-01; E33: Contributing handling causes — overfilled shelving obstructed air circulation and three door-open periods longer than 10 minutes."
+      - source: workspace/02_Findings_and_Controls/NCR-2025-017_Cold_Storage_Temperature_Control.docx
+        quote: "The 5-Why conclusion is that the chamber could not reliably retain temperature because the lower-door gasket was split and condenser airflow was restricted."
+    claim_ids: []
+    gaps:
+      - "Whether the task is intended to assess independent root-cause analysis or concise synthesis of an existing cause report is not stated; the input files point toward the latter."
+  verifier:
+    status: observation
+    rationale: >-
+      The verifier has named criteria and concrete evidence anchors for the
+      requested report, all scored from answer.md. Static inspection found no
+      contradiction with permitted responses; whether the LLM judge applies the
+      detailed reference requirements reliably is untested.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"id": "equipment_traceability", "tier": "important", "method": "llm", "files": ["answer.md"]'
+        json_pointer: /items/3
+      - source: verifier_meta.json
+        quote: '"id": "causal_boundary", "tier": "critical", "method": "llm", "files": ["answer.md"]'
+        json_pointer: /items/5
+    claim_ids: []
+    gaps:
+      - "No judge run was performed."
+  reward:
+    status: observation
+    rationale: >-
+      All defined content criteria use LLM judgment and reward is reported as
+      rl_grade; static inspection cannot establish runtime scoring or aggregation.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"reward": "rl_grade"'
+        json_pointer: /reward
+      - source: verifier_meta.json
+        quote: '"method": "llm"'
+        json_pointer: /items/0/method
+    claim_ids: []
+    gaps:
+      - "Numeric scoring and reward aggregation were not run or inferred."
+  grader_tampering:
+    status: checked_no_issue
+    rationale: >-
+      The task's declared write APIs concern HACCP, monitoring, and service-desk
+      data, while verifier metadata scores only answer.md; no surfaced path to
+      alter verifier evidence or redirect judging was found in the inspected
+      task specification.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        json_pointer: /items/0/files
+    claim_ids: []
+    gaps: []
+claims: []

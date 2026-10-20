@@ -13,6 +13,10 @@ Findings describe specific tasks and source revisions. An unflagged task is
 **unlabeled**, not known good. A rejected finding rejects that claim, not every
 possible problem with the task.
 
+Confirmed findings can include non-fatal constraint-enforcement gaps. Review
+status is not severity: report answer-correctness and feasibility defects
+separately from violations that go unscored without demonstrated answer impact.
+
 The current focus is dataset defects under presentation conforming to the
 published task/environment contract. Answers in intended inputs and missing
 restrictions that the task depends on are in scope; harness implementation bugs
@@ -62,6 +66,10 @@ uv run python -m eval_audit.catalog index --output reports/index.json
 The generated index includes each task's finding IDs, statuses, categories, and
 source revisions. It does not convert candidates into confirmed defects.
 CI validates contributions and publishes the generated index as a workflow artifact.
+
+The [12-task MiMo pilot report](env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-rubric-v01-pilot/README.md)
+compares a Luna static-review experiment with the initial deterministic screens,
+including adjudicated claims, false alarms, coverage, and limitations.
 
 ## Contributing
 

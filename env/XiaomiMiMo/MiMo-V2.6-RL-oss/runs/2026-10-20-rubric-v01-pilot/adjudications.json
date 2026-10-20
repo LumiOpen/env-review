@@ -1,0 +1,308 @@
+[
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+    "claim_id": "C1",
+    "candidate_id": "s3k_0988_finance_insurance_zh_t1_rl_005:C1",
+    "decision": "confirmed",
+    "category": "constraint_enforcement",
+    "mechanism": "unobserved_prohibited_state_change",
+    "rationale": "Matches the existing static proof: a valid exposed INSERT is invisible to answer-only grading. All 18 overlapping cached source files match the earlier acquisition hashes. This is a missed behavioral requirement, not an environment-contract omission.",
+    "case_ids": [
+      "ER-2f4b62ce"
+    ],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Standalone _grade_sc path; no runtime exploit or numeric judge score claimed.",
+      "Several fields labelled quote are paraphrases; use canonical exact quotations for evidence.",
+      "Confirms an unscored constraint violation, not answer inaccuracy, impossibility, or demonstrated reward advantage."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "claim_id": "C1",
+    "candidate_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008:C1",
+    "decision": "confirmed",
+    "category": "constraint_enforcement",
+    "mechanism": "unobserved_prohibited_state_change",
+    "rationale": "The Yardi mutator accepts asset YFA-2018-0101 at row_version 3 with EXCLUDED, approved_flag=false, and an empty reviewer; its SQL UPDATE commits via the connection context. The task forbids any state change. The standalone grader reads answer.md plus DealCloud/SharePoint anchors, not the Yardi state. Same answer and fixed judge randomness give unchanged grading evidence.",
+    "case_ids": [
+      "ER-2b8fd984"
+    ],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "New affected task instance in an existing defect family.",
+      "Assumes published standalone scoring and exposed tools; no corpus execution.",
+      "Confirms an unscored constraint violation, not answer inaccuracy, impossibility, or demonstrated reward advantage."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "claim_id": "C2",
+    "candidate_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008:C2",
+    "decision": "behavior_only",
+    "category": "scoring",
+    "mechanism": "half_score_sanity_baseline",
+    "rationale": "The arithmetic matches ER-dc84a371: source sanity weight defaults to 1 and the answer weights sum to 1. A 0.5 baseline is established conditionally on zero answer scores. The candidate imposes an unsupported normative requirement that sanity must be a gate; intent/impact remains unresolved.",
+    "case_ids": [
+      "ER-dc84a371"
+    ],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": []
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "claim_id": "C3",
+    "candidate_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008:C3",
+    "decision": "candidate",
+    "category": "incorrect_reference",
+    "mechanism": "economic_terms_cross_source_conflict",
+    "rationale": "The cited current-record, payment-split, and tax-base figures disagree. Determining whether this is an intentionally stale source, a justified tax-base distinction, or incorrect reference requires further interpretation. Lack of an explicit grading anchor alone does not establish actual acceptance of a misleading answer.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Needs domain/source adjudication; no LLM judge evaluation."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "claim_id": "C1",
+    "candidate_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003:C1",
+    "decision": "candidate",
+    "category": "unreachable",
+    "mechanism": "required_thresholds_not_exposed",
+    "rationale": "The inspected workbench methods calculate with persisted quantity/amount thresholds but omit them from returned fields. Supplied workbook warning thresholds are percentage thresholds, not the requested stored amounts. This is a concrete interface-coverage concern; full absence from every intended source is not proven.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "An archived DOCX and three image assets were unavailable in the audit cache; image content was not OCRed.",
+      "Need to exclude alternative accessible policy/document sources before confirming impossibility."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "claim_id": "C2",
+    "candidate_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003:C2",
+    "decision": "rejected",
+    "category": "grader_mismatch",
+    "mechanism": "draft_finalization_allegedly_unobserved",
+    "rationale": "The proposed mutation changes the draft run status to FINAL, bringing it into the sanity query. A read-only query shows the draft contains an orange-juice single-trigger row; after promotion the query would return that row plus the two expected rows, so rows != expected and sanity fails. The claim incorrectly treats a state-dependent filter as permanently excluding the mutated row.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Rejects this particular finalization witness; other unobserved changes may still exist.",
+      "No database mutation was executed."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "claim_id": "C3",
+    "candidate_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003:C3",
+    "decision": "rejected",
+    "category": "grader_mismatch",
+    "mechanism": "final_reply_not_materialized",
+    "rationale": "verify.py explicitly defines _materialize_answer(ws, agent_output), writes a nonempty final response to missing/empty answer.md, and calls it from verify before scoring. Correct final-answer delivery is also part of the stated harness assumption. The candidate omitted direct counterevidence.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Generic runner failure would be outside current dataset scope."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0807_finance_insurance_en_t1_rl_005",
+    "claim_id": "C1",
+    "candidate_id": "s3k_0807_finance_insurance_en_t1_rl_005:C1",
+    "decision": "candidate",
+    "category": "incorrect_reference",
+    "mechanism": "cross_system_hotel_linkage",
+    "rationale": "The memo, analytics and ledger use incompatible identifiers and different hotel reserve/risk figures. Read-only queries confirm the target ledger assessment/loan IDs are absent from analytics. However, the ledger provides a hotel-specific rationale and the grader expressly permits that governed narrative linkage. The evidence establishes inconsistent source identifiers, but not that the task cannot be answered or that a qualified correct answer would fail.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Needs domain/source reconciliation; no judge evaluation."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0807_finance_insurance_en_t1_rl_005",
+    "claim_id": "C2",
+    "candidate_id": "s3k_0807_finance_insurance_en_t1_rl_005:C2",
+    "decision": "confirmed",
+    "category": "constraint_enforcement",
+    "mechanism": "unobserved_prohibited_state_change",
+    "rationale": "record_cecl_approval can append a held event to existing held recommendation REC-2024Q3-H03 while leaving all six fields observed by the unrelated-recommendation check unchanged. Both target checks filter REC-2025Q3-003; the history check selects only EVT-2025Q3-004. A new unrelated event and updated_at are unobserved. The explicit prohibition is in instruction.md.",
+    "case_ids": [
+      "ER-e51ea1c7"
+    ],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Standalone scoring, exposed published tools, valid fresh idempotency key and event identifier.",
+      "No mutation executed; no effect on answer accuracy or demonstrated reward advantage."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0807_finance_insurance_en_t1_rl_005",
+    "claim_id": "C3",
+    "candidate_id": "s3k_0807_finance_insurance_en_t1_rl_005:C3",
+    "decision": "rejected",
+    "category": "grader_mismatch",
+    "mechanism": "final_reply_not_materialized",
+    "rationale": "verify.py defines _materialize_answer and calls it from verify before grading, directly contradicting the claimed missing delivery. Correct delivery is also assumed under the published review scope.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "A hypothetical runner failing to supply agent_output would be outside this task review."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "claim_id": "C1",
+    "candidate_id": "s3k_1867_it_information_systems_zh_t3_rl_001:C1",
+    "decision": "candidate",
+    "category": "grader_mismatch",
+    "mechanism": "numeric_pass_versus_acceptance_evidence",
+    "rationale": "The standard explicitly requires start/end times, scope and result checks for RTO/RPO acceptance, whereas the answer anchor requires pass from 42<=45 and 12.6<=15. The prompt itself requests the pass conclusion. The workbook draft entries are marked non-authoritative; they do not prove current drill evidence absent. A response distinguishing numerical pass from incomplete formal acceptance may satisfy the judge. The possible conflict is substantive but remains unresolved.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Complete drill records outside the two named sources and source precedence are unresolved.",
+      "No actual judge false negative or false positive demonstrated."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "claim_id": "C1",
+    "candidate_id": "s3k_0607_education_research_admin_en_t2_rl_003:C1",
+    "decision": "behavior_only",
+    "category": "environment_specification",
+    "mechanism": "write_tools_without_explicit_prohibition",
+    "rationale": "The packet contains write tools and answer-only grading, but no explicit solver-facing prohibition has been established. An analysis request and act=none do not by themselves require access enforcement. Availability alone does not establish a task defect or a harmful missing environment requirement.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Not a confirmed constraint-enforcement gap; no material dependence on a missing boundary established."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "claim_id": "C2",
+    "candidate_id": "s3k_0607_education_research_admin_en_t2_rl_003:C2",
+    "decision": "behavior_only",
+    "category": "scoring",
+    "mechanism": "tier_labels_do_not_weight_scores",
+    "rationale": "The standalone scorer defaults each item weight to 1 and does not use tier for weighting/gating. Four unit scores and one zero yield 0.8 with strict passed false. No source requires critical labels to change weights or act as gates.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Conditional arithmetic only; no judge verdict or intended-tier policy established."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "claim_id": "C1",
+    "candidate_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007:C1",
+    "decision": "behavior_only",
+    "category": "scoring",
+    "mechanism": "partial_reward_without_required_state",
+    "rationale": "The standalone equal-weight aggregation gives 5/7 if five text criteria pass and both state rules fail, while strict passed is false. This is conditional partial credit, not full acceptance. No published requirement makes the critical tier a hard gate. A 0.714 reward is not by itself a demonstrated defect or a demonstrated successful shortcut.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "No judge calls; no evidence that the hypothetical narrative earns all five scores.",
+      "Standalone path only. Does not reproduce the previously rejected manufacturing reconciliation-bypass claim."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+    "claim_id": "C1",
+    "candidate_id": "s3k_1806_it_information_systems_en_t3_rl_001:C1",
+    "decision": "candidate",
+    "category": "answer_exposure",
+    "mechanism": "recalculation_result_in_supplied_signoff",
+    "rationale": "The named signoff and supporting briefing supply the counts and success percentage that the task asks to recompute. This could weaken measurement of independent workbook inspection, but the signoff is an expressly required input and verification of a supplied calculation may be intentional. The proposed copy-only witness also omits the required percentage-point margin. It establishes answer-bearing input, not yet a complete demonstrated shortcut.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "No rollout or judge test; task intent and full answer coverage remain unresolved."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0990_finance_insurance_zh_t1_rl_008",
+    "claim_id": "C1",
+    "candidate_id": "s3k_0990_finance_insurance_zh_t1_rl_008:C1",
+    "decision": "rejected",
+    "category": "unreachable",
+    "mechanism": "audit_cache_gap_mistaken_for_missing_input",
+    "rationale": "The named minutes are in the pinned upstream inventory and covered by the workspace upload. They were absent only because our download timed out. A separate retry retrieved the exact pinned DOCX and its text contains the 8.30% condition. The reviewer treated a disclosed audit-cache gap as an upstream omission.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Recovery recorded separately in acquisition-retry.json; frozen screener inputs unchanged."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+    "claim_id": "C1",
+    "candidate_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008:C1",
+    "decision": "confirmed",
+    "category": "constraint_enforcement",
+    "mechanism": "unobserved_prohibited_state_change",
+    "rationale": "Valid active item has unit_cost_fen=2500; a new +1 quantity adjustment posts +2500 fen. The approval-document label and idempotency marker can be chosen fresh. All four grading items read answer.md only. The no_mutation helper is not referenced by any grading item and its body returns success without inspecting state. No gate or src_protect configuration observes the posted ledger row.",
+    "case_ids": [
+      "ER-e29fcf72"
+    ],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Statically validated witness; no task code executed.",
+      "No answer-accuracy impact, impossibility, or useful reward advantage demonstrated."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0990_finance_insurance_zh_t1_rl_008",
+    "claim_id": "C2",
+    "candidate_id": "s3k_0990_finance_insurance_zh_t1_rl_008:C2",
+    "decision": "confirmed",
+    "category": "constraint_enforcement",
+    "mechanism": "unobserved_prohibited_state_change",
+    "rationale": "After performing the required new-scenario operation normally, an extra upsert of baseline with unchanged rates/benchmark flag and effective_date=2024-09-19 changes its prior 2024-09-18 date and created_at. The target-scenario check observes only the new scenario. Profitability reads baseline rates and cashflows, not baseline provenance or date. Baseline integrity checks row count, four rates and benchmark flag; existing-scenario integrity excludes baseline. The LLM item reads answer.md; unchanged answer leaves its evidence unchanged.",
+    "case_ids": [
+      "ER-d7a08cf2"
+    ],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Statically validated witness; no task code executed.",
+      "No answer-accuracy impact, impossibility, or useful reward advantage demonstrated."
+    ]
+  },
+  {
+    "run_id": "2026-10-20-rubric-v01-pilot",
+    "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+    "claim_id": "C1",
+    "candidate_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006:C1",
+    "decision": "candidate",
+    "category": "specification",
+    "mechanism": "named_scope_log_has_different_records",
+    "rationale": "The complete extracted Scope Log has different SCP identifiers/options and no accelerated-lab record, whereas the task names that log alongside Project Controls. The database target and intended correction are unambiguous. A stale or contextual workbook could still legitimately inform the rule, so the evidence does not yet prove incorrect scoring or an impossible task.",
+    "case_ids": [],
+    "reviewed_by": "parent Codex agent; static source review",
+    "limits": [
+      "Need adjudication of intended role/precedence of the workbook; correction remains feasible."
+    ]
+  }
+]

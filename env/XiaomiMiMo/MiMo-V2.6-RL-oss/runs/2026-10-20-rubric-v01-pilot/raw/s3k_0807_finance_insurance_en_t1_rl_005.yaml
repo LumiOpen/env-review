@@ -1,0 +1,362 @@
+task_summary:
+  intended_capability: >-
+    Reconcile the hotel operating-risk evidence in the ACRES memorandum with
+    Meridian valuation/risk analytics and the CECL governance ledger, then
+    record a credit-committee hold with an idempotency marker.
+  required_result: >-
+    Preserve the target's analytical recommendation; record a held
+    credit-committee event citing CC-AGENDA-2025-10-29/ITEM-04 and the need for
+    support of the 24-month stabilization and 2.5% disposition-cost assumptions;
+    leave approved and posted amounts null. Explain the hotel risk, target
+    recommendation and amount, hold rationale, evidence reference, and key.
+  environment_and_access: >-
+    Workspace documents are mounted in the main container; three domain MCP
+    servers and their databases are in the sidecar. CECL read APIs expose scopes
+    and recommendations, and record_cecl_approval mutates the target ledger.
+    The task requests that only the target decision be recorded and unrelated
+    data/history remain unchanged.
+  repair_intent: ordinary_setup
+  intent_evidence:
+    - source: manifest.json
+      quote: '"command": "python3 /installed-agent/sidecar_entrypoint.py --start-and-detach"'
+      line_start: 36
+checks:
+  specification:
+    status: candidate
+    rationale: >-
+      The requested governance action and hold rationale are clear, but the
+      cross-system exposure identity is not tied by a shared loan/assessment
+      key in the inspected data; see C1. The final-reply submission path is also
+      unspecified; see C3.
+    evidence:
+      - source: instruction.md
+        quote: "Use the established approval workflow and the credit-committee reviewer role; preserve the analytical recommendation, but do not approve or post it."
+        line_start: 3
+      - source: system/cecl_governance_ledger/state.db
+        quote: "REC-2025Q3-003 | cohort_member_id=IRC-2025Q3-ACR-003 | loan_id=ACR-CRE-21108 | assessment_id=VA-2025Q3-ACR-003"
+    claim_ids: [C1, C3]
+    gaps: ["No explicit mapping between the memorandum's ACR-HT-0974 and the CECL/analytics IDs was found in the supplied materials."]
+  inputs:
+    status: candidate
+    rationale: >-
+      The memo identifies hotel ACR-HT-0974, but neither its loan ID nor the
+      CECL target assessment ID occurs in the analytics database. The only
+      elevated-risk hotel row has a different loan ID and different metrics;
+      see C1. The missing annual report is an audit-cache gap only and is not
+      treated as a dataset defect.
+    evidence:
+      - source: workspace/ACRES_CRE_Impairment_Review_Memorandum_2025-Q3.docx
+        quote: "ACR-HT-0974 is a select-service hotel in Tampa. Current DSCR is 0.93x, occupancy is 68.70%, and trailing ADR pressure combines with insurance and labor costs to produce volatile monthly coverage."
+        line_start: 374
+      - source: system/cecl_governance_ledger/state.db
+        quote: "REC-2025Q3-003 | loan_id=ACR-CRE-21108 | assessment_id=VA-2025Q3-ACR-003 | trigger_evidence_reference=MERIDIAN/2025Q3/CM-003"
+      - source: system/meridian_cre_risk_analytics/state.db
+        quote: "Read-only exact-key SELECT for loan_id=ACR-CRE-21108 or assessment_id=VA-2025Q3-ACR-003: 0 rows; elevated-risk hotel row: VA-2025-0050 | LN-ACR-2020-1048 | Hotel | DSCR=0.91 | occupancy=58.8 | cohort_member_id=CM-2025Q3-ER-005"
+    claim_ids: [C1]
+    gaps:
+      - "file-inventory.json marks workspace/acres_2024_annual_report.pdf unavailable in the audit cache; packet-context says it exists upstream, so absence is not treated as a task input defect."
+      - "brightspire_2024_annual_report.pdf extraction is truncated after the pilot's PDF page limit, but no task requirement depends on it."
+  environment_specification:
+    status: candidate
+    rationale: >-
+      The explicit restriction against changing unrelated event history is not
+      fully protected by the grader: a valid hold event can be added to another
+      held recommendation, while the sanity rules do not compare unrelated event
+      rows. See C2.
+    evidence:
+      - source: instruction.md
+        quote: "Do not change any unrelated recommendation, event history, or source file."
+        line_start: 5
+      - source: tools/cecl_governance_ledger.py
+        quote: '"if previous in {"posted", "rejected"}:"'
+        line_start: 227
+      - source: verifier_meta.json
+        quote: '"SELECT recommendation_id, approval_status, recommended_reserve_cents, approved_reserve_cents, posted_reserve_cents, posting_reference FROM cecl_reserve_recommendations WHERE recommendation_id <> ? ORDER BY recommendation_id"'
+        json_pointer: /check_code
+    claim_ids: [C2]
+    gaps: ["No mutation was performed; write permissions and runtime enforcement were not exercised."]
+  feasibility:
+    status: checked_no_issue
+    rationale: >-
+      The task's requested target event is supported: record_cecl_approval accepts
+      a held decision by the credit_committee role, requires an evidence reference,
+      timestamp, idempotency key, and can receive the assumption-support rationale
+      as exception_detail. With no approved amount supplied, its update preserves
+      the existing recommendation amount and null approved/posting values. No
+      tool call was made during this static review.
+    evidence:
+      - source: tools/cecl_governance_ledger.py
+        quote: '"if decision not in decisions: raise ValueError("decision must be approved, approved_with_exception, rejected, or held")"'
+        line_start: 196
+      - source: tools/cecl_governance_ledger.py
+        quote: '"approval decisions must be recorded by a controller or credit_committee reviewer"'
+        line_start: 205
+      - source: tools/cecl_governance_ledger.py
+        quote: "approved_reserve_cents = COALESCE(?, approved_reserve_cents)"
+        line_start: 232
+    claim_ids: []
+    gaps: []
+  reference:
+    status: observation
+    rationale: >-
+      The ledger's target record contains the $6,925,410.18 analytical amount
+      and has no approved or posted amount. The memorandum's hotel-specific
+      proposed reserve is $3,842,117.27, so the two source amounts differ if they
+      are intended to describe the same exposure. The task explicitly asks for
+      the current ledger amount and the verifier anchor expects it; the materials
+      do not explain the difference or establish a common exposure key. See C1.
+    evidence:
+      - source: workspace/ACRES_CRE_Impairment_Review_Memorandum_2025-Q3.docx
+        quote: "For ACR-HT-0974, the $3,842,117.27 reserve reflects $10,104,757.84 of net recovery after stressed hotel cash flow, disposition friction, and recovery timing."
+        line_start: 480
+      - source: system/cecl_governance_ledger/state.db
+        quote: "REC-2025Q3-003 | recommended_reserve_cents=692541018 | approved_reserve_cents=NULL | posted_reserve_cents=NULL | approval_status=pending_credit_committee"
+      - source: verifier_meta.json
+        quote: "REC-2025Q3-003 retains its analytical recommendation of $6,925,410.18 (692,541,018 cents)"
+        json_pointer: /items/3/pass_anchor
+    claim_ids: [C1]
+    gaps: ["No supplied accounting bridge explains the differing hotel-specific and target ledger recommendation amounts."]
+  false_negative:
+    status: candidate
+    rationale: >-
+      The instruction asks for a final response, but the manifest declares
+      output none and all LLM grader items read answer.md. Unless the runner
+      writes chat text into that file, a correct final response is not available
+      to those checks; see C3.
+    evidence:
+      - source: instruction.md
+        quote: "In your final response, explain the cross-system evidence you used"
+        line_start: 5
+      - source: manifest.json
+        quote: '"output": "none"'
+        line_start: 83
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        json_pointer: /items/2/files
+    claim_ids: [C3]
+    gaps: ["The packet does not establish whether the harness materializes the final response as answer.md."]
+  false_positive:
+    status: candidate
+    rationale: >-
+      record_cecl_approval can add a held event for another existing held
+      recommendation. The unrelated-recommendations rule compares balances and
+      statuses only, while the event-history rule reads only the pre-existing
+      target event EVT-2025Q3-004. Thus an unrelated event-history mutation can
+      leave both sanity checks unchanged; see C2.
+    evidence:
+      - source: tools/cecl_governance_ledger.py
+        quote: '"event_comment = ?"'
+        line_start: 210
+      - source: tools/cecl_governance_ledger.py
+        quote: '"if previous in {"posted", "rejected"}:"'
+        line_start: 227
+      - source: system/cecl_governance_ledger/state.db
+        quote: "Read-only SELECT: REC-2024Q3-H03 | approval_status=held"
+      - source: verifier_meta.json
+        quote: '"WHERE recommendation_id <> ? ORDER BY recommendation_id"'
+        json_pointer: /check_code
+      - source: verifier_meta.json
+        quote: '"WHERE event_id = ?"'
+        json_pointer: /check_code
+    claim_ids: [C2]
+    gaps: ["The route is statically traced; no unrelated event was inserted and no verifier was run."]
+  answer_exposure:
+    status: checked_no_issue
+    rationale: >-
+      The memorandum and databases are the intended evidence inputs, and the
+      event idempotency key is caller-selected, so it cannot be pre-exposed as a
+      fixed answer. The verifier metadata is evaluator-only under packet-context.md.
+    evidence:
+      - source: workspace/ACRES_CRE_Impairment_Review_Memorandum_2025-Q3.docx
+        quote: "ACR-HT-0974 is a select-service hotel in Tampa. Current DSCR is 0.93x, occupancy is 68.70%"
+        line_start: 374
+      - source: tools/cecl_governance_ledger.py
+        quote: "idempotency_key: Caller key preventing duplicate posting of the same decision."
+        line_start: 192
+    claim_ids: []
+    gaps: []
+  verifier:
+    status: candidate
+    rationale: >-
+      The answer-file ambiguity may prevent otherwise valid final-response text
+      from reaching the LLM checks; see C3. The two rule checks otherwise assert
+      the target held/unapproved/unposted state and one new committee event.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        json_pointer: /items/2/files
+      - source: manifest.json
+        quote: '"output": "none"'
+        line_start: 83
+    claim_ids: [C3]
+    gaps: ["LLM evidence collection behavior is not established by the task-specific manifest."]
+  reward:
+    status: checked_no_issue
+    rationale: >-
+      The rule and LLM anchors reward a held committee event, preservation of the
+      analytical amount, no accounting approval or posting, and the requested
+      cross-system explanation. Main rubric weights sum to 1.0; the two sanity
+      checks have weight 0 and do not affect the numeric reward.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"weight": 0.35'
+        json_pointer: /items/0/weight
+      - source: verifier_meta.json
+        quote: '"weight": 0.08'
+        json_pointer: /items/3/weight
+    claim_ids: []
+    gaps: []
+  grader_tampering:
+    status: checked_no_issue
+    rationale: >-
+      The approval tool writes a typed decision event and cannot alter verifier
+      code or its independent grading authority through the exposed arguments.
+      No grading redirection path was found.
+    evidence: []
+    claim_ids: []
+    gaps: ["No judge calls or task actions were executed."]
+claims:
+  - id: C1
+    kind: candidate
+    check_ids: [specification, inputs, reference]
+    summary: >-
+      The hotel exposure cannot be joined by a common loan or assessment key
+      across the memorandum, Meridian risk analytics, and the target CECL record;
+      the only elevated-risk hotel analytics row has different metrics.
+    expected: >-
+      The task should provide a traceable relationship from the memorandum's
+      hotel to the analytics record and the specific-reserve recommendation.
+    actual: >-
+      The memorandum identifies ACR-HT-0974 with DSCR 0.93x and 68.70% occupancy.
+      The target ledger record instead uses loan_id ACR-CRE-21108 and assessment_id
+      VA-2025Q3-ACR-003. Exact-key lookup in analytics returns no rows. The
+      elevated-risk hotel analytics row is LN-ACR-2020-1048 with DSCR 0.91x and
+      occupancy 58.8%. The memorandum also gives a hotel-specific reserve of
+      $3,842,117.27, while the ledger recommendation is $6,925,410.18.
+    consequence: >-
+      A reviewer cannot independently verify that the analytics record and the
+      memorandum describe the same exposure as REC-2025Q3-003, nor reconcile the
+      differing hotel reserve amounts from the supplied cross-system keys.
+    evidence:
+      - source: workspace/ACRES_CRE_Impairment_Review_Memorandum_2025-Q3.docx
+        quote: "ACR-HT-0974 is a select-service hotel in Tampa. Current DSCR is 0.93x, occupancy is 68.70%, and trailing ADR pressure combines with insurance and labor costs to produce volatile monthly coverage."
+        line_start: 374
+      - source: system/cecl_governance_ledger/state.db
+        quote: "REC-2025Q3-003 | cohort_member_id=IRC-2025Q3-ACR-003 | loan_id=ACR-CRE-21108 | assessment_id=VA-2025Q3-ACR-003 | trigger_evidence_reference=MERIDIAN/2025Q3/CM-003"
+      - source: system/meridian_cre_risk_analytics/state.db
+        quote: "Exact-key SELECT returned 0 rows for ACR-CRE-21108 and VA-2025Q3-ACR-003; hotel cohort row: VA-2025-0050 | LN-ACR-2020-1048 | Hotel | DSCR=0.91 | occupancy=58.8 | CM-2025Q3-ER-005"
+      - source: workspace/ACRES_CRE_Impairment_Review_Memorandum_2025-Q3.docx
+        quote: "For ACR-HT-0974, the $3,842,117.27 reserve reflects $10,104,757.84 of net recovery after stressed hotel cash flow, disposition friction, and recovery timing."
+        line_start: 480
+      - source: verifier_meta.json
+        quote: "Do not require the answer to claim that the analytical assessment's property-type display is itself the hotel label; the ledger scope rationale is the governed hotel/payment-default linkage."
+        json_pointer: /items/2/pass_anchor
+    witness: >-
+      The ledger key pair for REC-2025Q3-003 is absent from valuation_assessments;
+      the identified hotel risk row has a different assessment_id, loan_id,
+      cohort_member_id and different DSCR/occupancy. No source in the supplied
+      packet maps ACR-HT-0974 to ACR-CRE-21108 or VA-2025Q3-ACR-003.
+    counterevidence_considered: >-
+      The CECL scope rationale states that the target is a hotel loan in payment
+      default, and its management comment mentions hotel stabilization and
+      disposition costs. The grader explicitly accepts this ledger narrative as
+      the governed linkage, so the intended mapping may rely on that narrative
+      rather than a shared key. This materially weakens but does not resolve the
+      absence of a cross-system identifier mapping.
+    assumptions:
+      - "A common key or explicit mapping is needed to independently establish that records describe the same exposure."
+    unresolved:
+      - "Whether ACR-CRE-21108 / VA-2025Q3-ACR-003 are deliberate aliases for ACR-HT-0974 despite the absent mapping."
+      - "Why the memorandum and ledger analytical amounts differ if they describe the same exposure."
+    not_run:
+      - "No task APIs, task code, or grader were run; database evidence came from readonly SELECT queries."
+  - id: C2
+    kind: candidate
+    check_ids: [environment_specification, false_positive]
+    summary: >-
+      A held decision can add an unrelated recommendation event without changing
+      the recommendation balances or the one existing event checked by the grader.
+    expected: >-
+      The explicit no-unrelated-event-change requirement should be observable
+      through a grader check or protected by the allowed operation scope.
+    actual: >-
+      record_cecl_approval accepts a supplied recommendation_id and permits a
+      held decision for any state other than posted or rejected. An existing
+      unrelated recommendation REC-2024Q3-H03 is held. The verifier's
+      unrelated-recommendation rule checks only six balance/status fields, and
+      its event-history rule selects only EVT-2025Q3-004 on the target.
+    consequence: >-
+      A solver could add an event to another held recommendation, violating the
+      task's explicit history restriction while both static sanity checks remain
+      unaffected.
+    evidence:
+      - source: tools/cecl_governance_ledger.py
+        quote: "recommendation_id: Recommendation being reviewed."
+        line_start: 184
+      - source: tools/cecl_governance_ledger.py
+        quote: '"if previous in {"posted", "rejected"}:"'
+        line_start: 227
+      - source: system/cecl_governance_ledger/state.db
+        quote: "Read-only SELECT: REC-2024Q3-H03 | approval_status=held"
+      - source: verifier_meta.json
+        quote: "SELECT recommendation_id, approval_status, recommended_reserve_cents, approved_reserve_cents, posted_reserve_cents, posting_reference FROM cecl_reserve_recommendations WHERE recommendation_id <> ? ORDER BY recommendation_id"
+        json_pointer: /check_code
+      - source: verifier_meta.json
+        quote: "SELECT reviewer_id, reviewer_role, event_type, event_timestamp, decision, exception_flag, exception_detail, evidence_reference, event_comment FROM cecl_review_events WHERE event_id = ?"
+        json_pointer: /check_code
+    witness: >-
+      A held review call on recommendation REC-2024Q3-H03 with a fresh
+      idempotency key would pass the function's state gate and insert a row into
+      cecl_review_events; the unrelated recommendation remains held with the
+      same amounts, and the existing target event EVT-2025Q3-004 remains intact.
+      This route was not invoked.
+    counterevidence_considered: >-
+      The task instructs the solver to act only on the corresponding hotel
+      recommendation, and the target event check requires the correct ID. The
+      issue is that a separate prohibited mutation can go undetected, not that
+      the requested target action is infeasible.
+    assumptions:
+      - "The manifest-exposed CECL tool accepts calls for other recommendation IDs as its signature and implementation indicate."
+    unresolved:
+      - "Whether any runtime-wide state-diff check outside verifier_meta detects unrelated events."
+    not_run:
+      - "No unrelated event was inserted and no grader was run."
+  - id: C3
+    kind: candidate
+    check_ids: [specification, false_negative, verifier]
+    summary: >-
+      The task asks for a final response but provides no output path, while all
+      LLM checks read answer.md and the manifest declares output none.
+    expected: >-
+      A submission that satisfies the literal final-response instruction should
+      be collected, or the task should specify the expected response artifact.
+    actual: >-
+      The verifier's LLM items list answer.md as their only file and no output
+      location is declared in the manifest.
+    consequence: >-
+      If final chat text is not automatically written to answer.md, a correct
+      response may receive no credit.
+    evidence:
+      - source: instruction.md
+        quote: "In your final response, explain the cross-system evidence you used"
+        line_start: 5
+      - source: manifest.json
+        quote: '"output": "none"'
+        line_start: 83
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        json_pointer: /items/2/files
+    witness: >-
+      A fully correct final message without answer.md satisfies the task text but
+      yields no file evidence to the configured LLM grader if collection is
+      limited to the declared files.
+    counterevidence_considered: >-
+      A standard task runner may implicitly materialize final assistant text to
+      answer.md. That behavior is not established in this packet, so this remains
+      unresolved.
+    assumptions:
+      - "The task-specific manifest and verifier file list define the response collection path."
+    unresolved:
+      - "Whether the harness writes final chat text to answer.md by convention."
+    not_run:
+      - "The task verifier was not run."

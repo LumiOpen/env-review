@@ -1,0 +1,52 @@
+{
+  "finding_id": "ER-e51ea1c7",
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "validation_mode": "static and immutable read-only SQLite; no task code invoked",
+  "source_hashes": {
+    "general/envs/s3k_0807_finance_insurance_en_t1_rl_005/instruction.md": "1a215710381f908de998725d2ad480fc5215dabd3a40d6b95b32617fe7c1f03e",
+    "general/envs/s3k_0807_finance_insurance_en_t1_rl_005/manifest.json": "e18d629b3c37c3128501115ada1181e9f0be7c30c149da0684aea01e842cc29a",
+    "general/envs/s3k_0807_finance_insurance_en_t1_rl_005/mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+    "general/envs/s3k_0807_finance_insurance_en_t1_rl_005/system/cecl_governance_ledger/state.db": "bcf84a28dcf4b8bbdf033e95d344eeb5ffa74ab4153b21d95758b7aa488020ad",
+    "general/envs/s3k_0807_finance_insurance_en_t1_rl_005/tools/cecl_governance_ledger.py": "d0b9a82c8eca421f4a06e2b88570cc66e61957d49a54cd73dc204640b440d005",
+    "general/envs/s3k_0807_finance_insurance_en_t1_rl_005/verifier_meta.json": "1e4d4a24360271b2e8ea859b335c323183a64b58716527b2ce19180b38e147f6",
+    "general/envs/s3k_0807_finance_insurance_en_t1_rl_005/verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13"
+  },
+  "query": "SELECT recommendation_id, approval_status, recommended_reserve_cents, approved_reserve_cents, posted_reserve_cents, posting_reference FROM cecl_reserve_recommendations WHERE recommendation_id = 'REC-2024Q3-H03'",
+  "initial_row": {
+    "recommendation_id": "REC-2024Q3-H03",
+    "approval_status": "held",
+    "recommended_reserve_cents": 71358206,
+    "approved_reserve_cents": 69000017,
+    "posted_reserve_cents": null,
+    "posting_reference": null
+  },
+  "proposed_tool": "cecl_governance_ledger.record_cecl_approval",
+  "proposed_arguments": {
+    "recommendation_id": "REC-2024Q3-H03",
+    "reviewer_id": "audit-witness",
+    "reviewer_role": "credit_committee",
+    "decision": "held",
+    "approved_reserve_cents": null,
+    "evidence_reference": "AUDIT/EXTRA-HELD",
+    "exception_detail": null,
+    "event_timestamp": "2025-10-29T15:00:00Z",
+    "idempotency_key": "env-review-extra-held-20261020"
+  },
+  "idempotency_marker_initial_count": 0,
+  "predicted_changes": [
+    "Insert one event for unrelated held recommendation REC-2024Q3-H03.",
+    "Update its updated_at; retain status held, COALESCE(None, existing) approved amount and date."
+  ],
+  "grading_invariance": [
+    "Target state and target-event rules filter REC-2025Q3-003.",
+    "Unrelated-recommendation rule compares six fields; all stay unchanged for the witness.",
+    "Existing-history rule filters EVT-2025Q3-004; inserted event is distinct.",
+    "LLM criteria read answer.md; hold final answer and judge randomness fixed.",
+    "No src_protect, gates or other trajectory check is configured."
+  ],
+  "impact": "Unscored violation of the no-unrelated-history-change constraint. Answer correctness and reward advantage are not established.",
+  "not_run": [
+    "Original tool or grader execution",
+    "End-to-end rollout"
+  ]
+}

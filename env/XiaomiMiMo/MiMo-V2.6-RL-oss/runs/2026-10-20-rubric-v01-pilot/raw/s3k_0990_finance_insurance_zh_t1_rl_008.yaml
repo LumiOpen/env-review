@@ -1,0 +1,310 @@
+task_summary:
+  intended_capability: >-
+    Reconcile a product-approval condition with model assumptions, add a
+    non-benchmark pricing scenario without changing existing records, deduplicate
+    policy-year cashflows, recompute profitability, and report the comparison.
+  required_result: >-
+    Add expense_control_830bp for product PROD-CNL-AYQH-2024-01 using
+    assumptions 2.50%, 8.30%, 4.80%, and 3.20%, effective 2024-09-30, with the
+    review minutes as source; recalculate to 7,140 wan and 7.14%, 0.30
+    percentage points above the 6.84% baseline, while preserving the unique
+    baseline and all other scenarios.
+  environment_and_access: >-
+    The task manifest exposes the actuarial model and approval-operations APIs.
+    Read-only SQLite inspection shows the target product, baseline, cashflows,
+    and approval project are present. The specifically named review-minutes DOCX
+    is absent from the workspace inventory; the prompt itself supplies the
+    8.30% target. Review used immutable read-only SELECT queries only; no API
+    mutation or corpus code execution was performed.
+  repair_intent: ordinary_setup
+  intent_evidence:
+    - source: instruction.md
+      quote: "产品开发委员会要求把国寿安盈启航两全保险的费用率压降到8.30%以内，作为最终备案前的关闭条件。请结合国寿安盈启航两全保险_立项盈利评审纪要.docx"
+    - source: manifest.json
+      quote: '"name": "china_life_actuarial_model", "url": "http://127.0.0.1:39101/mcp"'
+checks:
+  specification:
+    status: observation
+    rationale: >-
+      The requested scenario parameters, date, recomputation rules, comparison,
+      and preservation constraints are explicit. However, the task asks for a
+      fee cap to be confirmed from a specifically named minutes document that is
+      not supplied; the same cap is stated directly in the prompt. This source
+      gap is tracked as C1.
+    evidence:
+      - source: instruction.md
+        quote: "最终回复必须写出：你从纪要确认的费用压降要求、基准四项假设、登记后的四项假设和生效日、重算得到的利润现值与利润率、相对基准的改善，以及你在中国人寿精算盈利模型平台实际完成的操作。"
+      - source: manifest.json
+        quote: '"source": "workspace", "target": "/work/workspace", "container": "main"'
+        line_start: 5
+    claim_ids: [C1]
+    gaps:
+      - "The referenced DOCX is not present in the listed workspace files, and the OA API records contain the review project/decisions/conditions rather than the minutes text."
+  inputs:
+    status: candidate
+    rationale: >-
+      The referenced meeting-minutes DOCX is not among the task workspace files
+      and is not present in the task directory inventory. The approval API does
+      expose the related review project and decisions, but the queried expense
+      condition is 0.096 and does not supply the stated 0.083 cap. The prompt
+      itself supplies 8.30%, so the model update and arithmetic remain feasible;
+      source-based confirmation cannot be independently performed.
+    evidence:
+      - source: instruction.md
+        quote: "国寿安盈启航两全保险_立项盈利评审纪要.docx"
+      - source: system/china_life_product_approval_oa/state.db
+        quote: "review_project_id=REVIEW-CNL-2024-09-03; meeting_number=国寿产评纪〔2024〕09-03号"
+      - source: system/china_life_product_approval_oa/state.db
+        quote: "condition_code=EXPENSE_RATE_REDUCTION; target_value=0.096; operation_note=完成费用率压降测算并提交精算复核记录。"
+      - source: verifier_meta.json
+        quote: "答案须明确指出国寿安盈启航两全保险_立项盈利评审纪要.docx要求费用率压至8.30%以内"
+        json_pointer: /items/4/pass_anchor
+    claim_ids: [C1]
+    gaps:
+      - "It remains possible that a separate document-delivery mechanism exists outside the inspected manifest and API surface."
+  environment_specification:
+    status: checked_no_issue
+    rationale: >-
+      The manifest declares the model and OA services. Static tool inspection
+      shows a scenario upsert method, a cashflow retrieval method with explicit
+      latest-row deduplication, and a profitability calculation method matching
+      the requested work. The mutation is part of the stated task.
+    evidence:
+      - source: manifest.json
+        quote: '"name": "china_life_actuarial_model"'
+        line_start: 47
+      - source: tools/china_life_actuarial_model.py
+        quote: "def upsert_pricing_assumptions("
+        line_start: 393
+      - source: tools/china_life_actuarial_model.py
+        quote: "def calculate_profitability("
+        line_start: 464
+    claim_ids: []
+    gaps: []
+  feasibility:
+    status: checked_no_issue
+    rationale: >-
+      The baseline and raw cashflows support the requested action and an
+      independent read-only recomputation. Excluding the one summary row and
+      retaining the latest detail per product/cohort/policy-year/source-batch
+      leaves 10 rows; their totals yield 7,140 wan and a 7.14% margin at 8.30%.
+    evidence:
+      - source: system/china_life_actuarial_model/state.db
+        quote: "baseline: pricing_interest_rate=0.025, expense_rate=0.086, surrender_lapse_rate=0.048, net_investment_yield=0.032, is_benchmark=1"
+      - source: system/china_life_actuarial_model/state.db
+        quote: "11 detail rows; one summary row; 10 unique latest detail rows; discounted_premium_amount_wan total=100000; profit_before_tax_amount_wan total=6840; expense_rate_sensitivity_amount_wan total=100000"
+      - source: tools/china_life_actuarial_model.py
+        quote: "Deduplication is by product_id, cohort_issue_date, policy_year, source_batch_id, ordered by imported_at DESC and cashflow_id DESC."
+        line_start: 308
+    claim_ids: []
+    gaps: []
+  reference:
+    status: checked_no_issue
+    rationale: >-
+      Independent arithmetic agrees with the verifier: lowering expenses by
+      0.003 increases the model profit by 300 wan, from 6,840 to 7,140 wan, on
+      100,000 wan discounted premium; 7,140 / 100,000 = 7.14%, a 0.30 point
+      increase over the committee's displayed 6.84%. The model's baseline rates
+      also match the stated four assumptions.
+    evidence:
+      - source: system/china_life_actuarial_model/state.db
+        quote: "pricing_assumptions baseline: pricing_interest_rate=0.025, expense_rate=0.086, surrender_lapse_rate=0.048, net_investment_yield=0.032"
+      - source: system/china_life_product_approval_oa/state.db
+        quote: "decision_text=基准情景利润率6.84%，与精算模型基准重算结果一致，作为委员会定稿引用值。"
+      - source: verifier_meta.json
+        quote: '"profit_present_value_amount_wan": 7140, "discounted_premium_amount_wan": 100000, "profit_margin": 0.0714, "baseline_profit_margin": 0.0684, "profit_margin_change": 0.003'
+        json_pointer: /items/1/ground_truth
+    claim_ids: []
+    gaps: []
+  false_negative:
+    status: checked_no_issue
+    rationale: >-
+      The rule-based post-state check accepts documented source-ID aliases for
+      the review project and tests the required rates, date, benchmark flag,
+      source-basis wording, and rounded profitability. No incompatible output
+      format or calculation convention was identified.
+    evidence:
+      - source: verifier_meta.json
+        quote: 'source_aliases = {"REVIEW-CNL-2024-09-03", "PRJ-CNL-2024-AYQH-017", "国寿产评纪〔2024〕09-03号"}'
+        json_pointer: /check_code
+      - source: verifier_meta.json
+        quote: '"id": "scenario_profitability", "tier": "critical", "method": "rule"'
+        json_pointer: /items/1
+    claim_ids: []
+    gaps: []
+  false_positive:
+    status: candidate
+    rationale: >-
+      Two mechanisms can earn credit despite not satisfying all source and
+      preservation requirements: C1, a solver can report the 8.30% figure from
+      the prompt as if independently confirmed from the unavailable minutes;
+      C2, the upsert API can rewrite provenance or effective-date fields on
+      existing scenarios while the integrity rules check only their numeric
+      assumptions, codes, and benchmark flags.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        json_pointer: /items/4/files
+      - source: tools/china_life_actuarial_model.py
+        quote: '"UPDATE pricing_assumptions SET pricing_interest_rate=?,expense_rate=?,surrender_lapse_rate=?,net_investment_yield=?,is_benchmark=?,source_basis=?,source_document_id=?,effective_date=?,created_at=? WHERE assumption_id=?"'
+        line_start: 447
+      - source: verifier_meta.json
+        quote: 'check_baseline_integrity checks only baseline row count, four numeric assumptions, and is_benchmark; check_existing_scenarios_integrity checks scenario codes, four numeric assumptions, and is_benchmark.'
+        json_pointer: /check_code
+    claim_ids: [C1, C2]
+    gaps: []
+  answer_exposure:
+    status: observation
+    rationale: >-
+      The requested 8.30% target and expected scenario are stated directly in
+      the instruction and verifier anchor, so the model task does not require
+      discovering the target in the minutes. The source itself remains
+      unavailable, which is handled separately by C1.
+    evidence:
+      - source: instruction.md
+        quote: "费用率压降到8.30%以内"
+      - source: verifier_meta.json
+        quote: '"scenario_code": "expense_control_830bp", "expense_rate": 0.083'
+        json_pointer: /items/0/ground_truth
+    claim_ids: [C1]
+    gaps: []
+  verifier:
+    status: candidate
+    rationale: >-
+      The deterministic checks correctly cover the new scenario parameters and
+      numeric results, but existing-record integrity omits source_basis,
+      source_document_id, effective_date, and other provenance fields that the
+      update method can change. This supports C2. The source-confirmation claim
+      C1 is judged from answer.md without checking the minutes document.
+    evidence:
+      - source: verifier_meta.json
+        quote: 'check_baseline_integrity reads only pricing parameters and is_benchmark; check_existing_scenarios_integrity reads scenario_code, pricing parameters, and is_benchmark.'
+        json_pointer: /check_code
+      - source: tools/china_life_actuarial_model.py
+        quote: '"UPDATE pricing_assumptions SET pricing_interest_rate=?,expense_rate=?,surrender_lapse_rate=?,net_investment_yield=?,is_benchmark=?,source_basis=?,source_document_id=?,effective_date=?,created_at=? WHERE assumption_id=?"'
+        line_start: 447
+    claim_ids: [C1, C2]
+    gaps: []
+  reward:
+    status: observation
+    rationale: >-
+      Most critical checks are deterministic and one answer-only business
+      conclusion is LLM-graded; the static packet does not establish reward
+      aggregation or runtime judge behavior.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"method": "rule"'
+        json_pointer: /items/0/method
+      - source: verifier_meta.json
+        quote: '"method": "llm"'
+        json_pointer: /items/4/method
+    claim_ids: []
+    gaps:
+      - "No grader or LLM judge was run."
+  grader_tampering:
+    status: checked_no_issue
+    rationale: >-
+      The intended model mutation changes scenario state that the verifier
+      inspects; no surfaced API writes verifier code or redirects judging. The
+      integrity gap in C2 concerns unobserved business-record provenance, not
+      modification of the grader itself.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"id": "scenario_poststate", "tier": "critical", "method": "rule"'
+        json_pointer: /items/0
+    claim_ids: []
+    gaps: []
+claims:
+  - id: C1
+    kind: candidate
+    check_ids: [specification, inputs, false_positive, answer_exposure, verifier]
+    summary: >-
+      The task requires confirming the expense-rate cap from a named meeting
+      minutes DOCX, but that document is absent from the delivered workspace and
+      the exposed OA records do not contain its 8.30% text. The prompt itself
+      supplies the target, and the answer-only rubric awards an unqualified
+      source-attributed statement.
+    expected: >-
+      A source-confirmation requirement should provide the named minutes or an
+      equivalent accessible record of the 8.30% condition.
+    actual: >-
+      The task directory's workspace inventory contains the sensitivity
+      workbook, regulatory HTML, cashflow CSV, and solvency PDF, but not the
+      named minutes DOCX. The OA service has a review project and an expense
+      condition whose target is 0.096, not 0.083. The user instruction states
+      8.30% directly.
+    consequence: >-
+      The solver can complete the scenario task but cannot independently verify
+      that the meeting record says 8.30%; the LLM answer check can still reward
+      claiming that the absent record confirms it.
+    evidence:
+      - source: instruction.md
+        quote: "请结合国寿安盈启航两全保险_立项盈利评审纪要.docx"
+      - source: manifest.json
+        quote: '"source": "workspace", "target": "/work/workspace", "container": "main"'
+        line_start: 5
+      - source: system/china_life_product_approval_oa/state.db
+        quote: "condition_code=EXPENSE_RATE_REDUCTION; target_value=0.096; operation_note=完成费用率压降测算并提交精算复核记录。"
+      - source: verifier_meta.json
+        quote: "答案须明确指出国寿安盈启航两全保险_立项盈利评审纪要.docx要求费用率压至8.30%以内"
+        json_pointer: /items/4/pass_anchor
+    witness: >-
+      An answer can quote the 8.30% cap from instruction.md and state that the
+      minutes confirmed it without ever seeing the named DOCX; the LLM criterion
+      tests that statement in answer.md and does not validate the source.
+    counterevidence_considered: >-
+      The target value is explicitly present in the prompt, the corresponding
+      OA review project is accessible, and scenario registration and calculation
+      remain possible. Those facts make the numeric work feasible but do not
+      supply the missing minutes text or support independent confirmation.
+    assumptions:
+      - "The named DOCX is intended as a solver-visible source, rather than merely a label for the OA review project."
+    unresolved:
+      - "An external document-delivery path outside the manifest was not established."
+    not_run:
+      - "No corpus code, setup, APIs, mutation, grader, or solution was executed."
+  - id: C2
+    kind: candidate
+    check_ids: [false_positive, verifier]
+    summary: >-
+      The scenario upsert can update pre-existing baseline and stress rows,
+      including provenance and effective-date fields, but integrity checks only
+      compare their codes, rates, and benchmark flags.
+    expected: >-
+      A task requiring the baseline and existing scenarios to remain unchanged
+      should verify all fields that define those records, or use an insert-only
+      operation for the new scenario.
+    actual: >-
+      upsert_pricing_assumptions updates source_basis, source_document_id,
+      effective_date, and created_at for any existing scenario code. The
+      baseline and existing-scenario checks do not compare these fields.
+    consequence: >-
+      A request can alter the historical basis or effective date of an existing
+      assumption while preserving all checked numeric values, then pass the
+      integrity checks despite violating the no-rewrite instruction.
+    evidence:
+      - source: tools/china_life_actuarial_model.py
+        quote: '"UPDATE pricing_assumptions SET pricing_interest_rate=?,expense_rate=?,surrender_lapse_rate=?,net_investment_yield=?,is_benchmark=?,source_basis=?,source_document_id=?,effective_date=?,created_at=? WHERE assumption_id=?"'
+        line_start: 447
+      - source: verifier_meta.json
+        quote: 'check_baseline_integrity compares only the baseline row count, four assumption fields, and is_benchmark.'
+        json_pointer: /check_code
+      - source: verifier_meta.json
+        quote: 'check_existing_scenarios_integrity compares the set of scenario codes, four assumption fields, and is_benchmark.'
+        json_pointer: /check_code
+    witness: >-
+      Submit an upsert containing the new expense_control_830bp row plus the
+      existing baseline row with its same rates and is_benchmark=true but a
+      changed source_basis or effective_date. The upsert update branch changes
+      those fields; the posted verifier predicates still pass because they do
+      not inspect them.
+    counterevidence_considered: >-
+      Correctly adding only the new scenario leaves the existing records intact,
+      and changes to existing rates or scenario codes are detected. The gap is
+      limited to unchecked provenance/date fields that the API also treats as
+      part of each scenario record.
+    assumptions:
+      - "source_basis, source_document_id, effective_date, and created_at are material parts of an existing assumption record under the instruction not to rewrite it."
+    unresolved: []
+    not_run:
+      - "The proposed update was inferred statically and was not executed."

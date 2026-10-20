@@ -1,0 +1,318 @@
+schema_version: '1'
+id: ER-d7a08cf2
+dataset: hf:XiaomiMiMo/MiMo-V2.6-RL-oss
+revision: e8e81e4945270b6212204bad99de1e598f7fb077
+title: Scenario task does not observe changes to existing baseline provenance and effective date
+status: confirmed
+category: constraint_enforcement
+tasks:
+- id: s3k_0990_finance_insurance_zh_t1_rl_008
+  path: general/envs/s3k_0990_finance_insurance_zh_t1_rl_008
+problem:
+  description: Scenario task does not observe changes to existing baseline provenance and effective date.
+    A statically valid public tool call violates the explicit preservation requirement while leaving grading
+    evidence unchanged.
+  expected: When assessing the explicit preservation requirement, scoring must distinguish the prohibited
+    side effect from an otherwise identical compliant episode.
+  actual: The target-scenario check observes only the new scenario. Profitability reads baseline rates
+    and cashflows, not baseline provenance or date. Baseline integrity checks row count, four rates and
+    benchmark flag; existing-scenario integrity excludes baseline. The LLM item reads answer.md; unchanged
+    answer leaves its evidence unchanged. A compliant solution remains possible; no answer-accuracy or
+    useful reward-hacking consequence is established.
+evidence:
+- source: general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/instruction.md
+  line_start: 1
+  line_end: 5
+  quote: |-
+    产品开发委员会要求把国寿安盈启航两全保险的费用率压降到8.30%以内，作为最终备案前的关闭条件。请结合国寿安盈启航两全保险_立项盈利评审纪要.docx，在中国人寿精算盈利模型平台核对目标产品的唯一基准假设，并登记一个名为 expense_control_830bp 的非基准费用控制情景：预定利率沿用基准，费用率采用8.30%，退保及失效率和净投资收益率也沿用基准，生效日为2024年9月30日。登记时保留该评审纪要作为依据，不要改写基准或其他既有情景。
+
+    完成登记后，按模型的有效现金流口径重新测算该情景的利润现值和利润率：排除汇总行，对同一产品、发行批次、保单年度和来源批次的重复报送只保留最新导入记录。请判断新情景相对基准是否改善，并说明改善幅度；同时确认原基准仍是唯一基准且基准利润率没有被改动。
+
+    最终回复必须写出：你从纪要确认的费用压降要求、基准四项假设、登记后的四项假设和生效日、重算得到的利润现值与利润率、相对基准的改善，以及你在中国人寿精算盈利模型平台实际完成的操作。不要修改 workspace 中的文件。
+- source: general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/tools/china_life_actuarial_model.py
+  line_start: 163
+  line_end: 194
+  quote: |-
+    def _validate_assumption(item):
+        required = {
+            "scenario_code",
+            "pricing_interest_rate",
+            "expense_rate",
+            "surrender_lapse_rate",
+            "net_investment_yield",
+            "is_benchmark",
+            "source_basis",
+            "source_document_id",
+            "effective_date",
+        }
+        missing = sorted(required - set(item))
+        if missing:
+            raise ValueError(f"assumptions 缺少字段: {', '.join(missing)}")
+        if not item["scenario_code"].strip():
+            raise ValueError("scenario_code 不能为空")
+        if not 0 <= item["pricing_interest_rate"] <= 1:
+            raise ValueError("pricing_interest_rate 必须在 0 到 1 之间")
+        if not 0 <= item["expense_rate"] <= 1:
+            raise ValueError("expense_rate 必须在 0 到 1 之间")
+        if not 0 <= item["surrender_lapse_rate"] <= 1:
+            raise ValueError("surrender_lapse_rate 必须在 0 到 1 之间")
+        if not -1 <= item["net_investment_yield"] <= 1:
+            raise ValueError("net_investment_yield 必须在 -1 到 1 之间")
+        if not item["source_basis"].strip() or not item["source_document_id"].strip():
+            raise ValueError("source_basis 和 source_document_id 不能为空")
+        _validate_date(item["effective_date"], "effective_date")
+        if item["scenario_code"] == "baseline" and not item["is_benchmark"]:
+            raise ValueError("baseline 必须设置 is_benchmark=true")
+        if item["scenario_code"] != "baseline" and item["is_benchmark"]:
+            raise ValueError("压力或归档情景不能覆盖 baseline，也不能设置为基准")
+- source: general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/tools/china_life_actuarial_model.py
+  line_start: 393
+  line_end: 470
+  quote: |-
+    def upsert_pricing_assumptions(
+        product_id: str,
+        assumptions: list,
+        expected_updated_at: str = None,
+    ):
+        """原子新增或更新产品定价情景，并维护唯一基准与产品乐观锁时间戳。
+
+        Args:
+            product_id: 产品统一 ID。
+            assumptions: 参数对象列表，每项含情景代码、四项率值、基准标志、依据、来源文件和生效日。
+            expected_updated_at: 可选产品当前 updated_at；不一致时拒绝写入以避免并发覆盖。
+
+        Returns:
+            包含 created、updated、benchmark_assumption_id 和 warnings 的写入结果字典。
+        """
+        if not assumptions:
+            raise ValueError("assumptions 至少包含一项")
+        scenario_codes = [item.get("scenario_code") for item in assumptions]
+        if len(set(scenario_codes)) != len(scenario_codes):
+            raise ValueError("同一请求中 scenario_code 不能重复")
+        for item in assumptions:
+            _validate_assumption(item)
+        created, updated, warnings = [], [], []
+        now = datetime.now(timezone(timedelta(hours=8))).isoformat(timespec="seconds")
+        with _con() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            product = _require_product(connection, product_id)
+            if expected_updated_at is not None and product["updated_at"] != expected_updated_at:
+                raise ValueError(f"乐观锁冲突：当前 updated_at 为 {product['updated_at']}")
+            existing_benchmark = connection.execute(
+                "SELECT assumption_id,scenario_code FROM pricing_assumptions WHERE product_id=? AND is_benchmark=1",
+                (product_id,),
+            ).fetchall()
+            requested_benchmarks = [item for item in assumptions if item["is_benchmark"]]
+            if len(requested_benchmarks) > 1:
+                raise ValueError("同一产品最多只能提交一个 is_benchmark=true 的参数")
+            if requested_benchmarks:
+                benchmark_code = requested_benchmarks[0]["scenario_code"]
+                if any(row["scenario_code"] != benchmark_code for row in existing_benchmark):
+                    raise ValueError("产品已存在其他基准参数；请更新 baseline，不得以压力情景替换基准")
+            for item in assumptions:
+                old = connection.execute(
+                    "SELECT assumption_id FROM pricing_assumptions WHERE product_id=? AND scenario_code=?",
+                    (product_id, item["scenario_code"]),
+                ).fetchone()
+                if old is None:
+                    assumption_id = f"ASM-{product_id.replace('PROD-', '')}-{datetime.now().strftime('%y%m%d%H%M%S%f')[-12:]}-{len(created) + 1}"
+                    connection.execute(
+                        "INSERT INTO pricing_assumptions (assumption_id,product_id,scenario_code,pricing_interest_rate,expense_rate,surrender_lapse_rate,net_investment_yield,is_benchmark,source_basis,source_document_id,effective_date,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+                        (assumption_id, product_id, item["scenario_code"], item["pricing_interest_rate"], item["expense_rate"], item["surrender_lapse_rate"], item["net_investment_yield"], 1 if item["is_benchmark"] else 0, item["source_basis"], item["source_document_id"], item["effective_date"], now),
+                    )
+                    created.append({"assumption_id": assumption_id, "scenario_code": item["scenario_code"]})
+                else:
+                    assumption_id = old["assumption_id"]
+                    connection.execute(
+                        "UPDATE pricing_assumptions SET pricing_interest_rate=?,expense_rate=?,surrender_lapse_rate=?,net_investment_yield=?,is_benchmark=?,source_basis=?,source_document_id=?,effective_date=?,created_at=? WHERE assumption_id=?",
+                        (item["pricing_interest_rate"], item["expense_rate"], item["surrender_lapse_rate"], item["net_investment_yield"], 1 if item["is_benchmark"] else 0, item["source_basis"], item["source_document_id"], item["effective_date"], now, assumption_id),
+                    )
+                    updated.append({"assumption_id": assumption_id, "scenario_code": item["scenario_code"]})
+            connection.execute("UPDATE insurance_products SET updated_at=? WHERE product_id=?", (now, product_id))
+            benchmark = connection.execute(
+                "SELECT assumption_id FROM pricing_assumptions WHERE product_id=? AND is_benchmark=1",
+                (product_id,),
+            ).fetchall()
+            if len(benchmark) > 1:
+                raise ValueError("写入后出现多个基准参数，事务已回滚")
+            if not benchmark:
+                warnings.append("当前产品尚未设置基准参数，盈利计算将不可用")
+        return {"created": created, "updated": updated, "benchmark_assumption_id": benchmark[0]["assumption_id"] if benchmark else None, "warnings": warnings}
+
+
+    def calculate_profitability(
+        product_id: str,
+        scenario_code: str = "baseline",
+        cohort_issue_date: str = None,
+        exclude_summary: bool = True,
+        deduplicate: bool = True,
+    ):
+- source: general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/mcp_http.py
+  line_start: 191
+  line_end: 200
+  quote: |-
+    def _public_functions(module) -> list[tuple[str, Any]]:
+        out: list[tuple[str, Any]] = []
+        for name, obj in inspect.getmembers(module, inspect.isfunction):
+            if name.startswith("_"):
+                continue
+            if getattr(obj, "__module__", None) != module.__name__:
+                continue
+            out.append((name, obj))
+        out.sort(key=lambda kv: kv[0])
+        return out
+- source: general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/mcp_http.py
+  line_start: 345
+  line_end: 356
+  quote: |2-
+
+        module = _load_tools_module(tools_path)
+        fns = _public_functions(module)
+        if not fns:
+            print(f"FATAL: no public tool functions found in {tools_path}",
+                  file=sys.stderr)
+            sys.exit(1)
+
+        mcp = FastMCP(server_name, host="0.0.0.0", port=port)
+        for name, fn in fns:
+            mcp.add_tool(_wrap_capped(fn), name=name,
+                         description=_first_line(fn.__doc__) or name)
+- source: general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/verifier_meta.json
+  json_pointer: /check_code
+  quote: |
+    import math
+    import sqlite3
+    from pathlib import Path
+
+
+    PRODUCT_ID = "PROD-CNL-AYQH-2024-01"
+    SCENARIO_CODE = "expense_control_830bp"
+    MODEL_DB = "china_life_actuarial_model/state.db"
+
+
+    def _connect(workspace):
+        path = Path(workspace).parent / "system" / MODEL_DB
+        connection = sqlite3.connect(path)
+        connection.row_factory = sqlite3.Row
+        return connection
+
+
+    def _scenario(connection):
+        return connection.execute(
+            "SELECT * FROM pricing_assumptions WHERE product_id=? AND scenario_code=?",
+            (PRODUCT_ID, SCENARIO_CODE),
+        ).fetchone()
+
+
+    def check_scenario_poststate(workspace):
+        with _connect(workspace) as connection:
+            row = _scenario(connection)
+            if row is None:
+                return {"score": 0, "detail": "目标情景不存在"}
+            expected = (0.025, 0.083, 0.048, 0.032, 0, "2024-09-30")
+            actual = tuple(float(row[k]) for k in ("pricing_interest_rate", "expense_rate", "surrender_lapse_rate", "net_investment_yield")) + (row["is_benchmark"], row["effective_date"])
+            if not all(math.isclose(a, b, abs_tol=1e-9) if isinstance(a, float) else a == b for a, b in zip(actual, expected)):
+                return {"score": 0, "detail": f"参数或依据不符: {actual}"}
+            # The same minutes have equivalent keys in OA, the product model, and the document.
+            source_aliases = {"REVIEW-CNL-2024-09-03", "PRJ-CNL-2024-AYQH-017", "国寿产评纪〔2024〕09-03号"}
+            if row["source_document_id"] not in source_aliases:
+                return {"score": 0, "detail": f"评审纪要来源标识不符: {row['source_document_id']}"}
+            if "8.30" not in row["source_basis"] or "立项盈利评审纪要" not in row["source_basis"]:
+                return {"score": 0, "detail": "source_basis 未保留费用压降纪要依据"}
+            return {"score": 1, "detail": "目标情景参数、生效日、非基准标志和纪要依据正确"}
+
+
+    def _latest_detail_rows(connection):
+        rows = connection.execute(
+            "SELECT * FROM policy_year_cashflows WHERE product_id=? AND record_type='detail'",
+            (PRODUCT_ID,),
+        ).fetchall()
+        latest = {}
+        for row in rows:
+            key = (row["product_id"], row["cohort_issue_date"], row["policy_year"], row["source_batch_id"])
+            if key not in latest or (row["imported_at"], row["cashflow_id"]) > (latest[key]["imported_at"], latest[key]["cashflow_id"]):
+                latest[key] = row
+        return list(latest.values())
+
+
+    def check_scenario_profitability(workspace):
+        with _connect(workspace) as connection:
+            scenario = _scenario(connection)
+            baseline = connection.execute(
+                "SELECT * FROM pricing_assumptions WHERE product_id=? AND scenario_code='baseline' AND is_benchmark=1",
+                (PRODUCT_ID,),
+            ).fetchone()
+            if scenario is None or baseline is None:
+                return {"score": 0, "detail": "缺少情景或基准"}
+            rows = _latest_detail_rows(connection)
+        totals = {key: sum(row[key] for row in rows) for key in (
+            "profit_before_tax_amount_wan", "discounted_premium_amount_wan", "new_business_value_amount_wan",
+            "pricing_interest_sensitivity_amount_wan", "expense_rate_sensitivity_amount_wan",
+            "surrender_rate_sensitivity_amount_wan", "investment_yield_sensitivity_amount_wan")}
+        deltas = {key: float(scenario[key]) - float(baseline[key]) for key in (
+            "pricing_interest_rate", "expense_rate", "surrender_lapse_rate", "net_investment_yield")}
+        profit = totals["profit_before_tax_amount_wan"] - deltas["pricing_interest_rate"] * totals["pricing_interest_sensitivity_amount_wan"] - deltas["expense_rate"] * totals["expense_rate_sensitivity_amount_wan"] - deltas["surrender_lapse_rate"] * totals["surrender_rate_sensitivity_amount_wan"] + deltas["net_investment_yield"] * totals["investment_yield_sensitivity_amount_wan"]
+        margin = round(profit / totals["discounted_premium_amount_wan"], 4)
+        actual = (round(profit), totals["discounted_premium_amount_wan"], margin, round(float(baseline["expense_rate"]), 4))
+        expected = (7140, 100000, 0.0714, 0.086)
+        if actual[:3] != expected[:3] or not math.isclose(actual[3], expected[3], abs_tol=1e-9):
+            return {"score": 0, "detail": f"独立重算结果不符: {actual}"}
+        return {"score": 1, "detail": "去重 detail、排除 summary 后独立重算为 7140 万元和 7.14%"}
+
+
+    def check_baseline_integrity(workspace):
+        with _connect(workspace) as connection:
+            rows = connection.execute(
+                "SELECT * FROM pricing_assumptions WHERE product_id=? AND scenario_code='baseline'",
+                (PRODUCT_ID,),
+            ).fetchall()
+        if len(rows) != 1:
+            return {"score": 0, "detail": f"baseline 行数为 {len(rows)}"}
+        row = rows[0]
+        actual = tuple(round(float(row[k]), 6) for k in ("pricing_interest_rate", "expense_rate", "surrender_lapse_rate", "net_investment_yield"))
+        if actual != (0.025, 0.086, 0.048, 0.032) or row["is_benchmark"] != 1:
+            return {"score": 0, "detail": f"baseline 被改写: {actual}, benchmark={row['is_benchmark']}"}
+        return {"score": 1, "detail": "baseline 保持唯一且参数未变"}
+
+
+    def check_existing_scenarios_integrity(workspace):
+        expected = {
+            "combined_stress": (0.025, 0.096, 0.058, 0.027),
+            "expense_up_100bp": (0.025, 0.096, 0.048, 0.032),
+            "pricing_interest_down_50bp": (0.02, 0.086, 0.048, 0.032),
+            "pricing_interest_up_50bp": (0.03, 0.086, 0.048, 0.032),
+            "surrender_up_100bp": (0.025, 0.086, 0.058, 0.032),
+            "yield_down_50bp": (0.025, 0.086, 0.048, 0.027),
+            "yield_up_50bp": (0.025, 0.086, 0.048, 0.037),
+        }
+        with _connect(workspace) as connection:
+            rows = connection.execute("SELECT * FROM pricing_assumptions WHERE product_id=? AND scenario_code!='baseline'", (PRODUCT_ID,)).fetchall()
+        actual = {row["scenario_code"] for row in rows}
+        if actual != set(expected) | {SCENARIO_CODE}:
+            return {"score": 0, "detail": f"既有情景集合被改动: {sorted(actual)}"}
+        for row in rows:
+            if row["scenario_code"] == SCENARIO_CODE:
+                continue
+            parameters = tuple(round(float(row[key]), 6) for key in ("pricing_interest_rate", "expense_rate", "surrender_lapse_rate", "net_investment_yield"))
+            if parameters != expected[row["scenario_code"]] or row["is_benchmark"] != 0:
+                return {"score": 0, "detail": f"既有情景 {row['scenario_code']} 参数被改动"}
+        return {"score": 1, "detail": "既有非基准情景均保留"}
+validation:
+  method: static
+  summary: Read public tool registration, argument validation, persistence, every task-specific state
+    check, and LLM evidence files. Verified witness identifiers against initial records using read-only
+    SQL. Traced the proposed call without executing task code.
+  assumptions:
+  - Published standalone _grade_sc path and exposed task tools; external grade_rubric behavior is unassessed.
+  - No additional deployment-specific guard is assumed.
+  - Compare otherwise identical answers with fixed judge randomness; no numeric judge score is claimed.
+  not_run:
+  - Original task code/tool/grader execution
+  - End-to-end rollout or LLM judge
+  reproducer: env/XiaomiMiMo/MiMo-V2.6-RL-oss/evidence/ER-d7a08cf2/witness.json
+provenance:
+  discovered_by: gpt-6-luna rubric-v0.1 pilot; independently adjudicated by parent Codex agent
+  experiment: env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-rubric-v01-pilot
+discussion: Agent-assisted static adjudication. This is another affected task in the unobserved-prohibited-state-change
+  family, not proof of an unusable task or a distinct answer-correctness defect. Confirmation describes
+  the narrow compliance gap, not severity.

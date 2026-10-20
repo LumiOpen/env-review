@@ -1,0 +1,2053 @@
+{
+  "scope": "Same 12 task source snapshots as rubric pilot; not supplied to model screeners.",
+  "elapsed_seconds": 0.436,
+  "structural": [
+    {
+      "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+      "signals": [
+        {
+          "detector_id": "implicit_sanity_weight",
+          "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+          "category": "review_signal",
+          "claim": "Non-gate sanity item 'source_data_present' omits weight while substantive items have fractional weights.",
+          "evidence": [
+            {
+              "path": "verifier_meta.json",
+              "line_start": 58,
+              "line_end": 63,
+              "quote": "  {\n   \"id\": \"source_data_present\",\n   \"tier\": \"sanity\",\n   \"method\": \"rule\",\n   \"fn\": \"check_source_data_present\"\n  }"
+            },
+            {
+              "path": "verifier_meta.json",
+              "line_start": 3,
+              "line_end": 13,
+              "quote": "  {\n   \"id\": \"current_recommended_structure\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.2,\n   \"files\": [\n    \"answer.md\"\n   ],\n   \"question\": \"Does the final answer identify the current recommended installment transaction and correctly exclude superseded alternatives from the current closing-status conclusion?\",\n   \"pass_anchor\": \"Ground truth from the DealCloud Disposition Workspace and approved SharePoint records: the current recommended record is the installment-sale transaction for CASE-FAIRFAX3-2025Q3 (transaction DC-TXN-25Q3-024, status recommended). The direct-sale records for that case and the partnership-interest/equity-transfer record are not the current recommended structure; the earlier direct-sale bid is superseded, the active direct-sale row is only the all-cash fallback/comparison, and the equity-transfer row is superseded. The answer must not use the completed buyer-solvency row attached to the superseded equity-transfer transaction as proof that the recommended installment package is ready.\"\n  },"
+            },
+            {
+              "path": "verifier_meta.json",
+              "line_start": 14,
+              "line_end": 24,
+              "quote": "  {\n   \"id\": \"documentary_tax_components\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.2,\n   \"files\": [\n    \"answer.md\"\n   ],\n   \"question\": \"Does the final answer report the approved County and City of Los Angeles documentary-transfer-tax components and the approved summary for the recommended installment transaction?\",\n   \"pass_anchor\": \"Ground truth from active DealCloud closing requirements for the recommended installment transaction: Los Angeles County documentary-transfer-tax component = $9,141.00; City of Los Angeles component = $37,395.00; approved documentary-transfer-tax summary = $46,536.00. The component rows are authoritative and add to the summary. The answer must use these installment values, not the $13,200.00 county, $54,000.00 city, or $67,200.00 summary belonging to the active direct-sale comparison, and not the inactive legacy county amount.\"\n  },"
+            },
+            {
+              "path": "verifier_meta.json",
+              "line_start": 25,
+              "line_end": 35,
+              "quote": "  {\n   \"id\": \"protection_statuses\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.25,\n   \"files\": [\n    \"answer.md\"\n   ],\n   \"question\": \"Does the final answer correctly separate every material protection for the recommended installment structure into approved/complete versus unresolved, including the absence of an active buyer-solvency row for that transaction?\",\n   \"pass_anchor\": \"Ground truth from the approved memorandum, workbook controls, and active DealCloud requirements: payment covenant is approved for $6,000,000.00 over the three-year note term; federal nonforeign affidavit is approved (the requirement is active, but the updated affidavit remains a closing condition); seller-note collateral covering $6,000,000.00 is in review; California withholding clearance is in review; buyer-solvency diligence is required by the approved recommendation but has no active requirement row on the recommended installment transaction. A buyer-solvency requirement marked complete exists only on the superseded equity-transfer transaction and must not be counted for the installment package. The answer should also recognize that the approved/complete tax items do not resolve the open protections.\"\n  },"
+            },
+            {
+              "path": "verifier_meta.json",
+              "line_start": 36,
+              "line_end": 46,
+              "quote": "  {\n   \"id\": \"controlled_payment_split_and_fallback\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.2,\n   \"files\": [\n    \"answer.md\"\n   ],\n   \"question\": \"Does the final answer state the controlled recommendation's payment split and its fallback position?\",\n   \"pass_anchor\": \"Ground truth from the approved Fairfax & 3rd Structuring Recommendation and decision record DEC-2025-017: proceed with a negotiated installment asset sale using a $7,183,750.00 closing principal payment and a $21,551,250.00 secured seller note. The approved fallback is an all-cash direct sale if installment protections are not acceptable; the partnership-interest transfer is not prioritized. The answer must tie the open protections to this controlled recommendation rather than treating the DealCloud comparison row's different $8,310,000.00 / $6,000,000.00 figures as the approved split.\"\n  },"
+            },
+            {
+              "path": "verifier_meta.json",
+              "line_start": 47,
+              "line_end": 57,
+              "quote": "  {\n   \"id\": \"readiness_conclusion\",\n   \"tier\": \"important\",\n   \"method\": \"llm\",\n   \"weight\": 0.15,\n   \"files\": [\n    \"answer.md\"\n   ],\n   \"question\": \"Does the final answer reach the correct execution-readiness conclusion for the recommended package and explain the gating logic?\",\n   \"pass_anchor\": \"Ground truth conclusion: the package is not ready for unconditional authorization to close as documented. The approved documentary-tax amounts, approved payment covenant, and approved/required federal affidavit do not eliminate the unresolved seller-note collateral and California withholding review, and buyer-solvency diligence is still a required condition without an active installment-row completion record. The recommendation is conditional: proceed with negotiation/close preparation only after the stated protections and diligence are resolved; otherwise use the all-cash direct-sale fallback. Do not call the package fully ready merely because some tax requirements are approved or because a superseded transaction shows a completed requirement.\"\n  },"
+            }
+          ],
+          "assumptions": [
+            "If this item is scored with the verifier's default weight of 1, it can outweigh individual substantive items.",
+            "Author intent and impact require review; this is not automatically invalid."
+          ],
+          "severity": "low"
+        }
+      ]
+    },
+    {
+      "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+      "signals": []
+    },
+    {
+      "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+      "signals": [
+        {
+          "detector_id": "implicit_sanity_weight",
+          "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+          "category": "review_signal",
+          "claim": "Non-gate sanity item 'source_data_unchanged' omits weight while substantive items have fractional weights.",
+          "evidence": [
+            {
+              "path": "verifier_meta.json",
+              "line_start": 69,
+              "line_end": 74,
+              "quote": "  {\n   \"id\": \"source_data_unchanged\",\n   \"tier\": \"sanity\",\n   \"method\": \"rule\",\n   \"fn\": \"check_source_data_unchanged\"\n  }"
+            },
+            {
+              "path": "verifier_meta.json",
+              "line_start": 3,
+              "line_end": 13,
+              "quote": "  {\n   \"id\": \"single_trigger_classification\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.3,\n   \"question\": \"最终回答是否识别出定稿结果中唯一的两项单阈值高差异SKU，并正确分类为：黑方 Johnnie Walker Black Label 仅金额触发、可口可乐仅数量触发？\",\n   \"pass_anchor\": \"真实数据库中，2024年10月句容假日度假酒店大堂吧定稿核对运行 RECON-2024-10-LBB-FINAL 内，独立按绝对差异量与各自数量阈值、绝对差异金额与金额阈值重算后，恰有两项只越过一条线：SKU-SPIRIT-JW-BLACK（黑方 Johnnie Walker Black Label）为仅金额触发；SKU-SOFTDRINK-COCA-COLA（可口可乐）为仅数量触发。回答必须同时给出这两项和正确分类，不能加入草稿中的橙汁等干扰项，也不能把二者说成同时触发。\",\n   \"files\": [\n    \"answer.md\"\n   ]\n  },"
+            },
+            {
+              "path": "verifier_meta.json",
+              "line_start": 14,
+              "line_end": 24,
+              "quote": "  {\n   \"id\": \"jw_quantity_comparison\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.15,\n   \"question\": \"最终回答是否正确给出黑方的差异数量与数量阈值，并判断数量未达到阈值？\",\n   \"pass_anchor\": \"黑方 Johnnie Walker Black Label 的差异数量为 15 mL，数量阈值为 30 mL，因 15 < 30，数量线未触发。允许写成正差异15mL、绝对差异15mL或多耗15mL；核心数值、单位和未达阈值的比较必须正确。\",\n   \"files\": [\n    \"answer.md\"\n   ]\n  },"
+            },
+            {
+              "path": "verifier_meta.json",
+              "line_start": 25,
+              "line_end": 35,
+              "quote": "  {\n   \"id\": \"jw_amount_comparison\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.15,\n   \"question\": \"最终回答是否正确给出黑方的差异金额与金额阈值，并判断金额达到阈值？\",\n   \"pass_anchor\": \"黑方 Johnnie Walker Black Label 的差异金额为 1170 分（11.70元），金额阈值为 1000 分（10.00元），因 1170 >= 1000，金额线触发。分或元均可，但换算、大小关系与触发结论必须一致。\",\n   \"files\": [\n    \"answer.md\"\n   ]\n  },"
+            },
+            {
+              "path": "verifier_meta.json",
+              "line_start": 36,
+              "line_end": 46,
+              "quote": "  {\n   \"id\": \"coke_quantity_comparison\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.15,\n   \"question\": \"最终回答是否正确给出可口可乐的差异数量与数量阈值，并判断数量达到阈值？\",\n   \"pass_anchor\": \"可口可乐的差异数量为 1 罐，数量阈值为 1 罐；阈值采用达到即触发的包含边界口径，因此 1 >= 1，数量线触发。回答不能用严格大于号把边界值排除。\",\n   \"files\": [\n    \"answer.md\"\n   ]\n  },"
+            },
+            {
+              "path": "verifier_meta.json",
+              "line_start": 47,
+              "line_end": 57,
+              "quote": "  {\n   \"id\": \"coke_amount_comparison\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.15,\n   \"question\": \"最终回答是否正确给出可口可乐的差异金额与金额阈值，并判断金额未达到阈值？\",\n   \"pass_anchor\": \"可口可乐的差异金额为 620 分（6.20元），金额阈值为 1000 分（10.00元），因 620 < 1000，金额线未触发。分或元均可，但换算、大小关系与未触发结论必须正确。\",\n   \"files\": [\n    \"answer.md\"\n   ]\n  },"
+            },
+            {
+              "path": "verifier_meta.json",
+              "line_start": 58,
+              "line_end": 68,
+              "quote": "  {\n   \"id\": \"finalized_scope\",\n   \"tier\": \"important\",\n   \"method\": \"llm\",\n   \"weight\": 0.1,\n   \"question\": \"最终回答是否明确采用2024年10月大堂吧的定稿核对结果，并体现未混入同期草稿或其他范围的数据？\",\n   \"pass_anchor\": \"正确口径是 period_id PERIOD-2024-10、org_id ORG-HIRJ-LBB、状态为 FINAL 的唯一运行 RECON-2024-10-LBB-FINAL（版本3）；同期 RECON-2024-10-LBB-DRAFT（版本2）必须排除。回答无需强制写内部编号，但应明确说明采用定稿/最终版本而非草稿；若把草稿中的橙汁、雪碧或路易十三作为本题单阈值结论，则此项不通过。\",\n   \"files\": [\n    \"answer.md\"\n   ]\n  },"
+            }
+          ],
+          "assumptions": [
+            "If this item is scored with the verifier's default weight of 1, it can outweigh individual substantive items.",
+            "Author intent and impact require review; this is not automatically invalid."
+          ],
+          "severity": "low"
+        }
+      ]
+    },
+    {
+      "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+      "signals": []
+    },
+    {
+      "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+      "signals": []
+    },
+    {
+      "task_id": "s3k_0807_finance_insurance_en_t1_rl_005",
+      "signals": []
+    },
+    {
+      "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+      "signals": []
+    },
+    {
+      "task_id": "s3k_1564_hospitality_fnb_en_t2_rl_002",
+      "signals": []
+    },
+    {
+      "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+      "signals": []
+    },
+    {
+      "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+      "signals": []
+    },
+    {
+      "task_id": "s3k_0990_finance_insurance_zh_t1_rl_008",
+      "signals": []
+    },
+    {
+      "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+      "signals": []
+    }
+  ],
+  "derived_readonly": [
+    {
+      "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+      "observed_hashes": {
+        "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+        "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+        "verifier_meta.json": "64218a1c0573ad03c14c67909c77bd33fde6392443883cc308ff6c77d6ad87ef",
+        "manifest.json": "735780380d3783c2162e691c9246872394824f12dc833f4f6ae79f650ed5d563"
+      },
+      "status": "not_applicable",
+      "reason": "not all items are LLM-only answer.md items"
+    },
+    {
+      "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+      "observed_hashes": {
+        "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+        "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+        "verifier_meta.json": "8e3db5cce771b6e93367bd98792b37757fe1c83a91056c40911a8a31e7a039f2",
+        "manifest.json": "5c0af5256189f49937540705a615772fa89f0cd8d9bea4ac0c4647aadb2e5a02"
+      },
+      "status": "review_signal",
+      "modules_considered": [
+        "tools/hengsheng_hedge_risk.py",
+        "tools/ifind_market_data.py",
+        "tools/yonyou_hedge_approval.py"
+      ],
+      "candidate": {
+        "candidate_id": "readonly-1f224a2753cc",
+        "review_signal": true,
+        "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+        "claim": "Metadata marks the task act='none' and scores only answer.md text, while a manifest-exposed public tool function contains a literal SQL write passed to execute/executemany.",
+        "metadata_paths": [
+          "verifier_meta.json",
+          "verify.py",
+          "mcp_http.py",
+          "manifest.json",
+          "instruction.md",
+          "tools/hengsheng_hedge_risk.py",
+          "tools/ifind_market_data.py",
+          "tools/yonyou_hedge_approval.py"
+        ],
+        "instruction_evidence": [
+          {
+            "line": 3,
+            "phrase": "只读",
+            "quote": "汇总时要以已经完成核验且处于有效授权范围内的成交回报为实际成交依据，注意合同、结算单和持仓报表可以用于勾稽，但不能再次当作成交回报累计。最终回复请给出分批明细、指令总手数、实际成交总手数、覆盖总吨数和未成交差额，并判断该差额是否属于分批执行中因未成交形成的受控差异；同时用关键证据说明理由。此项仅做只读核对，不要修改任何系统记录。"
+          }
+        ],
+        "manual_intent_review_required": false,
+        "tool_writes": [
+          {
+            "tool_file": "tools/hengsheng_hedge_risk.py",
+            "tool_function": "calculate_minimum_variance_hedge_ratio",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE hedge_calculation_results SET minimum_variance_hedge_ratio=? WHERE calculation_id=?",
+            "literal_line": 211,
+            "execute_line": 211
+          },
+          {
+            "tool_file": "tools/hengsheng_hedge_risk.py",
+            "tool_function": "calculate_monthly_hedge_plan",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE hedge_calculation_results SET exposure_quantity_ton=?,minimum_variance_hedge_ratio=?,sell_instruction_lots=?,actual_covered_quantity_ton=?,remaining_exposure_ton=?,remaining_exposure_ratio=?,reference_settlement_price_yuan_per_ton=?,reference_notional_yuan=?,internal_funding_occupancy_rate=?,initial_funding_requirement_yuan=?,calculation_version=?,market_data_version=?,parameter_effective_date=? WHERE calculation_id=?",
+            "literal_line": 285,
+            "execute_line": 285
+          },
+          {
+            "tool_file": "tools/ifind_market_data.py",
+            "tool_function": "upsert_market_parameter",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO market_parameters(parameter_id,product_id,venue_id,parameter_name,parameter_value,parameter_unit,parameter_text,effective_from,effective_to,data_scope) VALUES(?,?,?,?,?,?,?,?,?,?) ON CONFLICT(parameter_id) DO UPDATE SET product_id=excluded.product_id,venue_id=excluded.venue_id,parameter_name=excluded.parameter_name,parameter_value=excluded.parameter_value,parameter_unit=excluded.parameter_unit,parameter_text=excluded.parameter_text,effective_from=excluded.effective_from,effective_to=excluded.effective_to,data_scope=excluded.data_scope",
+            "literal_line": 339,
+            "execute_line": 338
+          },
+          {
+            "tool_file": "tools/yonyou_hedge_approval.py",
+            "tool_function": "register_execution_evidence",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO execution_evidence VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            "literal_line": 241,
+            "execute_line": 241
+          }
+        ],
+        "unknown_dynamic_sql": [
+          {
+            "tool_file": "tools/hengsheng_hedge_risk.py",
+            "tool_function": "search_sales_exposures",
+            "execute_method": "execute",
+            "execute_line": 118,
+            "query_expression": "f\"SELECT COUNT(*) FROM sales_exposure_lines WHERE {where}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/hengsheng_hedge_risk.py",
+            "tool_function": "search_sales_exposures",
+            "execute_method": "execute",
+            "execute_line": 120,
+            "query_expression": "f\"SELECT * FROM sales_exposure_lines WHERE {where} ORDER BY created_at, exposure_id LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/hengsheng_hedge_risk.py",
+            "tool_function": "upsert_exposure_review",
+            "execute_method": "execute",
+            "execute_line": 355,
+            "query_expression": "\"UPDATE sales_exposure_lines SET \" + \",\".join(f\"{column}=?\" for column in columns) + \" WHERE exposure_id=?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/hengsheng_hedge_risk.py",
+            "tool_function": "upsert_exposure_review",
+            "execute_method": "execute",
+            "execute_line": 368,
+            "query_expression": "\"INSERT INTO sales_exposure_lines (\" + \",\".join(columns + [\"reviewer_name\", \"reviewed_at\", \"created_at\"]) + \") VALUES (\" + \",\".join(\"?\" for _ in columns + [\"reviewer_name\", \"reviewed_at\", \"created_at\"]) + \")\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/ifind_market_data.py",
+            "tool_function": "aggregate_basis_and_spread",
+            "execute_method": "execute",
+            "execute_line": 246,
+            "query_expression": "f\"SELECT contract_id,trade_date,settlement_price_yuan_per_ton,spot_proxy_price_yuan_per_ton,lme_copper_price_yuan_per_ton FROM daily_settlement_prices WHERE contract_id IN ({placeholders}) AND trade_date BETWEEN ? AND ? ORDER BY trade_date,contract_id\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/yonyou_hedge_approval.py",
+            "tool_function": "search_hedge_approval_cases",
+            "execute_method": "execute",
+            "execute_line": 65,
+            "query_expression": "\"SELECT COUNT(*) FROM hedge_approval_cases\" + clause",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/yonyou_hedge_approval.py",
+            "tool_function": "search_hedge_approval_cases",
+            "execute_method": "execute",
+            "execute_line": 70,
+            "query_expression": "query",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/yonyou_hedge_approval.py",
+            "tool_function": "search_execution_evidence",
+            "execute_method": "execute",
+            "execute_line": 141,
+            "query_expression": "\"SELECT COUNT(*) FROM execution_evidence\" + clause",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/yonyou_hedge_approval.py",
+            "tool_function": "search_execution_evidence",
+            "execute_method": "execute",
+            "execute_line": 147,
+            "query_expression": "query",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/yonyou_hedge_approval.py",
+            "tool_function": "reconcile_execution_evidence",
+            "execute_method": "execute",
+            "execute_line": 176,
+            "query_expression": "f\"SELECT COALESCE(SUM(instruction_lots),0), COALESCE(SUM(executed_lots),0), COALESCE(SUM(covered_quantity_ton),0), COALESCE(SUM(reference_notional_yuan),0) FROM execution_evidence WHERE {clause}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/yonyou_hedge_approval.py",
+            "tool_function": "reconcile_execution_evidence",
+            "execute_method": "execute",
+            "execute_line": 177,
+            "query_expression": "f\"SELECT execution_batch_no, SUM(instruction_lots) AS instruction_lots, SUM(executed_lots) AS executed_lots, SUM(covered_quantity_ton) AS covered_quantity_ton, SUM(reference_notional_yuan) AS reference_notional_yuan, COUNT(*) AS evidence_count FROM execution_evidence WHERE {clause} GROUP BY execution_batch_no ORDER BY execution_batch_no\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          }
+        ],
+        "parse_unknown": [],
+        "assumptions": [
+          "The pinned mcp_http.py hash has the inspected registration behavior: module-local public functions are exposed; unknown dispatcher semantics are skipped.",
+          "The manifest server name maps to tools/<name>.py and the registered function is callable in the deployed environment.",
+          "A static SQL write passed to execute/executemany establishes a potential persistent-write path; runtime authorization, guards, and task-tool policy need review.",
+          "The shared verifier hash establishes the inspected sidecar scoring path; metadata has no gate and no src_protect field."
+        ],
+        "review_notes": "Discovery signal only. It does not establish that the write is reachable for this task, will succeed, or violates policy; manually compare instruction evidence, tool preconditions, and runtime protections."
+      }
+    },
+    {
+      "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+      "observed_hashes": {
+        "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+        "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+        "verifier_meta.json": "fb45e809cfe640f660dd575dd7422e89468e7023aaf5f5f00419d03b3a1201cb",
+        "manifest.json": "f4b5532dc02722a9e488cc9a9ed6b6882b7caeb6b313180cf465f6eb5844efe6"
+      },
+      "status": "not_applicable",
+      "reason": "not all items are LLM-only answer.md items"
+    },
+    {
+      "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+      "observed_hashes": {
+        "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+        "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+        "verifier_meta.json": "e610509f982563a7dfccc912cea59790dcfe8eab8fed97e2cfac0ed8ea0d4e17",
+        "manifest.json": "a3ed9611e775be742c0df31e4127858fca641622188d5bea69508f9ffbbb0ff8"
+      },
+      "status": "not_applicable",
+      "reason": "act is not exactly 'none'; not all items are LLM-only answer.md items"
+    },
+    {
+      "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+      "observed_hashes": {
+        "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+        "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+        "verifier_meta.json": "95082fb3cf7089b1a3576c75b7dc99022f04115084e10eb45b8fe392e6741335",
+        "manifest.json": "f63764827c611bb4f58e0bd7925efc677f0e86f8dd1076d79ee0a001c1892f53"
+      },
+      "status": "review_signal",
+      "modules_considered": [
+        "tools/api_contract_compliance.py",
+        "tools/architecture_review_oa.py",
+        "tools/identity_access_management.py",
+        "tools/integration_asset_registry.py",
+        "tools/nfr_risk_governance.py",
+        "tools/remediation_project_tracker.py",
+        "tools/service_level_monitoring.py"
+      ],
+      "candidate": {
+        "candidate_id": "readonly-4d89e169f792",
+        "review_signal": true,
+        "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+        "claim": "Metadata marks the task act='none' and scores only answer.md text, while a manifest-exposed public tool function contains a literal SQL write passed to execute/executemany.",
+        "metadata_paths": [
+          "verifier_meta.json",
+          "verify.py",
+          "mcp_http.py",
+          "manifest.json",
+          "instruction.md",
+          "tools/api_contract_compliance.py",
+          "tools/architecture_review_oa.py",
+          "tools/identity_access_management.py",
+          "tools/integration_asset_registry.py",
+          "tools/nfr_risk_governance.py",
+          "tools/remediation_project_tracker.py",
+          "tools/service_level_monitoring.py"
+        ],
+        "instruction_evidence": [
+          {
+            "line": 5,
+            "phrase": "不要修改",
+            "quote": "最终回复请明确给出：规范阈值、工作簿中的关键数值、RTO与RPO的通过结论、可用性证据是否足够，以及你核对的两个文件名。仅做分析，不要修改 workspace 文件。"
+          }
+        ],
+        "manual_intent_review_required": false,
+        "tool_writes": [
+          {
+            "tool_file": "tools/api_contract_compliance.py",
+            "tool_function": "record_validation_finding",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO validation_findings\n            (finding_id,assessment_id,rule_id,source_finding_id,severity_code,finding_status,\n             remediation_disposition,field_path,finding_summary,detected_at,due_date,closed_at)\n             VALUES (?,?,?,?,?,'open',?,?,?,?,?,NULL)",
+            "literal_line": 328,
+            "execute_line": 328
+          },
+          {
+            "tool_file": "tools/architecture_review_oa.py",
+            "tool_function": "record_condition_verification",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "\n            UPDATE review_conditions\n            SET condition_status = ?, verified_at = ?, verification_note = ?\n            WHERE condition_id = ?\n            ",
+            "literal_line": 433,
+            "execute_line": 432
+          },
+          {
+            "tool_file": "tools/architecture_review_oa.py",
+            "tool_function": "record_condition_verification",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "\n            INSERT INTO approval_actions (\n                approval_action_id, review_case_id, condition_id, reviewer_id, reviewer_role,\n                action_type, action_status, action_at, comment, evidence_artifact_id\n            ) VALUES (?, ?, ?, ?, ?, 'SIGNED', 'VALID', ?, ?, ?)\n            ",
+            "literal_line": 441,
+            "execute_line": 440
+          },
+          {
+            "tool_file": "tools/identity_access_management.py",
+            "tool_function": "update_migration_evidence",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE static_token_migrations SET migration_status = ?, evidence_ref = ?, acceptance_date = ? WHERE migration_id = ?",
+            "literal_line": 270,
+            "execute_line": 270
+          },
+          {
+            "tool_file": "tools/identity_access_management.py",
+            "tool_function": "update_migration_evidence",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO migration_evidence_updates (migration_id, previous_status, requested_status, evidence_ref, acceptance_date, actor, expected_current_status, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "literal_line": 271,
+            "execute_line": 271
+          },
+          {
+            "tool_file": "tools/integration_asset_registry.py",
+            "tool_function": "create_interface_asset",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO interfaces\n            (interface_id, application_id, interface_code, interface_name, protocol, auth_method_id,\n             sensitivity_id, data_direction, document_status, review_scope_flag, asset_status,\n             openapi_version, owner_contact, created_at)\n            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 'active', ?, ?, ?)",
+            "literal_line": 228,
+            "execute_line": 228
+          },
+          {
+            "tool_file": "tools/nfr_risk_governance.py",
+            "tool_function": "register_risk_evidence",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO risk_evidence (\n                   evidence_id, risk_id, control_assessment_id, evidence_type, evidence_status,\n                   evidence_title, evidence_uri, observed_at, drill_batch_id,\n                   observed_recovery_minutes, checksum_sha256, registered_by, created_at\n               ) VALUES (?, ?, ?, ?, 'registered', ?, ?, ?, ?, ?, ?, ?, ?)",
+            "literal_line": 369,
+            "execute_line": 368
+          },
+          {
+            "tool_file": "tools/remediation_project_tracker.py",
+            "tool_function": "update_work_item_status",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE work_items SET status=?, completed_at=?, row_version=row_version+1, updated_at=? WHERE work_item_id=? AND row_version=?",
+            "literal_line": 269,
+            "execute_line": 269
+          },
+          {
+            "tool_file": "tools/service_level_monitoring.py",
+            "tool_function": "record_recovery_drill",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO recovery_drills VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "literal_line": 172,
+            "execute_line": 172
+          }
+        ],
+        "unknown_dynamic_sql": [
+          {
+            "tool_file": "tools/api_contract_compliance.py",
+            "tool_function": "search_contract_assessments",
+            "execute_method": "execute",
+            "execute_line": 92,
+            "query_expression": "f\"SELECT COUNT(*) FROM contract_assessments WHERE {where}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/api_contract_compliance.py",
+            "tool_function": "search_contract_assessments",
+            "execute_method": "execute",
+            "execute_line": 93,
+            "query_expression": "f\"\"\"SELECT assessment_id,interface_id,application_id,application_name,interface_name,\n            assessment_batch_id,minimum_contract_pass,assessment_status,assessed_at\n            FROM contract_assessments WHERE {where} ORDER BY assessed_at DESC, assessment_id\n            LIMIT ? OFFSET ?\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/api_contract_compliance.py",
+            "tool_function": "get_validation_findings",
+            "execute_method": "execute",
+            "execute_line": 140,
+            "query_expression": "f\"\"\"SELECT COUNT(*) FROM validation_findings vf\n            JOIN contract_assessments ca ON ca.assessment_id=vf.assessment_id WHERE {where}\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/api_contract_compliance.py",
+            "tool_function": "get_validation_findings",
+            "execute_method": "execute",
+            "execute_line": 142,
+            "query_expression": "f\"\"\"SELECT vf.finding_id,vf.assessment_id,vf.source_finding_id,vf.severity_code,\n            vf.finding_status,vf.remediation_disposition,vf.field_path,vf.finding_summary,\n            cr.rule_code,cr.standard_clause_ref,cr.rule_title\n            FROM validation_findings vf JOIN contract_assessments ca ON ca.assessment_id=vf.assessment_id\n            JOIN contract_rules cr ON cr.rule_id=vf.rule_id WHERE {where}\n            ORDER BY vf.detected_at DESC,vf.finding_id LIMIT ? OFFSET ?\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/api_contract_compliance.py",
+            "tool_function": "aggregate_contract_pass_rate",
+            "execute_method": "execute",
+            "execute_line": 182,
+            "query_expression": "f\"\"\"SELECT COUNT(*) scope_count,COALESCE(SUM(minimum_contract_pass),0) passed_count\n            FROM contract_assessments WHERE {' AND '.join(clauses)}\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/api_contract_compliance.py",
+            "tool_function": "search_contract_rules",
+            "execute_method": "execute",
+            "execute_line": 230,
+            "query_expression": "f\"SELECT COUNT(*) FROM contract_rules WHERE {where}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/api_contract_compliance.py",
+            "tool_function": "search_contract_rules",
+            "execute_method": "execute",
+            "execute_line": 231,
+            "query_expression": "f\"\"\"SELECT rule_id,rule_code,standard_id,standard_clause_ref,rule_title,\n            rule_description,rule_category,severity_default,active_flag FROM contract_rules WHERE {where}\n            ORDER BY rule_code LIMIT ? OFFSET ?\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/api_contract_compliance.py",
+            "tool_function": "list_active_waivers",
+            "execute_method": "execute",
+            "execute_line": 272,
+            "query_expression": "f\"\"\"SELECT COUNT(*) FROM contract_waivers cw\n            JOIN contract_assessments ca ON ca.assessment_id=cw.assessment_id WHERE {where}\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/api_contract_compliance.py",
+            "tool_function": "list_active_waivers",
+            "execute_method": "execute",
+            "execute_line": 274,
+            "query_expression": "f\"\"\"SELECT cw.waiver_id,cw.assessment_id,ca.interface_id,ca.application_id,cw.finding_id,\n            cw.waiver_reason,cw.compensating_control,cw.expiry_date,cw.remediation_required_flag,cw.remediation_due_date\n            FROM contract_waivers cw JOIN contract_assessments ca ON ca.assessment_id=cw.assessment_id\n            WHERE {where} ORDER BY cw.expiry_date,cw.waiver_id LIMIT ? OFFSET ?\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/architecture_review_oa.py",
+            "tool_function": "search_review_conditions",
+            "execute_method": "execute",
+            "execute_line": 186,
+            "query_expression": "f\"SELECT COUNT(*) FROM review_conditions WHERE {where_sql}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/architecture_review_oa.py",
+            "tool_function": "search_review_conditions",
+            "execute_method": "execute",
+            "execute_line": 189,
+            "query_expression": "f\"\"\"\n            SELECT condition_id, review_case_id, application_id, source_risk_id, condition_code,\n                   condition_title, responsible_role, due_date, acceptance_criteria,\n                   condition_status, verified_at, verification_note\n            FROM review_conditions\n            WHERE {where_sql}\n            ORDER BY due_date, condition_id\n            LIMIT ? OFFSET ?\n            \"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/architecture_review_oa.py",
+            "tool_function": "get_approval_timeline",
+            "execute_method": "execute",
+            "execute_line": 248,
+            "query_expression": "f\"SELECT COUNT(*) FROM approval_actions WHERE {where_sql}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/architecture_review_oa.py",
+            "tool_function": "get_approval_timeline",
+            "execute_method": "execute",
+            "execute_line": 251,
+            "query_expression": "f\"\"\"\n            SELECT approval_action_id, condition_id, reviewer_id, reviewer_role, action_type,\n                   action_status, action_at, comment, evidence_artifact_id\n            FROM approval_actions\n            WHERE {where_sql}\n            ORDER BY action_at, approval_action_id\n            LIMIT ? OFFSET ?\n            \"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/architecture_review_oa.py",
+            "tool_function": "search_review_artifacts",
+            "execute_method": "execute",
+            "execute_line": 317,
+            "query_expression": "f\"SELECT COUNT(*) FROM review_artifacts WHERE {where_sql}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/architecture_review_oa.py",
+            "tool_function": "search_review_artifacts",
+            "execute_method": "execute",
+            "execute_line": 320,
+            "query_expression": "f\"\"\"\n            SELECT artifact_id, review_case_id, project_id, standard_id, artifact_type,\n                   artifact_version, title, artifact_status, storage_uri, archived_at\n            FROM review_artifacts\n            WHERE {where_sql}\n            ORDER BY artifact_type, artifact_version DESC, artifact_id\n            LIMIT ? OFFSET ?\n            \"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/architecture_review_oa.py",
+            "tool_function": "aggregate_condition_closure",
+            "execute_method": "execute",
+            "execute_line": 357,
+            "query_expression": "f\"\"\"\n            SELECT COUNT(*) AS total,\n                   SUM(CASE WHEN condition_status = 'VERIFIED' THEN 1 ELSE 0 END) AS verified\n            FROM review_conditions\n            WHERE review_case_id = ? AND condition_status IN ({placeholders})\n            \"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/identity_access_management.py",
+            "tool_function": "aggregate_auth_mode_distribution",
+            "execute_method": "execute",
+            "execute_line": 183,
+            "query_expression": "\"SELECT auth_mode, COUNT(*) AS count FROM identity_app_profiles\" + where + \" GROUP BY auth_mode ORDER BY auth_mode\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/identity_access_management.py",
+            "tool_function": "aggregate_auth_mode_distribution",
+            "execute_method": "execute",
+            "execute_line": 184,
+            "query_expression": "\"SELECT COUNT(*) FROM identity_app_profiles\" + where",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/identity_access_management.py",
+            "tool_function": "aggregate_auth_mode_distribution",
+            "execute_method": "execute",
+            "execute_line": 192,
+            "query_expression": "\"SELECT c.grant_type, COUNT(*) AS count FROM oauth_clients c JOIN identity_app_profiles p ON p.identity_profile_id = c.identity_profile_id WHERE \" + client_where + \" GROUP BY c.grant_type ORDER BY c.grant_type\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/identity_access_management.py",
+            "tool_function": "aggregate_auth_mode_distribution",
+            "execute_method": "execute",
+            "execute_line": 193,
+            "query_expression": "\"SELECT COUNT(*) FROM oauth_clients c JOIN identity_app_profiles p ON p.identity_profile_id = c.identity_profile_id WHERE \" + client_where",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/integration_asset_registry.py",
+            "tool_function": "get_interface_endpoints",
+            "execute_method": "execute",
+            "execute_line": 122,
+            "query_expression": "f\"\"\"SELECT endpoint_id, environment_code, base_url, http_method,\n            path_template, endpoint_status, last_verified_at FROM interface_endpoints\n            WHERE {where} ORDER BY environment_code, http_method, path_template, endpoint_id\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/integration_asset_registry.py",
+            "tool_function": "aggregate_auth_coverage",
+            "execute_method": "execute",
+            "execute_line": 147,
+            "query_expression": "f\"\"\"SELECT COUNT(*) FROM interfaces i JOIN applications a\n            ON a.application_id = i.application_id WHERE {where}\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/integration_asset_registry.py",
+            "tool_function": "aggregate_auth_coverage",
+            "execute_method": "execute",
+            "execute_line": 149,
+            "query_expression": "f\"\"\"SELECT COUNT(*) FROM interfaces i\n            JOIN applications a ON a.application_id = i.application_id\n            JOIN auth_methods am ON am.auth_method_id = i.auth_method_id\n            WHERE {where} AND am.auth_method_code IN ({placeholders})\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/integration_asset_registry.py",
+            "tool_function": "aggregate_interface_inventory",
+            "execute_method": "execute",
+            "execute_line": 193,
+            "query_expression": "select",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/integration_asset_registry.py",
+            "tool_function": "aggregate_interface_inventory",
+            "execute_method": "execute",
+            "execute_line": 194,
+            "query_expression": "f\"\"\"SELECT COUNT(*) FROM interfaces i JOIN applications a\n            ON a.application_id = i.application_id WHERE {where}\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/integration_asset_registry.py",
+            "tool_function": "create_interface_asset",
+            "execute_method": "execute",
+            "execute_line": 224,
+            "query_expression": "f\"SELECT 1 FROM {table} WHERE {column} = ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/nfr_risk_governance.py",
+            "tool_function": "aggregate_risk_distribution",
+            "execute_method": "execute",
+            "execute_line": 154,
+            "query_expression": "f\"SELECT risk_level, COUNT(*) AS count FROM risk_register WHERE {' AND '.join(clauses)} GROUP BY risk_level\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/nfr_risk_governance.py",
+            "tool_function": "aggregate_nist_function_risks",
+            "execute_method": "execute",
+            "execute_line": 295,
+            "query_expression": "sql",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/remediation_project_tracker.py",
+            "tool_function": "get_work_item_dependencies",
+            "execute_method": "execute",
+            "execute_line": 155,
+            "query_expression": "sql",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/remediation_project_tracker.py",
+            "tool_function": "aggregate_launch_gate_status",
+            "execute_method": "execute",
+            "execute_line": 184,
+            "query_expression": "\"SELECT w.*,i.theme FROM work_items w JOIN remediation_initiatives i ON i.initiative_id=w.initiative_id WHERE \" + \" AND \".join(where)",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/service_level_monitoring.py",
+            "tool_function": "aggregate_availability",
+            "execute_method": "execute",
+            "execute_line": 91,
+            "query_expression": "f\"SELECT COALESCE(SUM(o.total_requests),0), COALESCE(SUM(o.successful_requests),0) FROM availability_observations o JOIN service_objectives s ON s.slo_id=o.slo_id WHERE {where}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/service_level_monitoring.py",
+            "tool_function": "aggregate_continuity_compliance",
+            "execute_method": "execute",
+            "execute_line": 142,
+            "query_expression": "\"SELECT COALESCE(SUM(o.total_requests),0), COALESCE(SUM(o.successful_requests),0) FROM availability_observations o WHERE \" + \" AND \".join(obs)",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/service_level_monitoring.py",
+            "tool_function": "aggregate_continuity_compliance",
+            "execute_method": "execute",
+            "execute_line": 144,
+            "query_expression": "\"SELECT target_value_bp FROM service_objectives WHERE \" + \" AND \".join(base) + \" AND objective_type='availability' ORDER BY effective_from DESC LIMIT 1\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          }
+        ],
+        "parse_unknown": [],
+        "assumptions": [
+          "The pinned mcp_http.py hash has the inspected registration behavior: module-local public functions are exposed; unknown dispatcher semantics are skipped.",
+          "The manifest server name maps to tools/<name>.py and the registered function is callable in the deployed environment.",
+          "A static SQL write passed to execute/executemany establishes a potential persistent-write path; runtime authorization, guards, and task-tool policy need review.",
+          "The shared verifier hash establishes the inspected sidecar scoring path; metadata has no gate and no src_protect field."
+        ],
+        "review_notes": "Discovery signal only. It does not establish that the write is reachable for this task, will succeed, or violates policy; manually compare instruction evidence, tool preconditions, and runtime protections."
+      }
+    },
+    {
+      "task_id": "s3k_0807_finance_insurance_en_t1_rl_005",
+      "observed_hashes": {
+        "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+        "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+        "verifier_meta.json": "1e4d4a24360271b2e8ea859b335c323183a64b58716527b2ce19180b38e147f6",
+        "manifest.json": "e18d629b3c37c3128501115ada1181e9f0be7c30c149da0684aea01e842cc29a"
+      },
+      "status": "not_applicable",
+      "reason": "act is not exactly 'none'; not all items are LLM-only answer.md items"
+    },
+    {
+      "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+      "observed_hashes": {
+        "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+        "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+        "verifier_meta.json": "2bb8aea4690dff15d19f5c413f27a93cabd7edb076681209cac4630154820602",
+        "manifest.json": "9fc89f127653c631afbf729eb88be0130d355b3c42a1d0a5e83ff8acd1895293"
+      },
+      "status": "review_signal",
+      "modules_considered": [
+        "tools/bluecat_dns_configuration.py",
+        "tools/catchpoint_dns_experience.py",
+        "tools/confluence_dns_knowledge.py",
+        "tools/gitlab_dns_operations.py",
+        "tools/logicmonitor_dns_validation.py",
+        "tools/servicenow_it_service_management.py",
+        "tools/windows_dns_analytics.py"
+      ],
+      "candidate": {
+        "candidate_id": "readonly-69f509d815f6",
+        "review_signal": true,
+        "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+        "claim": "Metadata marks the task act='none' and scores only answer.md text, while a manifest-exposed public tool function contains a literal SQL write passed to execute/executemany.",
+        "metadata_paths": [
+          "verifier_meta.json",
+          "verify.py",
+          "mcp_http.py",
+          "manifest.json",
+          "instruction.md",
+          "tools/bluecat_dns_configuration.py",
+          "tools/catchpoint_dns_experience.py",
+          "tools/confluence_dns_knowledge.py",
+          "tools/logicmonitor_dns_validation.py",
+          "tools/servicenow_it_service_management.py",
+          "tools/windows_dns_analytics.py"
+        ],
+        "instruction_evidence": [
+          {
+            "line": 5,
+            "phrase": "do not change",
+            "quote": "In your final response, state the eligible validation-query count, the failure count, the recalculated success rate, the objective used, the percentage-point margin, and the resulting pass/fail conclusion. Do not change any files."
+          }
+        ],
+        "manual_intent_review_required": false,
+        "tool_writes": [
+          {
+            "tool_file": "tools/bluecat_dns_configuration.py",
+            "tool_function": "record_configuration_snapshot",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO configuration_snapshots VALUES (?,?,?,?,?,?,?,?,?,?)",
+            "literal_line": 330,
+            "execute_line": 330
+          },
+          {
+            "tool_file": "tools/bluecat_dns_configuration.py",
+            "tool_function": "record_configuration_snapshot",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO configuration_directives VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+            "literal_line": 332,
+            "execute_line": 332
+          },
+          {
+            "tool_file": "tools/bluecat_dns_configuration.py",
+            "tool_function": "record_configuration_change",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO configuration_changes (\n                   configuration_change_id, change_record_id, asset_id, before_snapshot_id,\n                   after_snapshot_id, implemented_by_person_id, implemented_at_utc,\n                   verification_status, verification_summary, approved_by_person_id\n               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "literal_line": 475,
+            "execute_line": 474
+          },
+          {
+            "tool_file": "tools/catchpoint_dns_experience.py",
+            "tool_function": "create_dns_test_session",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO dns_test_sessions VALUES (?,?,?,?,?,?,?,?,?,?)",
+            "literal_line": 261,
+            "execute_line": 261
+          },
+          {
+            "tool_file": "tools/catchpoint_dns_experience.py",
+            "tool_function": "set_resolver_target_activity",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE resolver_targets SET active_flag = ?, effective_to_utc = ? WHERE target_id = ?",
+            "literal_line": 351,
+            "execute_line": 350
+          },
+          {
+            "tool_file": "tools/confluence_dns_knowledge.py",
+            "tool_function": "publish_controlled_document_version",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE document_versions SET approval_status = 'superseded' WHERE document_version_id = ?",
+            "literal_line": 347,
+            "execute_line": 347
+          },
+          {
+            "tool_file": "tools/confluence_dns_knowledge.py",
+            "tool_function": "publish_controlled_document_version",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE document_versions SET approved_by_person_id = ?, published_at_utc = ? WHERE document_version_id = ?",
+            "literal_line": 349,
+            "execute_line": 348
+          },
+          {
+            "tool_file": "tools/confluence_dns_knowledge.py",
+            "tool_function": "publish_controlled_document_version",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE knowledge_documents SET current_version_id = ? WHERE document_id = ?",
+            "literal_line": 352,
+            "execute_line": 352
+          },
+          {
+            "tool_file": "tools/logicmonitor_dns_validation.py",
+            "tool_function": "schedule_recovery_validation",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "\n            INSERT INTO validation_runs (\n                validation_run_id, incident_id, service_id, change_record_id, validation_plan_id,\n                request_key, started_at_utc, completed_at_utc, run_status, validation_scope, notes\n            ) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, 'SCHEDULED', 'ACCEPTANCE', ?)\n            ",
+            "literal_line": 516,
+            "execute_line": 515
+          },
+          {
+            "tool_file": "tools/servicenow_it_service_management.py",
+            "tool_function": "record_service_restoration_decision",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO workflow_activities(activity_id,record_id,actor_person_id,actor_display_name,activity_type,activity_time_utc,from_state,to_state,approval_result,comment_text,evidence_reference) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+            "literal_line": 338,
+            "execute_line": 337
+          },
+          {
+            "tool_file": "tools/servicenow_it_service_management.py",
+            "tool_function": "record_service_restoration_decision",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE itsm_records SET state=?, owner_person_id=?, closed_at_utc=?, closure_code=?, closure_notes=? WHERE record_id=?",
+            "literal_line": 342,
+            "execute_line": 341
+          },
+          {
+            "tool_file": "tools/windows_dns_analytics.py",
+            "tool_function": "set_dns_server_active_state",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE dns_servers SET active_flag = ? WHERE server_id = ?",
+            "literal_line": 383,
+            "execute_line": 383
+          }
+        ],
+        "unknown_dynamic_sql": [
+          {
+            "tool_file": "tools/bluecat_dns_configuration.py",
+            "tool_function": "search_dns_assets",
+            "execute_method": "execute",
+            "execute_line": 73,
+            "query_expression": "sql",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/bluecat_dns_configuration.py",
+            "tool_function": "get_configuration_snapshot",
+            "execute_method": "execute",
+            "execute_line": 123,
+            "query_expression": "\"SELECT directive_id,zone_id,referenced_asset_id,directive_name,directive_scope,value_text,value_integer,value_unit,sequence_number,active_flag FROM configuration_directives WHERE snapshot_id = ?\" + inactive_clause + \" ORDER BY directive_name, zone_id, sequence_number, directive_id\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/bluecat_dns_configuration.py",
+            "tool_function": "compare_configuration_snapshots",
+            "execute_method": "execute",
+            "execute_line": 160,
+            "query_expression": "query",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/bluecat_dns_configuration.py",
+            "tool_function": "evaluate_client_coverage",
+            "execute_method": "execute",
+            "execute_line": 214,
+            "query_expression": "\"SELECT asset_id,cidr,coverage_class FROM dns_assets WHERE asset_id IN (\" + \",\".join(\"?\" for _ in intended_subnet_asset_ids) + \") AND asset_type='client_subnet'\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/bluecat_dns_configuration.py",
+            "tool_function": "list_configuration_changes",
+            "execute_method": "execute",
+            "execute_line": 409,
+            "query_expression": "sql",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/catchpoint_dns_experience.py",
+            "tool_function": "search_dns_sessions",
+            "execute_method": "execute",
+            "execute_line": 107,
+            "query_expression": "'SELECT COUNT(*) FROM dns_test_sessions'+where",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/catchpoint_dns_experience.py",
+            "tool_function": "search_dns_sessions",
+            "execute_method": "execute",
+            "execute_line": 108,
+            "query_expression": "f'SELECT {columns} FROM dns_test_sessions{where} ORDER BY window_start_utc DESC LIMIT ? OFFSET ?'",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/catchpoint_dns_experience.py",
+            "tool_function": "inspect_probe_lineage",
+            "execute_method": "execute",
+            "execute_line": 221,
+            "query_expression": "sql",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/catchpoint_dns_experience.py",
+            "tool_function": "list_resolver_targets",
+            "execute_method": "execute",
+            "execute_line": 305,
+            "query_expression": "'SELECT COUNT(*) FROM resolver_targets' + where",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/catchpoint_dns_experience.py",
+            "tool_function": "list_resolver_targets",
+            "execute_method": "execute",
+            "execute_line": 306,
+            "query_expression": "'SELECT target_id, service_id, resolver_entity_id, target_name, ip_address, port, transport, active_flag, '\n            'target_role, effective_from_utc, effective_to_utc FROM resolver_targets' + where +\n            ' ORDER BY active_flag DESC, target_role, resolver_entity_id, transport, target_id LIMIT ? OFFSET ?'",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/confluence_dns_knowledge.py",
+            "tool_function": "search_dns_knowledge",
+            "execute_method": "execute",
+            "execute_line": 91,
+            "query_expression": "\"SELECT COUNT(DISTINCT kd.document_id) FROM knowledge_documents kd \"\n            \"LEFT JOIN document_versions dv ON dv.document_version_id = kd.current_version_id\" + where",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/confluence_dns_knowledge.py",
+            "tool_function": "search_dns_knowledge",
+            "execute_method": "execute",
+            "execute_line": 96,
+            "query_expression": "\"SELECT DISTINCT kd.document_id, kd.service_id, kd.document_type, kd.canonical_title, \"\n            \"kd.current_version_id, kd.lifecycle_state FROM knowledge_documents kd \"\n            \"LEFT JOIN document_versions dv ON dv.document_version_id = kd.current_version_id\" + where +\n            \" ORDER BY kd.created_at_utc DESC, kd.document_id LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/confluence_dns_knowledge.py",
+            "tool_function": "list_negative_caching_controls",
+            "execute_method": "execute",
+            "execute_line": 186,
+            "query_expression": "\"SELECT COUNT(*) FROM control_statements cs JOIN document_versions dv \"\n            \"ON dv.document_version_id = cs.document_version_id JOIN knowledge_documents kd \"\n            \"ON kd.document_id = dv.document_id\" + where",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/confluence_dns_knowledge.py",
+            "tool_function": "list_negative_caching_controls",
+            "execute_method": "execute",
+            "execute_line": 192,
+            "query_expression": "\"SELECT cs.control_statement_id, cs.standard_id, cs.control_code, cs.requirement_text, \"\n            \"cs.mandatory_flag FROM control_statements cs JOIN document_versions dv \"\n            \"ON dv.document_version_id = cs.document_version_id JOIN knowledge_documents kd \"\n            \"ON kd.document_id = dv.document_id\" + where +\n            \" ORDER BY cs.standard_id, cs.procedure_order, cs.control_code LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/confluence_dns_knowledge.py",
+            "tool_function": "evaluate_control_evidence",
+            "execute_method": "execute",
+            "execute_line": 230,
+            "query_expression": "\"SELECT control_statement_id, control_code FROM control_statements WHERE document_version_id = ?\" + filter_sql +\n            \" ORDER BY procedure_order, control_code\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/confluence_dns_knowledge.py",
+            "tool_function": "compare_runbook_versions",
+            "execute_method": "execute",
+            "execute_line": 284,
+            "query_expression": "f\"SELECT control_statement_id, control_evidence_id, result_status FROM control_evidence WHERE control_statement_id IN ({placeholders}) ORDER BY control_evidence_id\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/gitlab_dns_operations.py",
+            "tool_function": "search_dns_revisions",
+            "execute_method": "execute",
+            "execute_line": 110,
+            "query_expression": "f\"SELECT COUNT(*) FROM repository_revisions WHERE {where}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/gitlab_dns_operations.py",
+            "tool_function": "search_dns_revisions",
+            "execute_method": "execute",
+            "execute_line": 113,
+            "query_expression": "\"SELECT revision_id, commit_sha, incident_id, change_record_id, branch_name, \"\n            \"merge_status, deployment_tag_name, committed_at_utc \"\n            f\"FROM repository_revisions WHERE {where} \"\n            \"ORDER BY committed_at_utc DESC, revision_id DESC LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/gitlab_dns_operations.py",
+            "tool_function": "get_configuration_diff",
+            "execute_method": "execute",
+            "execute_line": 139,
+            "query_expression": "\"SELECT c.revision_file_change_id, c.file_id, f.file_path, c.directive_name, \"\n            \"c.before_value, c.after_value, c.change_type, c.reviewed_flag \"\n            \"FROM revision_file_changes c LEFT JOIN configuration_files f ON f.file_id = c.file_id \"\n            f\"WHERE {' AND '.join(clauses)} ORDER BY c.revision_file_change_id\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/gitlab_dns_operations.py",
+            "tool_function": "get_pipeline_check_results",
+            "execute_method": "execute",
+            "execute_line": 204,
+            "query_expression": "f\"SELECT COUNT(*) FROM pipeline_checks p JOIN repository_revisions r \"\n            f\"ON r.revision_id = p.revision_id WHERE {where}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/gitlab_dns_operations.py",
+            "tool_function": "get_pipeline_check_results",
+            "execute_method": "execute",
+            "execute_line": 209,
+            "query_expression": "f\"SELECT {selected} FROM pipeline_checks p JOIN repository_revisions r \"\n            f\"ON r.revision_id = p.revision_id WHERE {where} \"\n            \"ORDER BY p.started_at_utc, p.pipeline_check_id LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/logicmonitor_dns_validation.py",
+            "tool_function": "search_validation_runs",
+            "execute_method": "execute",
+            "execute_line": 151,
+            "query_expression": "sql",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/logicmonitor_dns_validation.py",
+            "tool_function": "get_direct_dig_results",
+            "execute_method": "execute",
+            "execute_line": 204,
+            "query_expression": "sql",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/logicmonitor_dns_validation.py",
+            "tool_function": "detect_validation_duplicates",
+            "execute_method": "execute",
+            "execute_line": 415,
+            "query_expression": "sql",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/servicenow_it_service_management.py",
+            "tool_function": "search_dns_itsm_records",
+            "execute_method": "execute",
+            "execute_line": 151,
+            "query_expression": "\"SELECT COUNT(*) FROM itsm_records\" + where",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/servicenow_it_service_management.py",
+            "tool_function": "search_dns_itsm_records",
+            "execute_method": "execute",
+            "execute_line": 152,
+            "query_expression": "f\"SELECT {fields} FROM itsm_records{where} ORDER BY opened_at_utc DESC, record_number LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/servicenow_it_service_management.py",
+            "tool_function": "get_record_timeline",
+            "execute_method": "execute",
+            "execute_line": 191,
+            "query_expression": "\"SELECT activity_id,record_id,activity_type,activity_time_utc,actor_person_id,actor_display_name,from_state,to_state,approval_result,comment_text,evidence_reference \"\n            f\"FROM workflow_activities WHERE record_id IN ({placeholders}){type_clause} ORDER BY activity_time_utc,activity_id\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/servicenow_it_service_management.py",
+            "tool_function": "get_change_approvals",
+            "execute_method": "execute",
+            "execute_line": 238,
+            "query_expression": "\"SELECT activity_id,actor_person_id,actor_display_name,approval_result,activity_time_utc,comment_text,evidence_reference \"\n            \"FROM workflow_activities WHERE record_id = ? AND activity_type = 'approval'\" + clause\n            + \" ORDER BY activity_time_utc, activity_id LIMIT ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/servicenow_it_service_management.py",
+            "tool_function": "get_record",
+            "execute_method": "execute",
+            "execute_line": 363,
+            "query_expression": "f\"SELECT * FROM itsm_records WHERE {column} = ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/windows_dns_analytics.py",
+            "tool_function": "search_windows_dns_events",
+            "execute_method": "execute",
+            "execute_line": 112,
+            "query_expression": "f\"SELECT COUNT(*) FROM ({base})\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/windows_dns_analytics.py",
+            "tool_function": "aggregate_dns_event_failures",
+            "execute_method": "execute",
+            "execute_line": 218,
+            "query_expression": "f\"SELECT DISTINCT failure_class FROM event_definitions WHERE event_category IN ({markers}) ORDER BY failure_class\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/windows_dns_analytics.py",
+            "tool_function": "correlate_dns_activity",
+            "execute_method": "execute",
+            "execute_line": 323,
+            "query_expression": "f\"SELECT COUNT(*) FROM ({base})\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          }
+        ],
+        "parse_unknown": [],
+        "assumptions": [
+          "The pinned mcp_http.py hash has the inspected registration behavior: module-local public functions are exposed; unknown dispatcher semantics are skipped.",
+          "The manifest server name maps to tools/<name>.py and the registered function is callable in the deployed environment.",
+          "A static SQL write passed to execute/executemany establishes a potential persistent-write path; runtime authorization, guards, and task-tool policy need review.",
+          "The shared verifier hash establishes the inspected sidecar scoring path; metadata has no gate and no src_protect field."
+        ],
+        "review_notes": "Discovery signal only. It does not establish that the write is reachable for this task, will succeed, or violates policy; manually compare instruction evidence, tool preconditions, and runtime protections."
+      }
+    },
+    {
+      "task_id": "s3k_1564_hospitality_fnb_en_t2_rl_002",
+      "observed_hashes": {
+        "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+        "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+        "verifier_meta.json": "456c14f04482c7802856185975eb789f1e7575defb5b3a1cb2fb357ce390e7d4",
+        "manifest.json": "b704d8ed0f9e15ca73aec7c50f5e5a8fb220e201bed00bce7b8211ec425977f0"
+      },
+      "status": "review_signal",
+      "modules_considered": [
+        "tools/meadow_view_haccp_verification_hub.py",
+        "tools/meadow_view_temperature_monitoring.py",
+        "tools/peak_cooling_service_desk.py",
+        "tools/safecater_haccp_nonconformance.py"
+      ],
+      "candidate": {
+        "candidate_id": "readonly-e028f61cdf15",
+        "review_signal": true,
+        "task_id": "s3k_1564_hospitality_fnb_en_t2_rl_002",
+        "claim": "Metadata marks the task act='none' and scores only answer.md text, while a manifest-exposed public tool function contains a literal SQL write passed to execute/executemany.",
+        "metadata_paths": [
+          "verifier_meta.json",
+          "verify.py",
+          "mcp_http.py",
+          "manifest.json",
+          "instruction.md",
+          "tools/meadow_view_haccp_verification_hub.py",
+          "tools/meadow_view_temperature_monitoring.py",
+          "tools/peak_cooling_service_desk.py",
+          "tools/safecater_haccp_nonconformance.py"
+        ],
+        "instruction_evidence": [
+          {
+            "line": 1,
+            "phrase": "do not modify",
+            "quote": "Priya Nair needs an initial cause summary for the Registered Manager before the next closure discussion for NCR-2025-017. Review the September CH-01 monitoring evidence in Meadow_View_Chiller_Monitoring_2025-09.csv, the relevant maintenance history in Meadow_View_Refrigeration_Service_History_2025.csv, the factor analysis in Meadow_View_Cold_Storage_Root_Cause_Analysis.xlsx, and the issued nonconformance report. In your final response, rank the two strongest recurring cause categories, clearly separate equipment evidence from staff-handling evidence, and cite the source record IDs or work-order/evidence references that make each attribution traceable. Explain why each ranked item is a cause of the excursions rather than an immediate correction taken after a high reading or a corrective action intended to prevent recurrence. Reconcile the follow-up evidence, including stabilization after maintenance and any still-open repair evidence, without treating those response activities as causes. Do not modify any workspace files."
+          }
+        ],
+        "manual_intent_review_required": false,
+        "tool_writes": [
+          {
+            "tool_file": "tools/meadow_view_haccp_verification_hub.py",
+            "tool_function": "publish_procedure_revision",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE procedure_revisions SET revision_status='superseded' WHERE procedure_id=? AND revision_status='effective' AND procedure_revision_id<>?",
+            "literal_line": 322,
+            "execute_line": 322
+          },
+          {
+            "tool_file": "tools/meadow_view_haccp_verification_hub.py",
+            "tool_function": "publish_procedure_revision",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE procedure_revisions SET revision_status='effective', approver_person_id=?, approval_date=?, effective_date=? WHERE procedure_revision_id=?",
+            "literal_line": 324,
+            "execute_line": 323
+          },
+          {
+            "tool_file": "tools/meadow_view_haccp_verification_hub.py",
+            "tool_function": "publish_procedure_revision",
+            "execute_method": "execute",
+            "operation": "DELETE FROM",
+            "sql_literal": "DELETE FROM verification_checklist_entries WHERE requirement_id IN (SELECT requirement_id FROM control_requirements WHERE procedure_revision_id=?)",
+            "literal_line": 328,
+            "execute_line": 327
+          },
+          {
+            "tool_file": "tools/meadow_view_haccp_verification_hub.py",
+            "tool_function": "publish_procedure_revision",
+            "execute_method": "execute",
+            "operation": "DELETE FROM",
+            "sql_literal": "DELETE FROM control_requirements WHERE procedure_revision_id=?",
+            "literal_line": 332,
+            "execute_line": 332
+          },
+          {
+            "tool_file": "tools/meadow_view_haccp_verification_hub.py",
+            "tool_function": "publish_procedure_revision",
+            "execute_method": "executemany",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO control_requirements VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            "literal_line": 333,
+            "execute_line": 333
+          },
+          {
+            "tool_file": "tools/meadow_view_haccp_verification_hub.py",
+            "tool_function": "record_verification_entry",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO verification_checklist_entries VALUES (?,?,?,?,?,?,?,?,?,?)",
+            "literal_line": 384,
+            "execute_line": 383
+          },
+          {
+            "tool_file": "tools/meadow_view_haccp_verification_hub.py",
+            "tool_function": "record_verification_entry",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE verification_checklist_entries SET verification_date=?, verifier_person_id=?, verifier_name=?, verification_result=?, evidence_reference=?, observation_note=? WHERE checklist_entry_id=?",
+            "literal_line": 389,
+            "execute_line": 388
+          },
+          {
+            "tool_file": "tools/meadow_view_haccp_verification_hub.py",
+            "tool_function": "record_procedure_acknowledgment",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO procedure_acknowledgments VALUES (?,?,?,?,?,?,?,?)",
+            "literal_line": 436,
+            "execute_line": 435
+          },
+          {
+            "tool_file": "tools/meadow_view_haccp_verification_hub.py",
+            "tool_function": "record_procedure_acknowledgment",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE procedure_acknowledgments SET staff_name=?, staff_role=?, acknowledged_at=?, acknowledgment_method=?, understanding_confirmed=? WHERE acknowledgment_id=?",
+            "literal_line": 441,
+            "execute_line": 440
+          },
+          {
+            "tool_file": "tools/meadow_view_temperature_monitoring.py",
+            "tool_function": "record_monitoring_session",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO monitoring_sessions (session_id, asset_id, monitoring_analysis_period_id, scheduled_at, scheduled_checks, completed_checks, breach_readings, maximum_temperature_c, minimum_temperature_c, door_open_minutes, shelving_observation, airflow_observation, handling_observation, observer_person_id, completion_status, record_class, corrective_action_note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'detail', ?)",
+            "literal_line": 304,
+            "execute_line": 304
+          },
+          {
+            "tool_file": "tools/peak_cooling_service_desk.py",
+            "tool_function": "create_service_work_order",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO service_work_orders\n               (work_order_id, contractor_asset_id, contractor_id, service_date, work_order_type,\n                work_order_status, requester_person_id, engineer_person_id, customer_reference,\n                service_summary, priority, requested_at, arrived_at, completed_at, created_at, updated_at)\n               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,NULL,NULL,?,?)",
+            "literal_line": 488,
+            "execute_line": 487
+          },
+          {
+            "tool_file": "tools/peak_cooling_service_desk.py",
+            "tool_function": "create_service_work_order",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO service_work_order_requests VALUES (?,?,?,?)",
+            "literal_line": 497,
+            "execute_line": 497
+          },
+          {
+            "tool_file": "tools/peak_cooling_service_desk.py",
+            "tool_function": "update_engineer_finding_status",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE engineer_findings\n               SET finding_status = ?, target_completion_date = ?, completed_date = ?,\n                   status_updated_at = ?, auditable_note = ?, updated_at = ?\n               WHERE finding_id = ?",
+            "literal_line": 561,
+            "execute_line": 560
+          },
+          {
+            "tool_file": "tools/safecater_haccp_nonconformance.py",
+            "tool_function": "create_corrective_action",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO corrective_actions VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            "literal_line": 296,
+            "execute_line": 295
+          },
+          {
+            "tool_file": "tools/safecater_haccp_nonconformance.py",
+            "tool_function": "record_food_disposition",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO food_lot_dispositions VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+            "literal_line": 351,
+            "execute_line": 350
+          },
+          {
+            "tool_file": "tools/safecater_haccp_nonconformance.py",
+            "tool_function": "close_corrective_action",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE corrective_actions SET action_status='closed', closure_date=?, evidence_reference=?, reviewer_person_id=?\n               WHERE corrective_action_id=?",
+            "literal_line": 390,
+            "execute_line": 389
+          }
+        ],
+        "unknown_dynamic_sql": [
+          {
+            "tool_file": "tools/meadow_view_haccp_verification_hub.py",
+            "tool_function": "search_verification_checklist",
+            "execute_method": "execute",
+            "execute_line": 187,
+            "query_expression": "\"SELECT COUNT(*)\" + base",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/meadow_view_haccp_verification_hub.py",
+            "tool_function": "search_verification_checklist",
+            "execute_method": "execute",
+            "execute_line": 188,
+            "query_expression": "\"SELECT v.*, r.procedure_revision_id, r.requirement_code\" + base + \" ORDER BY v.planned_date, v.checklist_entry_id LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/meadow_view_haccp_verification_hub.py",
+            "tool_function": "summarize_verification_effectiveness",
+            "execute_method": "execute",
+            "execute_line": 216,
+            "query_expression": "\"SELECT COUNT(*) planned_entries, \"\n            \"SUM(CASE WHEN v.verification_result IS NOT NULL AND v.evidence_reference IS NOT NULL THEN 1 ELSE 0 END) completed_entries, \"\n            \"SUM(CASE WHEN v.verification_result='pass' THEN 1 ELSE 0 END) passed_entries, \"\n            \"SUM(CASE WHEN v.verification_result='exception' THEN 1 ELSE 0 END) exception_entries, \"\n            \"SUM(CASE WHEN v.planned_date<=? AND NOT (v.verification_result IS NOT NULL AND v.evidence_reference IS NOT NULL) THEN 1 ELSE 0 END) overdue_entries \"\n            \"FROM verification_checklist_entries v JOIN control_requirements r ON r.requirement_id=v.requirement_id WHERE \" + \" AND \".join(conditions)",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/meadow_view_temperature_monitoring.py",
+            "tool_function": "search_monitoring_sessions",
+            "execute_method": "execute",
+            "execute_line": 170,
+            "query_expression": "\"SELECT COUNT(*)\" + base + where",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/meadow_view_temperature_monitoring.py",
+            "tool_function": "search_monitoring_sessions",
+            "execute_method": "execute",
+            "execute_line": 171,
+            "query_expression": "\"SELECT ms.*\" + base + where + \" ORDER BY ms.scheduled_at, ms.session_id LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/meadow_view_temperature_monitoring.py",
+            "tool_function": "get_asset_temperature_history",
+            "execute_method": "execute",
+            "execute_line": 205,
+            "query_expression": "\"SELECT COUNT(*) FROM monitoring_sessions\" + where",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/meadow_view_temperature_monitoring.py",
+            "tool_function": "get_asset_temperature_history",
+            "execute_method": "execute",
+            "execute_line": 206,
+            "query_expression": "\"SELECT * FROM monitoring_sessions\" + where + \" ORDER BY scheduled_at, session_id LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/meadow_view_temperature_monitoring.py",
+            "tool_function": "summarize_monitoring_compliance",
+            "execute_method": "execute",
+            "execute_line": 234,
+            "query_expression": "\"SELECT COALESCE(SUM(ms.scheduled_checks), 0), COALESCE(SUM(CASE WHEN \" + completed_filter + \" THEN ms.completed_checks ELSE 0 END), 0), COALESCE(SUM(CASE WHEN \" + completed_filter + \" THEN ms.breach_readings ELSE 0 END), 0)\" + \" FROM monitoring_sessions ms JOIN cold_storage_assets a ON a.asset_id = ms.asset_id\" + where",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/meadow_view_temperature_monitoring.py",
+            "tool_function": "summarize_monitoring_compliance",
+            "execute_method": "execute",
+            "execute_line": 235,
+            "query_expression": "\"SELECT ms.asset_id, COALESCE(SUM(ms.breach_readings), 0) AS breach_readings FROM monitoring_sessions ms JOIN cold_storage_assets a ON a.asset_id = ms.asset_id\" + where + \" GROUP BY ms.asset_id ORDER BY ms.asset_id\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/meadow_view_temperature_monitoring.py",
+            "tool_function": "analyze_door_open_exposure",
+            "execute_method": "execute",
+            "execute_line": 265,
+            "query_expression": "\"SELECT ms.session_id, ms.scheduled_at, ms.asset_id, ms.door_open_minutes, ms.maximum_temperature_c, ms.breach_readings, a.critical_limit_c\" + \" FROM monitoring_sessions ms JOIN cold_storage_assets a ON a.asset_id = ms.asset_id\" + where + \" ORDER BY ms.scheduled_at, ms.session_id\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/meadow_view_temperature_monitoring.py",
+            "tool_function": "correct_monitoring_entry",
+            "execute_method": "execute",
+            "execute_line": 339,
+            "query_expression": "\"UPDATE monitoring_sessions SET \" + \", \".join(assignments) + \" WHERE session_id = ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/peak_cooling_service_desk.py",
+            "tool_function": "search_service_work_orders",
+            "execute_method": "execute",
+            "execute_line": 155,
+            "query_expression": "sql",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/peak_cooling_service_desk.py",
+            "tool_function": "get_asset_service_timeline",
+            "execute_method": "execute",
+            "execute_line": 228,
+            "query_expression": "f\"\"\"SELECT swo.work_order_id, swo.service_date, swo.work_order_type,\n                           swo.work_order_status, swo.service_summary AS summary\n                    FROM service_work_orders swo\n                    WHERE {' AND '.join(clauses)}\n                    ORDER BY date(swo.service_date), swo.work_order_id\n                    LIMIT ? OFFSET ?\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/peak_cooling_service_desk.py",
+            "tool_function": "get_asset_service_timeline",
+            "execute_method": "execute",
+            "execute_line": 248,
+            "query_expression": "f\"\"\"SELECT finding_id, finding_category AS category, component_name,\n                                   finding_text, recommendation_text, finding_status, observed_at\n                            FROM engineer_findings WHERE {' AND '.join(finding_clauses)}\n                            ORDER BY observed_at, finding_id\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/peak_cooling_service_desk.py",
+            "tool_function": "summarize_open_repair_recommendations",
+            "execute_method": "execute",
+            "execute_line": 311,
+            "query_expression": "f\"\"\"SELECT ef.finding_id, ef.finding_category, ef.component_name, ef.finding_status,\n                       ef.target_completion_date, ra.asset_id\n                FROM engineer_findings ef\n                JOIN service_work_orders swo ON swo.work_order_id = ef.work_order_id\n                JOIN refrigeration_assets ra ON ra.contractor_asset_id = swo.contractor_asset_id\n                WHERE {' AND '.join(clauses)}\n                ORDER BY ra.asset_id, ef.component_name, ef.finding_id\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/peak_cooling_service_desk.py",
+            "tool_function": "compare_fault_calls_to_monitoring_period",
+            "execute_method": "execute",
+            "execute_line": 391,
+            "query_expression": "f\"\"\"SELECT swo.service_date, swo.work_order_id, swo.work_order_type,\n                       ef.finding_id, ef.finding_category, ef.finding_status\n                FROM service_work_orders swo\n                JOIN refrigeration_assets ra ON ra.contractor_asset_id = swo.contractor_asset_id\n                LEFT JOIN engineer_findings ef ON ef.work_order_id = swo.work_order_id{category_clause}\n                WHERE ra.asset_id = ? AND date(swo.service_date) BETWEEN date(?) AND date(?)\n                ORDER BY date(swo.service_date), swo.work_order_id, ef.finding_id\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/safecater_haccp_nonconformance.py",
+            "tool_function": "search_affected_food_lots",
+            "execute_method": "execute",
+            "execute_line": 183,
+            "query_expression": "f\"SELECT COUNT(*) FROM food_lot_dispositions d JOIN temperature_excursion_events e ON e.excursion_event_id=d.excursion_event_id WHERE {where_sql}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/safecater_haccp_nonconformance.py",
+            "tool_function": "search_affected_food_lots",
+            "execute_method": "execute",
+            "execute_line": 188,
+            "query_expression": "f\"\"\"\n            SELECT d.* FROM food_lot_dispositions d\n            JOIN temperature_excursion_events e ON e.excursion_event_id=d.excursion_event_id\n            WHERE {where_sql}\n            ORDER BY d.assessed_at, d.food_lot_disposition_id\n            LIMIT ? OFFSET ?\n            \"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/safecater_haccp_nonconformance.py",
+            "tool_function": "summarize_excursion_dispositions",
+            "execute_method": "execute",
+            "execute_line": 216,
+            "query_expression": "f\"\"\"\n            SELECT COUNT(DISTINCT e.excursion_event_id) AS distinct_event_count,\n              COUNT(DISTINCT d.lot_reference) AS affected_lot_count,\n              COUNT(DISTINCT CASE WHEN d.disposition='discard' THEN d.lot_reference END) AS discard_lot_count,\n              COALESCE(ROUND(SUM(CASE WHEN d.disposition='discard' THEN d.quantity_kg ELSE 0 END),1),0.0) AS discard_quantity_kg,\n              COUNT(DISTINCT CASE WHEN d.disposition='transfer_verified_cold_holding' THEN d.lot_reference END) AS transfer_lot_count,\n              COALESCE(ROUND(SUM(CASE WHEN d.disposition='transfer_verified_cold_holding' THEN d.quantity_kg ELSE 0 END),1),0.0) AS transfer_quantity_kg\n            FROM temperature_excursion_events e\n            JOIN food_lot_dispositions d ON d.excursion_event_id=e.excursion_event_id\n            WHERE e.case_id=? AND e.event_status<>'void' AND d.assessment_scope='in_scope'\n              AND d.approval_status='approved' AND d.record_status='current' {cutoff_sql}\n            \"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          }
+        ],
+        "parse_unknown": [],
+        "assumptions": [
+          "The pinned mcp_http.py hash has the inspected registration behavior: module-local public functions are exposed; unknown dispatcher semantics are skipped.",
+          "The manifest server name maps to tools/<name>.py and the registered function is callable in the deployed environment.",
+          "A static SQL write passed to execute/executemany establishes a potential persistent-write path; runtime authorization, guards, and task-tool policy need review.",
+          "The shared verifier hash establishes the inspected sidecar scoring path; metadata has no gate and no src_protect field."
+        ],
+        "review_notes": "Discovery signal only. It does not establish that the write is reachable for this task, will succeed, or violates policy; manually compare instruction evidence, tool preconditions, and runtime protections."
+      }
+    },
+    {
+      "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+      "observed_hashes": {
+        "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+        "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+        "verifier_meta.json": "215aa881b1231773c70d55259508a7110ba26b42cb7cc39960bed0601e3cab9c",
+        "manifest.json": "436226453cdacb5a5efc261d4e88436c423f75747762882a363b83725a8ea498"
+      },
+      "status": "review_signal",
+      "modules_considered": [
+        "tools/docusign_subaward_approvals.py",
+        "tools/fdp_subaward_requirements.py",
+        "tools/servicenow_award_monitoring.py",
+        "tools/servicenow_subrecipient_risk.py",
+        "tools/workday_subaward_accounting.py"
+      ],
+      "candidate": {
+        "candidate_id": "readonly-8ca72dc8be97",
+        "review_signal": true,
+        "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+        "claim": "Metadata marks the task act='none' and scores only answer.md text, while a manifest-exposed public tool function contains a literal SQL write passed to execute/executemany.",
+        "metadata_paths": [
+          "verifier_meta.json",
+          "verify.py",
+          "mcp_http.py",
+          "manifest.json",
+          "instruction.md",
+          "tools/docusign_subaward_approvals.py",
+          "tools/servicenow_subrecipient_risk.py",
+          "tools/workday_subaward_accounting.py"
+        ],
+        "instruction_evidence": [],
+        "manual_intent_review_required": true,
+        "tool_writes": [
+          {
+            "tool_file": "tools/docusign_subaward_approvals.py",
+            "tool_function": "record_approval_decision",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE approval_steps SET approver_name=?, approver_role=?, status=?, started_at=COALESCE(started_at,?), completed_at=?, condition_status=?, condition_text=?, evidence_ref=?, decision_note=? WHERE approval_step_id=?",
+            "literal_line": 248,
+            "execute_line": 247
+          },
+          {
+            "tool_file": "tools/docusign_subaward_approvals.py",
+            "tool_function": "record_approval_decision",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE issuance_packages SET decision_status=?, decided_at=? WHERE package_id=?",
+            "literal_line": 251,
+            "execute_line": 251
+          },
+          {
+            "tool_file": "tools/servicenow_subrecipient_risk.py",
+            "tool_function": "record_compliance_condition",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO compliance_evidence (evidence_id,risk_assessment_id,evidence_type,source_reference,status,effective_status,verified_date,finding_severity,score_component,risk_points,condition_code,condition_owner,condition_due_date,condition_text,linked_corrective_action_id,effective_start_date,effective_end_date,disposition_date,disposition_note,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            "literal_line": 219,
+            "execute_line": 219
+          },
+          {
+            "tool_file": "tools/workday_subaward_accounting.py",
+            "tool_function": "update_budget_line_approval",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "\n            UPDATE subaward_budget_lines\n            SET approved_line = ?, approval_scope = ?, source_updated_at = ?\n            WHERE budget_line_id = ? AND source_updated_at = ?\n            ",
+            "literal_line": 438,
+            "execute_line": 437
+          },
+          {
+            "tool_file": "tools/workday_subaward_accounting.py",
+            "tool_function": "update_budget_line_approval",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "\n            INSERT INTO budget_line_approval_audit (\n                budget_line_id, approved_line, approval_scope, expected_source_updated_at,\n                actor_id, reason, changed_at\n            ) VALUES (?, ?, ?, ?, ?, ?, ?)\n            ",
+            "literal_line": 461,
+            "execute_line": 460
+          }
+        ],
+        "unknown_dynamic_sql": [
+          {
+            "tool_file": "tools/docusign_subaward_approvals.py",
+            "tool_function": "get_issuance_package",
+            "execute_method": "execute",
+            "execute_line": 107,
+            "query_expression": "f\"SELECT {_PACKAGE_COLUMNS} FROM issuance_packages WHERE package_id = ? AND package_status <> 'archived'\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/docusign_subaward_approvals.py",
+            "tool_function": "list_negotiation_conditions",
+            "execute_method": "execute",
+            "execute_line": 149,
+            "query_expression": "\"SELECT approval_step_id, sequence_no, step_type, approver_name, status, condition_status, condition_text, evidence_ref, completed_at FROM approval_steps WHERE \" + \" AND \".join(clauses) + \" ORDER BY sequence_no, approval_step_id LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/docusign_subaward_approvals.py",
+            "tool_function": "get_signature_status",
+            "execute_method": "execute",
+            "execute_line": 196,
+            "query_expression": "\"SELECT signature_record_id, signing_entity_id, signing_entity_name, document_type, required_for_issuance, signature_status, envelope_id, sent_at, signed_at, signer_name, document_version FROM signature_records WHERE \" + \" AND \".join(clauses) + \" ORDER BY document_type, signing_entity_id, document_version LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/fdp_subaward_requirements.py",
+            "tool_function": "get_requirement_extract",
+            "execute_method": "execute",
+            "execute_line": 63,
+            "query_expression": "query",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/fdp_subaward_requirements.py",
+            "tool_function": "search_requirements",
+            "execute_method": "execute",
+            "execute_line": 116,
+            "query_expression": "f\"SELECT COUNT(*) FROM subaward_requirements WHERE {where}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/fdp_subaward_requirements.py",
+            "tool_function": "search_requirements",
+            "execute_method": "execute",
+            "execute_line": 117,
+            "query_expression": "f\"SELECT requirement_id, requirement_code, requirement_topic AS topic, \"\n            \"substr(requirement_text, 1, 180) AS snippet, applicability_code, due_date, required_flag \"\n            f\"FROM subaward_requirements WHERE {where} ORDER BY requirement_set_id, subaward_id, sequence_no LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/fdp_subaward_requirements.py",
+            "tool_function": "get_award_identifiers",
+            "execute_method": "execute",
+            "execute_line": 146,
+            "query_expression": "\"SELECT award_record_id, subaward_id, fain, assistance_listings_number, r_and_d_designation, \"\n            \"pass_through_entity_id, subrecipient_entity_id, uei_associated_name, award_period_start, \"\n            \"award_period_end, total_obligated_amount_usd FROM award_identifier_register WHERE \"\n            + \" AND \".join(clauses) + \" ORDER BY canonical_record DESC, award_record_id\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/servicenow_award_monitoring.py",
+            "tool_function": "list_monitoring_events",
+            "execute_method": "execute",
+            "execute_line": 175,
+            "query_expression": "f\"SELECT COUNT(*) FROM monitoring_events e JOIN monitoring_plans p ON p.monitoring_plan_id=e.monitoring_plan_id WHERE {where}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/servicenow_award_monitoring.py",
+            "tool_function": "list_monitoring_events",
+            "execute_method": "execute",
+            "execute_line": 176,
+            "query_expression": "f\"SELECT e.* FROM monitoring_events e JOIN monitoring_plans p ON p.monitoring_plan_id=e.monitoring_plan_id WHERE {where} ORDER BY e.due_date, e.monitoring_event_id LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/servicenow_award_monitoring.py",
+            "tool_function": "search_monitoring_findings",
+            "execute_method": "execute",
+            "execute_line": 287,
+            "query_expression": "f\"SELECT COUNT(*) FROM {joins} WHERE {where}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/servicenow_award_monitoring.py",
+            "tool_function": "search_monitoring_findings",
+            "execute_method": "execute",
+            "execute_line": 288,
+            "query_expression": "f\"SELECT f.*,e.event_type FROM {joins} WHERE {where} ORDER BY CASE WHEN f.resolution_status='resolved' THEN 1 ELSE 0 END, f.resolution_due_date, f.finding_id LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/servicenow_award_monitoring.py",
+            "tool_function": "update_monitoring_event",
+            "execute_method": "execute",
+            "execute_line": 341,
+            "query_expression": "f\"UPDATE monitoring_events SET {assignments}, updated_at=? WHERE monitoring_event_id=? AND updated_at=?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/servicenow_subrecipient_risk.py",
+            "tool_function": "search_audit_evidence",
+            "execute_method": "execute",
+            "execute_line": 179,
+            "query_expression": "f\"SELECT COUNT(*) FROM compliance_evidence WHERE {clause}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/servicenow_subrecipient_risk.py",
+            "tool_function": "search_audit_evidence",
+            "execute_method": "execute",
+            "execute_line": 180,
+            "query_expression": "f\"SELECT evidence_id,evidence_type,source_reference,status,effective_status,verified_date,finding_severity,linked_corrective_action_id,disposition_date FROM compliance_evidence WHERE {clause} ORDER BY verified_date, evidence_id LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/workday_subaward_accounting.py",
+            "tool_function": "search_budget_lines",
+            "execute_method": "execute",
+            "execute_line": 244,
+            "query_expression": "f\"\"\"\n            SELECT budget_line_id, subaward_id, cost_category, description, budget_period,\n                   budget_period_start, budget_period_end, amount_cents, included_in_mtdc,\n                   approved_line, approval_scope\n            FROM subaward_budget_lines\n            WHERE {where}\n            ORDER BY budget_period_start, source_line_number, budget_line_id\n            LIMIT ? OFFSET ?\n            \"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/workday_subaward_accounting.py",
+            "tool_function": "list_fa_rate_rules",
+            "execute_method": "execute",
+            "execute_line": 355,
+            "query_expression": "f\"\"\"\n            SELECT fa_rate_id, subaward_id, rate_type, rate_pct, base_type, applicable,\n                   applicability_reason, effective_start, effective_end, source_document_ref\n            FROM fa_rate_reference\n            WHERE {' AND '.join(clauses)}\n            ORDER BY applicable DESC, effective_start DESC, fa_rate_id\n            LIMIT ? OFFSET ?\n            \"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          }
+        ],
+        "parse_unknown": [],
+        "assumptions": [
+          "The pinned mcp_http.py hash has the inspected registration behavior: module-local public functions are exposed; unknown dispatcher semantics are skipped.",
+          "The manifest server name maps to tools/<name>.py and the registered function is callable in the deployed environment.",
+          "A static SQL write passed to execute/executemany establishes a potential persistent-write path; runtime authorization, guards, and task-tool policy need review.",
+          "The shared verifier hash establishes the inspected sidecar scoring path; metadata has no gate and no src_protect field."
+        ],
+        "review_notes": "Discovery signal only. It does not establish that the write is reachable for this task, will succeed, or violates policy; manually compare instruction evidence, tool preconditions, and runtime protections."
+      }
+    },
+    {
+      "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+      "observed_hashes": {
+        "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+        "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+        "verifier_meta.json": "3db889ca804c36911fe821b3bc53b1443f6b61b2bdd100b546a44faba7bcd7d5",
+        "manifest.json": "8ead70e6828a06d3c520273e0006759dd0a761d4173cfe1b9507b59a7e5ca731"
+      },
+      "status": "not_applicable",
+      "reason": "act is not exactly 'none'; not all items are LLM-only answer.md items"
+    },
+    {
+      "task_id": "s3k_0990_finance_insurance_zh_t1_rl_008",
+      "observed_hashes": {
+        "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+        "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+        "verifier_meta.json": "563591bf99c263330f68977eff035937f99b9e526be1ffb8b0fbbd18bac54c94",
+        "manifest.json": "ad20a5ba3e36011551fff8e52fa02c014a0030ad9aad73486c094ad9763fe408"
+      },
+      "status": "not_applicable",
+      "reason": "act is not exactly 'none'; not all items are LLM-only answer.md items"
+    },
+    {
+      "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+      "observed_hashes": {
+        "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+        "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+        "verifier_meta.json": "b542764bb74e4d11538178f7e539c94b9dea6dfa792cc236edbc35fc3c56716c",
+        "manifest.json": "828ba73381f056f2836bf1da29f7403659443b6b2f7f49fdded13a3011e4ed94"
+      },
+      "status": "review_signal",
+      "modules_considered": [
+        "tools/flux_wms.py",
+        "tools/weaver_ecology_approval.py",
+        "tools/yonyou_u9c_inventory.py"
+      ],
+      "candidate": {
+        "candidate_id": "readonly-1ce222c51af2",
+        "review_signal": true,
+        "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+        "claim": "Metadata marks the task act='none' and scores only answer.md text, while a manifest-exposed public tool function contains a literal SQL write passed to execute/executemany.",
+        "metadata_paths": [
+          "verifier_meta.json",
+          "verify.py",
+          "mcp_http.py",
+          "manifest.json",
+          "instruction.md",
+          "tools/flux_wms.py",
+          "tools/weaver_ecology_approval.py",
+          "tools/yonyou_u9c_inventory.py"
+        ],
+        "instruction_evidence": [
+          {
+            "line": 5,
+            "phrase": "只读",
+            "quote": "最终回复必须同时写出：关键金额、泛微逐物料构成、三源之间哪个是核算来源/哪个是正式报告分类口径，以及“净额一致但毛额分类不同”的业务结论。不要把U9C的盘亏/盘盈总额误写成泛微逐物料构成，也不要只给净盘亏而省略两侧毛额。只读分析，不修改系统或工作区文件。"
+          }
+        ],
+        "manual_intent_review_required": false,
+        "tool_writes": [
+          {
+            "tool_file": "tools/flux_wms.py",
+            "tool_function": "update_erp_sync_status",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE stock_document_line SET erp_sync_status=?, erp_posting_date=?, operator_note=? WHERE document_line_id=?",
+            "literal_line": 363,
+            "execute_line": 363
+          },
+          {
+            "tool_file": "tools/weaver_ecology_approval.py",
+            "tool_function": "record_approval_action",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO approval_action (action_id, case_id, org_id, workflow_step, assignee_role, approval_authority_id, action_status, acted_at, decision_code, comment_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "literal_line": 475,
+            "execute_line": 474
+          },
+          {
+            "tool_file": "tools/weaver_ecology_approval.py",
+            "tool_function": "record_approval_action",
+            "execute_method": "execute",
+            "operation": "UPDATE..SET",
+            "sql_literal": "UPDATE inventory_variance_case SET compensation_status = ?, final_approval_status = ?, tax_deduction_status = ? WHERE case_id = ?",
+            "literal_line": 512,
+            "execute_line": 511
+          },
+          {
+            "tool_file": "tools/yonyou_u9c_inventory.py",
+            "tool_function": "post_inventory_adjustment",
+            "execute_method": "execute",
+            "operation": "INSERT INTO",
+            "sql_literal": "INSERT INTO inventory_ledger_entry\n               (ledger_entry_id, org_id, facility_id, item_id, posting_date,\n                entry_type, source_doc_no, source_line_no, qty_delta,\n                amount_delta_fen, posting_status, memo)\n               VALUES (?, ?, ?, ?, ?, 'ADJUSTMENT', ?, ?, ?, ?, 'POSTED', ?)",
+            "literal_line": 502,
+            "execute_line": 501
+          }
+        ],
+        "unknown_dynamic_sql": [
+          {
+            "tool_file": "tools/flux_wms.py",
+            "tool_function": "search_stock_documents",
+            "execute_method": "execute",
+            "execute_line": 101,
+            "query_expression": "f\"SELECT COUNT(*) FROM stock_document WHERE {where_sql}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/flux_wms.py",
+            "tool_function": "search_stock_documents",
+            "execute_method": "execute",
+            "execute_line": 107,
+            "query_expression": "f\"SELECT document_id, document_no, document_type, business_date, warehouse_id, document_status, source_reference FROM stock_document WHERE {' AND '.join(page_clauses)} ORDER BY business_date, document_no, document_id LIMIT ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/flux_wms.py",
+            "tool_function": "get_stock_document_lines",
+            "execute_method": "execute",
+            "execute_line": 146,
+            "query_expression": "f\"\"\"\n            SELECT l.document_line_id, l.line_no, l.business_line_key, l.canonical_item_id, l.batch_no,\n                   l.recorded_qty, l.weighed_qty, l.uom, l.measurement_device_id, l.scrap_reason_code,\n                   l.erp_sync_status, l.erp_posting_date\n            FROM stock_document_line l\n            WHERE l.document_id = ? {dedupe} {cursor_clause}\n            ORDER BY l.line_no, l.upload_attempt_no, l.document_line_id LIMIT ?\n        \"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/flux_wms.py",
+            "tool_function": "search_item_movements",
+            "execute_method": "execute",
+            "execute_line": 199,
+            "query_expression": "f\"\"\"\n            SELECT d.document_no, l.line_no, l.canonical_item_id, l.business_line_key, d.business_date,\n                   l.erp_posting_date, d.warehouse_id, l.batch_no, d.document_type AS movement_type,\n                   l.recorded_qty,\n                   CASE WHEN d.document_type IN ('ISSUE','SCRAP') THEN -l.recorded_qty ELSE l.recorded_qty END AS signed_qty,\n                   l.uom, l.upload_attempt_no\n            FROM stock_document_line l JOIN stock_document d ON d.document_id = l.document_id\n            WHERE {' AND '.join(clauses)}\n            ORDER BY d.business_date, d.document_no, l.line_no, l.upload_attempt_no LIMIT ?\n        \"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/flux_wms.py",
+            "tool_function": "reconcile_measurement_quantities",
+            "execute_method": "execute",
+            "execute_line": 244,
+            "query_expression": "f\"\"\"\n            SELECT d.document_no, l.line_no, l.canonical_item_id, l.batch_no, l.measurement_device_id,\n                   l.recorded_qty, l.weighed_qty, l.recorded_qty-l.weighed_qty AS variance_qty,\n                   l.uom, l.operator_note\n            FROM stock_document_line l JOIN stock_document d ON d.document_id=l.document_id\n            WHERE {' AND '.join(clauses)} ORDER BY d.business_date, d.document_no, l.line_no\n        \"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/flux_wms.py",
+            "tool_function": "audit_erp_sync_status",
+            "execute_method": "execute",
+            "execute_line": 294,
+            "query_expression": "f\"\"\"\n            SELECT d.document_no, l.line_no, l.business_line_key, d.business_date, l.erp_posting_date,\n                   l.erp_sync_status, l.recorded_qty, l.uom, l.upload_attempt_no\n            FROM stock_document_line l JOIN stock_document d ON d.document_id=l.document_id\n            WHERE {' AND '.join(clauses)} ORDER BY l.business_line_key, l.upload_attempt_no\n        \"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/flux_wms.py",
+            "tool_function": "update_erp_sync_status",
+            "execute_method": "execute",
+            "execute_line": 351,
+            "query_expression": "f\"SELECT document_line_id, erp_sync_status, erp_posting_date, operator_note FROM stock_document_line WHERE document_line_id IN ({placeholders})\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/weaver_ecology_approval.py",
+            "tool_function": "search_variance_cases",
+            "execute_method": "execute",
+            "execute_line": 146,
+            "query_expression": "f\"SELECT COUNT(*) FROM inventory_variance_case WHERE {where_sql}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/weaver_ecology_approval.py",
+            "tool_function": "search_variance_cases",
+            "execute_method": "execute",
+            "execute_line": 149,
+            "query_expression": "f\"SELECT {columns} FROM inventory_variance_case WHERE {where_sql} \"\n            \"ORDER BY count_date DESC, created_at DESC, case_id LIMIT ? OFFSET ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/weaver_ecology_approval.py",
+            "tool_function": "get_case_evidence_chain",
+            "execute_method": "execute",
+            "execute_line": 192,
+            "query_expression": "f\"SELECT {case_columns} FROM inventory_variance_case WHERE case_id = ?\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/weaver_ecology_approval.py",
+            "tool_function": "get_case_evidence_chain",
+            "execute_method": "execute",
+            "execute_line": 202,
+            "query_expression": "f\"SELECT {evidence_columns} FROM evidence_record WHERE {evidence_clause} \"\n            \"ORDER BY document_date, COALESCE(verified_at, '9999-12-31 23:59:59'), evidence_id\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/weaver_ecology_approval.py",
+            "tool_function": "get_case_evidence_chain",
+            "execute_method": "execute",
+            "execute_line": 209,
+            "query_expression": "f\"SELECT {action_columns} FROM approval_action WHERE case_id = ? \"\n                \"ORDER BY action_id\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/weaver_ecology_approval.py",
+            "tool_function": "summarize_variance_disposition",
+            "execute_method": "execute",
+            "execute_line": 250,
+            "query_expression": "\"SELECT COALESCE(SUM(CASE WHEN variance_type='LOSS' THEN variance_amount_fen END), 0), \"\n            \"COALESCE(SUM(CASE WHEN variance_type='GAIN' THEN variance_amount_fen END), 0) \"\n            f\"FROM inventory_variance_case WHERE {where_sql}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/weaver_ecology_approval.py",
+            "tool_function": "summarize_variance_disposition",
+            "execute_method": "execute",
+            "execute_line": 255,
+            "query_expression": "\"SELECT canonical_item_id, canonical_item_name, variance_type, \"\n            \"SUM(variance_amount_fen) AS amount_fen, COUNT(*) AS case_count \"\n            f\"FROM inventory_variance_case WHERE {where_sql} \"\n            \"GROUP BY canonical_item_id, canonical_item_name, variance_type \"\n            \"ORDER BY variance_type DESC, amount_fen DESC, canonical_item_id\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/weaver_ecology_approval.py",
+            "tool_function": "summarize_variance_disposition",
+            "execute_method": "execute",
+            "execute_line": 271,
+            "query_expression": "f\"SELECT {column}, COUNT(*) FROM inventory_variance_case WHERE {where_sql} GROUP BY {column}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/weaver_ecology_approval.py",
+            "tool_function": "check_tax_loss_readiness",
+            "execute_method": "execute",
+            "execute_line": 317,
+            "query_expression": "f\"SELECT * FROM inventory_variance_case WHERE case_id IN ({placeholders}) ORDER BY case_id\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/yonyou_u9c_inventory.py",
+            "tool_function": "search_inventory_items",
+            "execute_method": "execute",
+            "execute_line": 132,
+            "query_expression": "f\"SELECT COUNT(*) FROM inventory_item WHERE {clause}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/yonyou_u9c_inventory.py",
+            "tool_function": "search_inventory_items",
+            "execute_method": "execute",
+            "execute_line": 135,
+            "query_expression": "f\"\"\"SELECT item_id, item_code, canonical_name, display_name,\n                       inventory_category, base_uom, unit_cost_fen\n                FROM inventory_item\n                WHERE {clause}\n                ORDER BY item_code ASC\n                LIMIT ? OFFSET ?\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/yonyou_u9c_inventory.py",
+            "tool_function": "search_inventory_ledger",
+            "execute_method": "execute",
+            "execute_line": 252,
+            "query_expression": "f\"SELECT COUNT(*) FROM inventory_ledger_entry WHERE {clause}\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/yonyou_u9c_inventory.py",
+            "tool_function": "search_inventory_ledger",
+            "execute_method": "execute",
+            "execute_line": 255,
+            "query_expression": "f\"\"\"SELECT ledger_entry_id, item_id, posting_date, entry_type,\n                       source_doc_no, source_line_no, qty_delta,\n                       amount_delta_fen, posting_status, memo\n                FROM inventory_ledger_entry\n                WHERE {clause}\n                ORDER BY posting_date DESC, ledger_entry_id DESC\n                LIMIT ? OFFSET ?\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          },
+          {
+            "tool_file": "tools/yonyou_u9c_inventory.py",
+            "tool_function": "trace_ledger_to_source_document",
+            "execute_method": "execute",
+            "execute_line": 385,
+            "query_expression": "f\"\"\"SELECT ledger_entry_id, source_doc_no, source_line_no,\n                       item_id AS canonical_item_id, posting_date, entry_type,\n                       qty_delta, amount_delta_fen, posting_status\n                FROM inventory_ledger_entry\n                WHERE {' AND '.join(where)}\n                ORDER BY posting_date ASC, ledger_entry_id ASC\"\"\"",
+            "reason": "query is dynamic or not a supported static string expression"
+          }
+        ],
+        "parse_unknown": [],
+        "assumptions": [
+          "The pinned mcp_http.py hash has the inspected registration behavior: module-local public functions are exposed; unknown dispatcher semantics are skipped.",
+          "The manifest server name maps to tools/<name>.py and the registered function is callable in the deployed environment.",
+          "A static SQL write passed to execute/executemany establishes a potential persistent-write path; runtime authorization, guards, and task-tool policy need review.",
+          "The shared verifier hash establishes the inspected sidecar scoring path; metadata has no gate and no src_protect field."
+        ],
+        "review_notes": "Discovery signal only. It does not establish that the write is reachable for this task, will succeed, or violates policy; manually compare instruction evidence, tool preconditions, and runtime protections."
+      }
+    }
+  ]
+}

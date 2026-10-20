@@ -204,8 +204,8 @@ class CatalogTests(unittest.TestCase):
             self.assertEqual(status, index["findings"][0]["status"])
             self.assertEqual(status, index["tasks"][0]["findings"][0]["status"])
 
-    def test_answer_exposure_and_environment_specification_are_independent_categories(self):
-        for category in ("answer_exposure", "environment_specification"):
+    def test_access_exposure_and_compliance_categories_are_indexed_separately(self):
+        for category in ("answer_exposure", "environment_specification", "constraint_enforcement"):
             with self.subTest(category=category):
                 self.finding["category"] = category
                 self.write_finding()

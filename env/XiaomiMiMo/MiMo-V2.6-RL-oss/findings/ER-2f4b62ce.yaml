@@ -4,7 +4,7 @@ dataset: hf:XiaomiMiMo/MiMo-V2.6-RL-oss
 revision: e8e81e4945270b6212204bad99de1e598f7fb077
 title: Read-only finance task exposes writes that its standalone grader does not observe
 status: confirmed
-category: grader_mismatch
+category: constraint_enforcement
 tasks:
 - id: s3k_0988_finance_insurance_zh_t1_rl_005
   path: general/envs/s3k_0988_finance_insurance_zh_t1_rl_005
@@ -153,5 +153,10 @@ validation:
 provenance:
   discovered_by: gpt-6-luna shared-verifier screen; independently adjudicated by parent Codex agent
   experiment: env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-initial
-discussion: Agent-assisted static adjudication, not independent human validation. Runtime reproduction
+discussion: >-
+  Agent-assisted static adjudication, not independent human validation. Runtime reproduction
   remains useful before making claims about deployed training behavior.
+  This is a constraint-enforcement gap: a compliant solver can still produce a correct
+  answer and receive the expected score. No effect on answer accuracy, task solvability,
+  or advantage from changing records has been established. Confirmation does not
+  label the task unusable or demonstrate a successful reward hack.

@@ -1,0 +1,96 @@
+# Agent response only. The runner attaches identity, commits, model settings,
+# timing, and costs separately.
+# Each check: status, rationale, evidence, claim_ids, gaps.
+# Status: candidate | observation | checked_no_issue | blocked |
+#         not_applicable | not_checked.
+# Evidence: source path + exact quote; optional line_start or json_pointer.
+task_summary:
+  intended_capability: null
+  required_result: null
+  environment_and_access: null
+  repair_intent: unknown # ordinary_setup | intentional_repair | incidental_repair | unknown
+  intent_evidence: []
+checks:
+  specification:
+    status: not_checked
+    rationale: null
+    evidence: []
+    claim_ids: []
+    gaps: []
+  inputs:
+    status: not_checked
+    rationale: null
+    evidence: []
+    claim_ids: []
+    gaps: []
+  environment_specification:
+    status: not_checked
+    rationale: null
+    evidence: []
+    claim_ids: []
+    gaps: []
+  feasibility:
+    status: not_checked
+    rationale: null
+    evidence: []
+    claim_ids: []
+    gaps: []
+  reference:
+    status: not_checked
+    rationale: null
+    evidence: []
+    claim_ids: []
+    gaps: []
+  false_negative:
+    status: not_checked
+    rationale: null
+    evidence: []
+    claim_ids: []
+    gaps: []
+  false_positive:
+    status: not_checked
+    rationale: null
+    evidence: []
+    claim_ids: []
+    gaps: []
+  answer_exposure:
+    status: not_checked
+    rationale: null
+    evidence: []
+    claim_ids: []
+    gaps: []
+  verifier:
+    status: not_checked
+    rationale: null
+    evidence: []
+    claim_ids: []
+    gaps: []
+  reward:
+    status: not_checked
+    rationale: null
+    evidence: []
+    claim_ids: []
+    gaps: []
+  grader_tampering:
+    status: not_checked
+    rationale: null
+    evidence: []
+    claim_ids: []
+    gaps: []
+claims: []
+# Each claim uses this shape; IDs are local to this response.
+# - id: C1
+#   kind: candidate # candidate | observation
+#   check_ids: [false_negative]
+#   summary: One precise mechanism.
+#   expected: What should happen, grounded in the intended contract.
+#   actual: What differs, distinguishing observation from static inference.
+#   consequence: Why this affects the task or grade.
+#   evidence:
+#     - source: relative/path/in/task/packet
+#       quote: Exact supporting text.
+#   witness: Concrete answer, contradiction, calculation, or traced action path.
+#   counterevidence_considered: The strongest attempted refutation.
+#   assumptions: []
+#   unresolved: []
+#   not_run: []

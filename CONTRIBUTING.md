@@ -23,6 +23,13 @@ Runner mistakes in implementing an applicable requirement, such as file
 delivery, tool dispatch, isolation, or reward plumbing, are deferred in
 `notes/harness/`, outside the task index. See [scope and examples](docs/scope.md).
 
+Use `constraint_enforcement` for a demonstrated, unscored violation of an
+explicit behavioral requirement. An available forbidden operation alone is
+insufficient. Such a gap need not affect answer correctness or make the task
+unsolvable; report those consequences only with separate evidence. Keep these
+findings separate when counting correctness defects. Confirmation is a review
+status, not a severity rating.
+
 Use the existing `validation.assumptions` field for the conditions a dataset
 claim needs. A harness audit is not a prerequisite to contributing a task
 finding. If a claim depends on an unresolved presentation choice, distinguish

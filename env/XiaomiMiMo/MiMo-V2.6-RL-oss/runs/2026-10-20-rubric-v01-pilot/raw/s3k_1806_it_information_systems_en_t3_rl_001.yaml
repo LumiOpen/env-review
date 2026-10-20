@@ -1,0 +1,187 @@
+task_summary:
+  intended_capability: >-
+    Recalculate post-remediation Internal DNS resolution success from the accepted eligible-query and failure totals, then compare it with the governing signoff objective.
+  required_result: >-
+    Report 6,245 eligible queries, 4 failures, 99.936% success, an objective of at least 99.500%, a margin of 0.436 percentage points above the objective, and a pass conclusion.
+  environment_and_access: >-
+    The manifest maps the workspace into the solver's main container and declares DNS analytics and operations MCP tools in the sidecar. The task requests a read-only final report and no file changes. This review used only static source inspection and read-only parsing.
+  repair_intent: unknown
+  intent_evidence: []
+checks:
+  specification:
+    status: checked_no_issue
+    rationale: >-
+      The task names the authoritative population source, governing objective source, required recalculation, exact output fields, and no-mutation boundary.
+    evidence:
+      - source: instruction.md
+        line_start: 1
+        quote: "Review the accepted post-remediation validation population in the DNS Incident Analysis Workbook and use the DNS Recovery Validation Signoff for the governing resolution-success objective."
+      - source: instruction.md
+        line_start: 3
+        quote: "Recalculate the post-change DNS resolution success rate from the authoritative eligible-query and failure totals rather than relying only on a displayed percentage."
+    claim_ids: []
+    gaps: []
+  inputs:
+    status: blocked
+    rationale: >-
+      The authoritative DNS Incident Analysis Workbook is listed in the upstream task inventory but unavailable in this audit cache. The packet instructs reviewers to treat this as an audit evidence gap, not a dataset defect. The solver manifest uploads workspace, and available signoff material independently states the same population totals, so no input defect is inferred.
+    evidence:
+      - source: data/rubric-v01-pilot-text/s3k_1806_it_information_systems_en_t3_rl_001/file-inventory.json
+        json_pointer: /files/0
+        quote: "All listed files exist in the upstream pinned inventory. Unavailable means audit download failed, not that the source file is missing from the dataset."
+      - source: manifest.json
+        json_pointer: /uploads/0
+        quote: "workspace is uploaded to /work/workspace in the main container."
+    claim_ids: []
+    gaps:
+      - "The workbook's accepted-population cells could not be independently inspected in this audit cache."
+  environment_specification:
+    status: checked_no_issue
+    rationale: >-
+      The task is read-only, the workspace is provided to the solver, and the manifest exposes relevant DNS analytics and validation systems. No additional dependency or missing behavioral access restriction was identified in the inspected contract.
+    evidence:
+      - source: manifest.json
+        json_pointer: /mcp_servers
+        quote: "The manifest declares windows_dns_analytics and logicmonitor_dns_validation MCP endpoints."
+      - source: instruction.md
+        line_start: 5
+        quote: "Do not change any files."
+    claim_ids: []
+    gaps: []
+  feasibility:
+    status: checked_no_issue
+    rationale: >-
+      The available signed validation material provides eligible-query and failure totals. The required calculation is direct: (6,245-4)/6,245 x 100 = 99.935948...%; subtracting the 99.500% objective gives 0.435948... percentage points, which rounds to 0.436 pp above the objective.
+    evidence:
+      - source: workspace/05_Delivery/DNS_Recovery_Validation_Signoff_2025-09-22.docx
+        quote: "Appendix A, paragraphs 158 and 416: 6,245 validation queries; 4 failures; the detailed sample reconciles to 6,245 queries, 6,241 successes, and 4 failures."
+      - source: workspace/05_Delivery/DNS_Recovery_Validation_Signoff_2025-09-22.docx
+        quote: "Paragraph 65: DNS resolution success rate of at least 99.500%."
+    claim_ids: []
+    gaps: []
+  reference:
+    status: observation
+    rationale: >-
+      Available signoff material and the leadership briefing agree on 6,245 queries, 4 failures, 99.936% success, and acceptance; independent arithmetic confirms those figures and the margin. The authoritative workbook was unavailable locally, so its underlying cells were not checked.
+    evidence:
+      - source: workspace/05_Delivery/DNS_Recovery_Validation_Signoff_2025-09-22.docx
+        quote: "Paragraph 158: 6,245 validation queries yielded 6,241 successes and 4 failures. Paragraph 309: the corresponding success rate was 99.936%."
+      - source: workspace/05_Delivery/DNS_Recovery_Validation_Signoff_2025-09-22.docx
+        quote: "Paragraph 311: the 99.936% success rate satisfies the 99.500% service objective."
+    claim_ids: []
+    gaps:
+      - "The authoritative workbook's underlying accepted-population data was not available for independent reconciliation."
+  false_negative:
+    status: checked_no_issue
+    rationale: >-
+      The answer anchors specify the correct operands, success-rate calculation, objective, percentage-point margin, and conclusion. The calculated values match, and the stated tolerance accepts normal rounding to three decimals.
+    evidence:
+      - source: verifier_meta.json
+        json_pointer: /items/2/pass_anchor
+        quote: "(6,245 - 4) / 6,245 = 99.935948...%, reported as 99.936% when rounded to three decimal places."
+      - source: verifier_meta.json
+        json_pointer: /items/4/pass_anchor
+        quote: "0.436 percentage points above the 99.500% objective, within ±0.001 percentage point."
+    claim_ids: []
+    gaps:
+      - "No submission was passed through the runtime LLM grader."
+  false_positive:
+    status: candidate
+    rationale: >-
+      The prompt requires recalculation from authoritative totals rather than reliance on an already displayed percentage, but solver-visible deliverables expose the totals, the computed rate, and the acceptance conclusion. All grader items inspect answer.md, so a response that copies the exposed result can satisfy the observable rubric without demonstrating that it independently recalculated from the workbook. This is a task-measurement candidate; correctness of the final result remains intact.
+    evidence:
+      - source: workspace/05_Delivery/DNS_Recovery_Validation_Signoff_2025-09-22.docx
+        quote: "Paragraph 158: 6,245 validation queries yielded 6,241 successes and 4 failures. Paragraph 309: the corresponding success rate was 99.936%. Paragraph 311: the rate satisfies the 99.500% service objective."
+      - source: verifier_meta.json
+        json_pointer: /items
+        quote: "All five scoring items are method=llm and read files=['answer.md']; their anchors test the final values and conclusion, not the source or calculation path."
+    claim_ids: [C1]
+    gaps:
+      - "An answer may still independently calculate correctly from the exposed counts; the concern is that the requested workbook-based recalculation cannot be distinguished from copying the exposed outputs."
+  answer_exposure:
+    status: candidate
+    rationale: >-
+      The solver-visible workspace includes the signoff and leadership briefing. The signoff gives the exact eligible population, failures, recalculated success rate, governing threshold, and that the threshold was met; the leadership slide repeats 6,245 and 99.936% with an accepted decision. This bypasses the intended lookup and recalculation challenge.
+    evidence:
+      - source: manifest.json
+        json_pointer: /uploads/0
+        quote: "workspace is uploaded to /work/workspace in the main container."
+      - source: workspace/05_Delivery/DNS_Recovery_Validation_Signoff_2025-09-22.docx
+        quote: "Paragraphs 158, 309, and 311 state 6,245 queries, 4 failures, 99.936% success, and that the result satisfies the 99.500% objective."
+      - source: workspace/05_Delivery/Brightwater_DNS_Incident_Leadership_Briefing_2025-09-23.pptx
+        quote: "Slide 1 states 6,245 queries, 99.936% success, and RESTORATION ACCEPTED."
+    claim_ids: [C1]
+    gaps: []
+  verifier:
+    status: checked_no_issue
+    rationale: >-
+      The task-specific anchors check every requested response element, explicitly distinguish success from failure rate, accept rounded values within stated tolerances, and require the correct pass conclusion. No malformed permitted-output path was identified statically.
+    evidence:
+      - source: verifier_meta.json
+        json_pointer: /items/0/pass_anchor
+        quote: "The accepted post-remediation population contains 6,245 eligible validation queries."
+      - source: verifier_meta.json
+        json_pointer: /items/1/pass_anchor
+        quote: "The eligible post-remediation validation population contains 4 resolution failures."
+      - source: verifier_meta.json
+        json_pointer: /items/3/pass_anchor
+        quote: "The governing objective is a DNS resolution success rate of at least 99.500%."
+    claim_ids: []
+    gaps:
+      - "LLM-judge runtime behavior was not executed or independently reproduced."
+  reward:
+    status: observation
+    rationale: >-
+      The grader's five items are answer-only LLM checks and do not inspect the workbook or calculation trace. This makes the answer-exposure shortcut observable in the score inputs, but no numeric judge score or material score impact is inferred without runtime evidence.
+    evidence:
+      - source: verifier_meta.json
+        json_pointer: /items/0/files
+        quote: "files=['answer.md']"
+    claim_ids: [C1]
+    gaps:
+      - "No numeric LLM-judge score is inferred from source inspection alone."
+  grader_tampering:
+    status: not_checked
+    rationale: >-
+      The review did not trace every registered tool for possible grader-authority mutation. The requested task itself is read-only and exposes no stated grading operation.
+    evidence: []
+    claim_ids: []
+    gaps:
+      - "Full tool-surface tampering review was outside this bounded screen."
+claims:
+  - id: C1
+    kind: candidate
+    check_ids: [answer_exposure, false_positive, reward]
+    summary: >-
+      Solver-visible signoff and leadership materials disclose the requested DNS validation totals, success rate, objective, and acceptance, allowing the required workbook-based recalculation to be bypassed.
+    expected: >-
+      The task asks the solver to inspect the accepted population in the workbook, recompute success from eligible-query and failure counts, and compare it with the objective.
+    actual: >-
+      The workspace-mounted signoff already states 6,245 queries, 4 failures, 99.936% success, the 99.500% objective, and that the objective was satisfied; the leadership briefing repeats the result and accepted decision. The LLM grader reads only answer.md and checks these output values, so it cannot distinguish a copied result from a workbook-based recalculation.
+    consequence: >-
+      The intended source-inspection and recalculation work can be bypassed while still producing the expected final answer. This weakens measurement of the named capability even though the exposed answer itself is correct.
+    evidence:
+      - source: instruction.md
+        line_start: 3
+        quote: "Recalculate the post-change DNS resolution success rate from the authoritative eligible-query and failure totals rather than relying only on a displayed percentage."
+      - source: manifest.json
+        json_pointer: /uploads/0
+        quote: "workspace is uploaded to /work/workspace in the main container."
+      - source: workspace/05_Delivery/DNS_Recovery_Validation_Signoff_2025-09-22.docx
+        quote: "Paragraph 158: 6,245 validation queries yielded 6,241 successes and 4 failures. Paragraph 309: the corresponding success rate was 99.936%. Paragraph 311: the result satisfies the 99.500% objective."
+      - source: workspace/05_Delivery/Brightwater_DNS_Incident_Leadership_Briefing_2025-09-23.pptx
+        quote: "Slide 1 reports 6,245 queries, 99.936% success, and RESTORATION ACCEPTED."
+      - source: verifier_meta.json
+        json_pointer: /items
+        quote: "All scoring items are answer.md-only LLM checks."
+    witness: >-
+      A solver can quote the population and success figure from the signoff or briefing, state the signoff's 99.500% threshold and accepted conclusion, and fill the required response without opening the DNS Incident Analysis Workbook or calculating (6,245-4)/6,245.
+    counterevidence_considered: >-
+      The signoff is a relevant acceptance source, and a solver following the instruction may still independently verify the numbers. The workbook is listed in the upstream inventory and is uploaded with workspace in the intended environment, even though it is missing from this audit cache. The candidate concerns shortcut availability, not an incorrect reference or absent solver input.
+    assumptions:
+      - "The workspace assets under manifest upload are visible to the intended solver as specified."
+      - "The goal includes measuring independent workbook-based recalculation rather than only returning the correct closeout values."
+    unresolved:
+      - "Whether the task designer intended the signoff's Appendix A summary to be an acceptable independent source for the arithmetic despite naming the workbook as authoritative."
+    not_run:
+      - "No task tools, code, setup, or graders were executed."

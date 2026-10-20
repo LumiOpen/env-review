@@ -6,6 +6,8 @@
 # Use environment_specification for environment-contract gaps or contradictions.
 # Use answer_exposure for reference answers/solutions in the intended information surface.
 # These are independent categories; other reward shortcuts use reward_shortcut.
+# Use constraint_enforcement for a concrete unscored violation of an explicit rule.
+# State answer/reward impact separately; write access alone is not a defect.
 # Preserve runner-only bugs in notes/harness/ instead of adding task findings.
 schema_version: "1"
 id: ER-01234567

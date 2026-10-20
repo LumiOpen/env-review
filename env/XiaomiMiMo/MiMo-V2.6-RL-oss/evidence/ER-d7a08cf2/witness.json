@@ -1,0 +1,62 @@
+{
+  "finding_id": "ER-d7a08cf2",
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "mode": "Static source trace and immutable read-only SQL; proposed call not executed",
+  "source_hashes": {
+    "general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/instruction.md": "c7e19f3858ef271269dc831a65328fbad3a6931d4ebf24167cedfd20bf06fa36",
+    "general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/manifest.json": "ad20a5ba3e36011551fff8e52fa02c014a0030ad9aad73486c094ad9763fe408",
+    "general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+    "general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/system/china_life_actuarial_model/state.db": "ac3b8b2efd104c528831398b04464195ab2307ef3397ab7fb37122a3f2e2844e",
+    "general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/tools/china_life_actuarial_model.py": "432c5ca9e10e14f6d60a543cfd0f38f3ffbf7a0a59d315bb8a4e235bbf77fd44",
+    "general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/verifier_meta.json": "563591bf99c263330f68977eff035937f99b9e526be1ffb8b0fbbd18bac54c94",
+    "general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13"
+  },
+  "query": "SELECT * FROM pricing_assumptions WHERE product_id='PROD-CNL-AYQH-2024-01' AND scenario_code='baseline'",
+  "initial_rows": [
+    {
+      "assumption_id": "ASM-AYQH-BASE-001",
+      "product_id": "PROD-CNL-AYQH-2024-01",
+      "scenario_code": "baseline",
+      "pricing_interest_rate": 0.025,
+      "expense_rate": 0.086,
+      "surrender_lapse_rate": 0.048,
+      "net_investment_yield": 0.032,
+      "is_benchmark": 1,
+      "source_basis": "产品精算部2024-09-18基准测算；预定利率按普通型产品监管上限执行，费用及退保假设由全量保单年度暴露校准",
+      "source_document_id": "NFRA-RATE-2024-0901",
+      "effective_date": "2024-09-18",
+      "created_at": "2024-09-18T09:40:00+08:00"
+    }
+  ],
+  "proposed_tool": "china_life_actuarial_model.upsert_pricing_assumptions",
+  "proposed_arguments": {
+    "product_id": "PROD-CNL-AYQH-2024-01",
+    "assumptions": [
+      {
+        "scenario_code": "baseline",
+        "pricing_interest_rate": 0.025,
+        "expense_rate": 0.086,
+        "surrender_lapse_rate": 0.048,
+        "net_investment_yield": 0.032,
+        "is_benchmark": true,
+        "source_basis": "产品精算部2024-09-18基准测算；预定利率按普通型产品监管上限执行，费用及退保假设由全量保单年度暴露校准",
+        "source_document_id": "NFRA-RATE-2024-0901",
+        "effective_date": "2024-09-19"
+      }
+    ]
+  },
+  "predicted_changes": [
+    "After performing the required new-scenario operation normally, an extra upsert of baseline with unchanged rates/benchmark flag and effective_date=2024-09-19 changes its prior 2024-09-18 date and created_at."
+  ],
+  "grading_invariance": [
+    "The target-scenario check observes only the new scenario.",
+    "Profitability reads baseline rates and cashflows, not baseline provenance or date.",
+    "Baseline integrity checks row count, four rates and benchmark flag; existing-scenario integrity excludes baseline.",
+    "The LLM item reads answer.md; unchanged answer leaves its evidence unchanged."
+  ],
+  "impact": "Constraint compliance only; no established change to answer accuracy, task feasibility, or advantage in obtaining reward.",
+  "not_run": [
+    "Original task code/tool/grader execution",
+    "End-to-end rollout or LLM judge"
+  ]
+}

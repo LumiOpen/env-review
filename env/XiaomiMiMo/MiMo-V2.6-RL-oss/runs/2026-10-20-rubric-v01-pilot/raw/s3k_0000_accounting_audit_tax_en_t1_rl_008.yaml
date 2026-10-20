@@ -1,0 +1,281 @@
+task_summary:
+  intended_capability: "Reconcile an installment asset-sale recommendation across the approved tax-governance decision, DealCloud closing record, source documents, and protection statuses."
+  required_result: "Identify the current recommended transaction and excluded alternatives; report documentary-transfer-tax figures; distinguish approved/complete protections from unresolved items; conclude readiness and state the approved payment split and all-cash fallback."
+  environment_and_access: "manifest.json places workspace files in the main container and system databases/tools in the sidecar, with DealCloud, KPMG, SharePoint, and Yardi MCP services. The task says not to change files or database records. Static source review found a public Yardi update function as well as read tools. No environment repair is part of the stated task."
+  repair_intent: ordinary_setup
+  intent_evidence:
+    - source: manifest.json
+      quote: '"setup": {"command": "python3 /installed-agent/sidecar_entrypoint.py --start-and-detach", "container": "sidecar", "timeout_sec": 300}'
+    - source: instruction.md
+      quote: "Review the Fairfax & 3rd Structuring Recommendation and the linked approved materials, then reconcile the current DealCloud Disposition Workspace record with the approved tax-governance decision."
+checks:
+  specification:
+    status: checked_no_issue
+    rationale: "The required deliverables and the controlled source distinction are explicit. The cross-source amount differences below should be surfaced as reconciliation findings; the instruction does not require treating the DealCloud row as the approved economic split."
+    evidence:
+      - source: instruction.md
+        quote: "Tie the unresolved protections to the approved recommendation's $7,183,750.00 closing principal payment and $21,551,250.00 secured seller note, rather than reviving inactive legacy requirements or substituting the partnership-interest alternative."
+        line_start: 5
+    claim_ids: []
+    gaps: []
+  inputs:
+    status: observation
+    rationale: "The assigned task sources and derived extracts are present. They contain material differences between the active DealCloud record and the approved recommendation/model, which a correct reconciliation should disclose."
+    evidence:
+      - source: system/dealcloud_disposition_workspace/state.db (disposition_transactions, DC-TXN-25Q3-024)
+        quote: "structure_code=installment_sale; transaction_status=recommended; gross_consideration_usd=8310000; declared_tax_consideration_usd=8310000; cash_consideration_usd=2310000; closing_principal_usd=8310000; secured_seller_note_principal_usd=6000000"
+      - source: workspace/ADC_Fairfax_3rd_Structuring_Recommendation_2025Q3.docx (derived text, paragraph 24)
+        quote: "Proceed with a negotiated installment asset sale using a $7,183,750.00 closing principal payment and a $21,551,250.00 secured seller note"
+      - source: workspace/ADC_Fairfax_3rd_Structuring_Recommendation_2025Q3.docx (derived text, paragraphs 584-616, Table 10)
+        quote: "Consideration $28,735,000.00; Encumbrances $8,425,000.00; Taxable base $20,310,000.00; Tax exposure $113,736.00"
+    claim_ids: []
+    gaps:
+      - "The approved workbook extract displays formulas but does not execute them; the memo states the resulting transfer-tax calculation."
+  environment_specification:
+    status: candidate
+    rationale: "The task explicitly forbids record changes, but the declared Yardi tool surface includes a public database update operation. The task-specific verifier has no configured source-protection gate and its source-presence rule does not inspect Yardi changes, so the behavioral restriction is not enforced by the inspected grader."
+    evidence:
+      - source: instruction.md
+        quote: "do not change any files or database records."
+        line_start: 7
+      - source: manifest.json
+        quote: '"source": "tools", "target": "/work/tools", "container": "sidecar"'
+        line_start: 14
+      - source: tools/yardi_property_asset_register.py
+        quote: "Update one asset's tax-basis review state using optimistic concurrency."
+        line_start: 338
+      - source: tools/yardi_property_asset_register.py
+        quote: "UPDATE property_assets SET tax_basis_status = ?, approved_flag = ?, approved_by_entity_id = ?, approved_at = ?, row_version = row_version + 1 WHERE asset_id = ? AND row_version = ?"
+        line_start: 374
+      - source: system/yardi_property_asset_register/state.db (property_assets, YFA-2018-0101)
+        quote: "property_id=PROP-FAIRFAX-3RD-001; case_id=CASE-FAIRFAX-DISP-2025-001; tax_basis_status=INCLUDED; approved_flag=1; row_version=3"
+      - source: verifier_meta.json
+        quote: '"method": "rule",'
+        line_start: 61
+      - source: verify.py
+        quote: "sp = meta.get(\"src_protect\")"
+        line_start: 352
+    claim_ids: [C1]
+    gaps:
+      - "The database file's runtime mount/credentials were not tested; the declared tool source uses an ordinary SQLite connection and performs the update."
+      - "No task code, setup, tools, or grader was executed."
+  feasibility:
+    status: checked_no_issue
+    rationale: "A text-only answer can be produced from the solver-visible workspace files and declared query interfaces; no database mutation is needed to meet the requested deliverables."
+    evidence:
+      - source: manifest.json
+        quote: '"source": "workspace", "target": "/work/workspace", "container": "main"'
+        line_start: 4
+      - source: manifest.json
+        quote: '"name": "dealcloud_disposition_workspace"'
+        line_start: 46
+    claim_ids: []
+    gaps: []
+  reference:
+    status: observation
+    rationale: "The DealCloud installment tax rows are internally arithmetical (9,141 + 37,395 = 46,536) and marked approved, while the approved structuring memo reports a 20,310,000 taxable base and 113,736 modeled exposure. This is a material source mismatch, not an independently resolved tax-law conclusion."
+    evidence:
+      - source: system/dealcloud_disposition_workspace/state.db (closing_requirements, REQ-DC-25Q3-107/108/114)
+        quote: "DC-TXN-25Q3-024: county=9,141 approved; city=37,395 approved; documentary_transfer_tax_summary=46,536 approved; declared_consideration_usd=8,310,000"
+      - source: workspace/ADC_Fairfax_3rd_Structuring_Recommendation_2025Q3.docx (derived text, paragraphs 593-616, Table 10)
+        quote: "Taxable base $20,310,000.00; Tax exposure $113,736.00; formula: ($28,735,000.00 - $8,425,000.00) x $5.60 / $1,000"
+    claim_ids: [C3]
+    gaps:
+      - "The packet does not state whether the approved DealCloud amounts use a different taxable-base interpretation or are stale relative to the approved memo."
+      - "Annual_Report.pdf extraction is limited to its first 100 of 136 pages; it was not used for the transaction-specific conclusion."
+  false_negative:
+    status: checked_no_issue
+    rationale: "The buyer-solvency activity log records a completed review for the recommended transaction, but the approved decision still requires solvency diligence and there is no active closing-requirement row for it. The verifier anchor keys on the absence of a formal active requirement row; an answer can report both facts and still say formal completion remains unrecorded."
+    evidence:
+      - source: system/dealcloud_disposition_workspace/state.db (execution_activity_log, ACT-25Q3-4422)
+        quote: "transaction_id=DC-TXN-25Q3-024; activity_type=buyer_solvency_diligence; activity_status=completed; activity_text=Buyer liquidity package and debt-service capacity reviewed."
+      - source: system/dealcloud_disposition_workspace/state.db (closing_requirements)
+        quote: "No buyer_solvency_diligence requirement row is attached to DC-TXN-25Q3-024; the complete buyer_solvency_diligence row is attached to superseded DC-TXN-25Q3-021."
+      - source: verifier_meta.json
+        quote: "buyer-solvency diligence is required by the approved recommendation but has no active requirement row on the recommended installment transaction."
+        line_start: 33
+    claim_ids: []
+    gaps:
+      - "The runtime LLM judge was not queried, so acceptance of a carefully qualified description of the completed activity is unverified."
+  false_positive:
+    status: candidate
+    rationale: "Two concrete paths can produce positive task reward without completing the requested answer: a prohibited Yardi record update is not checked, and the source-presence sanity rule is scored as an ordinary weighted item independent of answer content. The cross-source mismatch is also not an explicit verifier checkpoint."
+    evidence:
+      - source: verify.py
+        quote: "w = float(it.get(\"weight\", 1)); sc = float(results.get(it[\"id\"], {}).get(\"score\", 0.0) or 0.0)"
+        line_start: 395
+      - source: verifier_meta.json
+        quote: '"id": "source_data_present",'
+        line_start: 59
+      - source: verifier_meta.json
+        quote: '"fn": "check_source_data_present"'
+        line_start: 62
+      - source: verifier_meta.json
+        quote: "SELECT structure_code, transaction_status FROM disposition_transactions"
+        line_start: 65
+      - source: verifier_meta.json
+        quote: "SELECT status, decision_code FROM decision_records"
+        line_start: 65
+      - source: verifier_meta.json
+        quote: '"weight": 0.2,'
+        line_start: 7
+      - source: verifier_meta.json
+        quote: '"weight": 0.25,'
+        line_start: 29
+    claim_ids: [C1, C2, C3]
+    gaps:
+      - "Whether the full local grade_rubric path handles the sanity item differently is not established; the declared sidecar self-contained path in verify.py does score it in the atom aggregation."
+  answer_exposure:
+    status: checked_no_issue
+    rationale: "The workspace contains approved source materials and the MCP APIs expose transaction/decision evidence, which are the intended inputs to this reconciliation. The evaluator metadata and pass anchors are audit-only under the packet boundary."
+    evidence:
+      - source: manifest.json
+        quote: '"source": "workspace", "target": "/work/workspace", "container": "main"'
+        line_start: 4
+      - source: packet-context.md
+        quote: "verifier_meta.json, verify.py, and helpers are audit-visible grading sources, not automatically solver-visible materials."
+    claim_ids: []
+    gaps: []
+  verifier:
+    status: candidate
+    rationale: "The fixed content anchors omit the material mismatch between the recommended DealCloud transaction's consideration/tax base and the approved recommendation/model. A response could satisfy the listed transaction, tax-row, protection, payment-split, and readiness anchors without disclosing that reconciliation failure."
+    evidence:
+      - source: verifier_meta.json
+        quote: '"pass_anchor": "Ground truth from active DealCloud closing requirements for the recommended installment transaction: Los Angeles County documentary-transfer-tax component = $9,141.00; City of Los Angeles component = $37,395.00; approved documentary-transfer-tax summary = $46,536.00.'
+        line_start: 23
+      - source: verifier_meta.json
+        quote: '"pass_anchor": "Ground truth from the approved Fairfax & 3rd Structuring Recommendation and decision record DEC-2025-017: proceed with a negotiated installment asset sale using a $7,183,750.00 closing principal payment and a $21,551,250.00 secured seller note;'
+        line_start: 45
+      - source: instruction.md
+        quote: "reconcile the current DealCloud Disposition Workspace record with the approved tax-governance decision."
+        line_start: 1
+    claim_ids: [C3]
+    gaps:
+      - "LLM judge behavior is unresolved; no runtime verdict was requested or obtained."
+  reward:
+    status: candidate
+    rationale: "In the sidecar scoring path, source_data_present is an unweighted rule atom. Its default weight is 1, equal to the combined 1.0 weight of all five answer-based checks. If the answer-based checks score 0 while the source rows exist, the task score is 0.5 even though no requested answer criterion was met."
+    evidence:
+      - source: verifier_meta.json
+        quote: '"weight": 0.2,'
+        line_start: 7
+      - source: verifier_meta.json
+        quote: '"weight": 0.25,'
+        line_start: 29
+      - source: verifier_meta.json
+        quote: '"id": "source_data_present",'
+        line_start: 59
+      - source: verify.py
+        quote: 'w = float(it.get("weight", 1)); sc = float(results.get(it["id"], {}).get("score", 0.0) or 0.0)'
+        line_start: 395
+      - source: verify.py
+        quote: "wsum += w * sc; tsum += w"
+        line_start: 398
+      - source: verify.py
+        quote: "sc = 0.0 if gate_failed else (round(wsum / tsum, 4) if tsum else 0.0)"
+        line_start: 400
+    claim_ids: [C2]
+    gaps:
+      - "This conclusion applies to the self-contained sidecar _grade_sc path; no grade was run."
+  grader_tampering:
+    status: not_applicable
+    rationale: "The reachable Yardi update interface changes property data, not verifier code, grading criteria, or scoring authority. No path to redirect the judge or modify grader-owned evidence was found."
+    evidence:
+      - source: tools/yardi_property_asset_register.py
+        quote: "UPDATE property_assets SET tax_basis_status = ?, approved_flag = ?, approved_by_entity_id = ?, approved_at = ?, row_version = row_version + 1 WHERE asset_id = ? AND row_version = ?"
+        line_start: 338
+    claim_ids: []
+    gaps: []
+claims:
+  - id: C1
+    kind: candidate
+    check_ids: [environment_specification, false_positive]
+    summary: "A solver can mutate a Yardi database row despite the task's explicit no-change instruction, and the inspected verifier does not observe that database."
+    expected: "The solver should leave all files and database records unchanged."
+    actual: "The declared Yardi MCP server exposes update_asset_tax_basis_status, which performs an UPDATE on property_assets. A row for PROP-FAIRFAX-3RD-001 is present; the verifier's source-data check reads only DealCloud and SharePoint."
+    consequence: "A prohibited side effect can occur through an intended tool and remain undetected while the answer receives credit."
+    evidence:
+      - source: instruction.md
+        quote: "do not change any files or database records."
+        line_start: 7
+      - source: tools/yardi_property_asset_register.py
+        quote: "UPDATE property_assets SET tax_basis_status = ?, approved_flag = ?, approved_by_entity_id = ?, approved_at = ?, row_version = row_version + 1 WHERE asset_id = ? AND row_version = ?"
+        line_start: 374
+      - source: mcp_http.py
+        quote: "for name, fn in fns:"
+        line_start: 354
+      - source: mcp_http.py
+        quote: "mcp.add_tool(_wrap_capped(fn), name=name,"
+        line_start: 355
+      - source: system/yardi_property_asset_register/state.db (property_assets, YFA-2018-0101)
+        quote: "asset_id=YFA-2018-0101; property_id=PROP-FAIRFAX-3RD-001; case_id=CASE-FAIRFAX-DISP-2025-001; tax_basis_status=INCLUDED; approved_flag=1; row_version=3"
+      - source: verifier_meta.json
+        quote: "SELECT structure_code, transaction_status FROM disposition_transactions"
+        line_start: 65
+      - source: verifier_meta.json
+        quote: "SELECT status, decision_code FROM decision_records"
+        line_start: 65
+    witness: "With an existing asset ID and current row_version, call the exposed update_asset_tax_basis_status function with another allowed tax_basis_status and approved_flag=false; the function updates the row. No inspected grading check compares Yardi state or enforces the instruction's no-change condition."
+    counterevidence_considered: "The instruction itself clearly forbids the action, so a compliant solver should not call the update function. The candidate concerns lack of enforcement/detection, not ambiguity in the behavioral instruction."
+    assumptions:
+      - "The sidecar database is writable through the declared tool runtime, as the tool source's ordinary SQLite connection and update path imply."
+    unresolved:
+      - "Runtime filesystem or service-level read-only restrictions were not tested."
+    not_run:
+      - "No MCP tool, database mutation, setup, or grader was executed."
+  - id: C2
+    kind: candidate
+    check_ids: [false_positive, reward]
+    summary: "The source-data sanity rule contributes answer-independent reward with default weight 1.0 in the sidecar scorer."
+    expected: "Reward should reflect completion of the requested answer criteria; source availability should gate or validate the fixture rather than add answer credit."
+    actual: "source_data_present is a non-gate rule with no weight. _grade_sc aggregates every atom and defaults missing weight to 1.0. The five answer-based weights sum to 1.0, so a passing source rule and zero answer scores produce a 0.5 score."
+    consequence: "An empty or wholly incorrect answer can earn half the score while failing all requested content criteria."
+    evidence:
+      - source: verifier_meta.json
+        quote: '"id": "source_data_present",'
+        line_start: 59
+      - source: verify.py
+        quote: 'if it.get("method") == "rule":   # rule 便宜,gate 挂也照跑供审计'
+        line_start: 387
+      - source: verify.py
+        quote: 'w = float(it.get("weight", 1)); sc = float(results.get(it["id"], {}).get("score", 0.0) or 0.0)'
+        line_start: 395
+      - source: verify.py
+        quote: "wsum += w * sc; tsum += w"
+        line_start: 398
+      - source: verify.py
+        quote: "sc = 0.0 if gate_failed else (round(wsum / tsum, 4) if tsum else 0.0)"
+        line_start: 400
+    witness: "If the five answer checks each return 0 and the existing DealCloud/SharePoint anchors make source_data_present return 1, _grade_sc computes (0 + 1)/(1 + 1) = 0.5. The item is not marked as a gate in verifier_meta.json."
+    counterevidence_considered: "The tier is labelled sanity and may be intentionally weighted, but no explicit weight or gate designation documents that scoring intent; the implemented sidecar aggregation gives it ordinary reward weight."
+    assumptions:
+      - "The self-contained sidecar _grade_sc path is the relevant runtime path described in verify.py's module comments."
+    unresolved:
+      - "The separate local grade_rubric path was not statically assessed beyond its entry branch."
+    not_run:
+      - "No verifier or LLM judge was executed."
+  - id: C3
+    kind: candidate
+    check_ids: [inputs, reference, false_positive, verifier]
+    summary: "The current recommended DealCloud record materially conflicts with the approved economic terms and modeled transfer-tax base, but the answer anchors do not require reporting the discrepancy."
+    expected: "A reconciliation should identify the recommended row and disclose that its economics/tax base do not match the approved tax-governance recommendation/model."
+    actual: "DealCloud marks DC-TXN-25Q3-024 recommended with 8,310,000 gross/declared/closing consideration, 2,310,000 cash, and a 6,000,000 note. The approved decision states a 7,183,750 closing payment plus 21,551,250 note (28,735,000 total); the approved memo models DTT on a 20,310,000 base and reports 113,736 exposure, unlike DealCloud's approved 46,536 summary on 8,310,000. The pass anchors separately require the DealCloud tax numbers and approved decision split but do not explicitly require surfacing the mismatch."
+    consequence: "An answer can receive credit while omitting a discrepancy material to whether the live DealCloud package reflects the approved transaction; an answer that treats the two sources as reconciled risks giving a misleading execution-readiness conclusion."
+    evidence:
+      - source: system/dealcloud_disposition_workspace/state.db (disposition_transactions, DC-TXN-25Q3-024)
+        quote: "gross_consideration_usd=8310000; declared_tax_consideration_usd=8310000; cash_consideration_usd=2310000; closing_principal_usd=8310000; secured_seller_note_principal_usd=6000000; transaction_status=recommended"
+      - source: workspace/ADC_Fairfax_3rd_Structuring_Recommendation_2025Q3.docx (derived text, paragraph 24)
+        quote: "$7,183,750.00 closing principal payment and a $21,551,250.00 secured seller note"
+      - source: workspace/ADC_Fairfax_3rd_Structuring_Recommendation_2025Q3.docx (derived text, paragraphs 593-616, Table 10)
+        quote: "Taxable base $20,310,000.00; Tax exposure $113,736.00"
+      - source: verifier_meta.json
+        quote: '"pass_anchor": "Ground truth from active DealCloud closing requirements for the recommended installment transaction: Los Angeles County documentary-transfer-tax component = $9,141.00; City of Los Angeles component = $37,395.00; approved documentary-transfer-tax summary = $46,536.00.'
+        line_start: 23
+    witness: "A concise answer could name DC-TXN-25Q3-024, list the approved DealCloud tax amounts, list the memo's payment split and fallback, classify the protections, and conclude not ready, without saying the DealCloud row's 8.31m/6m terms and 46,536 summary do not reconcile to the memo's 28.735m/20.31m/113,736 model. Those facts satisfy the enumerated pass anchors as written."
+    counterevidence_considered: "The instruction says to reconcile the record with the approved decision, which can reasonably be read as requiring disclosure of the conflict. A nuanced answer can state each system's value and avoid treating them as one set of terms; the LLM judge may enforce this even though its pass anchors do not say so."
+    assumptions: []
+    unresolved:
+      - "The evaluator's actual LLM behavior on an answer that omits the conflict was not tested."
+      - "The tax model could reflect a different taxable-base interpretation, but the packet does not explain that difference."
+    not_run:
+      - "No LLM judge or verifier execution."

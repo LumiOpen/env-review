@@ -1,0 +1,347 @@
+task_summary:
+  intended_capability: >-
+    Synthesize subaward financial, risk, agreement, and monitoring evidence into a
+    defensible NIH subaward issuance recommendation.
+  required_result: >-
+    A self-contained response stating the release posture, unresolved execution
+    gates and owners, routine monitoring cadence and owners, proposed obligation,
+    risk score, and the negotiated F&A treatment versus the de minimis comparison.
+  environment_and_access: >-
+    Solver-visible workspace documents plus five sidecar MCP services for
+    issuance approvals, FDP requirements, award monitoring, subrecipient risk,
+    and subaward accounting. The task requests a final written recommendation.
+  repair_intent: ordinary_setup
+  intent_evidence:
+    - source: instruction.md
+      quote: >-
+        Sarah Chen needs a release recommendation for the proposed Colorado State
+        University NIH subaward in the September 2025 issuance workspace.
+    - source: manifest.json
+      quote: '"act": "none"'
+checks:
+  specification:
+    status: checked_no_issue
+    rationale: >-
+      The instruction identifies a written recommendation and enumerates the
+      required release, gate, owner, monitoring, and financial topics. The source
+      decision brief supplies a coherent posture: conditional approval, with no
+      issuance until the conditions are closed.
+    evidence:
+      - source: instruction.md
+        quote: >-
+          In your final response, tell Sarah whether the subaward may be released
+          now and state the formal decision posture.
+      - source: workspace/04_Monitoring_and_Issuance/Colorado_State_University_Subaward_Issuance_Decision_Brief_Sep2025.docx
+        quote: >-
+          The working draft preselects conditional approval subject to closure of
+          N-01 through N-12. Sarah Chen's signature and decision date remain blank
+          until the signature-ready package, closed checklist, and required
+          evidence have been reviewed.
+    claim_ids: []
+    gaps: []
+  inputs:
+    status: checked_no_issue
+    rationale: >-
+      The named checklist, risk assessment, decision brief, financial review, and
+      monitoring plan are present in workspace and uploaded by the manifest. The
+      relevant obligation, F&A, risk, condition, and monitoring figures are
+      cross-supported across the decision brief and checklist. The derived
+      spreadsheet extract does not execute formulas, so I rely on corroborating
+      document values for those figures.
+    evidence:
+      - source: manifest.json
+        quote: '"source": "workspace", "target": "/work/workspace", "container": "main"'
+      - source: workspace/03_Risk_and_Negotiation/Colorado_State_University_Subaward_Negotiation_Checklist_Sep2025.docx
+        quote: >-
+          Total proposed subaward obligation is $442,506.82 for the October 1,
+          2025 through September 30, 2028 subaward period.
+    claim_ids: []
+    gaps:
+      - >-
+        Spreadsheet formulas are not recalculated in the supplied text extract;
+        the key total and F&A figures are also stated in the checklist and decision brief.
+  environment_specification:
+    status: candidate
+    rationale: >-
+      The task is framed as producing a release recommendation and the manifest
+      declares act=none, but its sidecar includes callable write tools for issuance
+      decisions and other business records. No solver-facing no-write restriction
+      or post-state protection is evident. If preservation of the pre-issuance
+      record is part of the read-only task intent, the tool surface permits an
+      out-of-scope mutation.
+    evidence:
+      - source: instruction.md
+        quote: >-
+          Keep the final response self-contained and cite the source document
+          names in prose.
+      - source: manifest.json
+        quote: '"name": "docusign_subaward_approvals"'
+      - source: manifest.json
+        quote: '"url": "http://127.0.0.1:39101/mcp"'
+      - source: tools/docusign_subaward_approvals.py
+        quote: >-
+          def record_approval_decision(package_id: str, approval_step_id: str,
+          decision: str, approver_name: str, approver_role: str, evidence_ref: str,
+          decision_note: str, expected_package_version: int, condition_text: str |
+          None = None, decided_at: str | None = None):
+      - source: tools/docusign_subaward_approvals.py
+        quote: 'connection.execute("UPDATE issuance_packages SET decision_status=?, decided_at=? WHERE package_id=?", (decision, decided_at, package_id))'
+      - source: tools/docusign_subaward_approvals.py
+        quote: 'connection.commit()'
+    claim_ids: [C1]
+    gaps:
+      - >-
+        Whether the analysis-only framing and manifest act=none constitute a
+        behavioral no-write requirement is not explicit in the solver instruction.
+        The tool was not invoked; runtime exposure was not tested.
+  feasibility:
+    status: checked_no_issue
+    rationale: >-
+      The request can be answered from the supplied documents; no external access,
+      business-system update, or unresolved dependency is needed to prepare the
+      recommendation.
+    evidence:
+      - source: instruction.md
+        quote: >-
+          Review the Colorado State University Subaward Negotiation Checklist,
+          the Colorado State University Subaward Risk Assessment, and the
+          Colorado State University Subaward Issuance Decision Brief, using the
+          supporting financial review and final monitoring plan where those
+          documents point you to them.
+    claim_ids: []
+    gaps: []
+  reference:
+    status: checked_no_issue
+    rationale: >-
+      Cross-checks agree: the obligation is $442,506.82; 21.50% of the
+      $341,421.25 MTDC base is $73,405.57; the 15% comparison is $51,213.19 and
+      is not a substitute when the negotiated rate applies; risk is Moderate,
+      62/100. The brief marks N-05 complete and the other listed execution
+      conditions not closed.
+    evidence:
+      - source: workspace/03_Risk_and_Negotiation/Colorado_State_University_Subaward_Negotiation_Checklist_Sep2025.docx
+        quote: >-
+          Colorado State University proposed negotiated F&A at 21.50% of a
+          $341,421.25 MTDC base, producing $73,405.57 of F&A; the 15.00% de
+          minimis comparison would produce $51,213.19 and is not permitted if
+          the negotiated rate is applicable.
+      - source: workspace/04_Monitoring_and_Issuance/Colorado_State_University_Subaward_Issuance_Decision_Brief_Sep2025.docx
+        quote: 'Complete'
+      - source: workspace/04_Monitoring_and_Issuance/Colorado_State_University_Subaward_Issuance_Decision_Brief_Sep2025.docx
+        quote: >-
+          Moderate risk, 62 points on a 100-point assessment scale.
+    claim_ids: []
+    gaps: []
+  false_negative:
+    status: checked_no_issue
+    rationale: >-
+      The inspected task-specific checks are text-LLM criteria over answer.md,
+      with no deterministic exact-string or fixed-format check. The anchor permits
+      grouping the open conditions. LLM judgment can still vary; no runtime
+      submission was tested.
+    evidence:
+      - source: verifier_meta.json
+        quote: >-
+          A response may group these rather than reproduce every N label, but it
+          must cover each material group and explicitly recognize that refusal to
+          sign is a stop condition.
+      - source: verify.py
+        quote: 'ans.write_text(str(agent_output), encoding="utf-8")'
+    claim_ids: []
+    gaps:
+      - >-
+        LLM scoring was not run; subjective judge behavior remains unmeasured.
+  false_positive:
+    status: candidate
+    rationale: >-
+      A business-record mutation appears capable of coexisting with a correct
+      answer score: the approval API commits issuance state, while task-specific
+      grading is based on the final answer and declares no deterministic
+      post-state checks. This matters only if analysis-only behavior is intended
+      to preserve those records; that restriction is not explicit in the solver
+      instruction.
+    evidence:
+      - source: verifier_meta.json
+        quote: >-
+          No deterministic post-state checks are applicable: this is a read-only
+          analysis task.
+        json_pointer: /check_code
+      - source: verifier_meta.json
+        quote: '"answer.md"'
+      - source: tools/docusign_subaward_approvals.py
+        quote: 'connection.execute("UPDATE issuance_packages SET decision_status=?, decided_at=? WHERE package_id=?", (decision, decided_at, package_id))'
+      - source: tools/docusign_subaward_approvals.py
+        quote: 'connection.commit()'
+    claim_ids: [C1]
+    gaps:
+      - >-
+        No write was attempted. The consequence depends on whether the task's
+        read-only intent is binding on solver behavior.
+  answer_exposure:
+    status: checked_no_issue
+    rationale: >-
+      The workspace documents contain the facts needed for the requested
+      recommendation, but the task expressly asks the solver to review those
+      materials. No shortcut through hidden grader materials or tool feedback is
+      needed or established.
+    evidence:
+      - source: instruction.md
+        quote: >-
+          Include the financial/risk context that controls the recommendation,
+          including the proposed obligation, risk rating/score, and why the 15%
+          de minimis comparison does not authorize a reduction.
+      - source: manifest.json
+        quote: '"source": "workspace", "target": "/work/workspace"'
+    claim_ids: []
+    gaps: []
+  verifier:
+    status: checked_no_issue
+    rationale: >-
+      The verifier materializes the final chat response into answer.md when no
+      nonempty answer.md exists, matching the text-answer task. All five rubric
+      items read answer.md. No task-specific deterministic parser defect was
+      found. LLM endpoint availability and scoring are runtime-dependent and
+      were not tested.
+    evidence:
+      - source: verify.py
+        quote: 'ans.write_text(str(agent_output), encoding="utf-8")'
+      - source: verifier_meta.json
+        quote: '"answer.md"'
+    claim_ids: []
+    gaps:
+      - >-
+        No LLM judge call was made, so transport or model-specific behavior remains unknown.
+  reward:
+    status: observation
+    rationale: >-
+      The rubric labels three checks critical and two important, but the inspected
+      sidecar aggregation defaults each item to weight 1 and does not use tier as
+      a gate. Thus a hypothetical verdict failing one critical item and passing
+      the other four would receive partial reward while strict passed is false.
+      The source does not establish that tier labels are intended to encode
+      reward weights or hard gates, so this is an observation rather than a
+      defect finding.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"id": "decision_posture", "tier": "critical", "method": "llm"'
+      - source: verify.py
+        quote: 'w = float(it.get("weight", 1)); sc = float(results.get(it["id"], {}).get("score", 0.0) or 0.0)'
+    claim_ids: [C2]
+    gaps:
+      - >-
+        The pilot specifies no mapping from tier labels to reward weights or gates.
+        The hypothetical arithmetic does not predict any LLM verdict.
+  grader_tampering:
+    status: checked_no_issue
+    rationale: >-
+      The inspected interfaces mutate subaward/monitoring business records, but no
+      solver-reachable interface to verifier logic, rubric authority, or grading
+      artifacts was found. The business-state mutation concern is recorded under
+      environment_specification and false_positive.
+    evidence:
+      - source: manifest.json
+        quote: '"name": "docusign_subaward_approvals"'
+      - source: verifier_meta.json
+        quote: '"answer.md"'
+    claim_ids: []
+    gaps:
+      - >-
+        Inspection was limited to task files, their APIs, and grading sources; no
+        runtime interface inventory was performed.
+claims:
+  - id: C1
+    kind: candidate
+    check_ids: [environment_specification, false_positive]
+    summary: >-
+      The analysis task exposes business-record write APIs, with no explicit
+      solver-facing no-write rule or post-state grading check.
+    expected: >-
+      If the analysis-only task contract requires issuance and monitoring records
+      to remain unchanged, the environment should enforce that boundary or the
+      grader should detect violations.
+    actual: >-
+      The manifest exposes sidecar MCP tools, including record_approval_decision;
+      that function updates the issuance package and commits the decision. The
+      verifier metadata calls this a read-only analysis task and supplies no
+      deterministic post-state check, while all LLM evidence files are answer.md.
+    consequence: >-
+      A solver could alter an issuance decision or other business record and still
+      receive credit for a correct written recommendation if record preservation
+      is intended. This risks changing administrative state without it affecting
+      the grade.
+    evidence:
+      - source: instruction.md
+        quote: >-
+          Sarah Chen needs a release recommendation for the proposed Colorado
+          State University NIH subaward in the September 2025 issuance workspace.
+      - source: manifest.json
+        quote: '"name": "docusign_subaward_approvals"'
+      - source: tools/docusign_subaward_approvals.py
+        quote: 'connection.execute("UPDATE issuance_packages SET decision_status=?, decided_at=? WHERE package_id=?", (decision, decided_at, package_id))'
+      - source: tools/docusign_subaward_approvals.py
+        quote: 'connection.commit()'
+      - source: verifier_meta.json
+        quote: >-
+          No deterministic post-state checks are applicable: this is a read-only
+          analysis task.
+        json_pointer: /check_code
+      - source: verifier_meta.json
+        quote: '"answer.md"'
+    witness: >-
+      Static path only: the exposed API function accepts a decision and package
+      identifiers and commits an UPDATE to issuance_packages; task scoring loads
+      the response from answer.md and defines no DB-state rule. No task API was
+      invoked, and no mutation was attempted.
+    counterevidence_considered: >-
+      The instruction asks for a recommendation, not for recording a decision, and
+      the manifest says act=none. The API also validates the package version and
+      approval step. However, no explicit user-facing no-write prohibition or
+      independent state invariant was found in the inspected sources.
+    assumptions:
+      - >-
+        Whether the analysis-only wording and manifest act=none establish a
+        binding no-write task requirement is unresolved.
+      - >-
+        Tool availability and enforcement are assessed from the declared manifest
+        and static API source; no runtime call was made.
+    unresolved:
+      - >-
+        Confirm whether the intended solver contract treats business-record
+        updates as prohibited for this recommendation-only task.
+    not_run:
+      - No MCP tool was called and no business record was changed.
+  - id: C2
+    kind: observation
+    check_ids: [reward]
+    summary: >-
+      The visible critical/important tier labels do not affect the inspected
+      sidecar aggregation unless an explicit weight or gate is added.
+    expected: >-
+      If tier labels are intended to affect reward priority, critical checks would
+      receive greater weight or act as gates; the packet does not specify that
+      mapping.
+    actual: >-
+      The sidecar uses each item's weight with a default of 1 and bases strict
+      passed status on all non-gated item scores, while the tier field is unused
+      in the inspected aggregation.
+    consequence: >-
+      The objective importance implied by the tier labels may not correspond to
+      reward contribution, although partial credit may be intentional.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"id": "decision_posture", "tier": "critical", "method": "llm"'
+      - source: verify.py
+        quote: 'w = float(it.get("weight", 1)); sc = float(results.get(it["id"], {}).get("score", 0.0) or 0.0)'
+    witness: >-
+      Static scoring trace: if the five LLM items returned four scores of 1 and
+      decision_posture returned 0, the default equal-weight aggregate would be
+      0.8 and passed would be false. This is an illustrative aggregation only,
+      not a prediction of a judge verdict.
+    counterevidence_considered: >-
+      Partial reward may be the intended training signal, and the packet does not
+      say that critical/important tiers map to weights or hard gates.
+    assumptions: []
+    unresolved:
+      - Whether tier is descriptive only or is meant to control reward weight/gating.
+    not_run:
+      - No LLM judge or verifier was executed.

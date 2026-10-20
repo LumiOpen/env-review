@@ -1,0 +1,200 @@
+schema_version: '1'
+id: ER-e51ea1c7
+dataset: hf:XiaomiMiMo/MiMo-V2.6-RL-oss
+revision: e8e81e4945270b6212204bad99de1e598f7fb077
+title: CECL hold task does not observe an extra event on an unrelated held recommendation
+status: confirmed
+category: constraint_enforcement
+tasks:
+- id: s3k_0807_finance_insurance_en_t1_rl_005
+  path: general/envs/s3k_0807_finance_insurance_en_t1_rl_005
+problem:
+  description: The task forbids changes to unrelated recommendations and event history. A valid held decision
+    on an unrelated already-held recommendation appends a committed event without changing any grading
+    evidence.
+  expected: Scoring compliance with the explicit history restriction requires distinguishing the additional
+    unrelated event from an otherwise identical compliant episode.
+  actual: The unrelated balance check observes six unchanged fields, the history check observes one existing
+    target event, and the two operation checks observe the target recommendation only. A fresh unrelated
+    held event and updated_at are unobserved. This establishes a compliance gap, not a wrong answer or
+    an unsolvable task.
+evidence:
+- source: general/envs/s3k_0807_finance_insurance_en_t1_rl_005/instruction.md
+  line_start: 5
+  line_end: 5
+  quote: 'In your final response, explain the cross-system evidence you used: identify the hotel loan
+    in the memorandum and its operating-risk facts, identify the linked elevated-risk/CECL recommendation
+    and its current analytical amount, and explain why the recommendation remains visible even though
+    no accounting amount is approved or posted. State what decision you recorded, the evidence reference,
+    and the idempotency key. Do not change any unrelated recommendation, event history, or source file.'
+- source: general/envs/s3k_0807_finance_insurance_en_t1_rl_005/tools/cecl_governance_ledger.py
+  line_start: 179
+  line_end: 198
+  quote: |2-
+
+    def record_cecl_approval(recommendation_id: str, reviewer_id: str, reviewer_role: str, decision: str, approved_reserve_cents: int = None, evidence_reference: str = "", exception_detail: str = None, event_timestamp: str = "", idempotency_key: str = "") -> dict:
+        """Record an immutable CECL approval decision and update recommendation state atomically.
+
+        Args:
+            recommendation_id: Recommendation being reviewed.
+            reviewer_id: Human or service principal recording the decision.
+            reviewer_role: Governed reviewer role.
+            decision: approved, approved_with_exception, rejected, or held.
+            approved_reserve_cents: Nonnegative approved amount for approved decisions, otherwise null.
+            evidence_reference: Workpaper, memo, or committee evidence reference.
+            exception_detail: Required explanation for approved_with_exception and optional for held.
+            event_timestamp: ISO-8601 event timestamp.
+            idempotency_key: Caller key preventing duplicate posting of the same decision.
+        Returns:
+            Event and state transition metadata, including replayed status.
+        """
+        decisions = {"approved", "approved_with_exception", "rejected", "held"}; roles = {"finance", "controller", "credit_committee", "internal_audit", "external_audit_support", "system_posting"}
+        if decision not in decisions: raise ValueError("decision must be approved, approved_with_exception, rejected, or held")
+        if reviewer_role not in roles: raise ValueError("reviewer_role is not supported")
+- source: general/envs/s3k_0807_finance_insurance_en_t1_rl_005/tools/cecl_governance_ledger.py
+  line_start: 223
+  line_end: 235
+  quote: |2+
+                return {"event_id": existing["event_id"], "recommendation_id": recommendation_id, "previous_status": new_status, "new_status": new_status, "approved_reserve_cents": existing["approved_reserve_cents"], "event_timestamp": existing["event_timestamp"], "idempotency_key": idempotency_key, "replayed": True}
+            row = con.execute("SELECT approval_status, approved_reserve_cents FROM cecl_reserve_recommendations WHERE recommendation_id = ?", (recommendation_id,)).fetchone()
+            if row is None: return {"error": {"code": "NOT_FOUND", "message": "Recommendation was not found."}}
+            previous = row["approval_status"]
+            if previous in {"posted", "rejected"}:
+                raise ValueError(f"recommendation in {previous} status cannot receive another approval decision")
+            event_id = "EVT-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S%f")
+            con.execute("INSERT INTO cecl_review_events (event_id,recommendation_id,reviewer_id,reviewer_role,event_type,event_timestamp,decision,exception_flag,exception_detail,evidence_reference,event_comment,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", (event_id, recommendation_id, reviewer_id, reviewer_role, event_type, event_timestamp, decision, int(bool(exception_detail)), exception_detail, evidence_reference, idempotency_marker, datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")))
+            approval_date = event_timestamp[:10] if decision in {"approved", "approved_with_exception"} else None
+            con.execute("UPDATE cecl_reserve_recommendations SET approval_status = ?, approved_reserve_cents = COALESCE(?, approved_reserve_cents), approval_date = COALESCE(?, approval_date), updated_at = ? WHERE recommendation_id = ?", (new_status, approved_reserve_cents, approval_date, datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"), recommendation_id))
+        return {"event_id": event_id, "recommendation_id": recommendation_id, "previous_status": previous, "new_status": new_status, "approved_reserve_cents": approved_reserve_cents, "event_timestamp": event_timestamp, "idempotency_key": idempotency_key, "replayed": False}
+
+- source: general/envs/s3k_0807_finance_insurance_en_t1_rl_005/verifier_meta.json
+  json_pointer: /check_code
+  quote: |
+    from pathlib import Path
+    import sqlite3
+
+    RECOMMENDATION_ID = "REC-2025Q3-003"
+    EVIDENCE_REFERENCE = "CC-AGENDA-2025-10-29/ITEM-04"
+    RATIONALE = "Credit committee requested independent support for the 24-month hotel stabilization and 2.5% disposition-cost assumptions."
+
+    def _connect(ws):
+        path = Path(ws).parent / "system" / "cecl_governance_ledger" / "state.db"
+        if not path.exists():
+            return None
+        connection = sqlite3.connect(path)
+        connection.row_factory = sqlite3.Row
+        return connection
+
+    def check_held_recommendation_unapproved_unposted(ws):
+        connection = _connect(ws)
+        if connection is None:
+            return {"score": 0, "detail": "CECL governance ledger is missing"}
+        row = connection.execute("SELECT approval_status, recommended_reserve_cents, approved_reserve_cents, posted_reserve_cents, reporting_period_end FROM cecl_reserve_recommendations WHERE recommendation_id = ?", (RECOMMENDATION_ID,)).fetchone()
+        connection.close()
+        expected = ("held", 692541018, None, None, "2025-09-30")
+        actual = tuple(row) if row is not None else None
+        if actual == expected:
+            return {"score": 1, "detail": "Target recommendation is held with its analytical amount retained and no approval or posting"}
+        return {"score": 0, "detail": f"Unexpected target recommendation state: {actual!r}"}
+
+    def check_credit_committee_event(ws):
+        connection = _connect(ws)
+        if connection is None:
+            return {"score": 0, "detail": "CECL governance ledger is missing"}
+        rows = connection.execute("SELECT event_id, reviewer_role, event_type, event_timestamp, decision, exception_flag, exception_detail, evidence_reference, event_comment FROM cecl_review_events WHERE recommendation_id = ? ORDER BY event_timestamp, event_id", (RECOMMENDATION_ID,)).fetchall()
+        connection.close()
+        def rationale_matches(value):
+            text = (value or "").lower()
+            required = ("independent support", "24-month", "stabilization", "2.5%", "disposition-cost")
+            return all(token in text for token in required)
+        matches = [row for row in rows if row["reviewer_role"] == "credit_committee" and row["event_type"] == "credit_committee_review" and row["decision"] == "held" and row["exception_flag"] == 1 and row["evidence_reference"] == EVIDENCE_REFERENCE and rationale_matches(row["exception_detail"]) and isinstance(row["event_comment"], str) and row["event_comment"].startswith("Idempotency-Key: ") and len(row["event_comment"].split(": ", 1)[1].strip()) >= 8]
+        markers = [row["event_comment"] for row in rows if row["event_comment"]]
+        if len(rows) >= 2 and len(matches) == 1 and len(set(markers)) == len(markers):
+            if matches[0]["event_timestamp"] > "2025-10-25T12:44:00Z":
+                return {"score": 1, "detail": "A new immutable credit-committee hold event has the required evidence, rationale, and unique idempotency marker"}
+        return {"score": 0, "detail": "Required new credit-committee hold event was not found"}
+
+    def check_unrelated_recommendations_unchanged(ws):
+        connection = _connect(ws)
+        if connection is None:
+            return {"score": 0, "detail": "CECL governance ledger is missing"}
+        rows = connection.execute("SELECT recommendation_id, approval_status, recommended_reserve_cents, approved_reserve_cents, posted_reserve_cents, posting_reference FROM cecl_reserve_recommendations WHERE recommendation_id <> ? ORDER BY recommendation_id", (RECOMMENDATION_ID,)).fetchall()
+        connection.close()
+        expected = [("REC-2024Q3-H03", "held", 71358206, 69000017, None, None), ("REC-2024Q4-H01", "held", 49731842, None, None, None), ("REC-2024Q4-H02", "held", 28374619, 28194763, 28150013, "ARCHIVE/2024/Q4/POST-03"), ("REC-2025Q3-001", "posted", 541287631, 525000000, 525000000, "JE-ACR-2025Q3-184"), ("REC-2025Q3-002", "posted", 488320477, 475000000, 475000000, "JE-ACR-2025Q3-185"), ("REC-2025Q3-004", "posted", 376499264, 370000000, 370000000, "JE-ACR-2025Q3-191"), ("REC-2025Q3-005", "posted", 385113152, 385000000, 380000000, "JE-ACR-2025Q3-192")]
+        if [tuple(row) for row in rows] == expected:
+            return {"score": 1, "detail": "All unrelated recommendation balances and statuses remain unchanged"}
+        return {"score": 0, "detail": "An unrelated recommendation changed"}
+
+    def check_existing_event_history_unchanged(ws):
+        connection = _connect(ws)
+        if connection is None:
+            return {"score": 0, "detail": "CECL governance ledger is missing"}
+        row = connection.execute("SELECT reviewer_id, reviewer_role, event_type, event_timestamp, decision, exception_flag, exception_detail, evidence_reference, event_comment FROM cecl_review_events WHERE event_id = ?", ("EVT-2025Q3-004",)).fetchone()
+        connection.close()
+        expected = ("person_sarah_chen", "finance", "recommendation_submitted", "2025-10-25T12:44:00Z", "held", 1, RATIONALE, EVIDENCE_REFERENCE, "Analytical recommendation remains unchanged while additional evidence is assembled.")
+        if row is not None and tuple(row) == expected:
+            return {"score": 1, "detail": "The pre-existing finance hold event remains unchanged"}
+        return {"score": 0, "detail": "The pre-existing event history was changed"}
+- source: general/envs/s3k_0807_finance_insurance_en_t1_rl_005/mcp_http.py
+  line_start: 191
+  line_end: 200
+  quote: |-
+    def _public_functions(module) -> list[tuple[str, Any]]:
+        out: list[tuple[str, Any]] = []
+        for name, obj in inspect.getmembers(module, inspect.isfunction):
+            if name.startswith("_"):
+                continue
+            if getattr(obj, "__module__", None) != module.__name__:
+                continue
+            out.append((name, obj))
+        out.sort(key=lambda kv: kv[0])
+        return out
+- source: general/envs/s3k_0807_finance_insurance_en_t1_rl_005/mcp_http.py
+  line_start: 345
+  line_end: 356
+  quote: |2-
+
+        module = _load_tools_module(tools_path)
+        fns = _public_functions(module)
+        if not fns:
+            print(f"FATAL: no public tool functions found in {tools_path}",
+                  file=sys.stderr)
+            sys.exit(1)
+
+        mcp = FastMCP(server_name, host="0.0.0.0", port=port)
+        for name, fn in fns:
+            mcp.add_tool(_wrap_capped(fn), name=name,
+                         description=_first_line(fn.__doc__) or name)
+- source: general/envs/s3k_0807_finance_insurance_en_t1_rl_005/verify.py
+  line_start: 348
+  line_end: 355
+  quote: |2-
+        results = {}
+        gates = [it for it in items if it.get("gate")]
+        atoms = [it for it in items if not it.get("gate")]
+        gate_failed = []
+        sp = meta.get("src_protect")
+        if sp:   # 源守恒 gate(自动):solve 写足迹之外的文件/DB 表被动 → 整题 0(防篡改源底稿)
+            try:
+                import importlib.util
+validation:
+  method: static
+  summary: Read the exposed tool registration, approval preconditions, all four state rules, answer-only
+    LLM evidence, and scoring configuration. A read-only query verifies an eligible already-held record
+    and unused idempotency marker. Traced the proposed update/insert without executing it.
+  assumptions:
+  - The published standalone _grade_sc path is used; an external grade_rubric path is unassessed.
+  - The published tool surface is available and there is no additional deployment-specific guard.
+  - A fresh generated event ID is available; compare otherwise identical final answers with fixed judge
+    randomness.
+  not_run:
+  - Original tool or grader execution
+  - End-to-end rollout
+  reproducer: env/XiaomiMiMo/MiMo-V2.6-RL-oss/evidence/ER-e51ea1c7/witness.json
+provenance:
+  discovered_by: gpt-6-luna rubric-v0.1 pilot; independently adjudicated by parent Codex agent
+  experiment: env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-rubric-v01-pilot
+discussion: Agent-assisted static adjudication, not independent human validation. Same broad unobserved-state-change
+  family as ER-2f4b62ce and ER-2b8fd984, with a different event-history witness. A compliant solution
+  remains possible. No answer-accuracy impact or useful reward-hacking advantage is demonstrated; do not
+  count this as a demonstrated correctness defect.

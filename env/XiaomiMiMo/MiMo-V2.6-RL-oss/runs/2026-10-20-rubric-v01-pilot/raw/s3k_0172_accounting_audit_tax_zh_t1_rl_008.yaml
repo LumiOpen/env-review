@@ -1,0 +1,289 @@
+task_summary:
+  intended_capability: >-
+    Reconcile the finalized U9C year-end inventory count with verified Weaver
+    variance cases and the approved report classification in the disposition
+    workbook; explain the gross-to-net bridge.
+  required_result: >-
+    Give U9C gross loss, gross gain, and net loss; give the formal Weaver
+    per-material loss/gain composition and totals; identify the accounting source
+    versus reporting classification source; quantify the equal gross
+    reclassification and explain why net loss is unchanged.
+  environment_and_access: >-
+    Workspace extracts and reports are mounted in the main container. Flux WMS,
+    Weaver E-cology approvals, and Yonyou U9C inventory tools and databases are
+    exposed through sidecar MCP services. The task explicitly requires read-only
+    analysis and no system or workspace changes.
+  repair_intent: ordinary_setup
+  intent_evidence:
+    - source: instruction.md
+      quote: '只读分析，不修改系统或工作区文件。'
+    - source: manifest.json
+      quote: '"act": "none"'
+checks:
+  specification:
+    status: checked_no_issue
+    rationale: >-
+      The request clearly separates the U9C accounting source from the Weaver
+      verified-case presentation basis and specifies all totals, item details,
+      and the required bridge. The handling workbook and report explain the
+      adopted classification.
+    evidence:
+      - source: instruction.md
+        quote: >-
+          最终回复必须同时写出：关键金额、泛微逐物料构成、三源之间哪个是核算来源/哪个是正式报告分类口径，以及“净额一致但毛额分类不同”的业务结论。
+      - source: workspace/02_核查处理/2024年12月存货盘盈盘亏处理表.xlsx
+        quote: >-
+          截至2025年1月10日，6条差异明细已完成账物复核和收发存单据初核；净盘亏1,590.44元中，盘亏原值3,218.60元与盘盈1,628.16元分别列示，尚未完成责任赔偿确认和最终审批，暂不直接进行税前扣除。
+    claim_ids: []
+    gaps: []
+  inputs:
+    status: checked_no_issue
+    rationale: >-
+      All listed workspace assets and both databases are available in the audit
+      cache. The requested facts are in the finalized U9C balances, verified
+      Weaver cases, handling workbook, and review report. The 2024 annual-report
+      extract is truncated after page 100 of 360, but it is not needed for the
+      required bridge.
+    evidence:
+      - source: workspace/03_分析报告/2024年末存货盘点差异核查报告.docx
+        quote: >-
+          盘亏原值3,218.60元，盘盈金额1,628.16元，净盘亏1,590.44元。
+      - source: workspace/02_核查处理/2024年12月存货盘盈盘亏处理表.xlsx
+        quote: >-
+          盘亏明细：汽车扬声器磁钢组件558.00元、漆包铜线1,092.00元、扬声器振膜组件261.00元、汽车扬声器总成1,307.60元；盘盈明细：注塑ABS粒子313.76元、AVAS警示音模块1,314.40元。
+    claim_ids: []
+    gaps:
+      - >-
+        Formula execution is disabled in the derived workbook extract; the report
+        and workbook also contain explicit fixed totals and material lines. The
+        annual report extract covers only the first 100 of 360 pages.
+  environment_specification:
+    status: candidate
+    rationale: >-
+      The instruction expressly forbids system and workspace modifications, but
+      the manifest exposes mutation-capable sidecar APIs, including a posted
+      inventory adjustment and approval actions. No enforced read-only tool
+      boundary is declared; the task-specific no_mutation helper is not listed as
+      a rule item in verifier_meta.json. This creates an out-of-scope write path.
+    evidence:
+      - source: instruction.md
+        quote: '只读分析，不修改系统或工作区文件。'
+      - source: manifest.json
+        quote: '"name": "yonyou_u9c_inventory"'
+      - source: tools/yonyou_u9c_inventory.py
+        quote: 'def post_inventory_adjustment('
+      - source: tools/weaver_ecology_approval.py
+        quote: 'def record_approval_action('
+      - source: verifier_meta.json
+        quote: '"detail": "act=none，不要求也不检查工作区后态"'
+    claim_ids: [C1]
+    gaps:
+      - >-
+        No tool was invoked; reachability is inferred from the manifest and the
+        declared tool modules rather than a live MCP session.
+  feasibility:
+    status: checked_no_issue
+    rationale: >-
+      The databases expose the count and verified-case records, and the workbook
+      and report state the adopted presentation. A read-only aggregation and
+      arithmetic suffice; no write or external dependency is needed.
+    evidence:
+      - source: system/yonyou_u9c_inventory/schema.sql
+        quote: 'CREATE TABLE inventory_period_balance'
+      - source: system/weaver_ecology_approval/schema.sql
+        quote: 'CREATE TABLE inventory_variance_case'
+    claim_ids: []
+    gaps: []
+  reference:
+    status: checked_no_issue
+    rationale: >-
+      Read-only SELECT aggregation of the FINAL 2024-12-31 DETAIL balances for
+      ORG_SS_688533/FAC_YUANHE gives U9C loss ¥1,900.00, gain ¥309.56, and net
+      loss ¥1,590.44. The six Weaver cases marked VERIFIED for the same date sum
+      to loss ¥3,218.60 and gain ¥1,628.16, also net ¥1,590.44. Each formal-side
+      item agrees with the handling workbook and report. Both formal gross sides
+      exceed U9C by ¥1,318.60, so the net is unchanged.
+    evidence:
+      - source: system/yonyou_u9c_inventory/state.db
+        quote: >-
+          Read-only SELECT result: count_date=2024-12-31; record_level=DETAIL;
+          count_status=FINAL; theoretical=205666400 fen; counted=205507356 fen;
+          theoretical minus counted=159044 fen.
+      - source: system/yonyou_u9c_inventory/state.db
+        quote: >-
+          Read-only SELECT result for FINAL 2024-12-31 DETAIL rows: total positive
+          loss deltas=190000 fen; total negative deltas (gain absolute values)=30956 fen.
+      - source: system/weaver_ecology_approval/state.db
+        quote: >-
+          Read-only SELECT result, count_date=2024-12-31 and
+          verification_status=VERIFIED: GAIN 2 cases / 162816 fen; LOSS 4 cases /
+          321860 fen.
+      - source: workspace/03_分析报告/2024年末存货盘点差异核查报告.docx
+        quote: >-
+          金额勾稽关系为：2,056,664.00元－2,055,073.56元＝1,590.44元；3,218.60元－1,628.16元＝1,590.44元。六条明细分别汇总为盘亏3,218.60元和盘盈1,628.16元。
+    claim_ids: []
+    gaps: []
+  false_negative:
+    status: checked_no_issue
+    rationale: >-
+      The anchors allow prose or tables and accept equivalent signed-variance
+      sums with ±¥0.01 tolerance. No exact output schema or single wording is
+      required. No LLM judgment was executed.
+    evidence:
+      - source: verifier_meta.json
+        quote: >-
+          可用表格、文字或明细加总表达，不要求逐字复述SQL筛选字段或正负号规则。允许金额绝对误差±0.01元。
+      - source: instruction.md
+        quote: >-
+          不要把U9C的盘亏/盘盈总额误写成泛微逐物料构成，也不要只给净盘亏而省略两侧毛额。
+    claim_ids: []
+    gaps:
+      - >-
+        LLM scoring variability was not tested.
+  false_positive:
+    status: candidate
+    rationale: >-
+      The explicit no-write requirement is not enforced by the task grader. The
+      available tools can post inventory ledger adjustments or record approval
+      actions; the four scoring items only inspect answer.md, while the declared
+      no_mutation helper is not referenced by any rule item. A mutating submission
+      can therefore receive answer-based credit.
+    evidence:
+      - source: tools/yonyou_u9c_inventory.py
+        quote: >-
+          INSERT INTO inventory_ledger_entry
+      - source: tools/weaver_ecology_approval.py
+        quote: 'con.commit()'
+      - source: verifier_meta.json
+        quote: '"answer.md"'
+      - source: verifier_meta.json
+        quote: 'def no_mutation(ws):'
+        json_pointer: /check_code
+      - source: verify.py
+        quote: 'gates = [it for it in items if it.get("gate")]'
+    claim_ids: [C1]
+    gaps:
+      - >-
+        No attempted mutation was made; the static path is sufficient to show the
+        declared write operations and answer-only rubric, but live permissions
+        were not exercised.
+  answer_exposure:
+    status: checked_no_issue
+    rationale: >-
+      The workspace includes the required source documents and the task expressly
+      directs the solver to use them. Those materials are intended evidence for
+      the reconciliation, not a hidden solution bypass.
+    evidence:
+      - source: instruction.md
+        quote: >-
+          请查阅用友U9C存货核算系统中元和厂区2024年12月31日的定稿盘点结果、泛微E-cology存货差异审批与税损档案中同一盘点日且已核实的案件，并回看《2024年12月存货盘盈盘亏处理表》确认正式报告采用的分类口径。
+      - source: manifest.json
+        quote: '"source": "workspace", "target": "/work/workspace"'
+    claim_ids: []
+    gaps: []
+  verifier:
+    status: candidate
+    rationale: >-
+      The grader advertises a no_mutation helper in check_code, but no verifier
+      item references it: the four items are LLM checks over answer.md. Static
+      inspection therefore finds no working post-state guard for the explicit
+      read-only contract; this is the grader side of C1. The final response is
+      materialized to answer.md in verify.py. No judge call was run.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"check_code":'
+      - source: verifier_meta.json
+        quote: '"id": "u9c_gross_net", "tier": "critical", "method": "llm"'
+      - source: verify.py
+        quote: 'ans.write_text(str(agent_output), encoding="utf-8")'
+    claim_ids: [C1]
+    gaps:
+      - >-
+        Runtime LLM endpoint behavior was not tested.
+  reward:
+    status: checked_no_issue
+    rationale: >-
+      The four checks correspond to the required gross/net amounts, formal
+      per-item composition, source distinction, and reclassification bridge.
+      No concrete reward aggregation defect beyond the unguarded mutation path
+      was established.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"id": "gross_reclass_bridge"'
+    claim_ids: []
+    gaps:
+      - >-
+        No numerical LLM score is inferred from static source inspection.
+  grader_tampering:
+    status: checked_no_issue
+    rationale: >-
+      The exposed write tools alter inventory or approval business records; no
+      route to modify verifier code, rubric anchors, or grading inputs other than
+      the submitted answer was identified. The business-record issue is captured
+      under C1.
+    evidence:
+      - source: tools/yonyou_u9c_inventory.py
+        quote: >-
+          INSERT INTO inventory_ledger_entry
+      - source: verifier_meta.json
+        quote: '"answer.md"'
+    claim_ids: []
+    gaps: []
+claims:
+  - id: C1
+    kind: candidate
+    check_ids: [environment_specification, false_positive, verifier]
+    summary: >-
+      Explicitly read-only inventory analysis exposes callable business-record
+      mutation tools, and the grader does not appear to enforce the no-write rule.
+    expected: >-
+      The task instruction requires no system or workspace changes; that
+      restriction should be enforced at the tool boundary or checked in grading.
+    actual: >-
+      The manifest exposes U9C, Weaver, and Flux tools. U9C has a posting method
+      that inserts a POSTED inventory-ledger adjustment; Weaver can insert an
+      approval action and update the variance case. All rubric items read only
+      answer.md, and the check_code no_mutation function is not among the listed
+      rule items.
+    consequence: >-
+      A solver can violate the explicit no-change requirement, alter accounting
+      or approval records, and still be credited on the written analysis if it
+      supplies the expected answer.
+    evidence:
+      - source: instruction.md
+        quote: '只读分析，不修改系统或工作区文件。'
+      - source: manifest.json
+        quote: '"name": "yonyou_u9c_inventory"'
+      - source: tools/yonyou_u9c_inventory.py
+        quote: 'def post_inventory_adjustment('
+      - source: tools/yonyou_u9c_inventory.py
+        quote: 'INSERT INTO inventory_ledger_entry'
+      - source: tools/weaver_ecology_approval.py
+        quote: 'def record_approval_action('
+      - source: tools/weaver_ecology_approval.py
+        quote: 'UPDATE inventory_variance_case SET compensation_status = ?, final_approval_status = ?, '
+      - source: verifier_meta.json
+        quote: '"answer.md"'
+      - source: verifier_meta.json
+        quote: 'def no_mutation(ws):'
+        json_pointer: /check_code
+    witness: >-
+      Static trace: a declared tool method writes to inventory_ledger_entry and
+      commits; another approval method inserts approval_action, updates
+      inventory_variance_case, and commits. The rubric lists four answer.md-only
+      LLM items and no method=rule item invoking no_mutation. No tool was called.
+    counterevidence_considered: >-
+      The APIs validate inputs, approval state, and idempotency, and the explicit
+      instruction prohibits changes. Those controls do not make the APIs
+      read-only or connect their writes to a grading gate; the task does not need
+      any mutation to answer its question.
+    assumptions:
+      - >-
+        Tool capabilities in the manifest and source modules are exposed as
+        declared in the intended environment, per the rubric's presentation assumption.
+    unresolved:
+      - >-
+        Live MCP permission behavior was not exercised, but static API paths show
+        persistent writes and the verifier metadata contains no post-state rule item.
+    not_run:
+      - No tool, setup command, grader, or task code was executed.

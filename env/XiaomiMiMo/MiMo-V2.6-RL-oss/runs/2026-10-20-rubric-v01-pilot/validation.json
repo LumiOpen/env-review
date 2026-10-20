@@ -1,0 +1,142 @@
+{
+  "raw_reviews": 12,
+  "expected_checks_per_review": 11,
+  "check_entries": 132,
+  "claim_kinds": {
+    "candidate": 18,
+    "observation": 1
+  },
+  "check_status_counts": {
+    "checked_no_issue": 66,
+    "candidate": 38,
+    "observation": 20,
+    "blocked": 1,
+    "not_checked": 6,
+    "not_applicable": 1
+  },
+  "per_check_status_counts": {
+    "specification": {
+      "checked_no_issue": 7,
+      "candidate": 3,
+      "observation": 2
+    },
+    "inputs": {
+      "observation": 2,
+      "checked_no_issue": 5,
+      "candidate": 4,
+      "blocked": 1
+    },
+    "environment_specification": {
+      "candidate": 6,
+      "observation": 2,
+      "checked_no_issue": 4
+    },
+    "feasibility": {
+      "checked_no_issue": 11,
+      "candidate": 1
+    },
+    "reference": {
+      "observation": 3,
+      "checked_no_issue": 8,
+      "candidate": 1
+    },
+    "false_negative": {
+      "checked_no_issue": 8,
+      "observation": 1,
+      "candidate": 3
+    },
+    "false_positive": {
+      "candidate": 10,
+      "checked_no_issue": 2
+    },
+    "answer_exposure": {
+      "checked_no_issue": 7,
+      "not_checked": 2,
+      "candidate": 1,
+      "observation": 2
+    },
+    "verifier": {
+      "candidate": 7,
+      "observation": 2,
+      "checked_no_issue": 3
+    },
+    "reward": {
+      "candidate": 2,
+      "observation": 6,
+      "checked_no_issue": 3,
+      "not_checked": 1
+    },
+    "grader_tampering": {
+      "not_applicable": 1,
+      "checked_no_issue": 8,
+      "not_checked": 3
+    }
+  },
+  "raw_files": {
+    "s3k_0000_accounting_audit_tax_en_t1_rl_008": {
+      "sha256": "bdc605e8404b631f1bed798d0d3a82414d6e9f368bd0a9e8aabe8b968bdcb7d2",
+      "last_modified_at": "2026-10-20T11:03:51.435158+00:00"
+    },
+    "s3k_0988_finance_insurance_zh_t1_rl_005": {
+      "sha256": "4d3aa440292b66aaf89e2412474f4e8c321ebc9189003e0ebdc87acdc3dd53e4",
+      "last_modified_at": "2026-10-20T10:57:45.984521+00:00"
+    },
+    "s3k_1587_hospitality_fnb_zh_t4_rl_003": {
+      "sha256": "28902b63fd3def66a2409ca8e7987fe2d0b4aab7fa74f3119ed2cbc6e94d403c",
+      "last_modified_at": "2026-10-20T10:57:53.803530+00:00"
+    },
+    "s3k_2328_manufacturing_quality_zh_t3_rl_007": {
+      "sha256": "322c539ae99e1fcaf877592fe8217b273f721879ab36f88567c5e1412a8bf6b1",
+      "last_modified_at": "2026-10-20T11:28:41.425396+00:00"
+    },
+    "s3k_1867_it_information_systems_zh_t3_rl_001": {
+      "sha256": "918331e87bcc2e3ce97d11ce605a8c6177822460fc387c2e431512cd0861c281",
+      "last_modified_at": "2026-10-20T11:31:31.649085+00:00"
+    },
+    "s3k_0807_finance_insurance_en_t1_rl_005": {
+      "sha256": "c9eec4e476013038299e697aec8b9251bf9e02b4ec2c8f45e2eb9dafb71d0c4d",
+      "last_modified_at": "2026-10-20T11:05:08.597801+00:00"
+    },
+    "s3k_1806_it_information_systems_en_t3_rl_001": {
+      "sha256": "b972b9d2619bd5eccea97852190f483d806d0a5bdb3f5ae4029d37abd9ba0bba",
+      "last_modified_at": "2026-10-20T11:32:39.965110+00:00"
+    },
+    "s3k_1564_hospitality_fnb_en_t2_rl_002": {
+      "sha256": "1c3425671213a1e13ef3b57c98fa9cbf4adb7fba65b88117a92bd003daad584b",
+      "last_modified_at": "2026-10-20T11:30:00.042135+00:00"
+    },
+    "s3k_0607_education_research_admin_en_t2_rl_003": {
+      "sha256": "2d1f051aab480d10e3333167e79c1eb3d13392f5d503db2d1dcd7c0842802e21",
+      "last_modified_at": "2026-10-20T11:22:55.175239+00:00"
+    },
+    "s3k_0399_consulting_bizops_analytics_en_t2_rl_006": {
+      "sha256": "41523a561b57e2540f451f080b94e739e86e14f5a1e9b98980f75da6264626c3",
+      "last_modified_at": "2026-10-20T11:36:10.046334+00:00"
+    },
+    "s3k_0990_finance_insurance_zh_t1_rl_008": {
+      "sha256": "8deb2452b3f7875523269c0976ac00f7a1d769510468dcdef72a113717127712",
+      "last_modified_at": "2026-10-20T11:33:01.247071+00:00"
+    },
+    "s3k_0172_accounting_audit_tax_zh_t1_rl_008": {
+      "sha256": "f250a8ce4d9e34995170accbff361fc64c48842d59dd830183f71ea35efd0b8f",
+      "last_modified_at": "2026-10-20T11:30:59.486861+00:00"
+    }
+  },
+  "reference_warnings": [
+    {
+      "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+      "claim_id": "C3",
+      "check_id": "inputs",
+      "issue": "Claim lists check, but check does not link back to claim; raw preserved."
+    }
+  ],
+  "duplicate_yaml_keys": 0,
+  "frozen_source_files_verified": 413,
+  "frozen_source_files_changed": [],
+  "frozen_prompts_verified": 6,
+  "source_quotes_note": "Canonical quotes verified separately by scripts/check_seed_evidence.py; raw quote fields can contain paraphrases.",
+  "repository_tests_passed": 71,
+  "canonical_quotes_verified": 42,
+  "new_witness_source_hashes_verified": 28,
+  "new_witness_queries_verified": 4
+}

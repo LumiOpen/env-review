@@ -54,10 +54,18 @@ adjudicated. This is not a held-out result.
 | Luna task contract | 6 | 0 | No concrete finding in that screen; tasks remain unlabeled |
 | Derived read-only rule | 34 | 21 | 1 known instance confirmed, 20 awaiting adjudication |
 
-The growing reference contains **one confirmed static defect, two behavior-only
-records, one candidate, and one rejected claim**. These five findings concern four
+At the end of the initial run, the reference contained **one confirmed static gap, two behavior-only
+records, one candidate, and one rejected claim**. Those five findings concern four
 tasks. Repeated detection of the finance defect does not create another canonical
 defect. No full agent rollout or original grader execution was performed.
+
+The later [12-task rubric v0.1 pilot](../env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-rubric-v01-pilot/README.md)
+reviewed 19 claims: five confirmed constraint-enforcement gaps, six unresolved
+candidates, four behavior-only observations, and four rejected claims. It found
+no confirmed answer-correctness or impossibility defect. Four newly confirmed
+task instances join the initial finance instance in the same broad unobserved
+state-change family. These non-fatal gaps are indexed as `constraint_enforcement`;
+they must not be counted as demonstrated unusable tasks.
 
 The model screens used native Codex `gpt-6-luna` subagents with high reasoning
 effort. Their raw outputs preserve scope, source hashes, timings, candidate

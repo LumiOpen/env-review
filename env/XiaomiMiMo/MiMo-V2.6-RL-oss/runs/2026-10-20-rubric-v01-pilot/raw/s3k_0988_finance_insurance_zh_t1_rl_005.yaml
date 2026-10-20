@@ -1,0 +1,287 @@
+task_summary:
+  intended_capability: >-
+    Reconcile an approved Jiangxi Copper cathode-copper hedge from the Yonyou
+    approval and execution ledger, including its authorization chain, contract,
+    verified fills, coverage, and unfilled difference.
+  required_result: >-
+    Identify the approval case, project batch, and futures contract; report each
+    authorized verified fill's instruction lots, executed lots, and covered tons;
+    aggregate the fills without double-counting contract, settlement, or position
+    evidence; explain whether the unfilled amount is a controlled execution
+    difference.
+  environment_and_access: >-
+    The manifest supplies a sidecar yonyou_hedge_approval MCP endpoint and uploads
+    the system database and tools there. Query methods expose approval, timeline,
+    execution-evidence, and reconciliation data. The prompt explicitly requires
+    read-only work, but the public tool module also defines a record-inserting
+    method that commits to the same database; see candidate C1.
+  repair_intent: ordinary_setup
+  intent_evidence:
+    - source: instruction.md
+      quote: "此项仅做只读核对，不要修改任何系统记录。"
+    - source: manifest.json
+      quote: '"command": "python3 /installed-agent/sidecar_entrypoint.py --start-and-detach"'
+checks:
+  specification:
+    status: checked_no_issue
+    rationale: >-
+      The requested identifiers, per-batch measures, evidence scope, totals, and
+      read-only constraint are explicit. No materially conflicting obligation
+      was found in the instruction.
+    evidence:
+      - source: instruction.md
+        quote: "按实际分批成交逐批列出指令手数、成交手数和覆盖吨数。"
+      - source: instruction.md
+        quote: "合同、结算单和持仓报表可以用于勾稽，但不能再次当作成交回报累计。"
+    claim_ids: []
+    gaps: []
+  inputs:
+    status: checked_no_issue
+    rationale: >-
+      The read-only database contains the requested approval, its timeline, and
+      all matching evidence rows. The query methods return the fields required
+      by the answer. The 2024 annual-report text extract is truncated after page
+      100, but the task asks for a Yonyou-ledger reconciliation and does not
+      require that report for the stated result.
+    evidence:
+      - source: system/yonyou_hedge_approval/state.db
+        quote: "hedge_approval_cases: case_id=HAC-2025-0317-01; batch_id=BATCH-2025-CU-01; contract_id=SHFE-CU2509; approval_status=APPROVED; planned_lots=180; planned_quantity_ton=900"
+      - source: tools/yonyou_hedge_approval.py
+        quote: "SELECT evidence_id, case_id, batch_id, contract_id, execution_batch_no,\n                   evidence_type, instruction_lots, executed_lots, covered_quantity_ton,\n                   reference_notional_yuan, evidence_document_no, evidence_date,\n                   verification_status, authorization_status, source_file_name"
+        line_start: 142
+    claim_ids: []
+    gaps: []
+  environment_specification:
+    status: candidate
+    rationale: >-
+      The task's read-only behavior depends on leaving the approval/evidence
+      database unchanged, but the advertised Yonyou tool surface includes a
+      public method that inserts and commits new execution evidence. The same
+      task metadata supplies no deterministic post-state check. This is one
+      mechanism recorded once as C1, also associated with false_positive.
+    evidence:
+      - source: manifest.json
+        quote: '"name": "yonyou_hedge_approval", "url": "http://127.0.0.1:39103/mcp"'
+        line_start: 55
+      - source: mcp_http.py
+        quote: "for name, fn in fns:\n        mcp.add_tool(_wrap_capped(fn), name=name,\n                     description=_first_line(fn.__doc__) or name)"
+        line_start: 354
+      - source: tools/yonyou_hedge_approval.py
+        quote: "def register_execution_evidence(case_id: str, batch_id: str, company_id: str, product_id: str, contract_id: str, execution_batch_no: str, evidence_type: str, instruction_lots: int, executed_lots: int, covered_quantity_ton: int, reference_notional_yuan: int, evidence_document_no: str, evidence_date: str, verification_status: str = \"PENDING\", authorization_status: str = \"NOT_APPLICABLE\", source_file_name: str = None, recorded_by: str = None, notes: str = None):"
+        line_start: 183
+      - source: tools/yonyou_hedge_approval.py
+        quote: "con.execute(\"INSERT INTO execution_evidence VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)\", values)\ncon.commit()"
+        line_start: 241
+      - source: verifier_meta.json
+        quote: "No deterministic post-state checks for this read-only reconciliation task."
+        line_start: 54
+    claim_ids: [C1]
+    gaps:
+      - "No runtime tool call was made by design. The package's static MCP registration path and mutator are visible; an external wrapper removing that method is not evidenced in the packet."
+  feasibility:
+    status: checked_no_issue
+    rationale: >-
+      The available read methods cover approval lookup, authorization timeline,
+      filtered evidence lookup, and fill-only aggregation. The database contains
+      a matching approved case and corresponding entries, so the requested
+      reconciliation is feasible from the specified sources.
+    evidence:
+      - source: tools/yonyou_hedge_approval.py
+        quote: "def search_hedge_approval_cases("
+        line_start: 30
+      - source: tools/yonyou_hedge_approval.py
+        quote: "def get_approval_timeline("
+        line_start: 76
+      - source: tools/yonyou_hedge_approval.py
+        quote: "def search_execution_evidence("
+        line_start: 104
+      - source: tools/yonyou_hedge_approval.py
+        quote: "def reconcile_execution_evidence("
+        line_start: 152
+      - source: tools/yonyou_hedge_approval.py
+        quote: "The reconciliation query filters evidence_type = 'TRADE_FILL' and, by default, verification_status = 'VERIFIED' and authorization_status = 'AUTHORIZED'."
+        line_start: 169
+    claim_ids: []
+    gaps: []
+  reference:
+    status: checked_no_issue
+    rationale: >-
+      The three verified, authorized TRADE_FILL rows agree with the reference
+      values. Their fills total 146 lots and 730 tons; instructions total 180
+      lots, leaving 34 unfilled lots. The separate contract, settlement, and
+      position rows do not contradict these totals and must not be counted as
+      additional fills.
+    evidence:
+      - source: system/yonyou_hedge_approval/state.db
+        quote: "EVD-250321-014C / EXEC-01-A: TRADE_FILL, instruction_lots=100, executed_lots=80, covered_quantity_ton=400, verification_status=VERIFIED, authorization_status=AUTHORIZED"
+      - source: system/yonyou_hedge_approval/state.db
+        quote: "EVD-250328-021B / EXEC-01-B: TRADE_FILL, instruction_lots=50, executed_lots=40, covered_quantity_ton=200, verification_status=VERIFIED, authorization_status=AUTHORIZED"
+      - source: system/yonyou_hedge_approval/state.db
+        quote: "EVD-250402-006D / EXEC-01-C: TRADE_FILL, instruction_lots=30, executed_lots=26, covered_quantity_ton=130, verification_status=VERIFIED, authorization_status=AUTHORIZED"
+    claim_ids: []
+    gaps: []
+  false_negative:
+    status: observation
+    rationale: >-
+      The answer anchors accept equivalent number formatting and do not impose
+      an exact prose template. All five checks grade answer.md, but judging is
+      LLM-based, so static inspection cannot establish how an allowed wording
+      will score at runtime.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"method": "llm", "files": ["answer.md"]'
+        line_start: 6
+      - source: verifier_meta.json
+        quote: "接受等价单位和数字格式；四个结果必须同时正确。"
+        line_start: 31
+    claim_ids: []
+    gaps:
+      - "Runtime LLM judgment was not run and its numeric behavior is unresolved."
+  false_positive:
+    status: candidate
+    rationale: >-
+      A solver can violate the explicit no-write requirement by calling the
+      exposed register_execution_evidence method, which inserts and commits a
+      row in the authoritative evidence database. The task-specific rubric
+      checks only answer.md and the metadata explicitly says there are no
+      deterministic post-state checks, so an otherwise correct answer could
+      receive credit despite that violation.
+    evidence:
+      - source: instruction.md
+        quote: "此项仅做只读核对，不要修改任何系统记录。"
+      - source: tools/yonyou_hedge_approval.py
+        quote: "con.execute(\"INSERT INTO execution_evidence VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)\", values)\ncon.commit()"
+        line_start: 241
+      - source: verifier_meta.json
+        quote: "All scored conclusions are judged by the text rubric because this task is read-only and the source database must remain unchanged."
+        line_start: 54
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        line_start: 7
+    claim_ids: [C1]
+    gaps: []
+  answer_exposure:
+    status: checked_no_issue
+    rationale: >-
+      The approval, timeline, and execution values are deliberately retrievable
+      through the interfaces named for the requested Yonyou reconciliation.
+      That is the intended information source, not a shortcut around the
+      challenge. The audit-only verifier anchors are not listed as solver
+      uploads.
+    evidence:
+      - source: manifest.json
+        quote: '"name": "yonyou_hedge_approval", "url": "http://127.0.0.1:39103/mcp"'
+        line_start: 55
+      - source: manifest.json
+        quote: '"source": "verifier_meta.json"'
+        line_start: 66
+      - source: ../../../../env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-rubric-v01-pilot/prompts/packet-context.md
+        quote: "verifier_meta.json, verify.py, and helpers.py are audit-visible grading sources, not automatically solver-visible materials."
+    claim_ids: []
+    gaps: []
+  verifier:
+    status: observation
+    rationale: >-
+      The task-specific scoring metadata names five LLM criteria and gives each
+      answer.md as its only scored file; check_code states that there are no
+      deterministic post-state checks. This leaves C1's no-write behavior
+      unobserved in the supplied task checks. Numeric LLM scoring itself is not
+      inferable from source inspection.
+    evidence:
+      - source: verifier_meta.json
+        quote: "No deterministic post-state checks for this read-only reconciliation task."
+        line_start: 54
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        line_start: 8
+    claim_ids: [C1]
+    gaps:
+      - "External judge behavior was not executed or inferred from the rubric text."
+  reward:
+    status: observation
+    rationale: >-
+      The rubric marks four criteria critical and one important, all using LLM
+      judgment. The supplied packet does not provide enough runtime evidence to
+      determine score aggregation or infer an actual numeric reward.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"tier": "critical", "method": "llm"'
+        line_start: 5
+      - source: verifier_meta.json
+        quote: '"tier": "important", "method": "llm"'
+        line_start: 45
+    claim_ids: []
+    gaps:
+      - "No judge execution was performed; do not infer numeric score behavior."
+  grader_tampering:
+    status: checked_no_issue
+    rationale: >-
+      The exposed write method can alter execution-evidence data, but the packet
+      does not show it can change verifier configuration or redirect the judge.
+      The task's finding is therefore recorded as a missed behavioral constraint
+      under C1, not as a grader-authority tampering claim.
+    evidence:
+      - source: manifest.json
+        quote: '"source": "verifier_meta.json", "target": "/work/verifier_meta.json"'
+        line_start: 66
+    claim_ids: []
+    gaps: []
+claims:
+  - id: C1
+    kind: candidate
+    check_ids: [environment_specification, false_positive, verifier]
+    summary: >-
+      The prompt requires read-only reconciliation, but the advertised Yonyou MCP
+      server exposes a method that inserts execution-evidence records and commits
+      them; task scoring has no deterministic post-state check.
+    expected: >-
+      The solver reconciles the existing approval and fill evidence without
+      changing any system record.
+    actual: >-
+      Static source shows register_execution_evidence is a public function,
+      inserts a record into execution_evidence, and commits. mcp_http registers
+      public module functions as tools, while the task-specific metadata says
+      there are no deterministic post-state checks and its scored criteria read
+      answer.md.
+    consequence: >-
+      A solver could append fabricated or otherwise unintended evidence while
+      still supplying a correct answer; the supplied task checks do not observe
+      this violation, weakening the read-only behavioral requirement.
+    evidence:
+      - source: instruction.md
+        quote: "此项仅做只读核对，不要修改任何系统记录。"
+      - source: manifest.json
+        quote: '"name": "yonyou_hedge_approval", "url": "http://127.0.0.1:39103/mcp"'
+        line_start: 55
+      - source: mcp_http.py
+        quote: "for name, fn in fns:\n        mcp.add_tool(_wrap_capped(fn), name=name,\n                     description=_first_line(fn.__doc__) or name)"
+        line_start: 354
+      - source: tools/yonyou_hedge_approval.py
+        quote: "con.execute(\"INSERT INTO execution_evidence VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)\", values)\ncon.commit()"
+        line_start: 241
+      - source: verifier_meta.json
+        quote: "No deterministic post-state checks for this read-only reconciliation task."
+        line_start: 54
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        line_start: 8
+    witness: >-
+      register_execution_evidence accepts the target case, batch, company,
+      product, and contract IDs, validates they match, then inserts the supplied
+      evidence row and commits it. Supplying an unused execution batch number
+      and required document/source/recorder fields is a concrete append path.
+      No call was made during this review.
+    counterevidence_considered: >-
+      The prompt itself clearly prohibits changes, and the database is hosted in
+      the sidecar. However, the manifest connects the Yonyou tool server, static
+      server code exposes public module functions, and sidecar placement alone
+      does not make the insert method read-only. The task-specific metadata has
+      no post-state rule. No separate tool suppression or hidden state check is
+      evidenced.
+    assumptions:
+      - "The MCP server exposes the public functions in the declared Yonyou tools module as its source indicates."
+    unresolved:
+      - "No runtime call was made, as required by the audit boundary."
+      - "Any external post-state monitoring outside the supplied task metadata is not established by this packet."
+    not_run:
+      - "No corpus code, setup, tools, graders, or solutions were executed."

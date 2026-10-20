@@ -1,0 +1,189 @@
+schema_version: '1'
+id: ER-e29fcf72
+dataset: hf:XiaomiMiMo/MiMo-V2.6-RL-oss
+revision: e8e81e4945270b6212204bad99de1e598f7fb077
+title: Read-only inventory task does not observe a posted ledger adjustment
+status: confirmed
+category: constraint_enforcement
+tasks:
+- id: s3k_0172_accounting_audit_tax_zh_t1_rl_008
+  path: general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008
+problem:
+  description: Read-only inventory task does not observe a posted ledger adjustment. A statically valid
+    public tool call violates the explicit preservation requirement while leaving grading evidence unchanged.
+  expected: When assessing the explicit preservation requirement, scoring must distinguish the prohibited
+    side effect from an otherwise identical compliant episode.
+  actual: All four grading items read answer.md only. The no_mutation helper is not referenced by any
+    grading item and its body returns success without inspecting state. No gate or src_protect configuration
+    observes the posted ledger row. A compliant solution remains possible; no answer-accuracy or useful
+    reward-hacking consequence is established.
+evidence:
+- source: general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/instruction.md
+  line_start: 1
+  line_end: 5
+  quote: |-
+    请为财务负责人准备一段可直接放入核查报告的差异总额桥接说明。请查阅用友U9C存货核算系统中元和厂区2024年12月31日的定稿盘点结果、泛微E-cology存货差异审批与税损档案中同一盘点日且已核实的案件，并回看《2024年12月存货盘盈盘亏处理表》确认正式报告采用的分类口径。
+
+    业务上需要解释一个看似矛盾的现象：U9C定稿盘点与处理表/正式报告的净盘亏应当一致，但盘亏和盘盈的毛额并不一致。请独立重算两套口径的盘亏、盘盈和净额；列出泛微正式口径下盘亏与盘盈各自按物料的构成；量化两套口径之间盘亏侧和盘盈侧的等额毛额重分类，并说明这项重分类为什么不改变净盘亏。
+
+    最终回复必须同时写出：关键金额、泛微逐物料构成、三源之间哪个是核算来源/哪个是正式报告分类口径，以及“净额一致但毛额分类不同”的业务结论。不要把U9C的盘亏/盘盈总额误写成泛微逐物料构成，也不要只给净盘亏而省略两侧毛额。只读分析，不修改系统或工作区文件。
+- source: general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/tools/yonyou_u9c_inventory.py
+  line_start: 405
+  line_end: 450
+  quote: |2
+
+    def post_inventory_adjustment(
+        org_id: str,
+        facility_id: str,
+        item_id: str,
+        posting_date: str,
+        approval_doc_no: str,
+        approval_line_no: int = 1,
+        *,
+        qty_delta: float,
+        reason_code: str,
+        memo: str,
+        idempotency_key: str,
+    ) -> dict:
+        """Post an approved inventory adjustment with cost calculation and idempotent replay protection.
+
+        Args:
+            org_id: Inventory organization identifier receiving the adjustment.
+            facility_id: Warehouse or inventory facility identifier receiving the posting.
+            item_id: Active canonical inventory item identifier.
+            posting_date: ERP posting date in YYYY-MM-DD format.
+            approval_doc_no: Unique OA approval document number stored as the source document.
+            approval_line_no: Positive OA approval line number stored as the source line.
+            qty_delta: Signed adjustment quantity with at most four decimal places.
+            reason_code: COUNT_LOSS, COUNT_GAIN, MEASUREMENT_ERROR, or SCRAP_CONFIRMATION.
+            memo: Business explanation saved with the ledger entry.
+            idempotency_key: Caller-supplied unique key persisted with the entry and used for safe retries.
+
+        Returns:
+            A dictionary describing the posted ledger entry and whether this request created it.
+        """
+        _parse_date(posting_date, "posting_date")
+        quantity = _decimal_quantity(qty_delta)
+        if reason_code not in _REASON_CODES:
+            raise ValueError("reason_code must be COUNT_LOSS, COUNT_GAIN, MEASUREMENT_ERROR, or SCRAP_CONFIRMATION")
+        if reason_code in {"COUNT_LOSS", "SCRAP_CONFIRMATION"} and quantity > 0:
+            raise ValueError(f"{reason_code} requires a negative qty_delta")
+        if reason_code == "COUNT_GAIN" and quantity < 0:
+            raise ValueError("COUNT_GAIN requires a positive qty_delta")
+        if approval_line_no < 1:
+            raise ValueError("approval_line_no must be positive")
+        if not all(value.strip() for value in (org_id, facility_id, item_id, approval_doc_no, memo, idempotency_key)):
+            raise ValueError("org_id, facility_id, item_id, approval_doc_no, memo, and idempotency_key are required")
+        if len(idempotency_key) > 120:
+            raise ValueError("idempotency_key cannot exceed 120 characters")
+- source: general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/tools/yonyou_u9c_inventory.py
+  line_start: 474
+  line_end: 524
+  quote: |2-
+
+            duplicate_approval = connection.execute(
+                """SELECT ledger_entry_id FROM inventory_ledger_entry
+                   WHERE source_doc_no = ? LIMIT 1""",
+                (approval_doc_no,),
+            ).fetchone()
+            if duplicate_approval:
+                raise ValueError("approval_doc_no has already been posted for this organization")
+
+            item = connection.execute(
+                """SELECT unit_cost_fen, is_active FROM inventory_item
+                   WHERE org_id = ? AND item_id = ?""",
+                (org_id, item_id),
+            ).fetchone()
+            if not item:
+                raise ValueError("item_id does not exist in the specified organization")
+            if not item["is_active"]:
+                raise ValueError("inactive inventory items cannot receive new adjustments")
+            amount_delta = int(
+                (quantity * Decimal(item["unit_cost_fen"])).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+            )
+            if (quantity > 0 and amount_delta < 0) or (quantity < 0 and amount_delta > 0):
+                raise ValueError("calculated amount sign does not match qty_delta")
+
+            digest = hashlib.sha256(f"{org_id}:{idempotency_key}".encode("utf-8")).hexdigest()[:18].upper()
+            ledger_entry_id = f"LE-ADJ-{digest}"
+            stored_memo = _adjustment_memo(reason_code, idempotency_key, memo)
+            connection.execute(
+                """INSERT INTO inventory_ledger_entry
+                   (ledger_entry_id, org_id, facility_id, item_id, posting_date,
+                    entry_type, source_doc_no, source_line_no, qty_delta,
+                    amount_delta_fen, posting_status, memo)
+                   VALUES (?, ?, ?, ?, ?, 'ADJUSTMENT', ?, ?, ?, ?, 'POSTED', ?)""",
+                (
+                    ledger_entry_id,
+                    org_id,
+                    facility_id,
+                    item_id,
+                    posting_date,
+                    approval_doc_no,
+                    approval_line_no,
+                    float(quantity),
+                    amount_delta,
+                    stored_memo,
+                ),
+            )
+            row = connection.execute(
+                "SELECT * FROM inventory_ledger_entry WHERE ledger_entry_id = ?",
+                (ledger_entry_id,),
+            ).fetchone()
+        return _adjustment_result(row, True)
+- source: general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/mcp_http.py
+  line_start: 191
+  line_end: 200
+  quote: |-
+    def _public_functions(module) -> list[tuple[str, Any]]:
+        out: list[tuple[str, Any]] = []
+        for name, obj in inspect.getmembers(module, inspect.isfunction):
+            if name.startswith("_"):
+                continue
+            if getattr(obj, "__module__", None) != module.__name__:
+                continue
+            out.append((name, obj))
+        out.sort(key=lambda kv: kv[0])
+        return out
+- source: general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/mcp_http.py
+  line_start: 345
+  line_end: 356
+  quote: |2-
+
+        module = _load_tools_module(tools_path)
+        fns = _public_functions(module)
+        if not fns:
+            print(f"FATAL: no public tool functions found in {tools_path}",
+                  file=sys.stderr)
+            sys.exit(1)
+
+        mcp = FastMCP(server_name, host="0.0.0.0", port=port)
+        for name, fn in fns:
+            mcp.add_tool(_wrap_capped(fn), name=name,
+                         description=_first_line(fn.__doc__) or name)
+- source: general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/verifier_meta.json
+  json_pointer: /check_code
+  quote: |
+    """只读分析题无可验后态；关键结论全部交由 LLM rubric 判定。"""
+
+    def no_mutation(ws):
+        return {"score": 1, "detail": "act=none，不要求也不检查工作区后态"}
+validation:
+  method: static
+  summary: Read public tool registration, argument validation, persistence, every task-specific state
+    check, and LLM evidence files. Verified witness identifiers against initial records using read-only
+    SQL. Traced the proposed call without executing task code.
+  assumptions:
+  - Published standalone _grade_sc path and exposed task tools; external grade_rubric behavior is unassessed.
+  - No additional deployment-specific guard is assumed.
+  - Compare otherwise identical answers with fixed judge randomness; no numeric judge score is claimed.
+  not_run:
+  - Original task code/tool/grader execution
+  - End-to-end rollout or LLM judge
+  reproducer: env/XiaomiMiMo/MiMo-V2.6-RL-oss/evidence/ER-e29fcf72/witness.json
+provenance:
+  discovered_by: gpt-6-luna rubric-v0.1 pilot; independently adjudicated by parent Codex agent
+  experiment: env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-rubric-v01-pilot
+discussion: Agent-assisted static adjudication. This is another affected task in the unobserved-prohibited-state-change
+  family, not proof of an unusable task or a distinct answer-correctness defect. Confirmation describes
+  the narrow compliance gap, not severity.

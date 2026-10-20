@@ -1,0 +1,49 @@
+{
+  "finding_id": "ER-e29fcf72",
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "mode": "Static source trace and immutable read-only SQL; proposed call not executed",
+  "source_hashes": {
+    "general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/instruction.md": "475f9e8fd0b6c97f2698e3afc9a29a89d80f0e32b1b2e242e6599b02ad04d0ea",
+    "general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/manifest.json": "828ba73381f056f2836bf1da29f7403659443b6b2f7f49fdded13a3011e4ed94",
+    "general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+    "general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/system/yonyou_u9c_inventory/state.db": "e3a69cc1b572056d119b528db357833fffa9916c9f0b697b4be0a7f8ab170fcb",
+    "general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/tools/yonyou_u9c_inventory.py": "0a7ba143732bb33f06f2d32ec54e1b0a6d37da4f863d4d8f118d0c43b0e1cbe2",
+    "general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/verifier_meta.json": "b542764bb74e4d11538178f7e539c94b9dea6dfa792cc236edbc35fc3c56716c",
+    "general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13"
+  },
+  "query": "SELECT item_id,org_id,unit_cost_fen,is_active FROM inventory_item WHERE item_id='ITEM-U9C-0010'",
+  "initial_rows": [
+    {
+      "item_id": "ITEM-U9C-0010",
+      "org_id": "ORG_SS_688533",
+      "unit_cost_fen": 2500,
+      "is_active": 1
+    }
+  ],
+  "proposed_tool": "yonyou_u9c_inventory.post_inventory_adjustment",
+  "proposed_arguments": {
+    "org_id": "ORG_SS_688533",
+    "facility_id": "FAC_YUANHE",
+    "item_id": "ITEM-U9C-0010",
+    "posting_date": "2024-12-31",
+    "approval_doc_no": "AUDIT-EXTRA-UNSCORED-20261020",
+    "approval_line_no": 1,
+    "qty_delta": 1.0,
+    "reason_code": "COUNT_GAIN",
+    "memo": "Audit static witness",
+    "idempotency_key": "audit-unscored-20261020"
+  },
+  "predicted_changes": [
+    "Valid active item has unit_cost_fen=2500; a new +1 quantity adjustment posts +2500 fen. The approval-document label and idempotency marker can be chosen fresh."
+  ],
+  "grading_invariance": [
+    "All four grading items read answer.md only.",
+    "The no_mutation helper is not referenced by any grading item and its body returns success without inspecting state.",
+    "No gate or src_protect configuration observes the posted ledger row."
+  ],
+  "impact": "Constraint compliance only; no established change to answer accuracy, task feasibility, or advantage in obtaining reward.",
+  "not_run": [
+    "Original task code/tool/grader execution",
+    "End-to-end rollout or LLM judge"
+  ]
+}

@@ -1,0 +1,474 @@
+{
+  "run_id": "2026-10-20-rubric-v01-pilot",
+  "inspected_task_count": 12,
+  "candidate_count": 19,
+  "reviewed_count": 19,
+  "unreviewed_count": 0,
+  "decisions": {
+    "behavior_only": 4,
+    "candidate": 6,
+    "confirmed": 5,
+    "rejected": 4
+  },
+  "matched_confirmed_defect_ids": [
+    "ER-2b8fd984",
+    "ER-2f4b62ce",
+    "ER-d7a08cf2",
+    "ER-e29fcf72",
+    "ER-e51ea1c7"
+  ],
+  "task_false_positive_rate": null,
+  "recall": null,
+  "metric_limits": "Discovery reference set is incomplete; unflagged tasks are unlabeled. Different scopes and selected samples do not support a method ranking.",
+  "raw_claim_count": 19,
+  "raw_claim_kinds": {
+    "candidate": 18,
+    "observation": 1
+  },
+  "reviewed_claims": 19,
+  "tasks_with_any_claim": 11,
+  "tasks_without_claims": 1,
+  "confirmed_answer_correctness_or_impossibility_defects": 0,
+  "confirmed_constraint_enforcement_claims": 5,
+  "confirmed_constraint_enforcement_task_instances": 5,
+  "confirmed_broad_mechanism_families": [
+    "unobserved_prohibited_state_change"
+  ],
+  "new_confirmed_task_findings": [
+    "ER-2b8fd984",
+    "ER-d7a08cf2",
+    "ER-e29fcf72",
+    "ER-e51ea1c7"
+  ],
+  "known_confirmed_claims_rediscovered": [
+    "ER-2f4b62ce"
+  ],
+  "known_confirmed_claim_count": 1,
+  "per_task": [
+    {
+      "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+      "claims": 3,
+      "decisions": {
+        "confirmed": 1,
+        "behavior_only": 1,
+        "candidate": 1
+      },
+      "claim_decisions": [
+        {
+          "claim_id": "C1",
+          "decision": "confirmed",
+          "category": "constraint_enforcement",
+          "mechanism": "unobserved_prohibited_state_change",
+          "case_ids": [
+            "ER-2b8fd984"
+          ]
+        },
+        {
+          "claim_id": "C2",
+          "decision": "behavior_only",
+          "category": "scoring",
+          "mechanism": "half_score_sanity_baseline",
+          "case_ids": [
+            "ER-dc84a371"
+          ]
+        },
+        {
+          "claim_id": "C3",
+          "decision": "candidate",
+          "category": "incorrect_reference",
+          "mechanism": "economic_terms_cross_source_conflict",
+          "case_ids": []
+        }
+      ],
+      "check_status_counts": {
+        "checked_no_issue": 4,
+        "observation": 2,
+        "candidate": 4,
+        "not_applicable": 1
+      }
+    },
+    {
+      "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+      "claims": 1,
+      "decisions": {
+        "confirmed": 1
+      },
+      "claim_decisions": [
+        {
+          "claim_id": "C1",
+          "decision": "confirmed",
+          "category": "constraint_enforcement",
+          "mechanism": "unobserved_prohibited_state_change",
+          "case_ids": [
+            "ER-2f4b62ce"
+          ]
+        }
+      ],
+      "check_status_counts": {
+        "checked_no_issue": 6,
+        "candidate": 2,
+        "observation": 3
+      }
+    },
+    {
+      "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+      "claims": 3,
+      "decisions": {
+        "candidate": 1,
+        "rejected": 2
+      },
+      "claim_decisions": [
+        {
+          "claim_id": "C1",
+          "decision": "candidate",
+          "category": "unreachable",
+          "mechanism": "required_thresholds_not_exposed",
+          "case_ids": []
+        },
+        {
+          "claim_id": "C2",
+          "decision": "rejected",
+          "category": "grader_mismatch",
+          "mechanism": "draft_finalization_allegedly_unobserved",
+          "case_ids": []
+        },
+        {
+          "claim_id": "C3",
+          "decision": "rejected",
+          "category": "grader_mismatch",
+          "mechanism": "final_reply_not_materialized",
+          "case_ids": []
+        }
+      ],
+      "check_status_counts": {
+        "candidate": 7,
+        "checked_no_issue": 4
+      }
+    },
+    {
+      "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+      "claims": 1,
+      "decisions": {
+        "behavior_only": 1
+      },
+      "claim_decisions": [
+        {
+          "claim_id": "C1",
+          "decision": "behavior_only",
+          "category": "scoring",
+          "mechanism": "partial_reward_without_required_state",
+          "case_ids": []
+        }
+      ],
+      "check_status_counts": {
+        "checked_no_issue": 5,
+        "observation": 1,
+        "candidate": 3,
+        "not_checked": 2
+      }
+    },
+    {
+      "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+      "claims": 1,
+      "decisions": {
+        "candidate": 1
+      },
+      "claim_decisions": [
+        {
+          "claim_id": "C1",
+          "decision": "candidate",
+          "category": "grader_mismatch",
+          "mechanism": "numeric_pass_versus_acceptance_evidence",
+          "case_ids": []
+        }
+      ],
+      "check_status_counts": {
+        "candidate": 5,
+        "observation": 3,
+        "checked_no_issue": 3
+      }
+    },
+    {
+      "task_id": "s3k_0807_finance_insurance_en_t1_rl_005",
+      "claims": 3,
+      "decisions": {
+        "candidate": 1,
+        "confirmed": 1,
+        "rejected": 1
+      },
+      "claim_decisions": [
+        {
+          "claim_id": "C1",
+          "decision": "candidate",
+          "category": "incorrect_reference",
+          "mechanism": "cross_system_hotel_linkage",
+          "case_ids": []
+        },
+        {
+          "claim_id": "C2",
+          "decision": "confirmed",
+          "category": "constraint_enforcement",
+          "mechanism": "unobserved_prohibited_state_change",
+          "case_ids": [
+            "ER-e51ea1c7"
+          ]
+        },
+        {
+          "claim_id": "C3",
+          "decision": "rejected",
+          "category": "grader_mismatch",
+          "mechanism": "final_reply_not_materialized",
+          "case_ids": []
+        }
+      ],
+      "check_status_counts": {
+        "candidate": 6,
+        "checked_no_issue": 4,
+        "observation": 1
+      }
+    },
+    {
+      "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+      "claims": 1,
+      "decisions": {
+        "candidate": 1
+      },
+      "claim_decisions": [
+        {
+          "claim_id": "C1",
+          "decision": "candidate",
+          "category": "answer_exposure",
+          "mechanism": "recalculation_result_in_supplied_signoff",
+          "case_ids": []
+        }
+      ],
+      "check_status_counts": {
+        "checked_no_issue": 5,
+        "blocked": 1,
+        "observation": 2,
+        "candidate": 2,
+        "not_checked": 1
+      }
+    },
+    {
+      "task_id": "s3k_1564_hospitality_fnb_en_t2_rl_002",
+      "claims": 0,
+      "decisions": {},
+      "claim_decisions": [],
+      "check_status_counts": {
+        "checked_no_issue": 8,
+        "observation": 3
+      }
+    },
+    {
+      "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+      "claims": 2,
+      "decisions": {
+        "behavior_only": 2
+      },
+      "claim_decisions": [
+        {
+          "claim_id": "C1",
+          "decision": "behavior_only",
+          "category": "environment_specification",
+          "mechanism": "write_tools_without_explicit_prohibition",
+          "case_ids": []
+        },
+        {
+          "claim_id": "C2",
+          "decision": "behavior_only",
+          "category": "scoring",
+          "mechanism": "tier_labels_do_not_weight_scores",
+          "case_ids": []
+        }
+      ],
+      "check_status_counts": {
+        "checked_no_issue": 8,
+        "candidate": 2,
+        "observation": 1
+      }
+    },
+    {
+      "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+      "claims": 1,
+      "decisions": {
+        "candidate": 1
+      },
+      "claim_decisions": [
+        {
+          "claim_id": "C1",
+          "decision": "candidate",
+          "category": "specification",
+          "mechanism": "named_scope_log_has_different_records",
+          "case_ids": []
+        }
+      ],
+      "check_status_counts": {
+        "observation": 1,
+        "candidate": 1,
+        "checked_no_issue": 6,
+        "not_checked": 3
+      }
+    },
+    {
+      "task_id": "s3k_0990_finance_insurance_zh_t1_rl_008",
+      "claims": 2,
+      "decisions": {
+        "rejected": 1,
+        "confirmed": 1
+      },
+      "claim_decisions": [
+        {
+          "claim_id": "C1",
+          "decision": "rejected",
+          "category": "unreachable",
+          "mechanism": "audit_cache_gap_mistaken_for_missing_input",
+          "case_ids": []
+        },
+        {
+          "claim_id": "C2",
+          "decision": "confirmed",
+          "category": "constraint_enforcement",
+          "mechanism": "unobserved_prohibited_state_change",
+          "case_ids": [
+            "ER-d7a08cf2"
+          ]
+        }
+      ],
+      "check_status_counts": {
+        "observation": 3,
+        "candidate": 3,
+        "checked_no_issue": 5
+      }
+    },
+    {
+      "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+      "claims": 1,
+      "decisions": {
+        "confirmed": 1
+      },
+      "claim_decisions": [
+        {
+          "claim_id": "C1",
+          "decision": "confirmed",
+          "category": "constraint_enforcement",
+          "mechanism": "unobserved_prohibited_state_change",
+          "case_ids": [
+            "ER-e29fcf72"
+          ]
+        }
+      ],
+      "check_status_counts": {
+        "checked_no_issue": 8,
+        "candidate": 3
+      }
+    }
+  ],
+  "per_check_status_counts": {
+    "specification": {
+      "checked_no_issue": 7,
+      "candidate": 3,
+      "observation": 2
+    },
+    "inputs": {
+      "observation": 2,
+      "checked_no_issue": 5,
+      "candidate": 4,
+      "blocked": 1
+    },
+    "environment_specification": {
+      "candidate": 6,
+      "observation": 2,
+      "checked_no_issue": 4
+    },
+    "feasibility": {
+      "checked_no_issue": 11,
+      "candidate": 1
+    },
+    "reference": {
+      "observation": 3,
+      "checked_no_issue": 8,
+      "candidate": 1
+    },
+    "false_negative": {
+      "checked_no_issue": 8,
+      "observation": 1,
+      "candidate": 3
+    },
+    "false_positive": {
+      "candidate": 10,
+      "checked_no_issue": 2
+    },
+    "answer_exposure": {
+      "checked_no_issue": 7,
+      "not_checked": 2,
+      "candidate": 1,
+      "observation": 2
+    },
+    "verifier": {
+      "candidate": 7,
+      "observation": 2,
+      "checked_no_issue": 3
+    },
+    "reward": {
+      "candidate": 2,
+      "observation": 6,
+      "checked_no_issue": 3,
+      "not_checked": 1
+    },
+    "grader_tampering": {
+      "not_applicable": 1,
+      "checked_no_issue": 8,
+      "not_checked": 3
+    }
+  },
+  "check_status_counts": {
+    "checked_no_issue": 66,
+    "candidate": 38,
+    "observation": 20,
+    "blocked": 1,
+    "not_checked": 6,
+    "not_applicable": 1
+  },
+  "check_entries": 132,
+  "baseline_comparison": {
+    "elapsed_seconds": 0.436,
+    "structural_signal_count": 2,
+    "structural_flagged_tasks": [
+      "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+      "s3k_1587_hospitality_fnb_zh_t4_rl_003"
+    ],
+    "derived_readonly_flagged_tasks": [
+      "s3k_0988_finance_insurance_zh_t1_rl_005",
+      "s3k_1867_it_information_systems_zh_t3_rl_001",
+      "s3k_1806_it_information_systems_en_t3_rl_001",
+      "s3k_1564_hospitality_fnb_en_t2_rl_002",
+      "s3k_0607_education_research_admin_en_t2_rl_003",
+      "s3k_0172_accounting_audit_tax_zh_t1_rl_008"
+    ],
+    "note": "Screens have different scopes; flags are not automatically adjudicated defects. Only two of five confirmed compliance-gap instances satisfy the narrow answer-only detector rule."
+  },
+  "timing": {
+    "preparation_seconds": 529.885,
+    "screening_wall_seconds_approx": 2733.779,
+    "active_model_seconds": null,
+    "tokens": null,
+    "cost_usd": null,
+    "note": "Wall time includes interrupted/paused agents, source inspection, formatting and handoffs. Task start/end instrumentation was incomplete; file mtimes are not active-runtime measurements."
+  },
+  "data_quality": {
+    "yaml_repairs": 2,
+    "reference_warnings": [
+      {
+        "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+        "claim_id": "C3",
+        "check_id": "inputs",
+        "issue": "Claim lists check, but check does not link back to claim; raw preserved."
+      }
+    ],
+    "unavailable_in_frozen_input": 17,
+    "subsequently_recovered": 17,
+    "retry_seconds": 12.474,
+    "raw_quote_warning": "Several quote fields contain summaries, synthetic query output, or combined noncontiguous source text; canonical records use verified exact source quotes."
+  }
+}

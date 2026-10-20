@@ -114,6 +114,34 @@ leave exploitation unresolved when it depends on an unverified runtime condition
 An evidenced specification mismatch can still be adjudicated on its own terms.
 Unknown deployment details need not block unrelated dataset checks.
 
+## Constraint enforcement and answer correctness
+
+A forbidden action being available is not by itself a defect. A realistic
+environment can deliberately test whether the solver follows an instruction,
+such as inspecting a database without changing it.
+
+Use `constraint_enforcement` when a concrete violation of an explicit task
+constraint is possible and the task's scoring does not distinguish it from an
+otherwise identical compliant episode. Identify the operation, prove that its
+preconditions can be met, and trace every relevant grading check. Do not infer
+this from the mere presence of write tools or an uninspected access policy.
+
+This is a gap in what the score establishes about compliance. It does not by
+itself make the task unsolvable, change answer accuracy, or demonstrate a
+reward-hacking advantage. A compliant solver may still obtain the correct
+answer and score. A score that ignores an extra prohibited action is different
+from one that rewards an incorrect answer or rejects a correct one. Evidence
+that the action changes the reference, bypasses required reasoning, or improves
+reward supports a stronger, separately stated claim.
+
+Confirmation describes confidence in the narrow claim, not severity. Report
+constraint-enforcement findings separately from demonstrated correctness or
+feasibility defects; do not turn a count of all confirmed findings into a count
+of unusable tasks. Describe established and unproven consequences in `problem`
+and `validation`, including any conditional scoring-path assumptions. If no
+applicable constraint is established, retain an observation or candidate as
+appropriate instead of inventing a prohibition.
+
 ## Where work belongs
 
 - `env/<org>/<dataset>/findings/`: task claims, evidence, and review decisions;

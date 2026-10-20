@@ -1,0 +1,117 @@
+{
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "started_at": "2026-10-20T11:26:40.278179+00:00",
+  "completed_at": "2026-10-20T11:26:52.753132+00:00",
+  "elapsed_seconds": 12.474,
+  "workers": 2,
+  "timeout_seconds": 120,
+  "connect_timeout_seconds": 20,
+  "retries": 1,
+  "http_version": "1.1",
+  "max_file_bytes": 20000000,
+  "input_freeze_preserved": true,
+  "files": [
+    {
+      "path": "general/envs/s3k_0807_finance_insurance_en_t1_rl_005/workspace/acres_2024_annual_report.pdf",
+      "sha256": "a8126aa5519954cfa75f315bb62f55d240331238112bed0a76aca6d46219ae93",
+      "bytes": 5501401,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_0807_finance_insurance_en_t1_rl_005/workspace/acres_2024_annual_report.pdf"
+    },
+    {
+      "path": "general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/workspace/china_life_2024_interim_report.pdf",
+      "sha256": "5127e408c211a9127e00eb86ab297026b3a42f248a092365593b9206f6500e86",
+      "bytes": 5516706,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/workspace/china_life_2024_interim_report.pdf"
+    },
+    {
+      "path": "general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/workspace/pingan_2024_annual_report_xueqiu.pdf",
+      "sha256": "6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+      "bytes": 11542073,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/workspace/pingan_2024_annual_report_xueqiu.pdf"
+    },
+    {
+      "path": "general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/workspace/国寿安盈启航两全保险_立项盈利评审纪要.docx",
+      "sha256": "b88a8f08327b78accba02d9cefb67087b648d7f814f4620df5dd549f82ca684d",
+      "bytes": 183757,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_0990_finance_insurance_zh_t1_rl_008/workspace/国寿安盈启航两全保险_立项盈利评审纪要.docx"
+    },
+    {
+      "path": "general/envs/s3k_1564_hospitality_fnb_en_t2_rl_002/workspace/01_Evidence/Raw_Exports/derbyshire-safe-catering.pdf",
+      "sha256": "c4e366087f54d1a46280aa1be66fc83ed42761773ef99ce42908f4dfe2af7a5b",
+      "bytes": 2262693,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1564_hospitality_fnb_en_t2_rl_002/workspace/01_Evidence/Raw_Exports/derbyshire-safe-catering.pdf"
+    },
+    {
+      "path": "general/envs/s3k_1564_hospitality_fnb_en_t2_rl_002/workspace/01_Evidence/Raw_Exports/uk-haccp-section-2.pdf",
+      "sha256": "aacb760a18de06ebcb6344503f5a7da8cfbb9b682d8a34a796daf57f6a8dc46b",
+      "bytes": 93773,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1564_hospitality_fnb_en_t2_rl_002/workspace/01_Evidence/Raw_Exports/uk-haccp-section-2.pdf"
+    },
+    {
+      "path": "general/envs/s3k_1564_hospitality_fnb_en_t2_rl_002/workspace/01_Evidence/Raw_Exports/winchester-food-hygiene-booklet.pdf",
+      "sha256": "6b5066b7011f58cadeac674251e21fb2a5c045a0705178fe6d928f2f1dfe3bb6",
+      "bytes": 2646987,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1564_hospitality_fnb_en_t2_rl_002/workspace/01_Evidence/Raw_Exports/winchester-food-hygiene-booklet.pdf"
+    },
+    {
+      "path": "general/envs/s3k_1587_hospitality_fnb_zh_t4_rl_003/workspace/03_分析报告/_lobby_bar_assets/flow1.png",
+      "sha256": "a0a9b279666bbea708a73293911aeb8e0f1dcc10b7a79b4a8a54874cec11b59e",
+      "bytes": 32773,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1587_hospitality_fnb_zh_t4_rl_003/workspace/03_分析报告/_lobby_bar_assets/flow1.png"
+    },
+    {
+      "path": "general/envs/s3k_1587_hospitality_fnb_zh_t4_rl_003/workspace/03_分析报告/_lobby_bar_assets/flow2.png",
+      "sha256": "e3a03420d905247d484d29ce9d30d06439d3f5f8fd67d02c2ae22ac46e02bd38",
+      "bytes": 26246,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1587_hospitality_fnb_zh_t4_rl_003/workspace/03_分析报告/_lobby_bar_assets/flow2.png"
+    },
+    {
+      "path": "general/envs/s3k_1587_hospitality_fnb_zh_t4_rl_003/workspace/03_分析报告/_lobby_bar_assets/flow3.png",
+      "sha256": "a78a7689fca787eb21bc02356ee1718a6e4a1d2c2ca84e2e0c65163c720ba02f",
+      "bytes": 25422,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1587_hospitality_fnb_zh_t4_rl_003/workspace/03_分析报告/_lobby_bar_assets/flow3.png"
+    },
+    {
+      "path": "general/envs/s3k_1587_hospitality_fnb_zh_t4_rl_003/workspace/99_归档/2024年9月大堂吧盘点差异报告初稿.docx",
+      "sha256": "ebf7dd49a805526d52c3e6fa7a577638c2b13f4bfef30687eb3ef8f9a5d72017",
+      "bytes": 116606,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1587_hospitality_fnb_zh_t4_rl_003/workspace/99_归档/2024年9月大堂吧盘点差异报告初稿.docx"
+    },
+    {
+      "path": "general/envs/s3k_1806_it_information_systems_en_t3_rl_001/system/bluecat_dns_configuration/state.db.pre_snapshot_fix",
+      "sha256": "9aabf474d7daf313c90240e6e5073f02e9aa74d8353ac9e7a791ad6e81c16431",
+      "bytes": 208896,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1806_it_information_systems_en_t3_rl_001/system/bluecat_dns_configuration/state.db.pre_snapshot_fix"
+    },
+    {
+      "path": "general/envs/s3k_1806_it_information_systems_en_t3_rl_001/workspace/01_Evidence/bind-9.16.36-administrator-reference-manual.pdf",
+      "sha256": "804210f4e19a3868fc5fbe1db1c12dc5b714d0d5ffeaa7b936bb9d039ba403ba",
+      "bytes": 3305690,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1806_it_information_systems_en_t3_rl_001/workspace/01_Evidence/bind-9.16.36-administrator-reference-manual.pdf"
+    },
+    {
+      "path": "general/envs/s3k_1806_it_information_systems_en_t3_rl_001/workspace/02_Analysis/DNS_Incident_Analysis_Workbook_Sep_2025.xlsx",
+      "sha256": "121018b81d10e031599eef885d5837e556abd839418bb10bc9425900f9edcb2c",
+      "bytes": 1949788,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1806_it_information_systems_en_t3_rl_001/workspace/02_Analysis/DNS_Incident_Analysis_Workbook_Sep_2025.xlsx"
+    },
+    {
+      "path": "general/envs/s3k_1806_it_information_systems_en_t3_rl_001/workspace/03_Configuration/DNS_Negative_Caching_Standards_Crosswalk_Sep_2025.docx",
+      "sha256": "f756579597a491c05f78bbcc5195c3dcae7a31023f1269acc0192f045d49291b",
+      "bytes": 153877,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1806_it_information_systems_en_t3_rl_001/workspace/03_Configuration/DNS_Negative_Caching_Standards_Crosswalk_Sep_2025.docx"
+    },
+    {
+      "path": "general/envs/s3k_1806_it_information_systems_en_t3_rl_001/workspace/04_Analysis_Reports/Brightwater_DNS_Incident_Root_Cause_Analysis_Sep_2025.docx",
+      "sha256": "f7cf7ada7c2d99626a05ecfea909bd730a6beacb6d3ddede21a8cdf2361dc55f",
+      "bytes": 104082,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1806_it_information_systems_en_t3_rl_001/workspace/04_Analysis_Reports/Brightwater_DNS_Incident_Root_Cause_Analysis_Sep_2025.docx"
+    },
+    {
+      "path": "general/envs/s3k_1867_it_information_systems_zh_t3_rl_001/workspace/01_原始台账/NIST_CSF_2.0_2024.pdf",
+      "sha256": "3c31f46fee98cac0c4323453e5109291a213b4de7fef8c058af9bf67f717433c",
+      "bytes": 1518858,
+      "separate_cache": "data/rubric-v01-retry/source/general/envs/s3k_1867_it_information_systems_zh_t3_rl_001/workspace/01_原始台账/NIST_CSF_2.0_2024.pdf"
+    }
+  ]
+}

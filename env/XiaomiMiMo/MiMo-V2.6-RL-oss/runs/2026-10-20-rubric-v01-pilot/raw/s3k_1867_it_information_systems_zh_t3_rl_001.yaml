@@ -1,0 +1,285 @@
+task_summary:
+  intended_capability: >-
+    Compare the critical authentication and order-interface availability, RTO,
+    and RPO criteria in the interface/identity standard with the risk workbook,
+    while distinguishing threshold values from measured evidence.
+  required_result: >-
+    Report availability >=99.95%, RTO <=45 minutes, and RPO <=15 minutes as
+    acceptance criteria; report the workbook's availability value as a target,
+    not current uptime; compare its RTO 42-minute and RPO 12.6-minute entries
+    numerically and assess whether the evidence supports launch review.
+  environment_and_access: >-
+    The two named workspace files are present and their extracted text covers
+    the requested cells and paragraphs. The task environment also declares a
+    service-level monitoring MCP API with separate historical observations and
+    recovery drills. The task directs the solver to the named documents but does
+    not state whether those API records are out of scope or how to reconcile
+    them with the workbook; see the unresolved scope note under C1.
+  repair_intent: ordinary_setup
+  intent_evidence:
+    - source: instruction.md
+      quote: "请查阅《澄川企业服务中台二期_接口与身份接入规范_v1.0.docx》和《澄川企业服务中台二期_非功能性风险与容量评估_20250620.xlsx》，据此判断当前材料是否足以支持上线评审。"
+    - source: manifest.json
+      quote: '"name": "service_level_monitoring"'
+      line_start: 75
+    - source: manifest.json
+      quote: '"url": "http://127.0.0.1:39107/mcp"'
+      line_start: 76
+checks:
+  specification:
+    status: candidate
+    rationale: >-
+      The instruction asks whether current material supports launch review and
+      asks for RTO/RPO pass conclusions. The cited standard says RTO/RPO can be
+      judged satisfied only from a drill record with explicit start/end, recovery
+      scope, and result verification. The workbook has summary values but no such
+      record in the named material, and its draft sheet lists drill-record
+      confirmation as unresolved. The rubric nevertheless requires an
+      unqualified numerical pass; this ambiguity is C1.
+    evidence:
+      - source: workspace/03_规范报告/澄川企业服务中台二期_接口与身份接入规范_v1.0.docx
+        quote: "PARAGRAPH 684: 备份恢复和灾备演练需要验证认证配置、客户端登记、订单事件、审计索引和数据交换队列的恢复顺序。RTO与RPO只在演练记录有明确起止时间、恢复范围和结果核对时才能判定为满足。"
+      - source: workspace/02_分析模型/澄川企业服务中台二期_非功能性风险与容量评估_20250620.xlsx
+        quote: "SHEET 草稿_待确认!A12:E12 = [确认RTO/RPO演练记录, 澄川统一身份平台, 身份与安全组, 转整改, 评审会议记录：保留临时核对痕迹，不作为正式汇总数据源。]"
+      - source: verifier_meta.json
+        quote: "答案必须说明RTO 42分钟不高于45分钟，因此通过；RPO 12.6分钟不高于15分钟，因此通过。两项都不能写成未达标。"
+        line_start: 41
+    claim_ids: [C1]
+    gaps:
+      - "Whether 'pass' in the instruction means numeric threshold comparison only or formal evidence-based acceptance is unresolved."
+  inputs:
+    status: observation
+    rationale: >-
+      Both named files are available, and the workbook contains the requested
+      numbers and thresholds. However, the named materials do not provide the
+      recovery-drill details required by the standard to validate RTO/RPO as
+      formally satisfied. The workbook's draft sheet instead records unresolved
+      confirmation for the identity and order platforms.
+    evidence:
+      - source: workspace/02_分析模型/澄川企业服务中台二期_非功能性风险与容量评估_20250620.xlsx
+        quote: "SHEET 参数与阈值!A31:D31 = [RTO实测, 42, 分钟, 实测42分钟；验收阈值不高于45分钟]"
+      - source: workspace/02_分析模型/澄川企业服务中台二期_非功能性风险与容量评估_20250620.xlsx
+        quote: "SHEET 参数与阈值!A32:D32 = [RPO实测, 12.6, 分钟, 实测12.6分钟；验收阈值不高于15分钟]"
+      - source: workspace/03_规范报告/澄川企业服务中台二期_接口与身份接入规范_v1.0.docx
+        quote: "PARAGRAPH 684: RTO与RPO只在演练记录有明确起止时间、恢复范围和结果核对时才能判定为满足。"
+    claim_ids: [C1]
+    gaps:
+      - "The specified files provide summary metrics but no drill start/end, restoration scope, and result-verification record."
+  environment_specification:
+    status: observation
+    rationale: >-
+      The named workspace documents are uploaded to the main container and the
+      sidecar API is declared separately. The API includes relevant historical
+      monitoring/drill records, but the prompt scopes its requested comparison
+      to two named files without stating whether the API should be consulted or
+      which source takes precedence. That source-scope uncertainty is noted under
+      C1; no setup or dependency defect was found.
+    evidence:
+      - source: manifest.json
+        quote: '"source": "workspace", "target": "/work/workspace", "container": "main"'
+        line_start: 5
+      - source: manifest.json
+        quote: '"name": "service_level_monitoring"'
+        line_start: 75
+      - source: manifest.json
+        quote: '"url": "http://127.0.0.1:39107/mcp"'
+        line_start: 76
+      - source: tools/service_level_monitoring.py
+        quote: "def get_recovery_drill_results("
+        line_start: 112
+    claim_ids: []
+    gaps:
+      - "The prompt names two report files but does not explicitly make them exclusive sources despite exposing monitoring APIs."
+  feasibility:
+    status: checked_no_issue
+    rationale: >-
+      The solver can identify all three thresholds and report the values in the
+      named workbook. A qualified response can state that RTO/RPO are numerically
+      within their limits while separately explaining the evidence needed for
+      formal acceptance.
+    evidence:
+      - source: workspace/03_规范报告/澄川企业服务中台二期_接口与身份接入规范_v1.0.docx
+        quote: "PARAGRAPH 681: 关键认证与订单接口可用性不低于99.95%，RTO不高于45分钟，RPO不高于15分钟。"
+      - source: workspace/02_分析模型/澄川企业服务中台二期_非功能性风险与容量评估_20250620.xlsx
+        quote: "SHEET 参数与阈值!A30:D32 = [关键认证与订单接口可用性, 0.9995000000000001, %, 不低于99.95%]; [RTO实测, 42, 分钟, 实测42分钟；验收阈值不高于45分钟]; [RPO实测, 12.6, 分钟, 实测12.6分钟；验收阈值不高于15分钟]; A34:D36 thresholds have B34=0.9995000000000001, B35=45, B36=15."
+    claim_ids: []
+    gaps: []
+  reference:
+    status: candidate
+    rationale: >-
+      The metric entries and arithmetic comparisons are correct. The expected
+      answer's stronger conclusion that both criteria are satisfied conflicts
+      with the standard's evidence condition because the specified workbook
+      includes no qualifying drill record and marks confirmation as unresolved.
+      The records in the separate monitoring API are older and different, so
+      they do not establish that the workbook's later values are false; source
+      precedence and the backing evidence for the workbook values remain unclear.
+    evidence:
+      - source: workspace/03_规范报告/澄川企业服务中台二期_接口与身份接入规范_v1.0.docx
+        quote: "PARAGRAPH 684: RTO与RPO只在演练记录有明确起止时间、恢复范围和结果核对时才能判定为满足。"
+      - source: workspace/02_分析模型/澄川企业服务中台二期_非功能性风险与容量评估_20250620.xlsx
+        quote: "SHEET 草稿_待确认!A22:E22 = [确认RTO/RPO演练记录, 澄川订单履约平台, 基础设施组, 待确认, 评审会议记录：保留临时核对痕迹，不作为正式汇总数据源。]"
+      - source: verifier_meta.json
+        quote: "答案必须说明RTO 42分钟不高于45分钟，因此通过；RPO 12.6分钟不高于15分钟，因此通过。"
+        line_start: 41
+    claim_ids: [C1]
+    gaps:
+      - "No qualifying drill record supporting the workbook's 42-minute and 12.6-minute summary values was found in the two specified files."
+  false_negative:
+    status: candidate
+    rationale: >-
+      A technically correct answer can distinguish numeric conformance from
+      evidence-based acceptance: 42 <= 45 and 12.6 <= 15, while formal acceptance
+      remains unproven under the standard because the drill details are missing.
+      The pass anchor requires calling both passed and forbids saying they are
+      not met. A response that refuses to certify formal acceptance on the
+      available evidence could therefore lose credit; LLM behavior remains
+      untested.
+    evidence:
+      - source: workspace/03_规范报告/澄川企业服务中台二期_接口与身份接入规范_v1.0.docx
+        quote: "PARAGRAPH 684: RTO与RPO只在演练记录有明确起止时间、恢复范围和结果核对时才能判定为满足。"
+      - source: verifier_meta.json
+        quote: "两项都不能写成未达标。"
+        line_start: 41
+    claim_ids: [C1]
+    gaps:
+      - "Whether a nuanced answer would still receive credit is unknown because the LLM judge was not run."
+  false_positive:
+    status: candidate
+    rationale: >-
+      The scorer can award the RTO/RPO pass criterion solely for comparing the
+      summary values to their thresholds, even though the governing standard
+      requires additional drill evidence before deeming those items satisfied.
+      This could credit a response that omits a material acceptance condition.
+    evidence:
+      - source: verifier_meta.json
+        quote: "答案必须说明RTO 42分钟不高于45分钟，因此通过；RPO 12.6分钟不高于15分钟，因此通过。"
+        line_start: 41
+      - source: workspace/03_规范报告/澄川企业服务中台二期_接口与身份接入规范_v1.0.docx
+        quote: "PARAGRAPH 684: RTO与RPO只在演练记录有明确起止时间、恢复范围和结果核对时才能判定为满足。"
+    claim_ids: [C1]
+    gaps: []
+  answer_exposure:
+    status: checked_no_issue
+    rationale: >-
+      The rubric's numeric anchors are also present in the solver-visible named
+      documents. No answer-bearing material was found that bypasses the requested
+      document comparison.
+    evidence:
+      - source: workspace/02_分析模型/澄川企业服务中台二期_非功能性风险与容量评估_20250620.xlsx
+        quote: "SHEET 参数与阈值, A30:D36: availability, RTO, and RPO values and thresholds are listed here."
+    claim_ids: []
+    gaps: []
+  verifier:
+    status: candidate
+    rationale: >-
+      The task-specific rubric explicitly requires passed conclusions based on
+      summary-value comparisons, while the supplied standard requires drill
+      records with start/end, recovery scope, and result verification. The
+      verifier evaluates only answer.md via LLM criteria and contains no
+      deterministic check for those evidence details. This is C1.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"id": "rto_rpo_decision", "tier": "critical", "method": "llm"'
+        line_start: 34
+      - source: verifier_meta.json
+        quote: "只读分析题无确定性后态；计分项全部由文本 rubric 判定。"
+        line_start: 62
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        line_start: 37
+    claim_ids: [C1]
+    gaps:
+      - "No judge run was performed; it is unknown whether a nuanced response would be accepted."
+  reward:
+    status: observation
+    rationale: >-
+      All four rubric items use LLM judgment; static inspection cannot establish
+      actual scoring or score aggregation.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"method": "llm"'
+        line_start: 6
+      - source: verifier_meta.json
+        quote: '"method": "llm"'
+        line_start: 50
+    claim_ids: []
+    gaps:
+      - "Numeric LLM scoring was not run or inferred."
+  grader_tampering:
+    status: checked_no_issue
+    rationale: >-
+      The exposed monitoring API can record drill data, but the packet does not
+      show that it can modify the verifier or redirect the judge. Task-specific
+      scored inputs are answer.md only.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        line_start: 7
+    claim_ids: []
+    gaps: []
+claims:
+  - id: C1
+    kind: candidate
+    check_ids: [specification, inputs, reference, false_negative, false_positive, verifier]
+    summary: >-
+      The expected RTO/RPO pass conclusions treat workbook summary values as
+      sufficient, but the named standard permits an acceptance conclusion only
+      when the recovery drill record contains explicit times, recovery scope, and
+      result verification. The workbook's draft sheet shows these records still
+      unresolved, so a fully evidence-qualified response conflicts with the
+      answer anchor.
+    expected: >-
+      Distinguish numerical comparison from formal acceptance: report that 42
+      minutes and 12.6 minutes are below their respective limits, but do not
+      claim formal RTO/RPO acceptance without the drill evidence required by the
+      standard.
+    actual: >-
+      The workbook lists RTO 42 minutes and RPO 12.6 minutes as measured, but the
+      standard says those metrics count as satisfied only with drill records
+      specifying start/end, recovery scope, and result verification. The same
+      workbook's draft sheet leaves drill confirmation for the identity system
+      marked “转整改” and for the order platform “待确认”. The verifier's
+      rto_rpo_decision anchor still requires both to be called “通过”.
+    consequence: >-
+      A response that correctly reports numerical compliance but withholds
+      formal acceptance pending the required records could lose credit; an
+      unqualified pass answer could earn credit despite missing evidence. The
+      overall answer can still say the availability evidence is insufficient.
+    evidence:
+      - source: workspace/03_规范报告/澄川企业服务中台二期_接口与身份接入规范_v1.0.docx
+        quote: "PARAGRAPH 684: 备份恢复和灾备演练需要验证认证配置、客户端登记、订单事件、审计索引和数据交换队列的恢复顺序。RTO与RPO只在演练记录有明确起止时间、恢复范围和结果核对时才能判定为满足。"
+      - source: workspace/02_分析模型/澄川企业服务中台二期_非功能性风险与容量评估_20250620.xlsx
+        quote: "SHEET 参数与阈值!A31:D32 = [RTO实测, 42, 分钟, 实测42分钟；验收阈值不高于45分钟]; [RPO实测, 12.6, 分钟, 实测12.6分钟；验收阈值不高于15分钟]"
+      - source: workspace/02_分析模型/澄川企业服务中台二期_非功能性风险与容量评估_20250620.xlsx
+        quote: "SHEET 草稿_待确认!A12:E12 = [确认RTO/RPO演练记录, 澄川统一身份平台, 身份与安全组, 转整改, 评审会议记录：保留临时核对痕迹，不作为正式汇总数据源。]"
+      - source: workspace/02_分析模型/澄川企业服务中台二期_非功能性风险与容量评估_20250620.xlsx
+        quote: "SHEET 草稿_待确认!A22:E22 = [确认RTO/RPO演练记录, 澄川订单履约平台, 基础设施组, 待确认, 评审会议记录：保留临时核对痕迹，不作为正式汇总数据源。]"
+      - source: verifier_meta.json
+        quote: "答案必须说明RTO 42分钟不高于45分钟，因此通过；RPO 12.6分钟不高于15分钟，因此通过。两项都不能写成未达标。"
+        line_start: 41
+    witness: >-
+      A response can report 42 <= 45 and 12.6 <= 15 as numeric results, then
+      state that formal compliance remains unverified because the standard
+      requires a drill record with start/end, recovery scope, and result
+      verification, which the named workbook does not contain and its draft
+      sheet says remains unresolved. The verifier requires “pass” conclusions
+      and does not test for the missing records.
+    counterevidence_considered: >-
+      The workbook explicitly labels the values “RTO实测” and “RPO实测,” so a
+      numeric comparison is directly supported. It is also possible that a
+      complete drill record exists outside the two named files. However, the
+      standard expressly sets the evidence prerequisite, the workbook's draft
+      confirmation entries remain open, and the prompt frames the named files as
+      the basis for deciding sufficiency. The exact status of any external
+      supporting record is not established.
+    assumptions:
+      - "The standard's statement in paragraph 684 governs what counts as an RTO/RPO acceptance result."
+      - "The two named files define the requested evidence scope; the prompt does not explicitly exclude other interfaces."
+    unresolved:
+      - "Whether the workbook's 42/12.6 summaries are backed by a separate complete drill record is unknown."
+      - "The service-level MCP database has older, different drill records for the same named interfaces; their recency and precedence versus the June workbook are unspecified."
+      - "LLM acceptance of an answer that distinguishes numerical pass from formal evidence sufficiency is unknown."
+    not_run:
+      - "No corpus code, setup, tools, graders, or solutions were executed."
+      - "No MCP API call was made; the monitoring database was inspected only with immutable read-only SQLite SELECT queries."

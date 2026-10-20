@@ -1,0 +1,14 @@
+[
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "type": "format_only",
+    "original": "raw-first-draft/s3k_1587_hospitality_fnb_zh_t4_rl_003.yaml.txt",
+    "message": "The hospitality response fails YAML parsing at line 68: backslash-escaped single quotes inside a single-quoted YAML string. Please repair YAML syntax only, preserving every substantive claim and rationale. Validate your outputs with yaml.safe_load using the repo venv before completing each task. Do not use adjudication feedback; none is supplied."
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "type": "format_only",
+    "original": "raw-first-draft/s3k_1867_it_information_systems_zh_t3_rl_001.yaml.txt",
+    "message": "The current 1867 YAML fails parsing at line 43: quote is aligned with the list marker instead of its source field. Please repair syntax only, preserving substantive claims, and validate all four YAML files before finishing."
+  }
+]

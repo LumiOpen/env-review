@@ -1,0 +1,206 @@
+schema_version: '1'
+id: ER-2b8fd984
+dataset: hf:XiaomiMiMo/MiMo-V2.6-RL-oss
+revision: e8e81e4945270b6212204bad99de1e598f7fb077
+title: Read-only Fairfax reconciliation permits Yardi changes that standalone grading does not observe
+status: confirmed
+category: constraint_enforcement
+tasks:
+- id: s3k_0000_accounting_audit_tax_en_t1_rl_008
+  path: general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008
+problem:
+  description: The task forbids changes to any files or database records, but an exposed Yardi tool can
+    update an asset while task grading observes only answer text and limited checks on two other databases.
+  expected: A response accompanied by prohibited database changes must be distinguishable from an otherwise
+    identical compliant read-only episode.
+  actual: The update changes Yardi property_assets. The standalone grader has no source-protection configuration
+    or gates; its sole state rule checks DealCloud and SharePoint. Holding the final answer fixed leaves
+    grading evidence unchanged.
+evidence:
+- source: general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/instruction.md
+  line_start: 7
+  line_end: 7
+  quote: 'In your final response, include: (1) the current recommended transaction and the records you
+    excluded from current status, (2) both documentary-tax components and their approved summary, (3)
+    every material closing protection with its status and any relevant amount, (4) a clear ready/not-ready
+    conclusion with the reasons, and (5) the approved installment payment split and fallback. Cite the
+    source document or system for each conclusion in business terms; do not change any files or database
+    records.'
+- source: general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/tools/yardi_property_asset_register.py
+  line_start: 336
+  line_end: 380
+  quote: |2-
+
+
+    def update_asset_tax_basis_status(
+        asset_id: str,
+        tax_basis_status: str,
+        approved_flag: bool,
+        approved_by_entity_id: str,
+        expected_row_version: int,
+    ):
+        """Update one asset's tax-basis review state using optimistic concurrency.
+
+        Args:
+            asset_id: Asset identifier to update.
+            tax_basis_status: New status: INCLUDED, EXCLUDED, or UNREVIEWED.
+            approved_flag: Whether the updated review state is approved.
+            approved_by_entity_id: Reviewer entity identifier; required when approved_flag is true.
+            expected_row_version: Current row version expected by the caller.
+
+        Returns:
+            A dictionary containing ok, the updated asset summary, or a structured error.
+        """
+        if tax_basis_status not in {"INCLUDED", "EXCLUDED", "UNREVIEWED"}:
+            raise ValueError("tax_basis_status must be INCLUDED, EXCLUDED, or UNREVIEWED")
+        if expected_row_version < 1:
+            raise ValueError("expected_row_version must be at least 1")
+        reviewer = approved_by_entity_id.strip() if approved_by_entity_id else ""
+        if approved_flag and not reviewer:
+            return {"ok": False, "asset": None, "error": {"code": "VALIDATION_ERROR", "message": "approved_by_entity_id is required when approved_flag is true", "current_row_version": None}}
+        from datetime import datetime, timezone
+        approved_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ") if approved_flag else None
+        reviewer_value = reviewer or None
+        with _con() as connection:
+            current = connection.execute("SELECT row_version FROM property_assets WHERE asset_id = ?", (asset_id,)).fetchone()
+            if current is None:
+                return {"ok": False, "asset": None, "error": {"code": "NOT_FOUND", "message": f"Asset {asset_id} was not found", "current_row_version": None}}
+            if current["row_version"] != expected_row_version:
+                return {"ok": False, "asset": None, "error": {"code": "VERSION_CONFLICT", "message": "The asset was updated by another user", "current_row_version": current["row_version"]}}
+            connection.execute(
+                "UPDATE property_assets SET tax_basis_status = ?, approved_flag = ?, approved_by_entity_id = ?, approved_at = ?, row_version = row_version + 1 WHERE asset_id = ? AND row_version = ?",
+                (tax_basis_status, int(approved_flag), reviewer_value, approved_at, asset_id, expected_row_version),
+            )
+            row = connection.execute("SELECT asset_id, tax_basis_status, approved_flag, approved_by_entity_id, approved_at, row_version FROM property_assets WHERE asset_id = ?", (asset_id,)).fetchone()
+        asset = dict(row)
+        asset["approved_flag"] = bool(asset["approved_flag"])
+        return {"ok": True, "asset": asset, "error": None}
+- source: general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/mcp_http.py
+  line_start: 191
+  line_end: 200
+  quote: |-
+    def _public_functions(module) -> list[tuple[str, Any]]:
+        out: list[tuple[str, Any]] = []
+        for name, obj in inspect.getmembers(module, inspect.isfunction):
+            if name.startswith("_"):
+                continue
+            if getattr(obj, "__module__", None) != module.__name__:
+                continue
+            out.append((name, obj))
+        out.sort(key=lambda kv: kv[0])
+        return out
+- source: general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/mcp_http.py
+  line_start: 345
+  line_end: 356
+  quote: |2-
+
+        module = _load_tools_module(tools_path)
+        fns = _public_functions(module)
+        if not fns:
+            print(f"FATAL: no public tool functions found in {tools_path}",
+                  file=sys.stderr)
+            sys.exit(1)
+
+        mcp = FastMCP(server_name, host="0.0.0.0", port=port)
+        for name, fn in fns:
+            mcp.add_tool(_wrap_capped(fn), name=name,
+                         description=_first_line(fn.__doc__) or name)
+- source: general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json
+  json_pointer: /check_code
+  quote: |
+    from pathlib import Path
+    import sqlite3
+
+
+    def check_source_data_present(ws):
+        root = Path(ws).parent / "system"
+        dealcloud = root / "dealcloud_disposition_workspace" / "state.db"
+        sharepoint = root / "sharepoint_tax_governance_library" / "state.db"
+        if not dealcloud.exists() or not sharepoint.exists():
+            return {"score": 0, "detail": "Required DealCloud or SharePoint state database is missing"}
+        with sqlite3.connect(dealcloud) as connection:
+            transaction = connection.execute(
+                "SELECT structure_code, transaction_status FROM disposition_transactions "
+                "WHERE transaction_id = ? AND case_id = ?",
+                ("DC-TXN-25Q3-024", "CASE-FAIRFAX3-2025Q3"),
+            ).fetchone()
+            requirements = connection.execute(
+                "SELECT COUNT(*) FROM closing_requirements "
+                "WHERE transaction_id = ? AND active_flag = 1",
+                ("DC-TXN-25Q3-024",),
+            ).fetchone()[0]
+        with sqlite3.connect(sharepoint) as connection:
+            decision = connection.execute(
+                "SELECT status, decision_code FROM decision_records "
+                "WHERE decision_id = ? AND case_id = ?",
+                ("DEC-2025-017", "CASE-FAIRFAX3-2025Q3"),
+            ).fetchone()
+        if transaction != ("installment_sale", "recommended"):
+            return {"score": 0, "detail": f"Recommended transaction anchor is incorrect: {transaction}"}
+        if requirements != 7:
+            return {"score": 0, "detail": f"Expected 7 active recommended requirements, found {requirements}"}
+        if decision != ("approved", "INSTALLMENT_ASSET_SALE"):
+            return {"score": 0, "detail": f"Approved decision anchor is incorrect: {decision}"}
+        return {"score": 1, "detail": "Recommended installment transaction, seven active requirements, and approved decision are present"}
+  note: The sole rule checks DealCloud and SharePoint; it never observes Yardi.
+- source: general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py
+  line_start: 348
+  line_end: 355
+  quote: |2-
+        results = {}
+        gates = [it for it in items if it.get("gate")]
+        atoms = [it for it in items if not it.get("gate")]
+        gate_failed = []
+        sp = meta.get("src_protect")
+        if sp:   # 源守恒 gate(自动):solve 写足迹之外的文件/DB 表被动 → 整题 0(防篡改源底稿)
+            try:
+                import importlib.util
+- source: general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py
+  line_start: 311
+  line_end: 327
+  quote: |-
+    def _run_llm_sc(items, ws, votes=1):
+        """text-judge llm 项:**逐 item 独立调用**(判定完全隔离,与筛分口径一致;证据按 files
+        组合缓存,同交付物不重复抽)。全局限流在 controller 侧判分闸(GA_JUDGE_GATE),不在
+        这里。judge 拿不到任何可用 verdict → 抛 _JudgeUnavailable(由 _grade_sc 转 mask),
+        绝不记 0。"""
+        import statistics
+        out = {}
+        ev_cache = {}
+        for it in items:
+            key = tuple(sorted(it.get("files") or []))
+            if key not in ev_cache:
+                ev_cache[key] = _evidence_sc(ws, list(key))
+            item_txt = ("- [" + it["id"] + "] " + str(it.get("question", it.get("desc", "")))
+                        + "(满足=1:" + str(it.get("pass_anchor", "")) + ")")
+            prompt = _LLM_PROMPT.replace("{evidence}", ev_cache[key]).replace("{items}", item_txt)
+            vals = []
+            for _ in range(max(1, votes)):
+validation:
+  method: static
+  summary: Inspected the advertised tool registration, every mutator precondition, database connection/commit
+    behavior, all metadata items, and source-protection branch. An immutable read-only query verifies
+    the witness asset and row version. The new task instance is in the same unobserved-state-change family
+    as ER-2f4b62ce.
+  assumptions:
+  - The published standalone _grade_sc scoring path is active; the optional external grade_rubric path
+    is not adjudicated.
+  - The published manifest tool surface is available and no additional task-specific write restriction
+    is imposed.
+  - Compare episodes with identical answer text and fixed judge randomness; no numeric judge score is
+    promised.
+  not_run:
+  - Original task tool, setup, and grader execution
+  - End-to-end solver rollout
+  - Production LLM judge calls
+  reproducer: env/XiaomiMiMo/MiMo-V2.6-RL-oss/evidence/ER-2b8fd984/witness.json
+provenance:
+  discovered_by: gpt-6-luna rubric-v0.1 pilot; independently adjudicated by parent Codex agent
+  experiment: env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-rubric-v01-pilot
+discussion: 'Agent-assisted static confirmation, not independent human review or an executed exploit.
+  The deterministic read-only screen skipped this task because it contains a state sanity item; that item
+  does not cover the mutated database. Incorrect environment_specification tagging in the raw response
+  was corrected during adjudication. This is a constraint-enforcement gap: a compliant solver can still
+  produce a correct answer and receive the expected score. No effect on answer accuracy, task solvability,
+  or advantage from changing records has been established. Confirmation does not label the task unusable
+  or demonstrate a successful reward hack.'

@@ -1,0 +1,211 @@
+task_summary:
+  intended_capability: >-
+    Reconcile a manufacturing change's current quality indicators from the named operational systems, then publish only missing metrics to the Avnet quality data mart while preserving a correct same-day snapshot.
+  required_result: >-
+    For ECN-2025-017 at 2025-03-18, publish action completion 100%, legacy material balance 0 PCS, and document switch 100%; ensure all three date metrics are reconciled, use the specified publisher/run/note for supplements, and retain the already-correct document snapshot.
+  environment_and_access: >-
+    The manifest uploads the task tools and system databases to the sidecar and declares MCP endpoints for the change tracker, ERP, quality mart, and Teamcenter. Relevant read, calculation, reconciliation, and publish functions are present in their tool modules. This is static inspection only; setup and tool execution were not run.
+  repair_intent: unknown
+  intent_evidence:
+    - source: manifest.json
+      json_pointer: /setup/command
+      quote: "python3 /installed-agent/sidecar_entrypoint.py --start-and-detach"
+checks:
+  specification:
+    status: checked_no_issue
+    rationale: >-
+      The instruction identifies the cutoff, authoritative source for each metric, deduplication and summary-row exclusions, the reconciliation precondition, selective publication, exact publication metadata, and final reporting obligations.
+    evidence:
+      - source: instruction.md
+        line_start: 1
+        quote: "请以安富利变更行动跟踪系统里的当前行动明细为准，不要沿用跨部门评审纪要中的会议时点摘要；旧版物料余额要回到用友 NC 供应链与库存系统的盘点和有效处置明细核算，注意重复盘点和预汇总记录不能重复计入；受控文件切换情况请按 Teamcenter PLM 中三份相关文件的未来版本批准、发布及天津现场可用状态判断。"
+      - source: instruction.md
+        line_start: 3
+        quote: "同日已经正确发布的指标不要为了统一运行号而重复覆盖，只补齐缺失项，最终保证该日期三项指标完整且均为已勾稽状态。"
+    claim_ids: []
+    gaps: []
+  inputs:
+    status: checked_no_issue
+    rationale: >-
+      The named systems and relevant task tables are present. Read-only inspection found current action rows, legacy count/disposition rows, three future Teamcenter document revisions, reconciliation records, and the existing snapshot. Other workspace documents were not exhaustively reviewed.
+    evidence:
+      - source: system/avt_change_tracker/state.db
+        quote: "change_action for ECN-2025-017: action_no 1 through 8 each has status_code='closed' and is_exempt=0."
+      - source: system/yonyou_nc_erp/state.db
+        quote: "Deduplicated old inventory: 124 + 98 + 64 = 286 PCS; the repeated 10-PCS row shares count sheet, material, SKU, batch and location with the 124-PCS row. Posted linked dispositions: REWORK_CONVERT 176 PCS and SCRAP 110 PCS. SKU_SUMMARY 286 PCS has inventory_detail_id NULL."
+      - source: system/teamcenter_plm/state.db
+        quote: "For ATS-CP-MC2400 revision 1.9, ATS-MC2400-DRW revision D, and ATS-WI-07 revision 2.4: revision_status='future', approval_id and approved_date are present, released_date='2025-03-17', effective_date='2025-03-18', and the SITE-TJ-XQ-001 distribution is 'available'."
+    claim_ids: []
+    gaps:
+      - "The task's supporting workbooks and other workspace files were not all inspected; this screen relied on relevant sidecar source records and tool code."
+  environment_specification:
+    status: observation
+    rationale: >-
+      The required source and write interfaces are present, and the publish API accepts a selected metric_codes list with reconciliation required by default, allowing the two missing metrics to be published while leaving DOCUMENT_SWITCH_RATE alone. However, the generic mart recalculation path derives document switch from reconciliation rows; the inspected table has only one effective and one obsolete controlled-document row, while Teamcenter has three ready documents. The existing 100% snapshot and explicit Teamcenter instruction provide a coherent safe path, so this discrepancy is not shown to block the task.
+    evidence:
+      - source: tools/avt_quality_data_mart.py
+        line_start: 64
+        quote: "SELECT status FROM source_reconciliation WHERE ecn_id=? AND metric_code=? AND record_type='controlled_document' AND event_date<=? AND status IN ('effective','obsolete') AND source_system_id IN ({placeholders})"
+      - source: tools/avt_quality_data_mart.py
+        line_start: 227
+        quote: "def publish_metric_snapshot(ecn_id: str, metric_codes: list, snapshot_date: str, calculated_by: str, calculation_run_id: str, require_reconciliation: bool = True, publish_note: str = None):"
+      - source: system/avt_quality_data_mart/state.db
+        quote: "At 2025-03-18, source_reconciliation has one DOCUMENT_SWITCH_RATE effective row and one obsolete row; the existing DOCUMENT_SWITCH_RATE snapshot is 100.0, source_reconciled=1."
+    claim_ids: []
+    gaps:
+      - "No runtime invocation was made to confirm actual MCP exposure or deployment behavior."
+  feasibility:
+    status: checked_no_issue
+    rationale: >-
+      The source records support all three expected values. The publish function can target just ACTION_COMPLETION_RATE and LEGACY_MATERIAL_BALANCE, and the current reconciliation set through 2025-03-18 has zero unmatched rows. The two controlled_diff records are distinct from unmatched records and do not trip the publish API's stated unmatched check.
+    evidence:
+      - source: system/avt_quality_data_mart/state.db
+        quote: "Through 2025-03-18: reconciliation_result='unmatched' count=0; LEGACY_MATERIAL_BALANCE has two controlled_diff rows and two matched rows."
+      - source: verifier_meta.json
+        json_pointer: /items/3/pass_anchor
+        quote: "若答复提及 2 条 controlled_diff/受控差异，不得把它们误作 unmatched 或据此阻断发布"
+    claim_ids: []
+    gaps: []
+  reference:
+    status: checked_no_issue
+    rationale: >-
+      Independent reading of the current operational records agrees with the stated targets: eight of eight non-exempt actions are closed (100%); deduplicated old stock is 286 PCS and posted eligible disposition totals 176+110=286 PCS (balance 0); all three future document revisions are approved, released, effective by the cutoff, and available at Tianjin (3/3, 100%). The 2025-03-14 meeting snapshot of 6/8 and 75% is stale for this cutoff.
+    evidence:
+      - source: system/avt_change_tracker/state.db
+        quote: "change_review meeting snapshot: snapshot_action_total=8, snapshot_closed_count=6, snapshot_completion_pct=75.0; current change_action rows 1-8 are all closed."
+      - source: system/yonyou_nc_erp/state.db
+        quote: "Deduplicated inventory total=286 PCS; eligible posted rework=176 PCS; eligible posted scrap=110 PCS; SKU_SUMMARY is a separate pre-aggregate with no linked inventory row."
+      - source: system/teamcenter_plm/state.db
+        quote: "Three ECN-2025-017 future revisions have approval identifiers/dates, release dates, 2025-03-18 effective dates, and available distributions at SITE-TJ-XQ-001."
+    claim_ids: []
+    gaps: []
+  false_negative:
+    status: checked_no_issue
+    rationale: >-
+      The visible task's expected values and metadata align with verifier ground truth. LLM anchors explicitly allow equivalent numeric and semantic expressions for the three calculations; no contradictory output format or narrower enum was identified.
+    evidence:
+      - source: verifier_meta.json
+        json_pointer: /items/1/pass_anchor
+        quote: "数值表达允许等价写法。"
+      - source: verifier_meta.json
+        json_pointer: /items/2/pass_anchor
+        quote: "数值表达允许等价写法。"
+      - source: verifier_meta.json
+        json_pointer: /items/0/ground_truth
+        quote: "snapshot_date=2025-03-18; ACTION_COMPLETION_RATE=100.0; LEGACY_MATERIAL_BALANCE=0.0; DOCUMENT_SWITCH_RATE=100.0; source_reconciled=1."
+    claim_ids: []
+    gaps:
+      - "No permitted submission was run through the runtime grader."
+  false_positive:
+    status: candidate
+    rationale: >-
+      In the supplied verifier's self-contained fallback path, a response that claims publication without writing the two missing snapshots can still receive partial scalar reward if the five answer.md-only LLM checks accept its narrative. The critical snapshot-state rule and the preservation sanity rule are ordinary weighted atoms there, not score gates. This is conditional because the normal path may import an external grader not included in the review packet.
+    evidence:
+      - source: verifier_meta.json
+        json_pointer: /items/0
+        quote: "id='snapshot_post_state', tier='critical', method='rule', fn='check_snapshot_post_state'; no gate field is present."
+      - source: verifier_meta.json
+        json_pointer: /items/1/files
+        quote: "The five LLM items action_recompute, legacy_balance_recompute, document_switch_recompute, reconciliation_conclusion, and publication_action_reported each grade files=['answer.md']."
+      - source: verify.py
+        line_start: 349
+        quote: "gates = [it for it in items if it.get(\"gate\")]; atoms = [it for it in items if not it.get(\"gate\")]"
+      - source: verify.py
+        line_start: 395
+        quote: "w = float(it.get('weight', 1)); sc = float(results.get(it['id'], {}).get('score', 0.0) or 0.0)"
+      - source: verify.py
+        line_start: 400
+        quote: "sc = 0.0 if gate_failed else (round(wsum / tsum, 4) if tsum else 0.0)"
+    claim_ids: [C1]
+    gaps:
+      - "The fallback would score five passing narrative items out of seven equally weighted atoms at approximately 0.714 if both state rules fail; this is a static inference, not an executed reward result."
+  answer_exposure:
+    status: not_checked
+    rationale: >-
+      The review did not examine all solver-visible workspace material for duplicate answer disclosures. Source values exposed by the named operational tools are required inputs to this reconciliation task and are not, by themselves, answer exposure.
+    evidence: []
+    claim_ids: []
+    gaps:
+      - "The complete workspace and derived extraction set were not exhaustively checked for answer-bearing summaries."
+  verifier:
+    status: candidate
+    rationale: >-
+      The local fallback grader does not interpret tier='critical' as a gate: it gates only explicit gate fields, then averages the remaining atoms. The critical post-state rule is missing such a field. However, verify.py prefers synthesis.office_gen.grade_rubric.grade when importable, and that source is outside this packet, so the actual deployed grader's handling is unresolved.
+    evidence:
+      - source: verify.py
+        line_start: 408
+        quote: "def _grade(ws):\n    try:\n        from synthesis.office_gen.grade_rubric import grade\n    except Exception:\n        return _grade_sc(ws)"
+      - source: verify.py
+        line_start: 343
+        quote: "gates = [it for it in items if it.get(\"gate\")]; atoms = [it for it in items if not it.get(\"gate\")]"
+      - source: verifier_meta.json
+        json_pointer: /items/0
+        quote: "The required post-state rule has tier='critical' but no gate=true field."
+    claim_ids: [C1]
+    gaps:
+      - "The external grade_rubric implementation and runtime dependency availability were not inspected; do not assume the fallback is the deployed path."
+  reward:
+    status: candidate
+    rationale: >-
+      The fallback reward scalar preserves partial credit even when the required publication state is wrong; see C1. This appears inconsistent with the task's conjunctive instruction to ensure three complete reconciled snapshots, but the external grader may enforce critical tiers differently.
+    evidence:
+      - source: verify.py
+        line_start: 395
+        quote: "wsum += w * sc; tsum += w"
+      - source: verify.py
+        line_start: 400
+        quote: "sc = 0.0 if gate_failed else (round(wsum / tsum, 4) if tsum else 0.0)"
+      - source: instruction.md
+        line_start: 3
+        quote: "最终保证该日期三项指标完整且均为已勾稽状态。"
+    claim_ids: [C1]
+    gaps:
+      - "No execution was used to establish a concrete final reward or confirm which scorer implementation the harness loads."
+  grader_tampering:
+    status: not_checked
+    rationale: >-
+      No exhaustive reachability review of all server-registered tools and grader authority paths was made. The inspected publish interface intentionally mutates quality-mart snapshots; no conclusion about other mutation paths is made.
+    evidence: []
+    claim_ids: []
+    gaps:
+      - "Only task-relevant read/publish tool implementations were inspected; full exposed-tool inventory was not independently queried."
+claims:
+  - id: C1
+    kind: candidate
+    check_ids: [false_positive, verifier, reward]
+    summary: >-
+      The local fallback scorer may award substantial partial reward for claiming the required publication without performing it because the tier-critical state check is not a gate and the narrative checks observe only answer.md.
+    expected: >-
+      Failure to publish the required metrics should fail the critical publication condition and should not earn a high reward based only on a matching final narrative.
+    actual: >-
+      In verify.py's fallback scorer, only items with gate=true enter the gate set; all other items receive an equal default weight. verifier_meta marks snapshot_post_state tier=critical but provides no gate field, while the five LLM rubrics read only answer.md. If those five pass, the two failed state rules leave a scalar score of 5/7.
+    consequence: >-
+      A solver can potentially receive about 0.714 reward while the required data-mart post-state is incomplete, weakening the intended measure of performing the publication.
+    evidence:
+      - source: verifier_meta.json
+        json_pointer: /items/0
+        quote: "The snapshot_post_state item is tier='critical', method='rule', and has no gate field."
+      - source: verifier_meta.json
+        json_pointer: /items/5/files
+        quote: "['answer.md']"
+      - source: verify.py
+        line_start: 349
+        quote: "gates = [it for it in items if it.get(\"gate\")]; atoms = [it for it in items if not it.get(\"gate\")]"
+      - source: verify.py
+        line_start: 395
+        quote: "w = float(it.get('weight', 1)); sc = float(results.get(it['id'], {}).get('score', 0.0) or 0.0)"
+      - source: verify.py
+        line_start: 408
+        quote: "from synthesis.office_gen.grade_rubric import grade"
+    witness: >-
+      Under the fallback path, a solver can leave the two missing 2025-03-18 snapshots unpublished, write an answer claiming they were published with correct values and metadata, and have the five text checks accept that answer. snapshot_post_state fails for missing rows and preserve_existing_snapshots fails because the target-date metric count remains one; the five answer-only LLM results still contribute five default-weight successes, producing 5/7 if all are accepted.
+    counterevidence_considered: >-
+      The standard _grade path first tries an external synthesis.office_gen.grade_rubric implementation and only falls back to _grade_sc when that import raises. The external grader could treat tier='critical' as a gate or otherwise inspect state. Its code and availability are outside the supplied packet, so this remains a candidate rather than a confirmed deployed reward defect.
+    assumptions:
+      - "The self-contained fallback scorer is the path used for the scored run."
+      - "The text judge awards the answer-only rubric items from the narrative even though the claimed publication has not occurred."
+    unresolved:
+      - "Which scorer implementation the runtime selects and how that implementation treats the critical tier."
+      - "Whether the deployed reward uses the fallback's scalar score when passed=false."
+    not_run:
+      - "No task tools, task code, setup, or grader were executed."

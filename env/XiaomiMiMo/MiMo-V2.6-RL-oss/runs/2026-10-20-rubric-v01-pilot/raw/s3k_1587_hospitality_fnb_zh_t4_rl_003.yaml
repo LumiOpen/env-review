@@ -1,0 +1,343 @@
+task_summary:
+  intended_capability: >-
+    Use the beverage variance workbench to identify which October 2024 Jurong
+    Holiday Inn lobby-bar high-variance SKU crossed only the amount threshold
+    and which crossed only the quantity threshold.
+  required_result: >-
+    Name the two SKUs, provide each variance quantity and quantity threshold,
+    variance amount and amount threshold with the comparison outcome, and state
+    that the selected reconciliation is the finalized version.
+  environment_and_access: >-
+    The manifest mounts workspace files in the main container and system/tools
+    in a sidecar; the beverage workbench offers run lookup, read queries and
+    variance calculation, plus a finalization operation that writes system data.
+    The instruction explicitly says not to modify system data.
+  repair_intent: ordinary_setup
+  intent_evidence:
+    - source: manifest.json
+      quote: '"command": "python3 /installed-agent/sidecar_entrypoint.py --start-and-detach"'
+checks:
+  specification:
+    status: candidate
+    rationale: >-
+      The requested content is clear, but “final reply” does not say whether the
+      response must be saved to a file. The manifest declares no output while
+      every LLM grader item reads answer.md; see C3.
+    evidence:
+      - source: instruction.md
+        quote: '最终回复请写明两项SKU各自属于哪一种单阈值触发'
+        line_start: 3
+      - source: manifest.json
+        quote: '"output": "none"'
+        line_start: 78
+    claim_ids: [C3]
+    gaps: ["Whether the platform materializes the final chat response as answer.md is unspecified."]
+  inputs:
+    status: candidate
+    rationale: >-
+      The stored thresholds participate in the calculation but are omitted from
+      the result fields exposed by the workbench functions. The required
+      per-SKU threshold values are therefore not directly retrievable through
+      the inspected API; see C1.
+    evidence:
+      - source: tools/beverage_variance_workbench.py
+        quote: '"SELECT sku_id, amount_threshold_fen, quantity_threshold_base FROM sku_variance_results WHERE run_id = ?"'
+        line_start: 112
+      - source: tools/beverage_variance_workbench.py
+        quote: '"sku_id,base_unit, theoretical_quantity_base, actual_quantity_base, variance_quantity_base, theoretical_cost_fen, actual_cost_fen, variance_cost_fen, is_high_variance, trigger_reason"'
+        line_start: 143
+      - source: tools/beverage_variance_workbench.py
+        quote: 'fields = "result_id,sku_id,sku_name,variance_quantity_base,base_unit,variance_cost_fen,trigger_reason,is_unauthorized_loss,reason_code,reason_note"'
+        line_start: 361
+    claim_ids: [C1]
+    gaps: ["Solver-visible tool schemas and any external tolerance guide are not included in this static packet."]
+  environment_specification:
+    status: candidate
+    rationale: >-
+      The task expressly prohibits data modification, but the declared workbench
+      exposes a write operation that finalizes DRAFT/IN_REVIEW runs. The current
+      database has a DRAFT run with five persisted SKU result rows. See C2.
+    evidence:
+      - source: instruction.md
+        quote: 不要修改系统数据。
+        line_start: 3
+      - source: tools/beverage_variance_workbench.py
+        quote: '"Finalize a balanced reconciliation and persist an immutable metric version."'
+        line_start: 370
+      - source: tools/beverage_variance_workbench.py
+        quote: "UPDATE reconciliation_runs SET run_status = 'FINAL', completed_at = ?, finalized_by = ? WHERE run_id = ?"
+        line_start: 428
+      - source: system/beverage_variance_workbench/state.db
+        quote: 'Read-only SELECT: RECON-2024-10-LBB-DRAFT | run_version=2 | run_status=DRAFT | result_rows=5'
+    claim_ids: [C2]
+    gaps: ["No mutating call was made; runtime authorization or additional tool policy was not exercised."]
+  feasibility:
+    status: candidate
+    rationale: >-
+      The API returns trigger classifications and variance quantities/amounts,
+      but not the stored quantity and amount thresholds requested in the answer.
+      C1 records the resulting evidence gap; C3 records a separate possible
+      submission-path mismatch.
+    evidence:
+      - source: tools/beverage_variance_workbench.py
+        quote: '"amount_threshold_fen: Optional nonnegative override for every amount threshold."'
+        line_start: 319
+      - source: tools/beverage_variance_workbench.py
+        quote: '"trigger_reason": trigger,'
+        line_start: 148
+    claim_ids: [C1, C3]
+    gaps: ["A solver-visible API schema could clarify whether threshold fields are surfaced beyond the inspected return dictionaries."]
+  reference:
+    status: checked_no_issue
+    rationale: >-
+      The final run rows in the readonly database agree with the reference anchors:
+      JW Black is 15 mL against 30 mL and 1170 fen against 1000 fen; Coca-Cola
+      is 1 can against 1 and 620 fen against 1000 fen. The trigger directions
+      match those comparisons. This checks the two requested anchors, not every
+      source-data calculation.
+    evidence:
+      - source: system/beverage_variance_workbench/state.db
+        quote: 'Readonly SELECT, RECON-2024-10-LBB-FINAL v3: SKU-SPIRIT-JW-BLACK | variance_quantity_base=15 | quantity_threshold_base=30 | variance_cost_fen=1170 | amount_threshold_fen=1000 | trigger_reason=AMOUNT; SKU-SOFTDRINK-COCA-COLA | variance_quantity_base=1 | quantity_threshold_base=1 | variance_cost_fen=620 | amount_threshold_fen=1000 | trigger_reason=QUANTITY'
+      - source: verifier_meta.json
+        quote: '黑方 Johnnie Walker Black Label 仅金额触发、可口可乐仅数量触发'
+        json_pointer: /items/0/pass_anchor
+    claim_ids: []
+    gaps: ["Only the requested single-trigger reference records were independently compared."]
+  false_negative:
+    status: candidate
+    rationale: >-
+      A solver can satisfy the literal request with a final reply, yet the
+      task-specific grader lists answer.md as its only input and the manifest
+      declares output none. If the harness does not save the reply there, valid
+      content is not seen by the grader; see C3.
+    evidence:
+      - source: instruction.md
+        quote: 最终回复请写明两项SKU各自属于哪一种单阈值触发
+        line_start: 3
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        json_pointer: /items/0/files
+    claim_ids: [C3]
+    gaps: ["The packet does not establish whether the grader harness copies chat text into answer.md."]
+  false_positive:
+    status: candidate
+    rationale: >-
+      Finalizing the available draft is a concrete system-data mutation reachable
+      through the workbench. The sole rule sanity check filters to run_status
+      FINAL and compares only the target rows, so finalizing the separate draft
+      would not itself change its checked records; see C2. Whether all other
+      grader handling remains passing was not run.
+    evidence:
+      - source: tools/beverage_variance_workbench.py
+        quote: "UPDATE reconciliation_runs SET run_status = 'FINAL', completed_at = ?, finalized_by = ? WHERE run_id = ?"
+        line_start: 428
+      - source: verifier_meta.json
+        quote: "WHERE r.run_status = 'FINAL'"
+        json_pointer: /check_code
+      - source: verifier_meta.json
+        quote: '"定稿单阈值源数据已变化：{rows!r}"'
+        json_pointer: /check_code
+    claim_ids: [C2]
+    gaps: ["This is a static action-to-check trace; neither finalization nor grading was executed."]
+  answer_exposure:
+    status: checked_no_issue
+    rationale: >-
+      The solver-visible reports list variance amounts and quantities, but the
+      inspected excerpts do not expose both required threshold comparisons or
+      identify the single-trigger classifications. The workbench result is
+      intentionally retrievable for this task. The verifier metadata is
+      evaluator-only per packet-context.md and is not evidence of solver answer exposure.
+    evidence:
+      - source: workspace/03_分析报告/2024年10月大堂吧盘点差异复核会纪要.docx
+        quote: '高差异SKU完整清单为：芝华士12年46.80元、青岛啤酒34.00元、喜力34.00元、轩尼诗VSOP28.80元、迪费路易白中白起泡酒22.17元、克雷默起泡酒20.40元、黑方 Johnnie Walker Black Label 11.70元、可口可乐6.20元。'
+      - source: tools/beverage_variance_workbench.py
+        quote: '"Matching items, full-match count and amount summary, and page metadata."'
+        line_start: 348
+    claim_ids: []
+    gaps: ["A few packet assets are unavailable in the audit cache, including a prior draft report and flow images; their absence is not treated as solver-input absence."]
+  verifier:
+    status: candidate
+    rationale: >-
+      The static LLM grader expects answer.md while the instruction asks for a
+      final reply and the manifest sets output to none. This may reject a
+      correctly worded final response if no implicit transcript-to-file step
+      exists; see C3. Numeric anchors themselves match the final database rows.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        json_pointer: /items/0/files
+      - source: manifest.json
+        quote: '"output": "none"'
+        line_start: 78
+    claim_ids: [C3]
+    gaps: ["Grader runtime collection behavior is outside the static source packet."]
+  reward:
+    status: checked_no_issue
+    rationale: >-
+      The rubric checks the requested classifications, all four metric/threshold
+      comparisons, and the finalized scope. The six LLM item weights sum to 1.0;
+      the source-data rule is a separate sanity check. No contrary preference
+      appears in the inspected scoring anchors.
+    evidence:
+      - source: verifier_meta.json
+        quote: '"weight": 0.3'
+        json_pointer: /items/0/weight
+      - source: verifier_meta.json
+        quote: '"weight": 0.1'
+        json_pointer: /items/5/weight
+    claim_ids: []
+    gaps: []
+  grader_tampering:
+    status: checked_no_issue
+    rationale: >-
+      The required submission is answer text and no specific mechanism was
+      found by which it can modify grading authority. C2 concerns mutating
+      business reconciliation state, not redirecting the grader.
+    evidence: []
+    claim_ids: []
+    gaps: ["Judge behavior was not run and prompt-injection robustness was not tested."]
+claims:
+  - id: C1
+    kind: candidate
+    check_ids: [inputs, feasibility]
+    summary: >-
+      The workbench API does not return the persisted per-SKU quantity and amount
+      thresholds required by the prompt.
+    expected: >-
+      A solver should be able to retrieve the exact threshold values used for
+      each final SKU along with the variances and trigger classification.
+    actual: >-
+      The variance implementation reads thresholds internally, but its returned
+      item objects omit them; the persisted high-variance list also selects no
+      threshold fields. The exact threshold values are not directly available
+      from the inspected read API.
+    consequence: >-
+      The solver can identify the classifications but may not be able to support
+      the required comparisons with the exact threshold values.
+    evidence:
+      - source: tools/beverage_variance_workbench.py
+        quote: '"SELECT sku_id, amount_threshold_fen, quantity_threshold_base FROM sku_variance_results WHERE run_id = ?"'
+        line_start: 112
+      - source: tools/beverage_variance_workbench.py
+        quote: '"sku_id,base_unit, theoretical_quantity_base, actual_quantity_base, variance_quantity_base, theoretical_cost_fen, actual_cost_fen, variance_cost_fen, is_high_variance, trigger_reason"'
+        line_start: 143
+      - source: tools/beverage_variance_workbench.py
+        quote: 'fields = "result_id,sku_id,sku_name,variance_quantity_base,base_unit,variance_cost_fen,trigger_reason,is_unauthorized_loss,reason_code,reason_note"'
+        line_start: 361
+    witness: >-
+      Call the declared variance calculation or high-variance listing for the
+      final run: their documented return fields include variances and
+      trigger_reason but omit both persisted thresholds. The amount override
+      changes the amount limit globally and does not return the stored value;
+      there is no quantity-threshold override or threshold lookup function in
+      this workbench module.
+    counterevidence_considered: >-
+      A trigger_reason reveals which condition fired, and generic defaults in
+      the implementation are 1000 fen and 30 mL or 1 closed package. A solver
+      might infer likely thresholds from those defaults or from undisclosed
+      tool metadata, but the database can store thresholds per SKU and the
+      declared result methods do not verify the stored numbers. A report has
+      some corresponding quantities and amounts but no stated trigger thresholds.
+    assumptions:
+      - "The inspected workbench functions define the task-specific API surface."
+    unresolved:
+      - "Whether solver-visible API schemas or an unlisted tolerance guide expose these stored values."
+    not_run:
+      - "No API calls were executed."
+  - id: C2
+    kind: candidate
+    check_ids: [environment_specification, false_positive]
+    summary: >-
+      A write-capable finalization operation can modify the separate draft run
+      despite the instruction not to modify system data, and the sanity check
+      observes only the final run's two target records.
+    expected: >-
+      The no-modification behavioral requirement should not be bypassable without
+      affecting a passing result, or should be enforced by the interface or
+      observable by the grader.
+    actual: >-
+      finalize_reconciliation writes metrics and updates a DRAFT or IN_REVIEW
+      run to FINAL. The current database contains a DRAFT v2 with persisted
+      result rows. The sanity query filters to FINAL and compares the two
+      target records, so a mutation confined to the draft is outside that check.
+    consequence: >-
+      A solver can violate the explicit no-write requirement while preserving
+      the task's checked final result data; the sanity rule does not detect that
+      action.
+    evidence:
+      - source: instruction.md
+        quote: 不要修改系统数据。
+        line_start: 3
+      - source: tools/beverage_variance_workbench.py
+        quote: '"Finalize a balanced reconciliation and persist an immutable metric version."'
+        line_start: 370
+      - source: tools/beverage_variance_workbench.py
+        quote: '"if run[\"run_status\"] not in (\"DRAFT\", \"IN_REVIEW\"):"'
+        line_start: 396
+      - source: tools/beverage_variance_workbench.py
+        quote: "UPDATE reconciliation_runs SET run_status = 'FINAL', completed_at = ?, finalized_by = ? WHERE run_id = ?"
+        line_start: 428
+      - source: system/beverage_variance_workbench/state.db
+        quote: 'Read-only SELECT: RECON-2024-10-LBB-DRAFT | run_version=2 | run_status=DRAFT | result_rows=5'
+      - source: verifier_meta.json
+        quote: "WHERE r.run_status = 'FINAL'"
+        json_pointer: /check_code
+    witness: >-
+      The static path is finalize_reconciliation(run_id=RECON-2024-10-LBB-DRAFT,
+      expected_run_version=2, nonblank reviewer_id, unique calculation_version,
+      confirmation_id=CONFIRM-FINALIZE-RECON-2024-10-LBB-DRAFT). The function
+      checks for result rows and updates the run; it does not check reviewer
+      authorization. This path was not invoked.
+    counterevidence_considered: >-
+      The instruction is explicit and the solver may simply comply; the mutating
+      operation is unnecessary for the read task. However, the rubric asks
+      whether a prohibited action can be taken and go undetected, and the
+      declared interface exposes the mutation.
+    assumptions:
+      - "The manifest-exposed sidecar tools are reachable during solving."
+      - "The draft's existing source rows satisfy the function's recalculation checks."
+    unresolved:
+      - "Runtime-specific write policy and additional grading logic were not exercised."
+    not_run:
+      - "No mutating tool call or verifier invocation was run."
+  - id: C3
+    kind: candidate
+    check_ids: [specification, false_negative, verifier]
+    summary: >-
+      The instruction asks for a final reply but does not specify answer.md,
+      while every LLM verifier item reads only answer.md and the manifest
+      declares output none.
+    expected: >-
+      Any submission channel that satisfies the literal final-response
+      instruction should be collected by the grader, or the task should identify
+      its required submission artifact.
+    actual: >-
+      The task prompt names no output path. The manifest has output none, while
+      verifier_meta lists answer.md as the sole evidence file for the LLM items.
+    consequence: >-
+      A correct final reply may receive no credit if the runner does not
+      implicitly copy it into answer.md.
+    evidence:
+      - source: instruction.md
+        quote: 最终回复请写明两项SKU各自属于哪一种单阈值触发
+        line_start: 3
+      - source: manifest.json
+        quote: '"output": "none"'
+        line_start: 78
+      - source: verifier_meta.json
+        quote: '"files": ["answer.md"]'
+        json_pointer: /items/0/files
+    witness: >-
+      A fully correct Chinese final message satisfies the written request but
+      is not an answer.md artifact; if the LLM collector only gathers its
+      configured files, it has no answer text to score.
+    counterevidence_considered: >-
+      A standard task runner may implicitly materialize the final model
+      response as answer.md. That behavior is not established in the task
+      manifest, so this remains a candidate rather than a confirmed defect.
+    assumptions:
+      - "The task-specific manifest and verifier file list define the submission path."
+    unresolved:
+      - "Whether the harness writes final chat text to answer.md by convention."
+    not_run:
+      - "No task verifier was executed."

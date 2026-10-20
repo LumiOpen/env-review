@@ -1,0 +1,176 @@
+task_summary:
+  intended_capability: >-
+    Identify and correct a withdrawn scope-change fee in Deltek Project Controls while preserving its workflow, evidence, owner, hours, and audit context; distinguish a copied fee from secured fee uplift.
+  required_result: >-
+    Set approved_fee_usd to 0 for SC-25-417-005, keep it Withdrawn with Draft evidence and other specified fields unchanged, leave unrelated scope rows untouched, and report that it contributes $0 secured fee because it is neither Approved nor supported by Executed evidence.
+  environment_and_access: >-
+    The manifest provides Deltek Project Controls as a sidecar MCP system and uploads the workbook workspace to the main container. The exposed update function uses optimistic locking and can update a single scope-change row. This review was static; no mutation was performed.
+  repair_intent: unknown
+  intent_evidence: []
+checks:
+  specification:
+    status: observation
+    rationale: >-
+      The requested target and mutation are precise, including fields to preserve and a no-unrelated-changes constraint. The specified Scope Log does not contain the target record or title, so the instruction's cross-source premise is not fully supported by the provided workbook.
+    evidence:
+      - source: instruction.md
+        line_start: 1
+        quote: "Use the Deltek Vantagepoint Project Controls and EAC Ledger together with the Scope Log in Potomac_Basin_PFAS_Engagement_Margin_Bridge.xlsx to locate the withdrawn accelerated laboratory turnaround option and determine whether its copied fee should remain in the business record."
+      - source: data/rubric-v01-pilot-text/s3k_0399_consulting_bizops_analytics_en_t2_rl_006/workspace/02_Analysis/Potomac_Basin_PFAS_Engagement_Margin_Bridge.xlsx.txt
+        line_start: 389
+        quote: "A8: SCP-005 | B8: 2025-09-03 00:00:00 | C8: Alternative sampling protocol proposal | D8: Rejected | E8: Rachel Kim | F8: 21980 | G8: 64 | H8: 2025-09-20 00:00:00 | I8: USACE email rejection 09/18/2025 | J8: =IF(D8=\"Approved\",F8,0) [cached=None]"
+    claim_ids: [C1]
+    gaps: []
+  inputs:
+    status: candidate
+    rationale: >-
+      The Deltek database contains the target with the requested title and stale copied fee, but the named workbook Scope Log lists a different set of scope IDs/descriptions and has no matching target. This is a source inconsistency, not an absent local file; the workbook and extraction are present.
+    evidence:
+      - source: system/deltek_project_controls/state.db
+        quote: "SC-25-417-005: change_title='Accelerated laboratory turnaround option'; change_status='Withdrawn'; approved_fee=310000; evidence_status='Draft'; evidence_reference='DRAFT-MOD-0005|SUPERSEDED'."
+      - source: data/rubric-v01-pilot-text/s3k_0399_consulting_bizops_analytics_en_t2_rl_006/workspace/02_Analysis/Potomac_Basin_PFAS_Engagement_Margin_Bridge.xlsx.txt
+        line_start: 389
+        quote: "A8: SCP-005 | B8: 2025-09-03 00:00:00 | C8: Alternative sampling protocol proposal | D8: Rejected | E8: Rachel Kim | F8: 21980 | G8: 64 | H8: 2025-09-20 00:00:00 | I8: USACE email rejection 09/18/2025 | J8: =IF(D8=\"Approved\",F8,0) [cached=None]"
+    claim_ids: [C1]
+    gaps:
+      - "Whether the workbook's Scope Log is intentionally an unrelated/legacy list or an incorrect cross-reference is unresolved."
+  environment_specification:
+    status: checked_no_issue
+    rationale: >-
+      The required Project Controls source and update interface are declared. The API accepts a zero fee, uses expected_updated_at optimistic locking, and retains existing values for omitted fields, so the requested targeted update is supported without editing task code or workbooks.
+    evidence:
+      - source: tools/deltek_project_controls.py
+        line_start: 414
+        quote: "def update_scope_change("
+      - source: tools/deltek_project_controls.py
+        line_start: 465
+        quote: "\"approved_fee\": row[\"approved_fee\"] if approved_fee_usd is None else approved_fee_usd,"
+    claim_ids: []
+    gaps: []
+  feasibility:
+    status: checked_no_issue
+    rationale: >-
+      The database record is uniquely identified, approved_fee_usd=0 is allowed, and omitted fields retain their current values. The current target is Withdrawn, so the API's additional Executed-evidence validation for Approved records does not block this correction. Unrelated rows can remain untouched by updating only the target ID.
+    evidence:
+      - source: system/deltek_project_controls/schema.sql
+        line_start: 64
+        quote: "approved_fee INTEGER CHECK (approved_fee IS NULL OR approved_fee >= 0)"
+      - source: tools/deltek_project_controls.py
+        line_start: 453
+        quote: "if approved_fee_usd is not None and approved_fee_usd < 0: raise ValueError(\"approved_fee_usd cannot be negative\")"
+      - source: tools/deltek_project_controls.py
+        line_start: 480
+        quote: "UPDATE scope_changes SET change_status=?, requested_fee=?, approved_fee=?, hours_impact=?, effective_date=?, owner_employee_id=?, evidence_reference=?, evidence_status=?, notes=?, updated_at=? WHERE scope_change_id=? AND updated_at=?"
+    claim_ids: []
+    gaps: []
+  reference:
+    status: checked_no_issue
+    rationale: >-
+      The live target row's audit note states that approved_fee was copied from an earlier draft and is not secured. Its Withdrawn status and Draft/SUPERSEDED evidence independently exclude it under the Approved-plus-Executed rule. The corrected approved fee of zero and $0 secured contribution are consistent with the verifier's target state.
+    evidence:
+      - source: system/deltek_project_controls/state.db
+        quote: "notes='Withdrawn after procurement revision; approved_fee was copied from an earlier draft and is not secured.'"
+      - source: tools/deltek_project_controls.py
+        line_start: 341
+        quote: "if status == \"Approved\" and row[\"evidence_status\"] == \"Executed\": secured[\"fee_usd\"] += row[\"approved_fee\"] or 0"
+      - source: verifier_meta.json
+        json_pointer: /items/0/ground_truth
+        quote: "scope_change_id='SC-25-417-005'; approved_fee_usd=0; change_status='Withdrawn'; evidence_status='Draft'; evidence_reference='DRAFT-MOD-0005|SUPERSEDED'."
+    claim_ids: []
+    gaps: []
+  false_negative:
+    status: checked_no_issue
+    rationale: >-
+      The deterministic target rule compares the intended target fields and the unrelated-row sanity rule checks the other scope records. The response rubric accepts reasonable currency formatting and equivalent wording for the secured-fee rule.
+    evidence:
+      - source: verifier_meta.json
+        json_pointer: /items/2/pass_anchor
+        quote: "Accept equivalent wording and reasonable currency formatting, but the answer must not claim the record is Approved or Executed."
+      - source: verifier_meta.json
+        json_pointer: /items/0/ground_truth
+        quote: "approved_fee_usd=0; change_status='Withdrawn'; evidence_status='Draft'; hours_impact=1600; owner_employee_id='EMP-TTI-10482'."
+    claim_ids: []
+    gaps:
+      - "No permitted update was executed and no response was evaluated by the runtime grader."
+  false_positive:
+    status: checked_no_issue
+    rationale: >-
+      The task's deterministic post-state check requires the zero fee and preserved target fields, while a separate sanity check detects changes to unrelated rows. A correct narrative alone cannot satisfy the two database-state rules.
+    evidence:
+      - source: verifier_meta.json
+        json_pointer: /items/0/description
+        quote: "The target scope-change row has approved fee zero and retains the required workflow and audit fields."
+      - source: verifier_meta.json
+        json_pointer: /items/1/description
+        quote: "All other scope-change rows for the engagement remain unchanged."
+    claim_ids: []
+    gaps: []
+  answer_exposure:
+    status: not_checked
+    rationale: >-
+      The screen focused on the target source and update path; it did not review all management workbook and presentation material for answer duplication. Information reachable through intended Project Controls tools is necessary for the requested correction and is not alone treated as exposure.
+    evidence: []
+    claim_ids: []
+    gaps:
+      - "Other solver-visible documents and tool outputs were not exhaustively checked for duplicate target instructions."
+  verifier:
+    status: checked_no_issue
+    rationale: >-
+      Static verifier metadata has a target-state rule and an unrelated-row rule, plus LLM checks for the final explanation. The SQL comparison aligns with the schema fields; no permitted-state representation mismatch was found.
+    evidence:
+      - source: verifier_meta.json
+        json_pointer: /items/0/fn
+        quote: "check_target_scope_poststate"
+      - source: verifier_meta.json
+        json_pointer: /items/1/fn
+        quote: "check_unrelated_scope_rows_unchanged"
+    claim_ids: []
+    gaps:
+      - "The task-local verifier was not executed, consistent with the review packet boundary."
+  reward:
+    status: not_checked
+    rationale: >-
+      The review did not trace the runtime reward aggregator or weights; source inspection was limited to target checks and user-relevant behavior.
+    evidence: []
+    claim_ids: []
+    gaps:
+      - "No numeric or runtime reward behavior inferred."
+  grader_tampering:
+    status: not_checked
+    rationale: >-
+      No exhaustive inspection of all server-registered tools or grading-authority paths was made. The reviewed Project Controls update mutates the intended business row, not grader evidence.
+    evidence: []
+    claim_ids: []
+    gaps:
+      - "Full tool-surface tampering review was outside this bounded screen."
+claims:
+  - id: C1
+    kind: candidate
+    check_ids: [specification, inputs]
+    summary: >-
+      The workbook Scope Log named as a source for locating the target does not contain SC-25-417-005 or the accelerated laboratory turnaround option; it contains a different SCP-* option list.
+    expected: >-
+      The requested Scope Log should provide corroborating evidence for the withdrawn accelerated laboratory turnaround option identified in Deltek Project Controls, or the task should clarify that the workbook is only contextual and not a target-level source.
+    actual: >-
+      The Deltek row identifies SC-25-417-005 as the withdrawn accelerated-lab option with a copied $310,000 approved fee. The entire extracted Scope Log worksheet (A1:J20) lists SCP-001 through SCP-006 and SCP-AUD-01 through SCP-AUD-10, with no matching identifier or title.
+    consequence: >-
+      The task's named cross-source corroboration cannot be completed as written; relying on the workbook could introduce unrelated or stale scope data. The correction remains feasible from Project Controls alone, so this is not a blocker to the specified database mutation.
+    evidence:
+      - source: instruction.md
+        line_start: 1
+        quote: "Use the Deltek Vantagepoint Project Controls and EAC Ledger together with the Scope Log in Potomac_Basin_PFAS_Engagement_Margin_Bridge.xlsx to locate the withdrawn accelerated laboratory turnaround option and determine whether its copied fee should remain in the business record."
+      - source: data/rubric-v01-pilot-text/s3k_0399_consulting_bizops_analytics_en_t2_rl_006/workspace/02_Analysis/Potomac_Basin_PFAS_Engagement_Margin_Bridge.xlsx.txt
+        line_start: 389
+        quote: "A8: SCP-005 | B8: 2025-09-03 00:00:00 | C8: Alternative sampling protocol proposal | D8: Rejected | E8: Rachel Kim | F8: 21980 | G8: 64 | H8: 2025-09-20 00:00:00 | I8: USACE email rejection 09/18/2025 | J8: =IF(D8=\"Approved\",F8,0) [cached=None]\nA9: SCP-006 | B9: 2025-09-12 00:00:00 | C9: Additional data visualization appendix | D9: Withdrawn | E9: Maya Thompson | F9: 12640 | G9: 38 | H9: 2025-09-25 00:00:00 | I9: Internal withdrawal memorandum | J9: =IF(D9=\"Approved\",F9,0) [cached=None]"
+      - source: system/deltek_project_controls/state.db
+        quote: "SC-25-417-005 is Accelerated laboratory turnaround option, status Withdrawn, requested_fee=325000, approved_fee=310000, evidence_status=Draft, evidence_reference='DRAFT-MOD-0005|SUPERSEDED'."
+    witness: >-
+      Search of the complete Scope Log worksheet reveals no `SC-25-417-005` or `Accelerated laboratory turnaround option`, while a read-only query of the live Project Controls scope_changes table returns that exact target. The workbook uses different SCP identifiers and different option descriptions.
+    counterevidence_considered: >-
+      The Project Controls target row is unambiguous; update_scope_change can set fee zero while preserving omitted fields. The workbook may be an unrelated legacy/context register, so the mismatch does not make the mutation infeasible.
+    assumptions:
+      - "The extracted Scope Log covers the complete worksheet; extraction-index limits show the workbook was fully extracted without truncation."
+    unresolved:
+      - "Whether the workbook Scope Log is intentionally unrelated or was included by mistake as the target's corroborating source."
+    not_run:
+      - "No task tools, task code, setup, or verifier were executed."

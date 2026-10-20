@@ -1,0 +1,48 @@
+{
+  "method": "Static trace and independent immutable read-only query; proposed tool call was not executed.",
+  "database": "general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/yardi_property_asset_register/state.db",
+  "read_query": "SELECT asset_id, property_id, tax_basis_status, approved_flag, row_version FROM property_assets WHERE asset_id = ?",
+  "read_parameters": [
+    "YFA-2018-0101"
+  ],
+  "initial_row": {
+    "asset_id": "YFA-2018-0101",
+    "property_id": "PROP-FAIRFAX-3RD-001",
+    "tax_basis_status": "INCLUDED",
+    "approved_flag": 1,
+    "row_version": 3
+  },
+  "proposed_tool": "yardi_property_asset_register.update_asset_tax_basis_status",
+  "proposed_arguments": {
+    "asset_id": "YFA-2018-0101",
+    "tax_basis_status": "EXCLUDED",
+    "approved_flag": false,
+    "approved_by_entity_id": "",
+    "expected_row_version": 3
+  },
+  "predicted_change": {
+    "tax_basis_status": "EXCLUDED",
+    "approved_flag": 0,
+    "row_version": 4
+  },
+  "comparison": "Hold answer.md and judge randomness fixed; mutating this Yardi row leaves all task grading inputs unchanged.",
+  "metadata": {
+    "src_protect_present": false,
+    "gates": [],
+    "rule_items": [
+      "source_data_present"
+    ],
+    "llm_inputs": [
+      "answer.md"
+    ]
+  },
+  "source_hashes": {
+    "instruction.md": "54066dda9e7d8064a47bde09025f8295ac9cd2e133ad086a4ee7dd1a28e3b16f",
+    "manifest.json": "735780380d3783c2162e691c9246872394824f12dc833f4f6ae79f650ed5d563",
+    "mcp_http.py": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+    "verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+    "verifier_meta.json": "64218a1c0573ad03c14c67909c77bd33fde6392443883cc308ff6c77d6ad87ef",
+    "tools/yardi_property_asset_register.py": "c0bd2312c37f4602628827a4c8a07bf006a2c3d0f72403ffa928627263f21ffe",
+    "system/yardi_property_asset_register/state.db": "133f574bb38aa3655ffa6ba913f6d197a19418a367df188e90e8fe1b481a748b"
+  }
+}

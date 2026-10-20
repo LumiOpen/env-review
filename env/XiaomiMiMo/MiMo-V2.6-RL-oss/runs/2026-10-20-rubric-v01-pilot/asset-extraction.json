@@ -1,0 +1,1184 @@
+[
+  {
+    "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "source": "workspace/ADC_Fairfax_3rd_Disposal_Executive_Briefing_2025Q3.pptx",
+    "sha256": "e40ac4f4177c28c406515f4a2a0f3760119937ac1f223ab961e345738eb63fe8",
+    "status": "extracted",
+    "text_path": "workspace/ADC_Fairfax_3rd_Disposal_Executive_Briefing_2025Q3.pptx.txt",
+    "characters": 13074,
+    "truncated": false,
+    "text_sha256": "d371c4c9c379d7400cb2652f7011441476827159ba2aef5f584fd137028ea2a9"
+  },
+  {
+    "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "source": "workspace/ADC_Fairfax_3rd_Disposal_Tax_Model_2025Q3.xlsx",
+    "sha256": "7543370634c662757962b8fd8c64c6a86e6cf20221d6a4025da1f19d5210678d",
+    "status": "extracted",
+    "text_path": "workspace/ADC_Fairfax_3rd_Disposal_Tax_Model_2025Q3.xlsx.txt",
+    "characters": 147359,
+    "truncated": false,
+    "text_sha256": "edd23a80bab52a12907404ab56cb854743aba38aa2db77fd64d0540308952a7b"
+  },
+  {
+    "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "source": "workspace/ADC_Fairfax_3rd_Structuring_Recommendation_2025Q3.docx",
+    "sha256": "98461cbcda2725527ac0d0c89b7bb3869e4b0132103f68b8cd540a4273a44b0e",
+    "status": "extracted",
+    "text_path": "workspace/ADC_Fairfax_3rd_Structuring_Recommendation_2025Q3.docx.txt",
+    "characters": 54508,
+    "truncated": false,
+    "text_sha256": "990c908e4a4066664d4f04a1e1cdca8bef258c07537c958364194adbaa4a70bf"
+  },
+  {
+    "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "source": "workspace/Agree_Realty_2024_Annual_Report.pdf",
+    "sha256": "cba25825f7007dadefe95dc513b2b0803cbfaeae65650d8fb95a1a2aeec11cf7",
+    "pages": 136,
+    "status": "extracted",
+    "text_path": "workspace/Agree_Realty_2024_Annual_Report.pdf.txt",
+    "characters": 371947,
+    "truncated": true,
+    "text_sha256": "47dff2fe1092086cc4953365266d42791051e6c2b70a0fe1931347c7e9ebccac"
+  },
+  {
+    "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "source": "workspace/Los_Angeles_Declaration_Documentary_Transfer_Tax.pdf",
+    "sha256": "85a4979661efc5b0357b277180ff4b8865559a11389ae2174541c909846e8fbf",
+    "pages": 2,
+    "status": "extracted",
+    "text_path": "workspace/Los_Angeles_Declaration_Documentary_Transfer_Tax.pdf.txt",
+    "characters": 5439,
+    "truncated": false,
+    "text_sha256": "050228892e5715db90c71fb6ac52b135c06a59ea6622e4ac1306a5e8566b6f8f"
+  },
+  {
+    "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "source": "workspace/Realty_Income_2024_Q3_Earnings_Dispositions.pdf",
+    "sha256": "bc03df0af23e217525ee3519a6a3992f747074ccaa1645bbe66bac439f24e6d9",
+    "pages": 17,
+    "status": "extracted",
+    "text_path": "workspace/Realty_Income_2024_Q3_Earnings_Dispositions.pdf.txt",
+    "characters": 54219,
+    "truncated": false,
+    "text_sha256": "b12ab381be00bd44d06d95cf79faed3103f1e0839b7182a45d65df6ef68e8566"
+  },
+  {
+    "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+    "source": "workspace/上海期货交易所阴极铜期货合约交易操作手册.pdf",
+    "sha256": "60f45ce14429d71903b8a29589a761e9c210f8a48a39c76b35a7bd687b1c1927",
+    "pages": 20,
+    "status": "extracted",
+    "text_path": "workspace/上海期货交易所阴极铜期货合约交易操作手册.pdf.txt",
+    "characters": 12857,
+    "truncated": false,
+    "text_sha256": "d55ea39ae4a00cc36fb848b15ef1f01fb3b5c4e0c05f40e38f1177d9a7273228"
+  },
+  {
+    "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+    "source": "workspace/上海期货交易所阴极铜期货合约修订通知附件.docx",
+    "sha256": "31918bfad3c5901794c49c4bf2b27aa0bda42bab111e4dd33eb5ca5d2fed26bc",
+    "status": "extracted",
+    "text_path": "workspace/上海期货交易所阴极铜期货合约修订通知附件.docx.txt",
+    "characters": 3061,
+    "truncated": false,
+    "text_sha256": "89d4320e1c967d1a7fe2f9a628ec3e83fd1e5cd623c06ca6c9b43faa6c44258f"
+  },
+  {
+    "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+    "source": "workspace/江西铜业2025年期货和衍生品套期保值业务公告.pdf",
+    "sha256": "552f0de252c5e75394e270a2384f875461df980afa16fc149a25b5d5bbff911c",
+    "pages": 4,
+    "status": "extracted",
+    "text_path": "workspace/江西铜业2025年期货和衍生品套期保值业务公告.pdf.txt",
+    "characters": 2163,
+    "truncated": false,
+    "text_sha256": "0113ea1e55eb5a28c892986f788af761b028a4890352e02f83662063a1b7824f"
+  },
+  {
+    "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+    "source": "workspace/江西铜业股份有限公司2024年年度报告.pdf",
+    "sha256": "71a68b6856c96affa632611ec94fa08dd4af95ca1298645ff069646378acc869",
+    "pages": 257,
+    "status": "extracted",
+    "text_path": "workspace/江西铜业股份有限公司2024年年度报告.pdf.txt",
+    "characters": 84843,
+    "truncated": true,
+    "text_sha256": "e2722fae84772c1e910045c5de5f53d76714a207e7f8f877327397e6b1691626"
+  },
+  {
+    "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+    "source": "workspace/江铜2025年8-10月阴极铜套保交易执行方案.docx",
+    "sha256": "a91062fb053f29a1a57f406a9839e541f25ed3448e43d84fbfdc8d2bd02ced88",
+    "status": "extracted",
+    "text_path": "workspace/江铜2025年8-10月阴极铜套保交易执行方案.docx.txt",
+    "characters": 26597,
+    "truncated": false,
+    "text_sha256": "1967d8850def537cbf44a36e5729ac6ada6f8ce5acb8e47dc9540fe2fa43a93c"
+  },
+  {
+    "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+    "source": "workspace/江铜2025年8-10月阴极铜销售敞口明细.csv",
+    "sha256": "1dcaf30fed7b6b1cabe98724e26ee9ec138b6c60f43cb78ce7ba1b71111f870e",
+    "status": "extracted",
+    "text_path": "workspace/江铜2025年8-10月阴极铜销售敞口明细.csv.txt",
+    "characters": 19748,
+    "truncated": false,
+    "text_sha256": "8c646d6a942ee6ea581555dbe7e49c44a9b05780f063e9dd390242c571719e90"
+  },
+  {
+    "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+    "source": "workspace/江铜阴极铜套保比率及保证金测算表.xlsx",
+    "sha256": "c90f1e908b190ee0c98c3a4d937152203163c4d567fde0532143f65292b1e5c3",
+    "status": "extracted",
+    "text_path": "workspace/江铜阴极铜套保比率及保证金测算表.xlsx.txt",
+    "characters": 72591,
+    "truncated": false,
+    "text_sha256": "6b9ee597565eab6e76ca2752358c3075fffc7dda48c896893f65e9f7561ce44c"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/01_原始台账/2024年10月大堂吧POS酒水销售明细.csv",
+    "sha256": "f11433b8791890bfa23931acf0341eb21e9a4a0fb56fae66314701043b853302",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/2024年10月大堂吧POS酒水销售明细.csv.txt",
+    "characters": 76963,
+    "truncated": false,
+    "text_sha256": "27ea364cc7762df3208b1d531302f3d0fcb944164a256ddb43f81c1cda27bc04"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/01_原始台账/2024年10月大堂吧原始数据接收校验清单.xlsx",
+    "sha256": "a1f666f15936e30ceea4f9e8ad21b246eb57ee4ddc98e2aed1a90b38d47796ad",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/2024年10月大堂吧原始数据接收校验清单.xlsx.txt",
+    "characters": 1000000,
+    "truncated": true,
+    "text_sha256": "50346e4d828c03c641f9ac3d3c5307e92bdd1246c4b9138804dd9651bf902572"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/01_原始台账/2024年10月大堂吧月末实盘计数.csv",
+    "sha256": "6e06a59c30300e206145f02caaf454bd23715932962c1a84f977f7cbf6cbb3d7",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/2024年10月大堂吧月末实盘计数.csv.txt",
+    "characters": 22299,
+    "truncated": false,
+    "text_sha256": "44bacbd750ff5041cbdf4820058863276cec629a8a9dd1f4306f8efd815d5dd1"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/01_原始台账/2024年10月大堂吧赠饮及报损授权单.csv",
+    "sha256": "36a55f4ae9e4bfd26d89889da66d826ca5c519154a048879b075db518baf36c6",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/2024年10月大堂吧赠饮及报损授权单.csv.txt",
+    "characters": 18280,
+    "truncated": false,
+    "text_sha256": "5fafd95e8dc66cb187db04b0410b7adcef1d0ce6f640190198f7d11d2fb0386a"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/01_原始台账/2024年10月大堂吧酒水SKU单位成本主数据.xlsx",
+    "sha256": "57edb1b7b64d8a217e4fe447c8323de79be6ed9b5e6db1da141cb1a4328b28f1",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/2024年10月大堂吧酒水SKU单位成本主数据.xlsx.txt",
+    "characters": 1000000,
+    "truncated": true,
+    "text_sha256": "ef256dbbc1a1f49a10157fdad753d3cc47030868188e68fff039abb8c56c76f4"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/01_原始台账/2024年10月大堂吧采购调拨退货流水.csv",
+    "sha256": "156bea00135765117d981ba097117aa9ef1a86bbca2f022d0a977aea0882cd3c",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/2024年10月大堂吧采购调拨退货流水.csv.txt",
+    "characters": 28952,
+    "truncated": false,
+    "text_sha256": "0908c189310b5d1433749aa21f41b63f47462f641def783a5240eb76efc5dbbb"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/01_原始台账/bar_cost_control_textbook.html",
+    "sha256": "e33ada4dab5cfe509770b0809bc091bc4aae62dd5ac38f58704150b7bdb3be41",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/bar_cost_control_textbook.html.txt",
+    "characters": 9885,
+    "truncated": false,
+    "text_sha256": "58a16609e0e9c315e221ad1cef5fc97545a990384dc64ff635a70605cbf46f06"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/01_原始台账/holiday_inn_resort_jurong_beverage_list.pdf",
+    "sha256": "66f710bbbc4f3c027d35088a5450de35dd676f5500cc0ef682e120ff0d9ff475",
+    "pages": 10,
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/holiday_inn_resort_jurong_beverage_list.pdf.txt",
+    "characters": 4082,
+    "truncated": false,
+    "text_sha256": "3ee16abbbc3a319803057bfac0a54b92e38878a2bf4516b6f3f6fd4c27839be6"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/01_原始台账/restaurant_profit_loss_template.xlsx",
+    "sha256": "968f06d3c4d24b6baf6fb556e9ffbbd24cfdc267e949077ce7bc4d066f39e6d4",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/restaurant_profit_loss_template.xlsx.txt",
+    "characters": 2471,
+    "truncated": false,
+    "text_sha256": "c8bfcfe1c143c80ae735d8d7963ed873e01e1bb660bf791355a3c6dc39705028"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/01_原始台账/公开资料取数与酒单价格核验说明.docx",
+    "sha256": "55c6ffbb619e6f8e021632ad6205218e3f83525f4ec4d23b48b203010c53a651",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/公开资料取数与酒单价格核验说明.docx.txt",
+    "characters": 65224,
+    "truncated": false,
+    "text_sha256": "52bb034dcd68f810c2cf8ea7fd5493c042d45b31025467661ca70fd4f23d3c5a"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/02_核算模型/2024年10月大堂吧实际耗用与库存滚动表.xlsx",
+    "sha256": "4ffa6c1a023b0e53ef9c8ce358167eed28aa9c4aefbb66e7886d835cab75d35c",
+    "status": "extracted",
+    "text_path": "workspace/02_核算模型/2024年10月大堂吧实际耗用与库存滚动表.xlsx.txt",
+    "characters": 445345,
+    "truncated": false,
+    "text_sha256": "ab888308681d30dadcedcdd8fcf3e4486f3bddb86ddde2c9cdf58a6dfb122867"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/02_核算模型/2024年10月大堂吧差异SKU复盘清单.csv",
+    "sha256": "715cc122cb4f7e740c2f62cccfa6e0147b9cbbd0f975d63ad0def2a4a70c10cf",
+    "status": "extracted",
+    "text_path": "workspace/02_核算模型/2024年10月大堂吧差异SKU复盘清单.csv.txt",
+    "characters": 8804,
+    "truncated": false,
+    "text_sha256": "c9d71ce2247a5cad7dfcc9f4ae48f94d4a136e32f404786a682c52d0c108d448"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/02_核算模型/2024年10月大堂吧标准杯量与配方成本表.xlsx",
+    "sha256": "333db1c89f6ef05c1dc00781b6fe223faaa24a961a8438163959d4d1655dd75a",
+    "status": "extracted",
+    "text_path": "workspace/02_核算模型/2024年10月大堂吧标准杯量与配方成本表.xlsx.txt",
+    "characters": 626753,
+    "truncated": false,
+    "text_sha256": "29a4b21e371ae177cc5584568d56e46f3ccd8a962a69c0c860758912dafe4137"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/02_核算模型/2024年10月大堂吧理论耗用计算工作簿.xlsx",
+    "sha256": "8614b2b244af0eed2a9f4dd8ed29704f05145d457971a9bb9102ad3ba539375c",
+    "status": "extracted",
+    "text_path": "workspace/02_核算模型/2024年10月大堂吧理论耗用计算工作簿.xlsx.txt",
+    "characters": 310812,
+    "truncated": false,
+    "text_sha256": "69af04072db8d8f165be5e27822d80a709e60d84d8712d4cfc3118fd226bff26"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/02_核算模型/2024年10月大堂吧盘点差异表与复核签认.xlsx",
+    "sha256": "0a6864ecb96fb34ed8b3eebad53c0332b7d4a5e1cd3001697eb7186a587262ef",
+    "status": "extracted",
+    "text_path": "workspace/02_核算模型/2024年10月大堂吧盘点差异表与复核签认.xlsx.txt",
+    "characters": 758610,
+    "truncated": false,
+    "text_sha256": "84ebbd43de56bef5a5c4f365131fba2e1cb999c20c2e188969f3cbdfbe63c2ac"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/03_分析报告/2024年10月大堂吧损耗原因与整改措施说明.docx",
+    "sha256": "3c62f7355a4f0a1134709ee6fa682c06ff40a0c76f48eb88fb9dd099242e7066",
+    "status": "extracted",
+    "text_path": "workspace/03_分析报告/2024年10月大堂吧损耗原因与整改措施说明.docx.txt",
+    "characters": 18456,
+    "truncated": false,
+    "text_sha256": "253387146cb6d19380ef86576b1816b687766a2658b83428190a8437955dfae3"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/03_分析报告/2024年10月大堂吧盘点差异复核会纪要.docx",
+    "sha256": "68105c2fc51c7274edbea14fb59ba7c0a47258678234e846024eba7b9538e936",
+    "status": "extracted",
+    "text_path": "workspace/03_分析报告/2024年10月大堂吧盘点差异复核会纪要.docx.txt",
+    "characters": 27955,
+    "truncated": false,
+    "text_sha256": "2b08c82be6dd80484d7a92646b42e4c3edb8bd5b0fef4f07aaa6d88dcdcf87f4"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/03_分析报告/2024年10月大堂吧酒水盘点差异核查报告.docx",
+    "sha256": "82bf29e7dac59662317568699791826987dc283be6bd17cb7be869e98b7fc490",
+    "status": "extracted",
+    "text_path": "workspace/03_分析报告/2024年10月大堂吧酒水盘点差异核查报告.docx.txt",
+    "characters": 33298,
+    "truncated": false,
+    "text_sha256": "a7fd1d60acdc60d8b695856d4e769833c8996cfe7f107ea74f38515c61cb48c6"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/03_分析报告/_lobby_bar_assets/bar.png",
+    "sha256": "837a2e0f2fbbcd48b822adf511a62fcffa0b9d48c99f36b7cc770204cec0a8ce",
+    "status": "not_extracted",
+    "reason": "Use original file; no text extractor for this type."
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/03_分析报告/_lobby_bar_assets/cover.png",
+    "sha256": "83424daf189447ed3f04cc8582a12d7bf6a992452515fa63f26a8c908a346685",
+    "status": "not_extracted",
+    "reason": "Use original file; no text extractor for this type."
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/03_分析报告/_lobby_bar_assets/fish.png",
+    "sha256": "6078abfb14f3913d7c641fc5b8ac945834a2d7295cc1a89995157b87ef2e7612",
+    "status": "not_extracted",
+    "reason": "Use original file; no text extractor for this type."
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/04_管理报送/2024年10月大堂吧酒水成本月末管理汇报.pptx",
+    "sha256": "f2fbf6739fed2da86f251ddc71a8a513e909b72ca78f034004e1d4eebbce05df",
+    "status": "extracted",
+    "text_path": "workspace/04_管理报送/2024年10月大堂吧酒水成本月末管理汇报.pptx.txt",
+    "characters": 8163,
+    "truncated": false,
+    "text_sha256": "710008ef31ccac48aa28a5523348ae9a3b3ecf62eeb4f6dc14462fc993e175f8"
+  },
+  {
+    "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "source": "workspace/99_归档/2024年10月句容假日度假酒店秋季婚宴酒水推介方案.pptx",
+    "sha256": "467f20ffda2db65dd9a7ba561d647318ac5880daaebfbee4c6e24bf095dcb461",
+    "status": "extracted",
+    "text_path": "workspace/99_归档/2024年10月句容假日度假酒店秋季婚宴酒水推介方案.pptx.txt",
+    "characters": 5266,
+    "truncated": false,
+    "text_sha256": "3ff0c9e24359923cc91a1de30261f9c5c518f4394d5e5941f02def805a2c1995"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/01_原始抽取/Avnet-Tianjin-Quality-Manual-ATS-QP-1-GM-01.pdf",
+    "sha256": "196c41f0c24d874bb4447a723d2ccba69bb46a6fc4df3c4e5bc701df57e27466",
+    "pages": 36,
+    "status": "extracted",
+    "text_path": "workspace/01_原始抽取/Avnet-Tianjin-Quality-Manual-ATS-QP-1-GM-01.pdf.txt",
+    "characters": 28720,
+    "truncated": false,
+    "text_sha256": "602bebeec8bb88c18f045f5c1499535b930246d66ccf74ac89150b9e799e311a"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/01_原始抽取/ECN-2025-017_旧版物料库存明细_20250303.csv",
+    "sha256": "8322c736bb92e7647dd44f8559910f6b4bc9720b8457b2d9c875b227a253b06a",
+    "status": "extracted",
+    "text_path": "workspace/01_原始抽取/ECN-2025-017_旧版物料库存明细_20250303.csv.txt",
+    "characters": 25132,
+    "truncated": false,
+    "text_sha256": "aba1eade473506ebd3a2fd5dfbff05be10fe9603cd05c036baaacc78b50f0165"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/01_原始抽取/ECN-2025-017_首件与试产检验原始记录_20250314.csv",
+    "sha256": "129c358468bd1f152b0207a42160e564163654c0f496766b95d8645da9eb7fc6",
+    "status": "extracted",
+    "text_path": "workspace/01_原始抽取/ECN-2025-017_首件与试产检验原始记录_20250314.csv.txt",
+    "characters": 11513,
+    "truncated": false,
+    "text_sha256": "91a07d067fbfd67a727a4179e16737fb6fe619b1deb4f6aeb2ec632ba6da52a6"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/01_原始抽取/ISO9001-2015-CN.pdf",
+    "sha256": "5f89e1033a40df23ba95659f8dc03f619f23d6f10194ebd3e1c4c5b56e46a3cd",
+    "pages": 28,
+    "status": "extracted",
+    "text_path": "workspace/01_原始抽取/ISO9001-2015-CN.pdf.txt",
+    "characters": 38536,
+    "truncated": false,
+    "text_sha256": "007637c0c1155080b82c2e2f636cf1858b5b5a91917216c99558096d8c60e24b"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/01_原始抽取/Timken-Supplier-Requirements-Manual-20201105.pdf",
+    "sha256": "0b17dd1e48b22c541bf4eb8b0d85f306f3e22aa26441ad2b597aece6aeb728d2",
+    "pages": 29,
+    "status": "extracted",
+    "text_path": "workspace/01_原始抽取/Timken-Supplier-Requirements-Manual-20201105.pdf.txt",
+    "characters": 92479,
+    "truncated": false,
+    "text_sha256": "93c083d37dfbeedd3a4f6ae96418b0368a195b34c33f2cd90b46eef2d30a7675"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/01_原始抽取/受控文件版本登记表_20250317.csv",
+    "sha256": "b7d41057a95abc9eb1eb443311ca637bacc5a9029308833f610700e57e299c02",
+    "status": "extracted",
+    "text_path": "workspace/01_原始抽取/受控文件版本登记表_20250317.csv.txt",
+    "characters": 18561,
+    "truncated": false,
+    "text_sha256": "98fc66885e91dff8879fc6f83bdc40a9abc0f246e473338fbb7fa3584420b037"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/02_变更控制/ECN-2025-017_变更切入量产确认表.xlsx",
+    "sha256": "34d40de0ae9de9354891455d943eda61da8a04fb847ab343c7601fd18ab985a4",
+    "status": "extracted",
+    "text_path": "workspace/02_变更控制/ECN-2025-017_变更切入量产确认表.xlsx.txt",
+    "characters": 150789,
+    "truncated": false,
+    "text_sha256": "f79fda8470a7c2f1425dbbd8be1b2c1e21487de5239e65f88c42fb8ec5c7b9b9"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/02_变更控制/ECN-2025-017_旧版物料处置与余额核算.xlsx",
+    "sha256": "0bcbb3d443b89221394eecf7a2ab6961ba3367362749872ac8ee5519117ee23a",
+    "status": "extracted",
+    "text_path": "workspace/02_变更控制/ECN-2025-017_旧版物料处置与余额核算.xlsx.txt",
+    "characters": 251967,
+    "truncated": false,
+    "text_sha256": "22b659f083c349092dd595cd0f2a37f218f13149d1eda60225c52f328f36d93d"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/03_质量分析/ECN-2025-017_供应商工程变更批准通知.docx",
+    "sha256": "4ceb7488039c8091981c8ce78d8269534727af3b0de454dc6bd9d0f1249d7146",
+    "status": "extracted",
+    "text_path": "workspace/03_质量分析/ECN-2025-017_供应商工程变更批准通知.docx.txt",
+    "characters": 5203,
+    "truncated": false,
+    "text_sha256": "79362f2919f6c043838639a2e873c721de73e916a46300a815410fe4a2453e73"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/03_质量分析/ECN-2025-017_工程变更质量确认报告.docx",
+    "sha256": "e9aac46904ec18cc71e9bf8618bf60dee88701db94d2e67b315f0a3e79d7dfdb",
+    "status": "extracted",
+    "text_path": "workspace/03_质量分析/ECN-2025-017_工程变更质量确认报告.docx.txt",
+    "characters": 17553,
+    "truncated": false,
+    "text_sha256": "02947ffec17c4dc2c4f55754d0c004622b12e72ae1874e66a1dc1767ce438acf"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/03_质量分析/ECN-2025-017_跨部门变更评审纪要.docx",
+    "sha256": "3067aebe736ff3a3902ee934afde1497f5a944cf70bc81e3ffa311891b50ebfd",
+    "status": "extracted",
+    "text_path": "workspace/03_质量分析/ECN-2025-017_跨部门变更评审纪要.docx.txt",
+    "characters": 8885,
+    "truncated": false,
+    "text_sha256": "258681be43de83b46ef0b2fd9f4fb484d115244bb1bbb4fbbcf28dd794a72d0f"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/04_评审汇报/ECN-2025-017_供应商工程变更批准通知.docx",
+    "sha256": "8eac439b980ce3106d134bc21892e11ca06ae2b9279c0a137321e12db37b7b5f",
+    "status": "extracted",
+    "text_path": "workspace/04_评审汇报/ECN-2025-017_供应商工程变更批准通知.docx.txt",
+    "characters": 9186,
+    "truncated": false,
+    "text_sha256": "7ae3cc2172a59dcb946ebe8fdef6c873ef7bbfc457019e0772cb386c0fbcbbfe"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/04_评审汇报/ECN-2025-017_变更关闭行动跟踪.xlsx",
+    "sha256": "342633d6cbd725adf345aa480518fc272d6669d668ff8605417fe1e8564f6cdd",
+    "status": "extracted",
+    "text_path": "workspace/04_评审汇报/ECN-2025-017_变更关闭行动跟踪.xlsx.txt",
+    "characters": 30358,
+    "truncated": false,
+    "text_sha256": "f8c90e419028a87a0c7bc089738459dc9d15680e2bcb31589ae00100d3524565"
+  },
+  {
+    "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "source": "workspace/04_评审汇报/ECN-2025-017_管理层量产切入汇报.pptx",
+    "sha256": "77fededca7cf897d76c05ebe2cbbf71df1ea37a4d8d03c028a3c42ff930db3c6",
+    "status": "extracted",
+    "text_path": "workspace/04_评审汇报/ECN-2025-017_管理层量产切入汇报.pptx.txt",
+    "characters": 2165,
+    "truncated": false,
+    "text_sha256": "a1041d8e3e85429ad461aef4d063722012826c8b411d0ed214f01afa347dfdc7"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/01_原始台账/OpenAPI_Specification_3.1.0.html",
+    "sha256": "ca07378639431519731065e397fa4170c2ddfe501a4aa69db60d6a3a9bb669fe",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/OpenAPI_Specification_3.1.0.html.txt",
+    "characters": 111971,
+    "truncated": false,
+    "text_sha256": "ce07bd0541449e634546e9340270cd5d09577de3f85dd403dae6c67313e9ad6a"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/01_原始台账/OpenID_Connect_Core_1.0_Errata2.html",
+    "sha256": "4d016752a645e8a3c259baa4173b5a90cb6c82898ce868fc8444adde262a5aed",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/OpenID_Connect_Core_1.0_Errata2.html.txt",
+    "characters": 270662,
+    "truncated": false,
+    "text_sha256": "1b59cd338f7f07a017e58fc93482030294ba7a37cd3df5dc4e7faa1fa82bf609"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/01_原始台账/RFC6749_OAuth2_Authorization_Framework.txt",
+    "sha256": "f204fc8661d6c92d2ec6e0b54808f961a9ad26e792f57f312d9528335519bd71",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/RFC6749_OAuth2_Authorization_Framework.txt.txt",
+    "characters": 163568,
+    "truncated": false,
+    "text_sha256": "8a4d0b49f490e0a4fa58d24ee8ecf87105aee98ed5effced691f2916d3bf347d"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/01_原始台账/澄川企业服务中台二期_应用接口原始清单_20250618.csv",
+    "sha256": "46d61cad3865686009d0a0d1f691c2a95a4223679f7b43ef6f0027bb9c60c593",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/澄川企业服务中台二期_应用接口原始清单_20250618.csv.txt",
+    "characters": 6090,
+    "truncated": false,
+    "text_sha256": "0eff603d5c37bb906c6b1206f28274fda9c463f47a7f06faf4c77e7ceae2a24c"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/01_原始台账/澄川企业服务中台二期_身份接入配置抽取_20250618.csv",
+    "sha256": "245a8f7136b274dfc8d99c2c7ff1e891feb22ba1a796f747eb6cf2485371d9c0",
+    "status": "extracted",
+    "text_path": "workspace/01_原始台账/澄川企业服务中台二期_身份接入配置抽取_20250618.csv.txt",
+    "characters": 4708,
+    "truncated": false,
+    "text_sha256": "08e071048c77a7339101a5603b418e315352864c67c2e77c5f8171e546ffa418"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/02_分析模型/澄川企业服务中台二期_OpenAPI契约合规核查矩阵_20250620.xlsx",
+    "sha256": "b8cf1999b558dcb17478a5eb35f7934a84afe683890bc7a2e0d1201a33eee61c",
+    "status": "extracted",
+    "text_path": "workspace/02_分析模型/澄川企业服务中台二期_OpenAPI契约合规核查矩阵_20250620.xlsx.txt",
+    "characters": 193744,
+    "truncated": false,
+    "text_sha256": "eb8a78c21e3854f6573f655a9006abde23ec08837dc4732ce52c1d8bab823d60"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/02_分析模型/澄川企业服务中台二期_整改项目跟踪台账_20250831.xlsx",
+    "sha256": "4060134660abc04f1a20dcc2b5fa406e10a5e73537666b35bed944c26e3bbb13",
+    "status": "extracted",
+    "text_path": "workspace/02_分析模型/澄川企业服务中台二期_整改项目跟踪台账_20250831.xlsx.txt",
+    "characters": 100560,
+    "truncated": false,
+    "text_sha256": "0f74b6bd43bd40f529dbfc3614a7dd46b504a2a454426c893f471f7d933dc825"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/02_分析模型/澄川企业服务中台二期_标准原文引用索引_20250619.docx",
+    "sha256": "25aa1d0393225f4c550c48ecfccfe27bc98041bffc4d9e6b8dbec36ffb9205a8",
+    "status": "extracted",
+    "text_path": "workspace/02_分析模型/澄川企业服务中台二期_标准原文引用索引_20250619.docx.txt",
+    "characters": 8804,
+    "truncated": false,
+    "text_sha256": "7b937a4c649a6856197c91cdada0808231953cd9d7fd0462bbfa3cf97a4cec52"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/02_分析模型/澄川企业服务中台二期_集成现状盘点与覆盖率模型_20250620.xlsx",
+    "sha256": "fb4d676abe7233fbcc26a6690c1fed8beb0177ccd81de845250a08dad911c6f5",
+    "status": "extracted",
+    "text_path": "workspace/02_分析模型/澄川企业服务中台二期_集成现状盘点与覆盖率模型_20250620.xlsx.txt",
+    "characters": 366652,
+    "truncated": false,
+    "text_sha256": "ae078b095b8190876817ece5efdacee1d75d4b6a2f70577c22e1507e0b8722cd"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/02_分析模型/澄川企业服务中台二期_非功能性风险与容量评估_20250620.xlsx",
+    "sha256": "7bc18505a45efce59b5d05cfe7273d8a5d48fe7987c3458066a3a902957b285b",
+    "status": "extracted",
+    "text_path": "workspace/02_分析模型/澄川企业服务中台二期_非功能性风险与容量评估_20250620.xlsx.txt",
+    "characters": 122634,
+    "truncated": false,
+    "text_sha256": "829569ec8cd1b961986a2e042af467d9cb22544e4e4871d156328187bc1647b7"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/03_规范报告/澄川企业服务中台二期_技术评审意见书_20250621.docx",
+    "sha256": "8394206ea688909b77898a0fc5abfcb43b97cdde14d567bb9cf18181524a8792",
+    "status": "extracted",
+    "text_path": "workspace/03_规范报告/澄川企业服务中台二期_技术评审意见书_20250621.docx.txt",
+    "characters": 21680,
+    "truncated": false,
+    "text_sha256": "86bd7b593894b940088ab405f44b6ffa5d9483daf20f523a83232dbe2c65749f"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/03_规范报告/澄川企业服务中台二期_接口与身份接入规范_v1.0.docx",
+    "sha256": "db361a2f24cb30d23b59c97ede4a3c04aa6d0e6918c3b6f8894fe6af4315e8a8",
+    "status": "extracted",
+    "text_path": "workspace/03_规范报告/澄川企业服务中台二期_接口与身份接入规范_v1.0.docx.txt",
+    "characters": 29602,
+    "truncated": false,
+    "text_sha256": "25aa513a6da957111aabb2be8f820322eea7334406fd9bdf06034e363b8760ef"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/03_规范报告/澄川企业服务中台二期_现有体系接入评估报告_20250621.docx",
+    "sha256": "3890e8ddb8e332a52a79d3896719460bb6e4c9de356341d5cc15126856f7f1d7",
+    "status": "extracted",
+    "text_path": "workspace/03_规范报告/澄川企业服务中台二期_现有体系接入评估报告_20250621.docx.txt",
+    "characters": 3610,
+    "truncated": false,
+    "text_sha256": "82ee33fa96791d132d5d571e42b14f894f52393e75e41ad224f1fcc79923416c"
+  },
+  {
+    "task_id": "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "source": "workspace/04_决策汇报/澄川企业服务中台二期_立项架构评审汇报_20250623.pptx",
+    "sha256": "f08f5d0da46ad7ee8db11a8d65f9ece7ba518ac211c7c7882e7ebecc58b5192f",
+    "status": "extracted",
+    "text_path": "workspace/04_决策汇报/澄川企业服务中台二期_立项架构评审汇报_20250623.pptx.txt",
+    "characters": 7572,
+    "truncated": false,
+    "text_sha256": "aa079c5b551856337e65825cf8ff86216853817e2be935de3a691867827df0de"
+  },
+  {
+    "task_id": "s3k_0807_finance_insurance_en_t1_rl_005",
+    "source": "workspace/ACRES_CRE_Impairment_Review_Memorandum_2025-Q3.docx",
+    "sha256": "68ccab9240f0bb0cca34da83d05cbe1c2cfe9aebbd5173f320228910bc08f6a3",
+    "status": "extracted",
+    "text_path": "workspace/ACRES_CRE_Impairment_Review_Memorandum_2025-Q3.docx.txt",
+    "characters": 47276,
+    "truncated": false,
+    "text_sha256": "44b8371e332951dcdd126f5004318348d89b18b4649a350c36dd5a4f01298131"
+  },
+  {
+    "task_id": "s3k_0807_finance_insurance_en_t1_rl_005",
+    "source": "workspace/ACRES_CRE_Loan_Level_Extract_2025-09-30.csv",
+    "sha256": "32415373d0033b6fc8f8e915d6a8521b1ee0ce49e9cbd70a3ca64e39855a2b1b",
+    "status": "extracted",
+    "text_path": "workspace/ACRES_CRE_Loan_Level_Extract_2025-09-30.csv.txt",
+    "characters": 24934,
+    "truncated": false,
+    "text_sha256": "e2e92d6471fead2e3e59bffaa8170d0cbaba0fedf3562e72de125d9ae5691fc3"
+  },
+  {
+    "task_id": "s3k_0807_finance_insurance_en_t1_rl_005",
+    "source": "workspace/ACRES_CRE_Valuation_Impairment_Model_2025-Q3.xlsx",
+    "sha256": "d99e3ff7d728c9e6c5eb09b52aed28c99992128ae05393162a64176c6f971df0",
+    "status": "extracted",
+    "text_path": "workspace/ACRES_CRE_Valuation_Impairment_Model_2025-Q3.xlsx.txt",
+    "characters": 129374,
+    "truncated": false,
+    "text_sha256": "d9fc5342cd581f48ae8d9a41b187faabbaa1b2d0ab63cd76c6325534fa784db4"
+  },
+  {
+    "task_id": "s3k_0807_finance_insurance_en_t1_rl_005",
+    "source": "workspace/acres_2024_results.html",
+    "sha256": "4b5064b07377a6c781a8bc295559dd500ee028e4c5355e6ace7645b832cdc91d",
+    "status": "extracted",
+    "text_path": "workspace/acres_2024_results.html.txt",
+    "characters": 5182,
+    "truncated": false,
+    "text_sha256": "53b953c3919d0c09a65dbfdadaf45809eb95fc7f1a3f9a57a0c433d50951b15f"
+  },
+  {
+    "task_id": "s3k_0807_finance_insurance_en_t1_rl_005",
+    "source": "workspace/boe_commercial_mortgage_loan_level_template.xlsx",
+    "sha256": "b921c941281abc2e9f77f94f2e9966925df058a8c60b5dbb7e83fc731ebedc3a",
+    "status": "extracted",
+    "text_path": "workspace/boe_commercial_mortgage_loan_level_template.xlsx.txt",
+    "characters": 138931,
+    "truncated": false,
+    "text_sha256": "ba787cce91fe5a5810b3e2d9a64941a1a06d9c4e586fa7516902050cb54ad9d6"
+  },
+  {
+    "task_id": "s3k_0807_finance_insurance_en_t1_rl_005",
+    "source": "workspace/brightspire_2024_annual_report.pdf",
+    "sha256": "ce936b6ff0b174256fe50cf15490d1d9dd3fb11691184a0e6f9d80e7a51530e2",
+    "pages": 557,
+    "status": "extracted",
+    "text_path": "workspace/brightspire_2024_annual_report.pdf.txt",
+    "characters": 481188,
+    "truncated": true,
+    "text_sha256": "33a83bdfa0ac5c83c0b285407a497e79c7f1bc54e37be1c3b32e39860a1bd05d"
+  },
+  {
+    "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+    "source": "workspace/01_Evidence/dns_probe_detail_2025-09-18.csv",
+    "sha256": "45bcb2806c9276d1441cddb5b6311d793b6e89747a592e058eb755d416ecced3",
+    "status": "extracted",
+    "text_path": "workspace/01_Evidence/dns_probe_detail_2025-09-18.csv.txt",
+    "characters": 350072,
+    "truncated": false,
+    "text_sha256": "938a60451bb0bee9c47c3660624161d6c558fb17fa9b421781eaee929d6278d9"
+  },
+  {
+    "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+    "source": "workspace/01_Evidence/microsoft-windows-dns-forwarder-timeouts.html",
+    "sha256": "2f3ff915a244b7894cb555f3b32dcabefe7afe6ba6bf349eeed79dd020460c2a",
+    "status": "extracted",
+    "text_path": "workspace/01_Evidence/microsoft-windows-dns-forwarder-timeouts.html.txt",
+    "characters": 11886,
+    "truncated": false,
+    "text_sha256": "91c282f87a8d01a223156f705155f1552f7b8cde83ee9f683bb2a7e91097912f"
+  },
+  {
+    "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+    "source": "workspace/01_Evidence/post_change_dns_validation_detail_2025-09-19.csv",
+    "sha256": "bd76ef36f9c064cc93c563809af7d48b4a28c5dfe63128a78fd666076e60aa00",
+    "status": "extracted",
+    "text_path": "workspace/01_Evidence/post_change_dns_validation_detail_2025-09-19.csv.txt",
+    "characters": 25167,
+    "truncated": false,
+    "text_sha256": "40685ba326d292420d915ea53fb6116742d8a1bc035f1655a86f955dfb11c12f"
+  },
+  {
+    "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+    "source": "workspace/01_Evidence/rfc2308-negative-caching.txt",
+    "sha256": "7fdfca474a92f7dfee13e70998c40c263104087da46cac91944f643562ce3fba",
+    "status": "extracted",
+    "text_path": "workspace/01_Evidence/rfc2308-negative-caching.txt.txt",
+    "characters": 41488,
+    "truncated": false,
+    "text_sha256": "aba403d83695872ff3d8e9299f0209aa259274dca0448c3947313f9136d21f99"
+  },
+  {
+    "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+    "source": "workspace/01_Evidence/rfc9520-negative-caching-resolution-failures.txt",
+    "sha256": "424b5e297db737b7cc7f21d37d30dca211f3f237264c3c6ef3d17653a4e1c531",
+    "status": "extracted",
+    "text_path": "workspace/01_Evidence/rfc9520-negative-caching-resolution-failures.txt.txt",
+    "characters": 34023,
+    "truncated": false,
+    "text_sha256": "bb3a45411faa3adc71200003893a400aea4b5ac914450ceed737dbc6c2cbedfa"
+  },
+  {
+    "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+    "source": "workspace/01_Evidence/windows_dns_event_export_2025-09-18.csv",
+    "sha256": "cd749180bece7c534d0b47e984137385277dcbdb299c06753dc776e9284f7897",
+    "status": "extracted",
+    "text_path": "workspace/01_Evidence/windows_dns_event_export_2025-09-18.csv.txt",
+    "characters": 43944,
+    "truncated": false,
+    "text_sha256": "20a69b10175060e10ef99169b6b18f745f00313695e35f9fa941b33b274b79c2"
+  },
+  {
+    "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+    "source": "workspace/03_Configuration/DNS_Configuration_Remediation_Record_2025-09-19.docx",
+    "sha256": "ae87f4a6bbe0d0edfa341fcc822aaa8e5043a315fc11895a4a08bd4c1173ffba",
+    "status": "extracted",
+    "text_path": "workspace/03_Configuration/DNS_Configuration_Remediation_Record_2025-09-19.docx.txt",
+    "characters": 36314,
+    "truncated": false,
+    "text_sha256": "ae6f4aed54a5d2a202b4b6c33c596b0500aef88087fd5ef2d87bb5bb5767bdc5"
+  },
+  {
+    "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+    "source": "workspace/05_Delivery/Brightwater_DNS_Incident_Leadership_Briefing_2025-09-23.pptx",
+    "sha256": "bf2e495355e115bfb7189e2271af6e1bdf603363bf0cb4c9cc828b7e6f73e596",
+    "status": "extracted",
+    "text_path": "workspace/05_Delivery/Brightwater_DNS_Incident_Leadership_Briefing_2025-09-23.pptx.txt",
+    "characters": 14138,
+    "truncated": false,
+    "text_sha256": "57ebf858d2a2b33d8b9c75d0327c6b1ec18e1a54e996e5b5fa653dedf40d4c88"
+  },
+  {
+    "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+    "source": "workspace/05_Delivery/Brightwater_DNS_Recovery_Runbook_v3_2.docx",
+    "sha256": "573eee53b1f3c6f8b569f69354dfb9e952ba973d477503bfa34569f77700c065",
+    "status": "extracted",
+    "text_path": "workspace/05_Delivery/Brightwater_DNS_Recovery_Runbook_v3_2.docx.txt",
+    "characters": 46014,
+    "truncated": false,
+    "text_sha256": "f93d36a3bacb3898ae9a79a91b5df341f97833466117b08ca0c022712f1e5365"
+  },
+  {
+    "task_id": "s3k_1806_it_information_systems_en_t3_rl_001",
+    "source": "workspace/05_Delivery/DNS_Recovery_Validation_Signoff_2025-09-22.docx",
+    "sha256": "81b88d380c88fb663d4b65a9302e65ac0088fba28bd76c86de1ef5dd52995815",
+    "status": "extracted",
+    "text_path": "workspace/05_Delivery/DNS_Recovery_Validation_Signoff_2025-09-22.docx.txt",
+    "characters": 33852,
+    "truncated": false,
+    "text_sha256": "00d745b9308089f9eed2d437c13005b7f6cf3dd890e9fc4c1875bb323255a7ce"
+  },
+  {
+    "task_id": "s3k_1564_hospitality_fnb_en_t2_rl_002",
+    "source": "workspace/01_Evidence/Analysis/Meadow_View_Cold_Storage_Root_Cause_Analysis.xlsx",
+    "sha256": "f65d3af1befe1466f82531427a2f75264b73e5a7d44755e1a3bfee9b38eae0a7",
+    "status": "extracted",
+    "text_path": "workspace/01_Evidence/Analysis/Meadow_View_Cold_Storage_Root_Cause_Analysis.xlsx.txt",
+    "characters": 174638,
+    "truncated": false,
+    "text_sha256": "7ec87cceeee625c34b5ff92ae59a2c5af4ea12ff76516fd457914740e97de2ed"
+  },
+  {
+    "task_id": "s3k_1564_hospitality_fnb_en_t2_rl_002",
+    "source": "workspace/01_Evidence/Raw_Exports/Meadow_View_Chiller_Monitoring_2025-09.csv",
+    "sha256": "bd05d3f8a5c9ea52214bdafcd67cf97b6f82865b4c5557043f14e948d0905739",
+    "status": "extracted",
+    "text_path": "workspace/01_Evidence/Raw_Exports/Meadow_View_Chiller_Monitoring_2025-09.csv.txt",
+    "characters": 37662,
+    "truncated": false,
+    "text_sha256": "6b55816eea091e14d068f4deb9a6a0fc1de6147159651a07c119fe1108978327"
+  },
+  {
+    "task_id": "s3k_1564_hospitality_fnb_en_t2_rl_002",
+    "source": "workspace/01_Evidence/Raw_Exports/Meadow_View_Refrigeration_Service_History_2025.csv",
+    "sha256": "1f0b16d17eb54ac4eff5a0aa795c387097d788c24c263b110e58baaf27202126",
+    "status": "extracted",
+    "text_path": "workspace/01_Evidence/Raw_Exports/Meadow_View_Refrigeration_Service_History_2025.csv.txt",
+    "characters": 39946,
+    "truncated": false,
+    "text_sha256": "4440a6442f35e4f0ed118f07746ed4c9c9ce9dd4622169f0a9a373623aef4984"
+  },
+  {
+    "task_id": "s3k_1564_hospitality_fnb_en_t2_rl_002",
+    "source": "workspace/02_Findings_and_Controls/MVRC-HACCP-CP04_Chilled_Storage_Control_Rev3.docx",
+    "sha256": "f4ad896f6165524cf0b6d75cff680add888bfe7a01b8156fbb6d5c54c612dd85",
+    "status": "extracted",
+    "text_path": "workspace/02_Findings_and_Controls/MVRC-HACCP-CP04_Chilled_Storage_Control_Rev3.docx.txt",
+    "characters": 54837,
+    "truncated": false,
+    "text_sha256": "16a5bba7dbb6a162a2b4813e301622816e1d7b4f56ce579fdea2527cb33cab2c"
+  },
+  {
+    "task_id": "s3k_1564_hospitality_fnb_en_t2_rl_002",
+    "source": "workspace/02_Findings_and_Controls/NCR-2025-017_Cold_Storage_Temperature_Control.docx",
+    "sha256": "a5439ed509d6a82d23f1443c130040789ac747c6715d602dd9626043beac2919",
+    "status": "extracted",
+    "text_path": "workspace/02_Findings_and_Controls/NCR-2025-017_Cold_Storage_Temperature_Control.docx.txt",
+    "characters": 29888,
+    "truncated": false,
+    "text_sha256": "772af8a902102ee24c7c92c35ebd77486e7635396227c0ea80e524f0068a56eb"
+  },
+  {
+    "task_id": "s3k_1564_hospitality_fnb_en_t2_rl_002",
+    "source": "workspace/03_Verification/NCR-2025-017_Thirty_Day_Verification_Checklist.xlsx",
+    "sha256": "2e45b2e9cb00957a88cccaa0ca608458c4a9b6a8ecfe5b7d436948ae4de0cb14",
+    "status": "extracted",
+    "text_path": "workspace/03_Verification/NCR-2025-017_Thirty_Day_Verification_Checklist.xlsx.txt",
+    "characters": 114551,
+    "truncated": false,
+    "text_sha256": "9b96c20832873460883bbd4068862165f0d682320e13361638cffabd9b3fd561"
+  },
+  {
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "source": "workspace/01_Source_Extracts/Colorado_State_University_NIH_Subaward_Budget_Detail_Sep2025.csv",
+    "sha256": "4e59c2e091ac270ede1bc69441dd8ed8d9b3b067698f6429150959637292583b",
+    "status": "extracted",
+    "text_path": "workspace/01_Source_Extracts/Colorado_State_University_NIH_Subaward_Budget_Detail_Sep2025.csv.txt",
+    "characters": 24086,
+    "truncated": false,
+    "text_sha256": "65745a7800486d5fd34866b10b5857d29cae522c9c60610cee3167a058a05b28"
+  },
+  {
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "source": "workspace/01_Source_Extracts/FDP-Cost-Reimbursement-Subaward-Oct2025.pdf",
+    "sha256": "3e0fdb4cde07484e787cb102472c32ce0b555dbbd8d67778f1d1041930de8c2e",
+    "pages": 10,
+    "status": "extracted",
+    "text_path": "workspace/01_Source_Extracts/FDP-Cost-Reimbursement-Subaward-Oct2025.pdf.txt",
+    "characters": 19057,
+    "truncated": false,
+    "text_sha256": "794cf9f5089aa0a05344805146a8bd9ffac2cfc617c7404d648a754456d7cf4b"
+  },
+  {
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "source": "workspace/01_Source_Extracts/FDP-Fixed-Amount-Subaward-Oct2025.pdf",
+    "sha256": "ca1accdac22980643560b8739bebf50c183a4c769448f6f3feefd6bc1ce56779",
+    "pages": 10,
+    "status": "extracted",
+    "text_path": "workspace/01_Source_Extracts/FDP-Fixed-Amount-Subaward-Oct2025.pdf.txt",
+    "characters": 18711,
+    "truncated": false,
+    "text_sha256": "3def0f9b4321ec6d37fc78d33f462bf18eae113a80547134146d1ac276cdc5f0"
+  },
+  {
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "source": "workspace/01_Source_Extracts/FDP-Subaward-Contacts.pdf",
+    "sha256": "1ae26afe61c3d699e7f6a0ba5217309ad99dde3829a1160370b27b7b02de2225",
+    "pages": 1,
+    "status": "extracted",
+    "text_path": "workspace/01_Source_Extracts/FDP-Subaward-Contacts.pdf.txt",
+    "characters": 836,
+    "truncated": false,
+    "text_sha256": "1349c35b654be7ba125c49e53195cd3d3994feb4a6db63d3d6fc63efc6493c7a"
+  },
+  {
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "source": "workspace/01_Source_Extracts/FDP_Subaward_Requirements_Extract_Sep2025.csv",
+    "sha256": "12383da6c6d440c296ebb6af296613f692750e03687c32214c80419d4b56edca",
+    "status": "extracted",
+    "text_path": "workspace/01_Source_Extracts/FDP_Subaward_Requirements_Extract_Sep2025.csv.txt",
+    "characters": 97188,
+    "truncated": false,
+    "text_sha256": "9a14c267465817416014842724322bc9b1eff73d3df2945f7cd68286bfde7d57"
+  },
+  {
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "source": "workspace/02_Financial_Review/Colorado_State_University_Subaward_Financial_Review_Sep2025.xlsx",
+    "sha256": "4d40ab57b4c17af14dbbb7d972b5ad1e9967ff01735807d52fa1ed660d698717",
+    "status": "extracted",
+    "text_path": "workspace/02_Financial_Review/Colorado_State_University_Subaward_Financial_Review_Sep2025.xlsx.txt",
+    "characters": 78473,
+    "truncated": false,
+    "text_sha256": "fe45fa501018bb1157d4bae30b25ba61e2db416c20cc996a268fe74153a88da9"
+  },
+  {
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "source": "workspace/03_Risk_and_Negotiation/Colorado_State_University_Subaward_Negotiation_Checklist_Sep2025.docx",
+    "sha256": "5d118f5fe98b1004c5f35a33e0dbf058b3069d6ede766f1183c7844536cd19a8",
+    "status": "extracted",
+    "text_path": "workspace/03_Risk_and_Negotiation/Colorado_State_University_Subaward_Negotiation_Checklist_Sep2025.docx.txt",
+    "characters": 57632,
+    "truncated": false,
+    "text_sha256": "912a03e6ac185b516bd4d7f52bf783bafdd94ed6424ba055f34a732995a95be4"
+  },
+  {
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "source": "workspace/03_Risk_and_Negotiation/Colorado_State_University_Subaward_Risk_Assessment_Sep2025.docx",
+    "sha256": "83fa447f695ecf74aaa02eb80269ecae19e855f0c753849cd0387daeb626dfb4",
+    "status": "extracted",
+    "text_path": "workspace/03_Risk_and_Negotiation/Colorado_State_University_Subaward_Risk_Assessment_Sep2025.docx.txt",
+    "characters": 62004,
+    "truncated": false,
+    "text_sha256": "ed5dfac6eaf9dc9eb362951b73ec4a7361bdc5c9fb321b2e672b40cefe1d6e1f"
+  },
+  {
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "source": "workspace/04_Monitoring_and_Issuance/2-CFR-200.332-Subrecipient-Monitoring.html",
+    "sha256": "891f4e242dff614248183422180f99bb4520e1cc4c0cfc1f7060ea3f69f64251",
+    "status": "extracted",
+    "text_path": "workspace/04_Monitoring_and_Issuance/2-CFR-200.332-Subrecipient-Monitoring.html.txt",
+    "characters": 1211,
+    "truncated": false,
+    "text_sha256": "2758a76663e341bf4fe440785bae0dd5e82e2ad14201053a3d31f83db95f650a"
+  },
+  {
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "source": "workspace/04_Monitoring_and_Issuance/Colorado_State_University_Final_Financial_Monitoring_Plan_Sep2025.docx",
+    "sha256": "04559df9724842232b985e6f945e7533d477d56d9a4084fef5ca383bdac6db7c",
+    "status": "extracted",
+    "text_path": "workspace/04_Monitoring_and_Issuance/Colorado_State_University_Final_Financial_Monitoring_Plan_Sep2025.docx.txt",
+    "characters": 44906,
+    "truncated": false,
+    "text_sha256": "568fe9c31a944bd865f53646c1b03c0f20e13287e9a1cf6060ab5b86afae7d8f"
+  },
+  {
+    "task_id": "s3k_0607_education_research_admin_en_t2_rl_003",
+    "source": "workspace/04_Monitoring_and_Issuance/Colorado_State_University_Subaward_Issuance_Decision_Brief_Sep2025.docx",
+    "sha256": "6ee83bd5f814588c8fd23aac77b61e7c0281ddedbf29643e1747777e9ae75072",
+    "status": "extracted",
+    "text_path": "workspace/04_Monitoring_and_Issuance/Colorado_State_University_Subaward_Issuance_Decision_Brief_Sep2025.docx.txt",
+    "characters": 39346,
+    "truncated": false,
+    "text_sha256": "fabfb57d0d034fb8624cf7d139f1e1df9e8df0151c53c002445674524bf53138"
+  },
+  {
+    "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+    "source": "workspace/01_Source_Exports/2024_SPI_Rocketlane_PS_Maturity_Benchmark.pdf",
+    "sha256": "a47152f8da09120a7906082a8058576f8e6a763739a4eebc65c285595c3d3617",
+    "pages": 235,
+    "status": "extracted",
+    "text_path": "workspace/01_Source_Exports/2024_SPI_Rocketlane_PS_Maturity_Benchmark.pdf.txt",
+    "characters": 232376,
+    "truncated": true,
+    "text_sha256": "1d6cabed2689c320bce656102d76b63c10e14d865684b82ecac13427ccb2f541"
+  },
+  {
+    "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+    "source": "workspace/01_Source_Exports/ICF_FY2024_results_PRNewswire.html",
+    "sha256": "dfbe08b36221a0b41d0f1b7c4e6346497b3c192469db38a8fbce870ac747f3bb",
+    "status": "extracted",
+    "text_path": "workspace/01_Source_Exports/ICF_FY2024_results_PRNewswire.html.txt",
+    "characters": 40543,
+    "truncated": false,
+    "text_sha256": "6ea504be3929167412f8d5cd964c543a5fe839b71b7032c21485d02f26ec0026"
+  },
+  {
+    "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+    "source": "workspace/01_Source_Exports/TTI_ENV_25_417_Labor_Time_2025Q3.csv",
+    "sha256": "c441f70ee719619ef146cf7618f0969bf7919bbdc5715496d3eea1f35280195e",
+    "status": "extracted",
+    "text_path": "workspace/01_Source_Exports/TTI_ENV_25_417_Labor_Time_2025Q3.csv.txt",
+    "characters": 39925,
+    "truncated": false,
+    "text_sha256": "48cec5832839b219d94012ba8a2e92f60d7f1325a6fabcf299574e6e8929f4ba"
+  },
+  {
+    "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+    "source": "workspace/01_Source_Exports/TTI_ENV_25_417_Project_Cost_and_Change_2025Q3.csv",
+    "sha256": "e94c735317e095b606b553b316b150cf6a85769caa8d9d2ce041561126761724",
+    "status": "extracted",
+    "text_path": "workspace/01_Source_Exports/TTI_ENV_25_417_Project_Cost_and_Change_2025Q3.csv.txt",
+    "characters": 40320,
+    "truncated": false,
+    "text_sha256": "697bc5e7897fc6f11a7203f8a6330c128944b934d4be2e53c36250f64b415393"
+  },
+  {
+    "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+    "source": "workspace/01_Source_Exports/Tetra_Tech_2025_Annual_Report.pdf",
+    "sha256": "ca87601a572832fdda1e8052cb4983cf8c88e40e0cf84cc8be7b6dc4622685a9",
+    "pages": 100,
+    "status": "extracted",
+    "text_path": "workspace/01_Source_Exports/Tetra_Tech_2025_Annual_Report.pdf.txt",
+    "characters": 412819,
+    "truncated": false,
+    "text_sha256": "e9cc8b76fcefcbd1a7a2b4f829b89255204bcf7a18531116a4713a2426553caf"
+  },
+  {
+    "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+    "source": "workspace/02_Analysis/Potomac_Basin_PFAS_Engagement_Margin_Bridge.xlsx",
+    "sha256": "db32f15be79a9b08a2c930679a4dee7376173f28edc3d2bc79cdaf80279f51f6",
+    "status": "extracted",
+    "text_path": "workspace/02_Analysis/Potomac_Basin_PFAS_Engagement_Margin_Bridge.xlsx.txt",
+    "characters": 144420,
+    "truncated": false,
+    "text_sha256": "fcc63d21267c365468566d0400a5795ec740b29e7d92df9e14ee747052726e1a"
+  },
+  {
+    "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+    "source": "workspace/02_Analysis/Professional_Services_Margin_Benchmark_2025.xlsx",
+    "sha256": "95b6690850903b710b32ae7e86a840985f0834fedf0d2190149c3d00fecd4c68",
+    "status": "extracted",
+    "text_path": "workspace/02_Analysis/Professional_Services_Margin_Benchmark_2025.xlsx.txt",
+    "characters": 231028,
+    "truncated": false,
+    "text_sha256": "a204d5540204697ea3aa52fdecf645841723d3c33c75a3a631a287c9a9763526"
+  },
+  {
+    "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+    "source": "workspace/03_Management_Review/Potomac_Basin_PFAS_Margin_Review_2025_09_30.pptx",
+    "sha256": "7413aabbd9baf39e886a606a77e89323bd4d3dd9adebc0463b3033d17ebf9e9e",
+    "status": "extracted",
+    "text_path": "workspace/03_Management_Review/Potomac_Basin_PFAS_Margin_Review_2025_09_30.pptx.txt",
+    "characters": 16851,
+    "truncated": false,
+    "text_sha256": "b181b1f52ba8aa3ecafd85df9440185f278326f04061a4bbe05efa7b4cf0c671"
+  },
+  {
+    "task_id": "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+    "source": "workspace/03_Management_Review/Potomac_Basin_PFAS_Remediation_Action_Tracker.xlsx",
+    "sha256": "92a6580d5dc1804e19297775320e745ae9eb6d3b861178718a529ee2fb3d0174",
+    "status": "extracted",
+    "text_path": "workspace/03_Management_Review/Potomac_Basin_PFAS_Remediation_Action_Tracker.xlsx.txt",
+    "characters": 116796,
+    "truncated": false,
+    "text_sha256": "566f9b5ab37921e57f38a01227f180ff03b332dcb3ae2f21c92e4b7271140e5e"
+  },
+  {
+    "task_id": "s3k_0990_finance_insurance_zh_t1_rl_008",
+    "source": "workspace/china_life_2024q2_solvency_report.pdf",
+    "sha256": "8f51a1c75daa3674bfde4f8d9fcb2d32e432de3d6a8325c4e16ce0859bd1a28b",
+    "pages": 44,
+    "status": "extracted",
+    "text_path": "workspace/china_life_2024q2_solvency_report.pdf.txt",
+    "characters": 14592,
+    "truncated": false,
+    "text_sha256": "38d19b9e104135ea3ee134d4cf7c28e9f17768b84f0a12b734be2ef22f59c09d"
+  },
+  {
+    "task_id": "s3k_0990_finance_insurance_zh_t1_rl_008",
+    "source": "workspace/nfra_pricing_mechanism_notice.html",
+    "sha256": "2746269444dfbb546796f82825e20d277d6f21e04a357922a03218f9a5bd14d6",
+    "status": "extracted",
+    "text_path": "workspace/nfra_pricing_mechanism_notice.html.txt",
+    "characters": 938,
+    "truncated": false,
+    "text_sha256": "b956849ca39ec6286557c91f6ab75a23e08577de1e46943884c5d369f40c6e4a"
+  },
+  {
+    "task_id": "s3k_0990_finance_insurance_zh_t1_rl_008",
+    "source": "workspace/国寿安盈启航两全保险_保单年度现金流明细.csv",
+    "sha256": "c2e1fa7fa06d54f76f1d4cfea13107732f58cbce6cb314b8b3bb6b5557ef3588",
+    "status": "extracted",
+    "text_path": "workspace/国寿安盈启航两全保险_保单年度现金流明细.csv.txt",
+    "characters": 38483,
+    "truncated": false,
+    "text_sha256": "d16c44a884498050743d398c366037443641505bf91122945089637f5ea2eaf7"
+  },
+  {
+    "task_id": "s3k_0990_finance_insurance_zh_t1_rl_008",
+    "source": "workspace/国寿安盈启航两全保险_盈利敏感性分析表.xlsx",
+    "sha256": "62f36e432d6d3ad01d2e31a612d1542203f7e012bfd58e775968985cdac6eda5",
+    "status": "extracted",
+    "text_path": "workspace/国寿安盈启航两全保险_盈利敏感性分析表.xlsx.txt",
+    "characters": 56200,
+    "truncated": false,
+    "text_sha256": "2714a4b447f507f69f733625d4803252727c81db0eb72720f967d776dc9d6f26"
+  },
+  {
+    "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+    "source": "workspace/01_原始抽取/2024年12月31日存货盘点差异明细.csv",
+    "sha256": "0a7d2f5cbf4515c728c3265facf9436f5ebe6c78c893a487451560b85a266345",
+    "status": "extracted",
+    "text_path": "workspace/01_原始抽取/2024年12月31日存货盘点差异明细.csv.txt",
+    "characters": 10293,
+    "truncated": false,
+    "text_sha256": "a1cc4dea62fb655a6f3a3488b2e61c65381be28e8a1e5f4f4d5774900660100e"
+  },
+  {
+    "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+    "source": "workspace/01_原始抽取/dalian_customs_inventory_difference_form.pdf",
+    "sha256": "c7b03df650dd84a918da2c993a1d54582aedd1d469acabcf6421da33d00b98a0",
+    "pages": 3,
+    "status": "extracted",
+    "text_path": "workspace/01_原始抽取/dalian_customs_inventory_difference_form.pdf.txt",
+    "characters": 729,
+    "truncated": false,
+    "text_sha256": "3287fe2e8826bba9eb028f0ce9ad6aafdff2aa16a9add198722d3b1b1039b721"
+  },
+  {
+    "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+    "source": "workspace/01_原始抽取/membrane_technology_financial_management_system.pdf",
+    "sha256": "1504c51f224bfe72bcc22fab8de6600f55c0a0375bd592e313682feb8ab5d13a",
+    "pages": 54,
+    "status": "extracted",
+    "text_path": "workspace/01_原始抽取/membrane_technology_financial_management_system.pdf.txt",
+    "characters": 30672,
+    "truncated": false,
+    "text_sha256": "9d407d658fd68ec4f4ebdd786db16ec60f05f52ff77a1a155c81e78c6f09aba7"
+  },
+  {
+    "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+    "source": "workspace/01_原始抽取/shengsheng_electronics_2024_annual_report.pdf",
+    "sha256": "4fc75542f901cbf9cee4b25874ab11dc18a0b02bf71dd253c744408d4c67fbdb",
+    "pages": 360,
+    "status": "extracted",
+    "text_path": "workspace/01_原始抽取/shengsheng_electronics_2024_annual_report.pdf.txt",
+    "characters": 82091,
+    "truncated": true,
+    "text_sha256": "8cc26463c2dc864bfbe246546ae3844c9b32b95a830676782a99b3436c9a0575"
+  },
+  {
+    "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+    "source": "workspace/01_原始抽取/shengsheng_electronics_ipo_prospectus_inventory_controls.pdf",
+    "sha256": "93df510671b9a20d74b410f5be105ddb8e5082683a10fff5cd568ca8675ea30b",
+    "pages": 93,
+    "status": "extracted",
+    "text_path": "workspace/01_原始抽取/shengsheng_electronics_ipo_prospectus_inventory_controls.pdf.txt",
+    "characters": 87020,
+    "truncated": false,
+    "text_sha256": "74cace008108fcd039cf652846092e6dd8cafca0428f918104fd07859c50c9aa"
+  },
+  {
+    "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+    "source": "workspace/02_核查处理/2024年12月存货盘盈盘亏处理表.xlsx",
+    "sha256": "06e9a52468fb7aaaeeaf12fabb1e40ccbfdc7f030d8550e2e15be12049d1fdef",
+    "status": "extracted",
+    "text_path": "workspace/02_核查处理/2024年12月存货盘盈盘亏处理表.xlsx.txt",
+    "characters": 184177,
+    "truncated": false,
+    "text_sha256": "1319ef9c61c6342dd2b280b2c0a7a1f922c01d1ffe9805fb96882449535b3b6d"
+  },
+  {
+    "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+    "source": "workspace/03_分析报告/2024年末存货盘点差异核查报告.docx",
+    "sha256": "a6c89c3ca3fc1a3098caedc92d3de736325da6ed85bdd75558f95ff1015f7c0a",
+    "status": "extracted",
+    "text_path": "workspace/03_分析报告/2024年末存货盘点差异核查报告.docx.txt",
+    "characters": 27337,
+    "truncated": false,
+    "text_sha256": "20975f0be8080942ef2f32f01630c335aca053779364f490160e31ffbbdec139"
+  }
+]

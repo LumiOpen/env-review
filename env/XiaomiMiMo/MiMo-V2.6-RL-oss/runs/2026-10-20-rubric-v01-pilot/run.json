@@ -1,0 +1,203 @@
+{
+  "id": "2026-10-20-rubric-v01-pilot",
+  "dataset": "hf:XiaomiMiMo/MiMo-V2.6-RL-oss",
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "method": "codex-static-review",
+  "rubric_version": "0.1",
+  "method_commit": "507b260feab077c5e236168b3b54af3afa2a55a2",
+  "created_at": "2026-10-20T10:42:36.335740+00:00",
+  "status": "complete",
+  "task_ids": [
+    "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "s3k_0988_finance_insurance_zh_t1_rl_005",
+    "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+    "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "s3k_0807_finance_insurance_en_t1_rl_005",
+    "s3k_1806_it_information_systems_en_t3_rl_001",
+    "s3k_1564_hospitality_fnb_en_t2_rl_002",
+    "s3k_0607_education_research_admin_en_t2_rl_003",
+    "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+    "s3k_0990_finance_insurance_zh_t1_rl_008",
+    "s3k_0172_accounting_audit_tax_zh_t1_rl_008"
+  ],
+  "selection": {
+    "seed": 20261020,
+    "known_catalog_tasks": [
+      "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+      "s3k_0988_finance_insurance_zh_t1_rl_005",
+      "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+      "s3k_2328_manufacturing_quality_zh_t3_rl_007"
+    ],
+    "additional_tasks": [
+      "s3k_1867_it_information_systems_zh_t3_rl_001",
+      "s3k_0807_finance_insurance_en_t1_rl_005",
+      "s3k_1806_it_information_systems_en_t3_rl_001",
+      "s3k_1564_hospitality_fnb_en_t2_rl_002",
+      "s3k_0607_education_research_admin_en_t2_rl_003",
+      "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+      "s3k_0990_finance_insurance_zh_t1_rl_008",
+      "s3k_0172_accounting_audit_tax_zh_t1_rl_008"
+    ],
+    "strategy": "All four tasks represented in the existing catalog, plus random.sample(sorted(remaining cached sample), 8). Development pilot; no prevalence or held-out claims."
+  },
+  "groups": {
+    "luna-1": [
+      "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+      "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+      "s3k_1806_it_information_systems_en_t3_rl_001",
+      "s3k_0399_consulting_bizops_analytics_en_t2_rl_006"
+    ],
+    "luna-2": [
+      "s3k_0988_finance_insurance_zh_t1_rl_005",
+      "s3k_1867_it_information_systems_zh_t3_rl_001",
+      "s3k_1564_hospitality_fnb_en_t2_rl_002",
+      "s3k_0990_finance_insurance_zh_t1_rl_008"
+    ],
+    "luna-3": [
+      "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+      "s3k_0807_finance_insurance_en_t1_rl_005",
+      "s3k_0607_education_research_admin_en_t2_rl_003",
+      "s3k_0172_accounting_audit_tax_zh_t1_rl_008"
+    ]
+  },
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "agent_concurrency": 3,
+  "tasks_per_agent": 4,
+  "review_mode": "stateful batch of four task reviews per context; no parent conversation or prior findings supplied",
+  "elapsed_seconds": 3599.888,
+  "tokens": null,
+  "cost_usd": null,
+  "reference_snapshot": [
+    {
+      "finding_id": "ER-2f4b62ce",
+      "task_ids": [
+        "s3k_0988_finance_insurance_zh_t1_rl_005"
+      ],
+      "category": "grader_mismatch",
+      "status": "confirmed"
+    },
+    {
+      "finding_id": "ER-742d8a16",
+      "task_ids": [
+        "s3k_2328_manufacturing_quality_zh_t3_rl_007"
+      ],
+      "category": "grader_mismatch",
+      "status": "rejected"
+    },
+    {
+      "finding_id": "ER-a4183e90",
+      "task_ids": [
+        "s3k_0000_accounting_audit_tax_en_t1_rl_008"
+      ],
+      "category": "grader_mismatch",
+      "status": "candidate"
+    },
+    {
+      "finding_id": "ER-b371c82d",
+      "task_ids": [
+        "s3k_1587_hospitality_fnb_zh_t4_rl_003"
+      ],
+      "category": "scoring",
+      "status": "behavior_only"
+    },
+    {
+      "finding_id": "ER-dc84a371",
+      "task_ids": [
+        "s3k_0000_accounting_audit_tax_en_t1_rl_008"
+      ],
+      "category": "scoring",
+      "status": "behavior_only"
+    }
+  ],
+  "limits": [
+    "Discovery pilot; rubric was developed using some of these mechanisms.",
+    "Same filesystem; withholding prior findings is instruction-based, not technical isolation.",
+    "No corpus execution or full task rollouts.",
+    "17 source files unavailable in audit cache due local TLS/HTTP/timeout errors; inventory supplied to distinguish cache gaps from dataset defects.",
+    "Parent turn interruptions also paused all three subagents; they were explicitly resumed. Wall time includes interruption gaps and is not active compute time."
+  ],
+  "prompt_files": {
+    "luna-2.txt": "db370888e5dbda67b91a5ff50cf6efc29d1678f6bee1df5ed92411d146303ec9",
+    "luna-3.txt": "27cad1c8b9f33627d7fd3d8ac6b25d223bafa2ff2b06ed961cabfad7e301bc5e",
+    "luna-1.txt": "b800d0c621e71643b4ba417326bedc455f1e788b218caf68fbd94cca61e1a335",
+    "review-template.yaml": "ef1613067418ffbe6a8828275993fc805f3e78894179676dc7c7f061b38e7564",
+    "packet-context.md": "9584a5305ae7f8ab528d51b65f03486c65131f10de08f3ed17a7b686833a7aaf",
+    "rubric.md": "94de4462c1e9409e0b9b2c1b1f5687ed7d24ef5600f265660f92e151951b9138"
+  },
+  "screening_started_at": "2026-10-20T10:51:26.220939+00:00",
+  "soft_budget_minutes_per_task": 4,
+  "source_files_available": 413,
+  "source_files_unavailable": 17,
+  "agent_tasks": {
+    "luna-1": {
+      "task_name": "/root/pilot_luna_1",
+      "dispatch_prompt": "Run the four-task static-review assignment described in /Users/jonathanburdge/git/env-review/env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-rubric-v01-pilot/prompts/luna-1.txt. Refresh and read that live assignment and its rubric/template/packet-context before acting. Follow its file-reading boundaries, inspect current task sources, and save one YAML response per assigned task. Never execute corpus code, setup, tools, graders, or solutions. Do not read prior findings or other reviewers' output. Do not commit or publish. Send brief progress after each task and a final completion summary.",
+      "completed_at": "2026-10-20T11:37:00Z",
+      "tokens": null,
+      "cost_usd": null,
+      "completion_timestamp_note": "Approximate observed completion minute."
+    },
+    "luna-2": {
+      "task_name": "/root/pilot_luna_2",
+      "dispatch_prompt": "Run the four-task static-review assignment described in /Users/jonathanburdge/git/env-review/env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-rubric-v01-pilot/prompts/luna-2.txt. Refresh and read that live assignment and its rubric/template/packet-context before acting. Follow its file-reading boundaries, inspect current task sources, and save one YAML response per assigned task. Never execute corpus code, setup, tools, graders, or solutions. Do not read prior findings or other reviewers' output. Do not commit or publish. Send brief progress after each task and a final completion summary.",
+      "completed_at": "2026-10-20T11:34:00Z",
+      "tokens": null,
+      "cost_usd": null,
+      "completion_timestamp_note": "Approximate observed completion minute.",
+      "boundary_deviation": "Reviewer reports an initial broad rg search printed task IDs from run.json and paths/IDs from acquisition JSON before rereading the boundaries. Reviewer reports not inspecting findings, adjudications or other reviews; withholding was not technically isolated."
+    },
+    "luna-3": {
+      "task_name": "/root/pilot_luna_3",
+      "dispatch_prompt": "Run the four-task static-review assignment described in /Users/jonathanburdge/git/env-review/env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-rubric-v01-pilot/prompts/luna-3.txt. Refresh and read that live assignment and its rubric/template/packet-context before acting. Follow its file-reading boundaries, inspect current task sources, and save one YAML response per assigned task. Never execute corpus code, setup, tools, graders, or solutions. Do not read prior findings or other reviewers' output. Do not commit or publish. Send brief progress after each task and a final completion summary.",
+      "completed_at": "2026-10-20T11:32:00Z",
+      "tokens": null,
+      "cost_usd": null,
+      "completion_timestamp_note": "Approximate observed completion minute."
+    }
+  },
+  "runner_events": [
+    {
+      "at": null,
+      "timing_note": "Sent before 2026-10-20T11:07:41Z; exact timestamp unavailable after handoff.",
+      "targets": [
+        "luna-1",
+        "luna-2",
+        "luna-3"
+      ],
+      "message": "Budget reminder: this is the bounded first-pass pilot. Keep the remaining tasks near the stated four-minute soft budget each; save concrete candidates and mark unfinished checks/gaps honestly instead of pursuing exhaustive review. Preserve completed outputs and do not revise their substantive claims. Please send a brief current progress update if your second task is still in progress."
+    },
+    {
+      "at": "2026-10-20T11:24:00Z",
+      "timing_note": "Approximate dispatch minute.",
+      "target": "luna-1",
+      "message": "Please report your current task and progress briefly. We need all four bounded reviews; save the current task with honest gaps and move on without exhaustive source work. Do not read parent adjudications or revise completed substantive claims. Please finish each remaining review within four minutes of active work."
+    },
+    {
+      "at": "2026-10-20T11:24:00Z",
+      "timing_note": "Approximate dispatch minute.",
+      "target": "luna-2",
+      "message": "Please finish saving task 2 now and proceed to tasks 3 and 4. We need the full bounded pilot; exact source corrections are useful, but save honest gaps instead of prolonged polishing. Please finish each remaining review within four minutes of active work. Preserve completed substantive claims and do not read parent adjudications."
+    },
+    {
+      "at": "2026-10-20T11:24:00Z",
+      "timing_note": "Approximate dispatch minute.",
+      "target": "luna-3",
+      "message": "Thanks. Please keep the final accounting review within four minutes of active work, saving honest check gaps where needed. Preserve the existing outputs and report completion. Do not read parent adjudications."
+    },
+    {
+      "at": "2026-10-20T11:27:00Z",
+      "timing_note": "Approximate minute; live status showed all three interrupted.",
+      "action": "followup_task resumed all three agents with remaining assignments, preserving completed outputs and a four-minute active-work limit."
+    }
+  ],
+  "adjudication_policy_note": "During adjudication the user clarified that available prohibited actions need not affect accuracy. Concrete unscored violations are separated as constraint_enforcement; answer-correctness/reward advantage requires additional evidence. Frozen reviewer rubric and substantive outputs are unchanged.",
+  "screening_completed_at": "2026-10-20T11:37:00Z",
+  "screening_completed_timestamp_note": "Approximate observed completion minute; raw-file modified times recorded separately.",
+  "completed_at": "2026-10-20T11:42:36.224012+00:00",
+  "reference_snapshot_note": "Historical pre-run labels are frozen, including the former grader_mismatch label for ER-2f4b62ce. Current adjudication separates constraint_enforcement and does not count it as demonstrated answer inaccuracy.",
+  "additional_adjudication_sources": [
+    "The recovered 0990 minutes DOCX was read from the separate retry cache to refute the missing-input claim; other recovered files were not needed to confirm the five compliance-gap witnesses."
+  ]
+}
