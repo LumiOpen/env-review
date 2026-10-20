@@ -4,15 +4,20 @@ source:
   provider: huggingface
   url: https://huggingface.co/datasets/allenai/Dolci-Think-RL-7B
   revision: 0fb6466d31ef3a9dd16985ef635e6429e05a6491
-review_status: queued
+review_status: exploring
 task_identity:
   fields:
   - custom_id
-  - id
-  - conversation_hash
   config: default
   split: train
-  notes: Candidate record identifiers from the published schema; uniqueness has not
-    been checked. Pin revision and include row_index when an ID is ambiguous.
-notes: Follow-on dataset suggested by Jonathan. Metadata inspected only; no examples
-  or graders audited. Published metadata lists 102014 training rows.
+  notes: custom_id is the only populated identifier in the math subset and is unique
+    per row there; id, key and conversation_hash are null on every math row. It names
+    the source corpus and request, not the problem, so the duplicate copies of one
+    prompt carry different custom_ids. Pin the revision and include the zero-based
+    row_index, counting shards in filename order, whenever a specific row is meant.
+notes: Follow-on dataset suggested by Jonathan. Published metadata lists 102014 training
+  rows. The math subset (30180 rows) was screened in the 2026-10-20-duplicate-screen
+  run; the other subsets have had metadata inspection only and are unlabeled. Rows
+  publish passrate alongside total_correct_rollouts and total_rollouts, and no row
+  in the dataset exceeds 0.625, so the release applied a difficulty cut at 5/8 - see
+  ER-9ad782d0 before reusing that column as a difficulty label.

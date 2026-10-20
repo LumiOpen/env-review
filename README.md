@@ -11,7 +11,7 @@ possible problem with the task.
 ## Datasets
 
 - [XiaomiMiMo / MiMo-V2.6-RL-oss](env/XiaomiMiMo/MiMo-V2.6-RL-oss): initial exploration of exposed knowledge-work environments.
-- [allenai / Dolci-Think-RL-7B](env/allenai/Dolci-Think-RL-7B): queued; source metadata inspected, no task audits yet.
+- [allenai / Dolci-Think-RL-7B](env/allenai/Dolci-Think-RL-7B): duplicate-prompt screen of the math subset; contradictory and placeholder reference answers, and pass rates that are not comparable across rows.
 
 ## Layout
 
