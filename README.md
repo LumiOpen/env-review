@@ -46,6 +46,11 @@ The generated index includes each task's finding IDs, statuses, categories, and
 source revisions. It does not convert candidates into confirmed defects.
 CI validates contributions and publishes the generated index as a workflow artifact.
 
+The [static review rubric](docs/review-rubric.md) defines the next systematic
+pass, including answer exposure and grader tampering. The
+[MiMo runtime review](docs/mimo-runtime.md) records intended execution boundaries
+and what remains unknown about internet access.
+
 ## Contributing
 
 Copy the [finding template](templates/finding.yaml), give it a random ID such as
