@@ -1,0 +1,90 @@
+schema_version: "1"
+id: ER-f412381d
+dataset: hf:nvidia/Nemotron-RL-agent-calendar_scheduling
+revision: "8b62cf67e53d02f2eacf1392426ebea9cd4fa635"
+title: Calendar reward extractor can score correct responses as 0 (false negatives)
+status: behavior_only
+category: grader_mismatch
+tasks:
+  - id: all-rows (grader applies uniformly via shared system prompt)
+    split: train
+problem:
+  description: >-
+    The NeMo Gym calendar verifier computes reward by pulling the calendar JSON
+    out of the assistant text with a single regex (extract_json_list) and then
+    checking it against exp_cal_state. The extraction step has three
+    independent failure modes that cause a correct schedule to be scored 0. The
+    errors are one-sided (false negatives only): a wrong schedule cannot be
+    scored correct, but a correct response can be rejected.
+  expected: >-
+    A response whose final calendar satisfies every event's duration, window,
+    and time constraint, with no overlaps, should receive reward 1 regardless of
+    surrounding prose, benign formatting, or benign characters in event names.
+  actual: >-
+    (B) extract_json_list uses re.search, returning the FIRST bracketed list.
+    The system prompt (rule 9) hands the model an example JSON list, so a model
+    that restates the format before its answer is graded on the echoed example,
+    not its real schedule. (C) The regex's mandatory object body forbids square
+    brackets, so a valid event_name containing '[' or ']' (e.g. "Review [Q3]
+    Budget") makes the pattern fail to match -> no_json_list -> reward 0. (E)
+    The matched substring is parsed with strict json.loads, so a trailing comma
+    yields JSONDecodeError -> reward 0. app.py and grade_assistant_response are
+    additionally fail-closed (any exception -> reward 0), so these surface as
+    silent zeros.
+evidence:
+  - source: README.md
+    quote: |
+      The synthetic user messages are used to prompt a target model until a) all turns are complete OR b) the model's response violates one of the previously mentioned constraints.
+    note: >-
+      Establishes the reward is computed by an external verifier against
+      exp_cal_state. The verifier source is NeMo Gym
+      resources_servers/calendar/utils.py (extract_json_list, lines 69-83;
+      grade_assistant_response, line 155) and app.py (fail-closed except,
+      lines 78-79) at github.com/NVIDIA-NeMo/Gym commit
+      d96b33770392c5d25e03a69a8ced497eecd7298a. Regex:
+      \[(?:[^\[\]]|\{[^}]*\})*\{(?:[^\[\]]|\{[^}]*\})*\}(?:[^\[\]]|\{[^}]*\})*\]
+  - source: train.jsonl
+    line_start: 1
+    quote: |
+      9. Display the calendar in the json list format in every responses. e.g.[{"event_id": 0, "event_name": "event name", "start_time": "10:00", "duration": 60}, {"event_id": 1, "event_name": "event name", "start_time": "11:00", "duration": 60}]
+    note: >-
+      Shared system prompt rule 9 provides an example JSON list. Because the
+      extractor takes the first list in the text, a model echoing this example
+      before its own answer (failure mode B) is graded on the example.
+validation:
+  method: static
+  summary: >-
+    Ran the verbatim shipped extract_json_list on six responses a correct model
+    could emit. Three (B echo-example-first, C bracket-in-event-name, E
+    trailing-comma) extract the wrong list or None and would score reward 0; A
+    (plain) and F (fenced ```json block) pass. Negative controls confirm the
+    issue is one-sided: a wrong-duration schedule is extracted verbatim and
+    still fails the strict constraint checks, and an example-only response is
+    graded against exp_cal_state and fails - the extractor never fabricates a
+    correct answer. Corpus impact is nil: 0 of 42547 shipped assistant turns are
+    misparsed (the trajectories are clean, simple JSON); the defect bites future
+    policy outputs at rollout time, not the released data.
+  assumptions:
+    - The deployed calendar verifier uses resources_servers/calendar/utils.py:extract_json_list at or near commit d96b33770392c5d25e03a69a8ced497eecd7298a.
+    - Reward is the binary grade_assistant_response output (0 or 1).
+    - A trained policy may emit formats that differ from the synthetic corpus (restate the example, name events with brackets, append prose).
+  not_run:
+    - End-to-end NeMo Gym rollout and POST /verify execution.
+    - Confirmation that production training pins this grader revision.
+    - Measurement of the real per-policy false-negative rate during RL.
+  reproducer: env/nvidia/Nemotron-RL-agent-calendar_scheduling/evidence/ER-f412381d/witness_extract.py
+provenance:
+  discovered_by: ezosa
+  experiment: env/nvidia/Nemotron-RL-agent-calendar_scheduling/runs/2026-10-20-audit
+discussion: >-
+  Agent-assisted static analysis (Claude Code); not independent human
+  validation. Mechanism is in external code, so evidence is anchored in this
+  dataset where it drives the failure (rule 9 example list) and the grader is
+  cited by commit + line above. Suggested hardening (one-sided, low risk since
+  the strict constraint checks are unchanged): extract the LAST calendar-shaped
+  JSON array with a string-aware balanced scan instead of a first-match regex;
+  tolerate trailing commas; grade only the final message content after stripping
+  reasoning/fenced blocks; and surface the parse-failure reason in the verify
+  response instead of a silent fail-closed zero. See runs/2026-10-20-audit for
+  the feasibility (0/4000 infeasible) and trajectory (0/42547 conflicting turns)
+  results, which are clean.

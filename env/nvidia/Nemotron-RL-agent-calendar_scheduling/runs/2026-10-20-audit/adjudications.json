@@ -1,0 +1,17 @@
+{
+  "candidate_to_finding": [
+    {
+      "candidate": "grader_extraction_witness",
+      "finding": "ER-f412381d",
+      "decision": "recorded as behavior_only",
+      "reason": "Extractor false-negative behavior proven by executing the verbatim shipped code; material harm to deployed RL training unresolved (0 corpus turns affected, depends on policy output distribution)."
+    }
+  ],
+  "no_finding": [
+    {"detector": "feasibility", "outcome": "0/4000 infeasible", "reason": "all exp_cal_state instances schedulable"},
+    {"detector": "trajectory_conflict", "outcome": "0/42547 conflicting assistant turns", "reason": "pipeline strips the first violating turn; retained trajectories are clean"},
+    {"detector": "conflict_design", "outcome": "72% soft conflicts, 0 hard", "reason": "reschedulable conflicts are the intended task, not a defect"}
+  ],
+  "parse_or_acquisition_errors": [],
+  "notes": "Clean outcomes are checked-no-defect within the recorded scope; they do not certify the corpus free of all possible problems. Prevalence figures are from exhaustive structural checks on this revision, not a sampled estimate."
+}

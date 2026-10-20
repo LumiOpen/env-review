@@ -1,0 +1,49 @@
+{
+  "feasibility": {
+    "question": "Does every exp_cal_state admit a non-overlapping schedule within 10:00-16:00?",
+    "train": {"rows": 3872, "feasible": 3872, "infeasible": 0, "unparsed_constraints": 0},
+    "validation": {"rows": 128, "feasible": 128, "infeasible": 0, "unparsed_constraints": 0},
+    "constraint_parse_coverage": "after/before/between/at/null = 100%",
+    "verdict": "clean (0/4000 infeasible)"
+  },
+  "trajectory_conflict": {
+    "question": "Do any assistant turns in the shipped conversations contain overlapping events (per the grader's own is_event_conflicting)?",
+    "train": {"assistant_turns": 40511, "parseable_calendars": 33224, "turns_with_conflict": 0, "samples_with_conflict": 0},
+    "validation": {"assistant_turns": 2036, "parseable_calendars": 1589, "turns_with_conflict": 0, "samples_with_conflict": 0},
+    "no_parse_classification_train": {
+      "genuinely_conversational_no_cal_fields": 7278,
+      "mentions_event_fields_no_list": 9,
+      "regex_missed_a_real_calendar": 0,
+      "json_decode_failures": 0
+    },
+    "verdict": "clean (0/42547 conflicting turns; no-parse turns are legitimately conversational)"
+  },
+  "conflict_design": {
+    "question": "Do user requests create conflicts the model must resolve by rescheduling?",
+    "multi_event_samples_train": 3016,
+    "naive_earliest_placement_conflicts": 2792,
+    "naive_conflict_pct_of_multi_event": 92.6,
+    "naive_conflict_pct_of_all": 72.1,
+    "by_event_count": {"2": 0.45, "3": 0.82, "4": 0.95, "5": 0.99, "6": 1.0, "7": 1.0},
+    "hard_unsatisfiable_conflicts": 0,
+    "fixed_time_at_collisions": 0,
+    "verdict": "conflicts are frequent but always soft/reschedulable; design-consistent, not a defect"
+  },
+  "grader_extraction_witness": {
+    "question": "Can the shipped extract_json_list score a correct response 0?",
+    "cases": {
+      "A_plain": "pass",
+      "B_echo_example_first": "FAIL->reward0 (first-list-wins grabs the system-prompt example)",
+      "C_bracket_in_event_name": "FAIL->reward0 (regex no-match -> no_json_list)",
+      "E_trailing_comma": "FAIL->reward0 (strict json.loads -> JSONDecodeError)",
+      "F_fenced_block": "pass"
+    },
+    "negative_controls": {
+      "wrong_duration": "extracted verbatim; still fails strict constraint checks (no false positive)",
+      "example_only": "graded against exp_cal_state and fails (no false positive)",
+      "no_json": "None -> reward 0 (correct)"
+    },
+    "corpus_impact": "0 of 42547 shipped assistant turns affected; defect bites future policy outputs",
+    "verdict": "behavior_only -> finding ER-f412381d"
+  }
+}

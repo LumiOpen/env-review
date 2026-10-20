@@ -1,0 +1,52 @@
+{
+  "id": "2026-10-20-audit",
+  "dataset": "hf:nvidia/Nemotron-RL-agent-calendar_scheduling",
+  "revision": "8b62cf67e53d02f2eacf1392426ebea9cd4fa635",
+  "purpose": "Full-corpus structural audit: feasibility, trajectory consistency, conflict design, and grader extraction behavior. Discovery, not held-out evaluation.",
+  "scope": {
+    "splits": ["train", "validation"],
+    "train_rows": 3872,
+    "validation_rows": 128,
+    "sampling": "exhaustive (all rows for structural checks)",
+    "grader_source": "github.com/NVIDIA-NeMo/Gym resources_servers/calendar/{utils.py,app.py} @ d96b33770392c5d25e03a69a8ced497eecd7298a"
+  },
+  "detectors": [
+    {
+      "name": "feasibility",
+      "implementation": "parse each exp_cal_state constraint (after/before/between/at/null) into a start-window; brute-force non-overlap scheduling over event orderings within 10:00-16:00",
+      "method": "static"
+    },
+    {
+      "name": "trajectory_conflict",
+      "implementation": "replicate grader time_to_minutes + extract_json_list + is_event_conflicting; run over every assistant turn",
+      "method": "static"
+    },
+    {
+      "name": "conflict_design",
+      "implementation": "naive earliest-placement overlap test over exp_cal_state windows",
+      "method": "static"
+    },
+    {
+      "name": "grader_extraction_witness",
+      "implementation": "evidence/ER-f412381d/witness_extract.py (verbatim shipped extract_json_list on crafted correct responses)",
+      "method": "static"
+    }
+  ],
+  "models": [
+    {
+      "run_id": "agent-assisted-static-001",
+      "model": "claude (Claude Code)",
+      "reasoning_effort": null,
+      "elapsed_seconds": null,
+      "tokens": null,
+      "cost_usd": null
+    }
+  ],
+  "limits": [
+    "Static analysis only. No NeMo Gym rollout, tool server, or POST /verify executed.",
+    "Grader behavior read at Gym commit d96b337; production pin not confirmed.",
+    "Feasibility/trajectory checks reimplement the grader's parsing; exact-equivalence to the deployed verifier assumed, not proven end-to-end.",
+    "Agent-assisted adjudication; not independent human validation.",
+    "Clean structural results are checked-no-defect outcomes, not a label that the corpus is free of all possible problems."
+  ]
+}
