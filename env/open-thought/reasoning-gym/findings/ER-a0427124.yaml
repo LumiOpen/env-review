@@ -1,0 +1,61 @@
+schema_version: '1'
+id: ER-a0427124
+dataset: gh:open-thought/reasoning-gym
+revision: 49b07130b3fcd12f2d064bba7c43869543a0e7e7
+title: countdown number-validation regex passes when source numbers appear anywhere in model output
+status: candidate
+category: reward_shortcut
+tasks:
+  - id: countdown
+problem:
+  description: >
+    The countdown verifier validates that the model used only the provided
+    source numbers by extracting all integers from the model's output string
+    using the regex \b\d+\b and comparing the sorted list against the source
+    numbers. Because the regex operates on the entire output string — not
+    only the arithmetic expression — a model can satisfy the number-validation
+    check by including the source numbers anywhere in its response (e.g. in
+    an explanation, scratchpad, or padding text), even if the expression
+    itself uses different or additional numbers.
+  expected: >
+    Number validation should extract integers only from the proposed
+    arithmetic expression, not from surrounding natural-language text.
+  actual: >
+    The regex _num_re = re.compile(r"\b\d+\b") is applied to the full
+    output string. A response such as "The numbers are 6, 13, 25.
+    My answer: 6 * 13 + 1 = 79" would pass number validation for source
+    numbers {6, 13, 25} even though 1 is an extra number not in the source.
+    Conversely, a model embedding the source numbers in prose before an
+    incorrect expression passes validation regardless of expression correctness.
+evidence:
+  - source: reasoning_gym/games/countdown.py
+    quote: |
+      _num_re = re.compile(r"\b\d+\b")
+
+      def _check_numbers(expr: str, numbers: list[int]) -> bool:
+          used = sorted(int(m) for m in _num_re.findall(expr))
+          return used == sorted(numbers)
+    line_start: 1
+    line_end: 5
+validation:
+  method: static
+  summary: >
+    Static analysis of the _check_numbers function confirms the regex is
+    applied to the expression string passed in, which in the scoring path
+    is the raw model output rather than a parsed sub-expression. The gaming
+    vector is plausible but has not been demonstrated with an adversarial
+    model rollout.
+  assumptions:
+    - The full model output (not a parsed expression substring) is passed to _check_numbers.
+    - No upstream extraction step isolates the arithmetic expression before number validation.
+  not_run:
+    - Adversarial rollout confirming a model can reliably exploit this to inflate reward.
+    - Examination of whether the expression evaluator also operates on the full string or a parsed sub-expression.
+provenance:
+  discovered_by: static code review conducted for env-review audit, 2026-10-20
+discussion: >
+  Severity depends on whether the cascade_score evaluator also applies to the
+  full output or to a parsed expression. If the expression evaluator parses only
+  a sub-expression, the number-validator inconsistency is a latent bug but may
+  not yield a meaningful gaming advantage in practice. Upgrading to confirmed
+  requires an adversarial rollout or tracing the full scoring call chain.

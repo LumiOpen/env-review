@@ -1,0 +1,82 @@
+schema_version: '1'
+id: ER-7572d69e
+dataset: gh:open-thought/reasoning-gym
+revision: 49b07130b3fcd12f2d064bba7c43869543a0e7e7
+title: propositional_logic awards full reward for any answer when premises are contradictory
+status: confirmed
+category: grader_mismatch
+tasks:
+  - id: propositional_logic
+problem:
+  description: >
+    When the generated premise set is unsatisfiable (a contradiction), the
+    validity checker _is_valid_conclusion finds no counterexample for any
+    conclusion, so it returns True for arbitrary conclusions including
+    self-contradictions such as S ∧ ¬S. A model that always outputs the
+    first variable name receives score 1.0 on these items. The reporter of
+    issue #528 estimates ~37% of generated items are affected.
+  expected: >
+    A valid conclusion must follow from the premises under all satisfying
+    assignments. Items with contradictory premises should either be filtered
+    at generation time or flagged so that any conclusion receives 0.0 (or a
+    special marker), not 1.0.
+  actual: >
+    _is_valid_conclusion iterates over 2^n variable assignments and returns
+    True when no counterexample exists. With unsatisfiable premises the loop
+    finds zero satisfying assignments, so the counterexample condition is
+    never triggered and the function returns True unconditionally. Any
+    conclusion, including obviously false ones, scores 1.0 on these items.
+evidence:
+  - source: reasoning_gym/logic/propositional_logic.py
+    quote: |
+      def _is_valid_conclusion(premises, conclusion, variables):
+          for values in itertools.product([True, False], repeat=len(variables)):
+              assignment = dict(zip(variables, values))
+              if all(_evaluate(p, assignment) for p in premises):
+                  if not _evaluate(conclusion, assignment):
+                      return False
+          return True
+    line_start: 1
+    line_end: 8
+  - source: reasoning_gym/logic/propositional_logic.py
+    quote: |
+      score = 1.0 if _is_valid_conclusion(premises, conclusion, variables) else 0.0
+    line_start: 1
+    line_end: 1
+validation:
+  method: static
+  summary: >
+    Static analysis of _is_valid_conclusion confirms that an empty satisfying-
+    assignment set causes the function to return True for any conclusion.
+    Corroborated by open GitHub issue #528, which includes a minimal
+    reproduction showing the all-True return on a handcrafted contradiction
+    {¬S, S ∧ R}. Prevalence estimate (~37%) comes from the issue reporter
+    and has not been independently verified across the full generation corpus.
+  assumptions:
+    - The score_answer path for propositional_logic invokes _is_valid_conclusion directly.
+    - No post-generation filter removes contradictory premise sets before training.
+  not_run:
+    - End-to-end RL training run to measure empirical reward inflation.
+    - Automated prevalence scan over a large generated sample.
+  reproducer: >
+    python3 -c "
+    import itertools
+    def ev(expr, a):
+        import ast
+        return eval(compile(ast.parse(expr, mode='eval'), '<>', 'eval'),
+                    {'__builtins__': {}}, a)
+    def valid(premises, conclusion, variables):
+        for vals in itertools.product([True, False], repeat=len(variables)):
+            assignment = dict(zip(variables, vals))
+            if all(ev(p, assignment) for p in premises):
+                if not ev(conclusion, assignment): return False
+        return True
+    # Contradictory premises: S=True required and S=False required
+    print(valid(['S', 'not S'], 'S and not S', ['S']))  # prints True
+    "
+provenance:
+  discovered_by: open GitHub issue #528 (https://github.com/open-thought/reasoning-gym/issues/528); independently reviewed for this filing
+discussion: >
+  Linked upstream issue: https://github.com/open-thought/reasoning-gym/issues/528.
+  Fix would filter items at generation time (check satisfiability of premise set)
+  or treat vacuously-valid conclusions as a separate score tier rather than 1.0.
