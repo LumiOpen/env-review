@@ -3,7 +3,7 @@ id: ER-91c19cbf
 dataset: gh:PrimeIntellect-ai/community-environments
 revision: cf220ee86500e94b5415d8b226557ce5d950f1db
 title: mastermind score_guess crashes with IndexError on non-digit characters in string guesses
-status: confirmed
+status: candidate
 category: grader_mismatch
 tasks:
   - id: mastermind
@@ -57,19 +57,26 @@ validation:
   summary: >
     Static analysis of scoring.py lines 28-29 confirms that ord(a) - 48 is
     used as a direct array index into ca/cg of length c without bounds
-    checking. For c=6 (default), valid indices are 0-5 (characters '0'-'5').
-    A space character gives index -16 (negative index — wraps in Python,
-    corrupting the count array). A letter 'A' gives index 17 (out of range,
-    IndexError). Parsing model output as a guess string without stripping
-    whitespace or validating characters is the triggering condition.
+    checking. However, further reading of mastermind.py reveals that
+    _validate_guess_format (lines 111-120) guards every call path from model
+    output: it calls guess.isdigit() (line 114) and checks all digits are in
+    [0, num_symbols-1] (line 116) before score_guess is invoked. The
+    _consistent_with_feedback path (line 156) uses pre-validated history
+    entries and int-tuple candidates from _all_codes, not raw strings.
+    The bug is latent: score_guess exposes an unsafe string API but the
+    caller in mastermind.py guards it. The risk materialises only if
+    score_guess is called directly from other code without the guard.
   assumptions:
-    - The calling code passes model output directly to score_guess as a string without sanitisation.
-    - The exception is caught upstream and mapped to reward 0.0.
+    - _validate_guess_format is always called before score_guess in all current call sites.
+    - No future caller of score_guess skips the validation step.
   not_run:
-    - End-to-end confirmation that the model parser produces strings with non-digit characters in practice.
+    - Review of all callers of score_guess across the full codebase to confirm the guard is universal.
 provenance:
-  discovered_by: AI-assisted static code review, 2026-10-20
+  discovered_by: AI-assisted static code review, 2026-10-20; guard identified on second pass of mastermind.py
 discussion: >
-  Fix: add `if not (0 <= ia < c and 0 <= ig < c): raise ValueError(...)` after
-  lines 28-29, or strip and validate the guess string before the call.
-  Alternatively, convert strings to int lists before calling score_guess.
+  The bug is real but currently unreachable via the normal game flow because
+  _validate_guess_format gates all model-output paths. Upgrading to confirmed
+  would require finding a call site that bypasses the validation, or showing
+  that the guard can be circumvented. The latent risk is worth noting because
+  score_guess is a public utility function that future contributors may call
+  directly without knowing about the implicit validation contract.
