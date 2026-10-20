@@ -1,0 +1,82 @@
+schema_version: '1'
+id: ER-91c19cbf
+dataset: gh:PrimeIntellect-ai/community-environments
+revision: cf220ee86500e94b5415d8b226557ce5d950f1db
+title: mastermind score_guess crashes with IndexError on non-digit characters in string guesses
+status: candidate
+category: grader_mismatch
+tasks:
+  - id: mastermind
+problem:
+  description: >
+    In the string branch of score_guess, character values are computed as
+    ord(char) - 48 and used as indices into counting arrays ca and cg of
+    length c (the number of colours, typically 6-8). If the answer or guess
+    string contains any character whose ASCII value minus 48 is negative or
+    >= c — such as a space (ord(' ')-48 = -16), a letter, or a newline — the
+    index is out of bounds and raises an IndexError. This crashes the verifier
+    silently: the environment's exception handler returns 0 reward for a
+    potentially correct guess.
+  expected: >
+    score_guess should validate that all characters in answer and guess are
+    digit characters in the range ['0', '0'+c-1] before indexing, or use
+    the integer branch for safety.
+  actual: >
+    Lines 28-31 compute ia = ord(a) - 48 and ig = ord(g) - 48 and
+    immediately use them as array indices with no bounds check. Any
+    whitespace or non-digit character (from model output parsing) causes
+    an IndexError and a false-negative reward of 0.
+evidence:
+  - source: environments/mastermind/utils/scoring.py
+    line_start: 17
+    line_end: 37
+    quote: |
+      if isinstance(answer, str) and isinstance(guess, str):
+          L = len(answer)
+          black = 0
+          ca = [0] * c
+          cg = [0] * c
+          for i in range(L):
+              a = answer[i]
+              g = guess[i]
+              if a == g:
+                  black += 1
+              else:
+                  ia = ord(a) - 48
+                  ig = ord(g) - 48
+                  ca[ia] += 1
+                  cg[ig] += 1
+          white = 0
+          for i in range(c):
+              ai = ca[i]
+              gi = cg[i]
+              white += ai if ai < gi else gi
+          return black, white
+validation:
+  method: static
+  summary: >
+    Static analysis of scoring.py lines 28-29 confirms that ord(a) - 48 is
+    used as a direct array index into ca/cg of length c without bounds
+    checking. However, further reading of mastermind.py reveals that
+    _validate_guess_format (lines 111-120) guards every call path from model
+    output: it calls guess.isdigit() (line 114) and checks all digits are in
+    [0, num_symbols-1] (line 116) before score_guess is invoked. The
+    _consistent_with_feedback path (line 156) uses pre-validated history
+    entries and int-tuple candidates from _all_codes, not raw strings.
+    The bug is latent: score_guess exposes an unsafe string API but the
+    caller in mastermind.py guards it. The risk materialises only if
+    score_guess is called directly from other code without the guard.
+  assumptions:
+    - _validate_guess_format is always called before score_guess in all current call sites.
+    - No future caller of score_guess skips the validation step.
+  not_run:
+    - Review of all callers of score_guess across the full codebase to confirm the guard is universal.
+provenance:
+  discovered_by: AI-assisted static code review, 2026-10-20; guard identified on second pass of mastermind.py
+discussion: >
+  The bug is real but currently unreachable via the normal game flow because
+  _validate_guess_format gates all model-output paths. Upgrading to confirmed
+  would require finding a call site that bypasses the validation, or showing
+  that the guard can be circumvented. The latent risk is worth noting because
+  score_guess is a public utility function that future contributors may call
+  directly without knowing about the implicit validation contract.
