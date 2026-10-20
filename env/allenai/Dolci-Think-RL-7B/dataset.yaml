@@ -8,11 +8,18 @@ review_status: exploring
 task_identity:
   fields:
   - custom_id
-  - id
-  - conversation_hash
   config: default
   split: train
-  notes: Candidate record identifiers from the published schema; uniqueness has not
-    been checked. Pin revision and include row_index when an ID is ambiguous.
-notes: Full 102014-row text-field audit completed at the pinned revision. See README.md
-  for scoped counts and one canonical instruction-contradiction finding.
+  notes: custom_id is the only populated identifier in the math subset and is unique
+    per row there; id, key and conversation_hash are null on every math row. It names
+    the source corpus and request, not the problem, so the duplicate copies of one
+    prompt carry different custom_ids. Pin the revision and include the zero-based
+    row_index, counting shards in filename order, whenever a specific row is meant.
+notes: Follow-on dataset suggested by Jonathan. Published metadata lists 102014 training
+  rows. A full 102014-row text-field audit was completed at the pinned revision; see
+  README.md for scoped counts and one canonical instruction-contradiction finding.
+  The math subset (30180 rows) was additionally screened in the 2026-10-20-duplicate-screen
+  run; the other subsets have had metadata inspection only and are unlabeled. Rows
+  publish passrate alongside total_correct_rollouts and total_rollouts, and no row
+  in the dataset exceeds 0.625, so the release applied a difficulty cut at 5/8 - see
+  ER-9ad782d0 before reusing that column as a difficulty label.

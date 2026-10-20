@@ -1,0 +1,35 @@
+{
+  "test": "duplicate pass-rate dispersion against an exact shared-policy null",
+  "null_hypothesis": "both copies are independent binomial draws from one policy; conditioning on the pooled correct count makes the split hypergeometric",
+  "root": "/shared_silo/scratch/datasets/RL/Dolci-Think-RL-7B",
+  "subset": "math",
+  "rollouts": 8,
+  "pairs": 1700,
+  "mean_gap_observed": 0.9964705882352941,
+  "mean_gap_expected": 1.4615686274509836,
+  "dispersion_ratio": 0.6817815937751528,
+  "z": -16.544812941669253,
+  "gap_counts_observed": [
+    550,
+    738,
+    306,
+    82,
+    22,
+    2,
+    0,
+    0,
+    0
+  ],
+  "gap_counts_expected": [
+    372.3240093240081,
+    604.8181818181782,
+    424.3445221445221,
+    195.40419580419416,
+    76.6205128205133,
+    21.156643356643418,
+    4.676456876456884,
+    0.6209790209790147,
+    0.034498834498834424
+  ],
+  "interpretation": "A ratio below 1 means the copies agree more closely than independent sampling allows, so they are not independent measurements. The mechanism is not identifiable from the published columns."
+}

@@ -5,6 +5,10 @@ description = "Exploratory, evidence-based audits of evaluation tasks and RL env
 requires-python = ">=3.11"
 dependencies = ["PyYAML>=6.0.2,<7", "jsonschema>=4.23,<5"]
 
+[project.optional-dependencies]
+# Only the row-based parquet screens need this; catalog validation and tests do not.
+parquet = ["pyarrow>=17,<25"]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

@@ -1,0 +1,94 @@
+schema_version: '1'
+id: ER-a3060c49
+dataset: hf:allenai/Dolci-Think-RL-7B
+revision: 0fb6466d31ef3a9dd16985ef635e6429e05a6491
+title: Duplicate math prompts carry mutually exclusive reference answers, and six of the labels are provably wrong
+status: confirmed
+category: incorrect_reference
+tasks:
+- id: omega-combined-no-boxed_filtered-request-618-33
+  config: default
+  split: train
+  row_index: 13518
+- id: omega-combined-no-boxed_filtered-request-592-86
+  config: default
+  split: train
+  row_index: 16820
+- id: omega-combined-no-boxed_filtered-request-607-22
+  config: default
+  split: train
+  row_index: 20373
+- id: omega-combined-no-boxed_filtered-request-614-18
+  config: default
+  split: train
+  row_index: 26061
+- id: AceReason-Math_filtered-request-146-81
+  config: default
+  split: train
+  row_index: 1979
+- id: rlvr_orz_math_57k_collected_filtered-request-11-5
+  config: default
+  split: train
+  row_index: 28128
+problem:
+  description: Several math problems appear many times with byte-identical prompts but contradictory
+    values in ground_truth. Because the prompts are identical, at most one label per group can be
+    correct, and training on the group reinforces mutually exclusive answers for the same question.
+    Two such groups are small enough to settle by exhaustive computation.
+  expected: Copies of one prompt agree on the reference answer, and the reference answer is the
+    answer to the problem.
+  actual: 'Two adjudicated groups. The ordered-pairs problem appears eight times, four rows labelled
+    27 and four labelled 45; enumerating all 729 candidate pairs gives 45, so the four rows labelled
+    27 are wrong. The corridor problem appears four times across two near-identical wordings, two
+    rows labelled 31 and two labelled 61; simulating the stated deterministic rule for sixty minutes
+    gives 31, so the two rows labelled 61 are wrong. The recorded pass rates do not identify the
+    correct label: they favour the correct answer in the first group (45 rows score 0.333-0.625 and
+    27 rows score 0.125-0.143) and the incorrect answer in the second (61 rows score 0.375 and 0.500
+    while 31 rows score 0.000 and 0.250).'
+evidence:
+- source: data/train-00001-of-00009.parquet
+  quote: 'user: Let N denote the number of ordered pairs of positive integers (a, b) such that a,
+    b <= 3^3 and a^3 + b^3 is a multiple of 3^4. Find N mod 1000.'
+  note: prompt column, row_index 13518; byte-identical at rows 14616, 16820, 20373, 21065, 24879,
+    25012 and 26061.
+- source: data/train-00001-of-00009.parquet
+  quote: '27'
+  note: ground_truth column, row_index 13518. The computed answer is 45. Rows 16820, 20373 and 26061
+    carry the same incorrect label; rows 14616, 21065, 24879 and 25012 carry 45.
+- source: data/train-00000-of-00009.parquet
+  quote: 'user: There are 1000 rooms in a row along a long corridor. Initially, the first room contains
+    1000 people, and the remaining rooms are empty. Each minute, the following happens: for each room
+    containing more than one person, someone in that room decides it is too crowded and moves to the
+    next room. All these movements are simultaneous (so nobody moves more than once within a minute).
+    After one hour, how many different rooms will have people in them?'
+  note: prompt column, row_index 1979; byte-identical at row 7801, which carries ground_truth 31.
+- source: data/train-00000-of-00009.parquet
+  quote: '61'
+  note: ground_truth column, row_index 1979. The simulated answer is 31. Row 28128 carries the same
+    incorrect value as " 61 " against a reworded copy of the prompt whose duplicate, row 8093, carries 31.
+- source: data/train-00000-of-00009.parquet
+  quote: '0.375'
+  note: passrate column, row_index 1979. The incorrectly labelled row records a higher pass rate than
+    either correctly labelled copy (0.000 at row 7801, 0.250 at row 8093), so rollouts were scored
+    correct for producing a wrong answer.
+validation:
+  method: static
+  summary: Read the published rows from the pinned parquet snapshot and grouped them by byte-identical
+    prompt. Solved both problems independently of the dataset - the ordered-pairs count by exhaustive
+    enumeration of all 729 pairs, the corridor problem by direct simulation of the stated rule with a
+    conservation check on the population - and compared the results against every published label in
+    each group. The checker re-reads each cited reference and fails if it has moved.
+  assumptions:
+  - Both problem statements are read at face value, with no unstated convention that would change the
+    intended answer.
+  - The corridor problem reads "after one hour" as sixty applications of the per-minute rule.
+  not_run:
+  - Execution of the dataset's own verifier against either label
+  - Any rollout or model generation
+  reproducer: scripts/check_dolci_references.py
+provenance:
+  discovered_by: Kai Hakala
+  experiment: env/allenai/Dolci-Think-RL-7B/runs/2026-10-20-duplicate-screen
+discussion: Only groups whose answer could be settled by direct computation were adjudicated. The screen
+  flagged five groups whose references differ after normalization; the remaining three are unadjudicated
+  and are recorded as candidates in the run, not as findings here.

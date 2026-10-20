@@ -1,0 +1,31 @@
+{
+  "id": "2026-10-20-duplicate-screen",
+  "dataset": "hf:allenai/Dolci-Think-RL-7B",
+  "revision": "0fb6466d31ef3a9dd16985ef635e6429e05a6491",
+  "purpose": "Exploratory discovery on the math subset, not held-out evaluation",
+  "scope": "dataset == \"math\", 30180 of the 102014 train rows at the pinned revision",
+  "detector_version": "duplicate-screen-1",
+  "raw_outputs": [
+    "candidates-math.json",
+    "dispersion-math.json"
+  ],
+  "adjudications": "adjudications.json",
+  "summary": "summary.json",
+  "commands": [
+    "python -m eval_audit.duplicate_screen --root <snapshot> --subset math --output candidates-math.json",
+    "python scripts/check_dolci_dispersion.py --root <snapshot> --output dispersion-math.json",
+    "python scripts/check_dolci_references.py --root <snapshot>"
+  ],
+  "candidate_id_convention": "<detector_id>:<lowest row_index in the candidate>, stable only at this revision",
+  "snapshot_provenance": "Local copy verified against the pinned revision from the HuggingFace download metadata in .cache/huggingface/download (commit sha plus per-file sha256) before any row-indexed claim was recorded.",
+  "limits": [
+    "Only the math subset was screened. The other subsets are unlabeled, not known good.",
+    "Only byte-identical prompts are compared, so every duplicate count is a lower bound; the corridor problem in ER-a3060c49 appears in two wordings differing by one comma and is counted as two groups.",
+    "Reference normalization is lenient by design. It is conservative for claiming a genuine conflict and permissive for claiming a notation variant, so both classes were read by hand before adjudication.",
+    "The 38 notation_variant_reference candidates were all read by hand; their decision between behavior_only and rejected then follows one mechanical rule, whether the copies also record different pass rates.",
+    "sentinel_reference, duplicate_prompt and unstable_passrate were adjudicated on named exemplars only. The remaining candidates in those classes are unreviewed and support the aggregate counts, not individual claims.",
+    "No rollouts were generated, no model was run, and the dataset's own verifier was never executed. Where a reference answer is called wrong, the answer was computed independently of the dataset.",
+    "Pass rates are read as published data. The dispersion test rejects the shared-policy independence null but cannot identify what replaced it.",
+    "Row indices are zero-based positions in the train split, counting shards in filename order, and are valid only at this revision."
+  ]
+}
