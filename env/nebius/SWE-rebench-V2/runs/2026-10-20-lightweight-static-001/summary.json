@@ -1,0 +1,51 @@
+{
+  "sample": {
+    "population_tasks": 32079,
+    "uniformly_sampled_tasks": 100,
+    "double_labelled_tasks": 20,
+    "primary_legacy_labels": {
+      "BROKEN": 64,
+      "QUESTIONABLE": 13,
+      "VALID": 23
+    },
+    "limits": "Legacy labels are unadjudicated detector outputs. VALID means no issue was identified by that bounded review, not a negative task label."
+  },
+  "annotator_agreement": {
+    "overlap_tasks": 20,
+    "exact_three_way_agreement": 0.8,
+    "three_way_cohen_kappa": 0.6,
+    "broken_vs_other_agreement": 0.9,
+    "broken_vs_other_cohen_kappa": 0.78,
+    "primary_broken_rates_by_annotator": {
+      "agent_0": 0.84,
+      "agent_1": 0.32,
+      "agent_2": 0.56,
+      "agent_3": 0.84
+    }
+  },
+  "legacy_mechanism_mentions_on_primary_labels": {
+    "HIDDEN_INTERFACE": 38,
+    "SCOPE_CREEP": 31,
+    "OVERSPECIFIED": 25,
+    "AMBIGUOUS": 22,
+    "MISMATCH": 18,
+    "INFRA": 12,
+    "TEST_COUPLING": 11,
+    "EXTERNAL_INFO": 11,
+    "WEAK_TEST": 7,
+    "TRUNCATED": 1,
+    "LEAK": 1
+  },
+  "review_status": {
+    "promoted_findings": [
+      {
+        "id": "ER-54172dda",
+        "status": "candidate",
+        "task_id": "eslint__eslint-14837"
+      }
+    ],
+    "rejected_claims": [],
+    "unresolved": "The other task labels require repository-style claim review. This run otherwise records discovery outputs only."
+  },
+  "metric_limits": "The sample is development data, the reference set is incomplete, and annotator severity varied. Do not report these rates as SWE-rebench V2 corpus defect prevalence, false-positive rate, or method recall."
+}

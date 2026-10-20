@@ -1,0 +1,62 @@
+[
+  {
+    "run_id": "duplicate-screen-001",
+    "inspected_task_count": 30180,
+    "distinct_prompt_count": 24188,
+    "candidate_count": 5915,
+    "candidates_by_detector": {
+      "conflicting_reference": 5,
+      "duplicate_prompt": 4087,
+      "notation_variant_reference": 38,
+      "sentinel_reference": 174,
+      "unstable_passrate": 1611
+    },
+    "reviewed_count": 50,
+    "unreviewed_count": 5865,
+    "decisions": {
+      "behavior_only": 33,
+      "confirmed": 9,
+      "rejected": 8
+    },
+    "matched_confirmed_defect_ids": [
+      "ER-1932eb19",
+      "ER-2a252105",
+      "ER-a3060c49"
+    ],
+    "task_false_positive_rate": null,
+    "recall": null,
+    "metric_limits": "Candidate counts are per detector and a row can raise several, so they do not sum to a row count; 5915 candidates cover 10245 distinct rows. conflicting_reference and notation_variant_reference were reviewed exhaustively; the other three classes were reviewed on exemplars only, so their decision counts are not a sample from which a false-positive rate can be estimated. There is no reference set of known defects, so unflagged rows are unlabeled and recall is undefined."
+  },
+  {
+    "run_id": "dispersion-001",
+    "inspected_task_count": 3400,
+    "candidate_count": 1,
+    "reviewed_count": 1,
+    "unreviewed_count": 0,
+    "decisions": {
+      "confirmed": 1
+    },
+    "matched_confirmed_defect_ids": [
+      "ER-9ad782d0"
+    ],
+    "task_false_positive_rate": null,
+    "recall": null,
+    "metric_limits": "One hypothesis test over the 1700 prompt pairs (3400 rows) that are published exactly twice with the same reference and 8 rollouts on both copies, not a per-row detector. The test rejects independence for the population; it does not label individual rows."
+  },
+  {
+    "run_id": "reference-check-001",
+    "inspected_task_count": 12,
+    "candidate_count": 2,
+    "reviewed_count": 2,
+    "unreviewed_count": 0,
+    "decisions": {
+      "confirmed": 2
+    },
+    "matched_confirmed_defect_ids": [
+      "ER-a3060c49"
+    ],
+    "task_false_positive_rate": null,
+    "recall": null,
+    "metric_limits": "Independent solution of the two conflicting-reference groups that are tractable by direct computation, covering 12 rows. The three remaining conflicting_reference groups are placeholder cases adjudicated under ER-1932eb19 and were not solved."
+  }
+]

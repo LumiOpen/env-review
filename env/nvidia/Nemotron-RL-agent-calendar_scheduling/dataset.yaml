@@ -1,0 +1,26 @@
+schema_version: '1'
+id: hf:nvidia/Nemotron-RL-agent-calendar_scheduling
+source:
+  provider: huggingface
+  url: https://huggingface.co/datasets/nvidia/Nemotron-RL-agent-calendar_scheduling
+  revision: 8b62cf67e53d02f2eacf1392426ebea9cd4fa635
+review_status: exploring
+task_identity:
+  fields:
+  - split
+  - row_index
+  notes: No stable per-record id ships in the data. Records are
+    {responses_create_params, exp_cal_state, agent_ref}; identity is by split +
+    zero-based row_index at the pinned revision. exp_cal_state content can
+    disambiguate. The grader is external (NeMo Gym resources_servers/calendar),
+    not in this repo.
+notes: >-
+  Multi-turn RLVR environment (NeMo Gym, agent_ref=calendar_simple_agent). Full
+  corpus audited structurally (3872 train + 128 val). Feasibility and trajectory
+  checks are clean: all 4000 exp_cal_state instances admit a non-overlapping
+  schedule within 10:00-16:00, and 0 of 42547 assistant turns contain
+  overlapping events. Conflicts in user requests are frequent (72% of samples)
+  but always soft/reschedulable; 0 hard/unsatisfiable. One grader-level
+  candidate recorded (ER-f412381d, false-negative reward extraction). See
+  runs/2026-10-20-audit. Intended for RL (RLVR), not SFT: records carry a
+  verifier target (exp_cal_state) and no gold completion.

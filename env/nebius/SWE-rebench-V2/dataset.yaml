@@ -1,0 +1,14 @@
+schema_version: '1'
+id: hf:nebius/SWE-rebench-V2
+source:
+  provider: huggingface
+  url: https://huggingface.co/datasets/nebius/SWE-rebench-V2
+  revision: 10483de0f50fe5da545942705a76c6150171af7f
+review_status: exploring
+task_identity:
+  fields:
+    - instance_id
+  notes: Tasks are rows in the default train split. The stable instance_id is
+    used for findings and run records.
+notes: Initial agent-assisted static discovery run over 100 uniformly sampled
+  tasks. The sample and detector candidates do not establish corpus prevalence.

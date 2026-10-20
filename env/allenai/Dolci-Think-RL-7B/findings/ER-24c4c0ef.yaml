@@ -1,0 +1,74 @@
+schema_version: '1'
+id: ER-24c4c0ef
+dataset: hf:allenai/Dolci-Think-RL-7B
+revision: 0fb6466d31ef3a9dd16985ef635e6429e05a6491
+title: Equivalent reference answers written in different LaTeX record different pass rates on identical prompts
+status: behavior_only
+category: grader_mismatch
+tasks:
+- id: AceReason-Math_filtered-request-90-87
+  config: default
+  split: train
+  row_index: 1234
+- id: MathSub-30K_filtered-request-273-7
+  config: default
+  split: train
+  row_index: 9989
+problem:
+  description: 38 groups of byte-identical math prompts carry reference answers that are the same
+    value written differently - a brace, a space, a degree sign, a unit word. In 30 of those groups
+    the copies also record different pass rates, which is consistent with the scoring run comparing
+    answer strings in a way that the notation changes. If so, part of what passrate measures is how
+    the reference was typed rather than how hard the problem is, and the same comparison would apply
+    to rollouts generated against these rows during training.
+  expected: Two references denoting the same value are scored the same way, so the recorded pass rate
+    for one prompt does not depend on which copy of the reference a row happens to carry.
+  actual: 'The sharpest case is a single space. The tangent-line problem is published twice with the
+    same prompt; the copy whose reference is written "2\sqrt 2" records 0 of 8 rollouts correct, and
+    the copy written "2\sqrt{2}" records 5 of 8. Similar pairs: "20^\circ" at 0.125 against "20" at
+    0.500; "1600" at 0.125 against "1600 \text{ square centimeters}" at 0.500; "5 \sqrt{6}" at 0.000
+    against "5\sqrt{6}" at 0.286; "a=-n^{2}" at 0.000 against "-n^{2}" at 0.375. Leading and trailing
+    whitespace alone moves it, with " m^2 " at 0.429 against "m^2" at 0.143.'
+evidence:
+- source: data/train-00000-of-00009.parquet
+  quote: 'user: A circle of radius $2$ has center at $(2,0)$. A circle of radius $1$ has center at
+    $(5,0)$. A line is tangent to the two circles at points in th'
+  note: opening of the prompt column, shared byte-for-byte by row_index 1234 and row_index 9989.
+- source: data/train-00000-of-00009.parquet
+  quote: 2\sqrt 2
+  note: ground_truth column, row_index 1234; passrate 0.000, total_correct_rollouts 0 of 8.
+- source: data/train-00000-of-00009.parquet
+  quote: 2\sqrt{2}
+  note: ground_truth column, row_index 9989; passrate 0.625, total_correct_rollouts 5 of 8. Same prompt,
+    same value, same number of rollouts.
+- source: data/train-00000-of-00009.parquet
+  quote: 20^\circ
+  note: ground_truth column, row_index 4005, passrate 0.125, against "20" at row_index 11499,
+    passrate 0.500, on a byte-identical prompt.
+- source: data/train-00002-of-00009.parquet
+  quote: 1600 \text{ square centimeters}
+  note: ground_truth column, row_index 30125, passrate 0.500, against "1600" at row_index 27892,
+    passrate 0.125, on a byte-identical prompt.
+validation:
+  method: static
+  summary: Grouped the 30180 math rows of the pinned snapshot by byte-identical prompt and compared
+    reference answers after collapsing cosmetic LaTeX differences. 38 groups differ only in notation;
+    30 of those also differ in recorded pass rate. The normalizer is deliberately lenient, so it
+    over-assigns groups to this class rather than to the contradictory-reference class covered by
+    ER-a3060c49; every group in this finding was read by hand to confirm the two forms denote the
+    same value.
+  assumptions:
+  - The published pass rates were produced by one scoring configuration across all rows, so the gap
+    is attributable to the row rather than to the run.
+  not_run:
+  - Execution of the dataset's own verifier on either notation
+  - Any rollout or model generation
+  reproducer: src/eval_audit/duplicate_screen.py
+provenance:
+  discovered_by: Kai Hakala
+  experiment: env/allenai/Dolci-Think-RL-7B/runs/2026-10-20-duplicate-screen
+discussion: Held at behavior_only because the grader was not run, and because notation is demonstrably
+  not the only driver of the gap. One group carries "198^\circ" twice and "198" once, recording 0.625,
+  0.250 and 0.250, so the two degree-sign copies disagree with each other. Attributing any single gap
+  to the grader requires running it; see ER-9ad782d0 for the separate problem that these pass rates are
+  not comparable across rows in the first place.

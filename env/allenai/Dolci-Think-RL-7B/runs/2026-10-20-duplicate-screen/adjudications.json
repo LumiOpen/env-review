@@ -1,0 +1,445 @@
+[
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "conflicting_reference:8093",
+    "decision": "confirmed",
+    "case_ids": [
+      "ER-a3060c49"
+    ],
+    "reason": "Same problem reworded; the simulation gives 31, so the copy labelled ' 61 ' is wrong and records the higher pass rate."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "conflicting_reference:7910",
+    "decision": "confirmed",
+    "case_ids": [
+      "ER-1932eb19"
+    ],
+    "reason": "The conflict is a -1 placeholder against the real answer 230; the placeholder copy records pass rate 0.000."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "conflicting_reference:1979",
+    "decision": "confirmed",
+    "case_ids": [
+      "ER-a3060c49"
+    ],
+    "reason": "Simulated the stated rule for 60 minutes: 31 rooms occupied, so the copy labelled 61 is wrong."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "conflicting_reference:4315",
+    "decision": "confirmed",
+    "case_ids": [
+      "ER-1932eb19"
+    ],
+    "reason": "The conflict is a -1 placeholder against the real answer 554; the placeholder copy records pass rate 0.000."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "conflicting_reference:13518",
+    "decision": "confirmed",
+    "case_ids": [
+      "ER-a3060c49"
+    ],
+    "reason": "Enumerated all 729 candidate pairs: N mod 1000 = 45, so the four copies labelled 27 are wrong."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:6185",
+    "decision": "rejected",
+    "case_ids": [],
+    "reason": "Same value in different notation, but the copies record the same pass rate, so there is no observed scoring consequence."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:10307",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:5753",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:549",
+    "decision": "rejected",
+    "case_ids": [],
+    "reason": "Same value in different notation, but the copies record the same pass rate, so there is no observed scoring consequence."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:4005",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:27892",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:1902",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:10076",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:3190",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:5407",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:7944",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:2012",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:9689",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:4523",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:3919",
+    "decision": "rejected",
+    "case_ids": [],
+    "reason": "Same value in different notation, but the copies record the same pass rate, so there is no observed scoring consequence."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:4900",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:3984",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:6544",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:5917",
+    "decision": "rejected",
+    "case_ids": [],
+    "reason": "Same value in different notation, but the copies record the same pass rate, so there is no observed scoring consequence."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:578",
+    "decision": "rejected",
+    "case_ids": [],
+    "reason": "Same value in different notation, but the copies record the same pass rate, so there is no observed scoring consequence."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:1234",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:419",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:4090",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:1557",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:4939",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:5840",
+    "decision": "rejected",
+    "case_ids": [],
+    "reason": "Same value in different notation, but the copies record the same pass rate, so there is no observed scoring consequence."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:4804",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:4860",
+    "decision": "rejected",
+    "case_ids": [],
+    "reason": "Same value in different notation, but the copies record the same pass rate, so there is no observed scoring consequence."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:5349",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:5805",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:3124",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:4868",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:3490",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:506",
+    "decision": "rejected",
+    "case_ids": [],
+    "reason": "Same value in different notation, but the copies record the same pass rate, so there is no observed scoring consequence."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:10445",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:862",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:5619",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "notation_variant_reference:6250",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-24c4c0ef"
+    ],
+    "reason": "Same value in different notation, and the copies record different pass rates."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "sentinel_reference:7896",
+    "decision": "confirmed",
+    "case_ids": [
+      "ER-1932eb19"
+    ],
+    "reason": "Placeholder -1 whose byte-identical duplicate at row 4315 carries 554."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "sentinel_reference:7910",
+    "decision": "confirmed",
+    "case_ids": [
+      "ER-1932eb19"
+    ],
+    "reason": "Placeholder -1 whose byte-identical duplicate at row 8576 carries 230."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "duplicate_prompt:1234",
+    "decision": "confirmed",
+    "case_ids": [
+      "ER-2a252105"
+    ],
+    "reason": "Byte-identical copy across two source corpora, AceReason-Math and MathSub-30K."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "duplicate_prompt:13518",
+    "decision": "confirmed",
+    "case_ids": [
+      "ER-2a252105"
+    ],
+    "reason": "Eight byte-identical copies, the largest duplicate group in the subset."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "unstable_passrate:6557",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-9ad782d0"
+    ],
+    "reason": "Three copies of one prompt and reference record 0/7, 4/8 and 5/8."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "unstable_passrate:4424",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-9ad782d0"
+    ],
+    "reason": "Identical reference 32; the copies record 0/5 and 5/8."
+  },
+  {
+    "run_id": "duplicate-screen-001",
+    "candidate_id": "unstable_passrate:6327",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-9ad782d0"
+    ],
+    "reason": "Identical reference 32 and 8 rollouts on both copies; 0/8 against 5/8."
+  },
+  {
+    "run_id": "dispersion-001",
+    "candidate_id": "shared_policy_null:math",
+    "decision": "confirmed",
+    "case_ids": [
+      "ER-9ad782d0"
+    ],
+    "reason": "1700 same-reference 8-rollout pairs; mean gap 0.996 against an exact null of 1.462 (ratio 0.68, z = -16.5). The copies are not independent measurements."
+  }
+]
