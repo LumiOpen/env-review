@@ -1,0 +1,50 @@
+{
+ "items": [
+  {
+   "id": "qualifying_asset_set",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Did the answer identify the complete qualifying set of canonical retirement asset IDs from the two June 17, 2025 collection events?",
+      "pass_anchor": "Ground truth: the complete set is exactly {AST-FY25-RET-001, AST-FY25-RET-002, AST-FY25-RET-003}. Accept minor punctuation, ordering, or formatting differences. The answer must not present any other asset ID as qualifying, even if it later retracts or corrects that claim; IDs mentioned only as explicitly excluded records are allowed.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "final_concentrations",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Did the answer assign the correct released final primary PCB concentration to each qualifying asset, in mg/kg, within ±0.1 mg/kg?",
+      "pass_anchor": "Ground truth mapping (tolerance ±0.1 mg/kg): AST-FY25-RET-001 = 86.4 mg/kg; AST-FY25-RET-002 = 53.7 mg/kg; AST-FY25-RET-003 = 118.2 mg/kg. The mapping must not swap values between assets.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "qualifying_count",
+   "tier": "important",
+   "method": "llm",
+   "question": "Did the answer state the correct total number of qualifying assets?",
+   "pass_anchor": "Ground truth: the qualifying count is 3 assets. Accept equivalent wording such as three qualifying assets or 3.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "lineage_and_threshold_handling",
+   "tier": "important",
+   "method": "llm",
+   "question": "Did the answer correctly explain the result-lineage and threshold exclusions used to reach the qualifying set?",
+   "pass_anchor": "Ground truth: exclude the superseded preliminary 84.9 mg/kg result for AST-FY25-RET-001 and use its released final 86.4 mg/kg result; exclude AST-FY25-RET-004 at 12.6 mg/kg, AST-FY25-RET-005 at 49.8 mg/kg, and AST-FY25-RET-006 at 6.3 mg/kg because the rule is strict greater-than-50 mg/kg. The explanation may use equivalent wording.",
+   "files": [
+    "answer.md"
+   ]
+  }
+ ],
+ "check_code": "\"\"\"No deterministic post-state checks apply to this read-only task.\"\"\"\n\n\ndef not_applicable(_workspace):\n    return {\"score\": 0, \"detail\": \"Read-only task; all scoring criteria evaluate the final response.\"}\n",
+ "gold_answer": null,
+ "input": "db",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

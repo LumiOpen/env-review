@@ -1,0 +1,314 @@
+{
+  "schema_version": "rlaudit.pipeline/v1",
+  "name": "prime-reverse-text",
+  "provenance": {
+    "hub_url": "https://app.primeintellect.ai/dashboard/environments/will/reverse-text",
+    "environment": "will/reverse-text",
+    "archive_sha256": "9523b627a28dfba1104f5bc4526361a2ced57db7b22ac08432b339cc30a74a7a",
+    "version_id": "ghkjmu12we8qo5tqyo0af78m",
+    "runtime": "VERIFIERS_V0",
+    "scope": "Model-free source parser/rubric or state/tool component replay on frozen real task rows.",
+    "limitations": [
+      "No model rollout, policy training, paid judge, or inference service.",
+      "Framework trajectory metrics are scaffolding, not evidence of a real agent rollout.",
+      "Findings apply to the selected package and compatible pinned framework, not every Hub environment."
+    ]
+  },
+  "sources": [
+    {
+      "id": "tasks",
+      "path": "../research/prime/tasks/reverse_text.jsonl",
+      "sha256": "67c5810eb569ec5541398c6a4db2e69c7100ed0684c41bc680d440f5aa97c6a7"
+    },
+    {
+      "id": "contract",
+      "path": "../examples/contracts/prime_reverse_text.json",
+      "sha256": "586c47e50ef6f1a4536b1e34db799ed1c0dca6022e790b5b99c17f81919e31fd"
+    },
+    {
+      "id": "reverse_text",
+      "path": "../research/prime/sources/will__reverse-text__9523b627a28d"
+    },
+    {
+      "id": "archive",
+      "path": "../research/prime/sources/will__reverse-text__9523b627a28d.tar.gz",
+      "sha256": "9523b627a28dfba1104f5bc4526361a2ced57db7b22ac08432b339cc30a74a7a"
+    },
+    {
+      "id": "catalog",
+      "path": "../research/prime/catalog/will__reverse-text.json",
+      "sha256": "763d4b28b57a8e31f82e275ea980884ad3792482850ee3c55ef4104aaa210dd4"
+    },
+    {
+      "id": "reverse_dataset",
+      "path": "../research/prime/data/reverse_dataset"
+    },
+    {
+      "id": "reverse_rows",
+      "path": "../research/prime/data/reverse_rows.json",
+      "sha256": "c0d121ed18884132d80db887afff3a5946deb4bdaa3e269b80dff7b0dd686a82"
+    },
+    {
+      "id": "raw_dataset",
+      "path": "../research/prime/data/reverse_train.parquet",
+      "sha256": "3cff91965e9de35d04a1d9297535bd13f8268aa38201abec97b6a5d94e7dabe2"
+    },
+    {
+      "id": "fixture_preparation",
+      "path": "../research/prime/data/prepare_reverse.py",
+      "sha256": "39cc637cddfa67e73f075f243750b2345ae7ca39dc670d6abf66ec7f447e5d9b"
+    }
+  ],
+  "adapter": {
+    "kind": "local_jsonl",
+    "source": "tasks"
+  },
+  "checks": [
+    "schema"
+  ],
+  "probes": [
+    {
+      "id": "exact-reversal-0",
+      "task_ids": [
+        "prime-reverse-text-train-0000"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "reference",
+          "input": {
+            "completion": "<reversed_text>ti otni degrem saw kcurB ni ytinummoc ehT</reversed_text>"
+          }
+        },
+        {
+          "id": "variant",
+          "input": {
+            "completion": "<reversed_text></reversed_text>"
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          1.0,
+          0.0
+        ],
+        "tolerance": 1e-12,
+        "justification": "An exact character-for-character reversal has similarity1; an empty field has similarity0 against this nonempty reference. Preserve source whitespace."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "exact-reversal-1",
+      "task_ids": [
+        "prime-reverse-text-train-0001"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "reference",
+          "input": {
+            "completion": "<reversed_text>yretemec nwo sti detaruguani ytinummoc eht 1981 nI</reversed_text>"
+          }
+        },
+        {
+          "id": "variant",
+          "input": {
+            "completion": "<reversed_text></reversed_text>"
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          1.0,
+          0.0
+        ],
+        "tolerance": 1e-12,
+        "justification": "An exact character-for-character reversal has similarity1; an empty field has similarity0 against this nonempty reference. Preserve source whitespace."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "exact-reversal-2",
+      "task_ids": [
+        "prime-reverse-text-train-0002"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "reference",
+          "input": {
+            "completion": "<reversed_text>kcurB ni devil sweJ on 0091 retfa dna ,4981 ni devlossid saw frodsreiaB fo etanibbaR eht ,dnah rehto eht nO</reversed_text>"
+          }
+        },
+        {
+          "id": "variant",
+          "input": {
+            "completion": "<reversed_text></reversed_text>"
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          1.0,
+          0.0
+        ],
+        "tolerance": 1e-12,
+        "justification": "An exact character-for-character reversal has similarity1; an empty field has similarity0 against this nonempty reference. Preserve source whitespace."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "exact-reversal-49",
+      "task_ids": [
+        "prime-reverse-text-train-0049"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "reference",
+          "input": {
+            "completion": "<reversed_text> \"doirep laiceps eht fo ytilaer laicos wen eht ot denut yltcefrep retcarahc a\" saw nílonaM ,yaw siht nI</reversed_text>"
+          }
+        },
+        {
+          "id": "variant",
+          "input": {
+            "completion": "<reversed_text></reversed_text>"
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          1.0,
+          0.0
+        ],
+        "tolerance": 1e-12,
+        "justification": "An exact character-for-character reversal has similarity1; an empty field has similarity0 against this nonempty reference. Preserve source whitespace."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "outer-xml-whitespace",
+      "task_ids": [
+        "prime-reverse-text-train-0000"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "plain",
+          "input": {
+            "completion": "<reversed_text>ti otni degrem saw kcurB ni ytinummoc ehT</reversed_text>"
+          }
+        },
+        {
+          "id": "outer-newlines",
+          "input": {
+            "completion": "\n<reversed_text>ti otni degrem saw kcurB ni ytinummoc ehT</reversed_text>\n"
+          }
+        }
+      ],
+      "relation": {
+        "kind": "invariant",
+        "tolerance": 0,
+        "justification": "Only whitespace outside the XML answer field changes; the requested reversed text is identical."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "declared-lcs-metric",
+      "task_ids": [
+        "prime-reverse-text-train-0000"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "reference",
+          "input": {
+            "completion": "<reversed_text>ti otni degrem saw kcurB ni ytinummoc ehT</reversed_text>"
+          }
+        },
+        {
+          "id": "variant",
+          "input": {
+            "completion": "<reversed_text>nd tgsmcekB irrm itT uo wye uiah ennoimct</reversed_text>"
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          1.0,
+          0.36585365853658536
+        ],
+        "tolerance": 1e-12,
+        "justification": "The source calls its metric longest common subsequence similarity. Independent DP finds15 common characters in two length41 strings, giving30/82. This tests the declared metric, not whether the perturbed answer is a correct reversal."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    }
+  ],
+  "execution": {
+    "partition": "amd-tw-verification",
+    "cpus": 2,
+    "memory": "4G",
+    "time_limit": "00:05:00",
+    "max_source_bytes": 4194304,
+    "max_source_files": 64,
+    "max_tasks": 10,
+    "max_probe_cases": 20,
+    "timeout_seconds": 45,
+    "max_probe_seconds": 240,
+    "max_output_bytes": 262144,
+    "allow_trusted_process": true,
+    "dependencies": {
+      "verifiers": "0.3.0",
+      "datasets": "4.3.0",
+      "pyarrow": "24.0.0"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "domains": {
+    "cyber": {
+      "field": "extra_info.instance_id",
+      "fallback": null
+    },
+    "webdev": {
+      "field": "extra_info.instance_id",
+      "equivalent_field": "extra_info.instance_json.task_id",
+      "fallback": null
+    },
+    "music": {
+      "field": "extra_info.src_id",
+      "fallback": null
+    }
+  }
+}

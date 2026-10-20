@@ -1,0 +1,191 @@
+{
+  "scope": {
+    "method": "Static source inspection only; no downloaded code, model API, sidecar, or verifier executed",
+    "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+    "selection": "First three General bundle directories in alphabetical order",
+    "source_hash_manifest": "research/mimo/general_review/source_hashes.json",
+    "downloaded_bytes": 188764,
+    "source_base": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss/tree/e8e81e4945270b6212204bad99de1e598f7fb077/general/envs"
+  },
+  "common_runtime": {
+    "shared_code": "verify.py, run_verify.py, and _helpers.py are byte-identical across the three selected bundles. Task-specific scoring definitions are in verifier_meta.json, including embedded check_code.",
+    "input_path": "run_verify.py reads the last assistant text from session JSONL; verify.py writes it to workspace/answer.md only when that file is absent or empty; each LLM criterion then reads answer.md.",
+    "scoring": "Non-gate text LLM criteria are judged separately and binary by prompt. Non-gate rule criteria execute check_code. Each non-gate item's missing weight defaults to 1. The reward is sum(weight * score) / sum(weight), unless a gate fails. The tier field does not change scoring in this sidecar path.",
+    "skips": "The sidecar skips method=agent and method=llm with judge=vision. None of the three bundles contains these. run_verify.py's VERIFY_AGENT_JUDGE switch filters /work/rubrics.json if present, but these manifests upload verifier_meta.json and no rubrics.json, so that switch does not disable their text LLM rubric.",
+    "judge_cost": "The selected bundles need at least 5, 6, and 4 external text-judge responses respectively at GRADE_VOTES=1 and with no gate failures. Each criterion is called independently. A parse failure can trigger a second response request per vote; transport retry logic allows up to four attempts per request. Judge model, URL, and keys are external environment settings (GA_JUDGE_*); default model string is gpt-4o-mini, but no endpoint or credentials are bundled. GA_JUDGE_PHASE_BUDGET defaults to 600 seconds shared across criteria. Dollar cost cannot be inferred from these sources. Judge unavailability yields reward_error=judge_crashed and a masked reward file, rather than an ordinary zero score.",
+    "evidence": [
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/run_verify.py:14",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/run_verify.py:54",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/run_verify.py:96",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/run_verify.py:141",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:64",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:86",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:122",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:129",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:311",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:343",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:420"
+    ]
+  },
+  "tasks": [
+    {
+      "bundle": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+      "prompt_contract": "Read-only closing-readiness conclusion: identify recommended installment sale and exclude superseded alternatives; approved county/city documentary-tax components and sum; status of material protections; closing principal and seller note; readiness and all-cash fallback; cite business sources.",
+      "prompt_evidence": [
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/instruction.md:1",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/instruction.md:3",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/instruction.md:7"
+      ],
+      "rubric": "Five weighted text LLM criteria: 0.20 current structure, 0.20 tax components, 0.25 protections, 0.20 payment split/fallback, 0.15 readiness. One additional non-gate rule source_data_present has default weight 1 and checks two source DBs, recommended transaction, seven active requirements, and approved decision; total scored weight is 2.0. No source protection gate is configured.",
+      "rubric_evidence": [
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:4",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:15",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:26",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:37",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:48",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:59",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:65"
+      ],
+      "judge_responses_minimum": 5
+    },
+    {
+      "bundle": "s3k_0001_accounting_audit_tax_en_t1_rl_002",
+      "prompt_contract": "Read-only ASC 740 management conclusion: realization threshold, historical negative evidence, limits of forecast, gross deferred tax asset, full valuation allowance, net deferred tax asset, audited versus forecast distinction, unresolved Section 382 study, and source citations.",
+      "prompt_evidence": [
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/instruction.md:1",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/instruction.md:3",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/instruction.md:5"
+      ],
+      "rubric": "Six text LLM criteria, default weight 1 each: threshold, negative evidence, forecast conclusion, gross DTA, allowance/net DTA, Section 382/source distinction. check_code defines read_only_sanity, but no criterion references it, so it is not executed by the sidecar scoring path. No source protection gate is configured.",
+      "rubric_evidence": [
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/verifier_meta.json:4",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/verifier_meta.json:14",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/verifier_meta.json:24",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/verifier_meta.json:34",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/verifier_meta.json:44",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/verifier_meta.json:54",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/verifier_meta.json:64"
+      ],
+      "judge_responses_minimum": 6
+    },
+    {
+      "bundle": "s3k_0001_accounting_audit_tax_en_t1_rl_003",
+      "prompt_contract": "Reconcile three provisional federal credit buckets by character, amount, and expiry to an audited balance; explain NOL versus credit ordering and Section 38 limitation; keep allocation provisional.",
+      "prompt_evidence": [
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/instruction.md:1",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/instruction.md:3",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/instruction.md:5"
+      ],
+      "rubric": "Four text LLM criteria, default weight 1 each: bucket classification, audited reconciliation, ordering/limitation, provisional status. check_code is only a docstring and no rule criterion exists. No source protection gate is configured.",
+      "rubric_evidence": [
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/verifier_meta.json:4",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/verifier_meta.json:14",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/verifier_meta.json:24",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/verifier_meta.json:34",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/verifier_meta.json:44"
+      ],
+      "judge_responses_minimum": 4
+    }
+  ],
+  "findings": [
+    {
+      "id": "G1_sanity_weight",
+      "status": "confirmed-static",
+      "hypothesis": "First bundle's sanity rule receives half of total reward on source state alone. If its source check passes and an available judge assigns zero to all five answer criteria, the computed reward is 1 / (1 + 1) = 0.5, despite no substantive answer passing.",
+      "evidence": [
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:7",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:59",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:65",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:349",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:386",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:395"
+      ],
+      "alternative_explanation": "The author might deliberately reward source integrity, but the sanity tier, absence of an explicit weight, and read-only prompt make a 50% share appear accidental. If the source state fails, the effect disappears; if the judge is unavailable, the run is masked rather than assigned 0.5.",
+      "cheapest_next_probe": "On amd-tw-verification, hold a pristine bundle state fixed and submit two answer texts: an empty/irrelevant answer and an answer satisfying exactly one 0.20 criterion. With a deterministic local judge stub, expected rewards are 0.50 and 0.60. Then use the external judge only if needed to verify production behavior.",
+      "runtime_confirmed": false
+    },
+    {
+      "id": "G2_answer_file_precedence",
+      "status": "confirmed-static",
+      "hypothesis": "Across all three bundles, a nonempty workspace/answer.md takes precedence over the final assistant response, although the prompts ask for a final response. A preexisting or agent-written answer file can make the scored text differ from the final response.",
+      "evidence": [
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/run_verify.py:14",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:420",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:428",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:285",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:8",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/instruction.md:5"
+      ],
+      "alternative_explanation": "The answer file may be intended as a fallback artifact for environments where chat output is inaccessible; initial workspace contents and actual session extraction have not been inspected. The first bundle explicitly forbids file changes, so writing answer.md would itself violate the instruction.",
+      "cheapest_next_probe": "On a compute node, run the verifier with fixed final assistant text and two otherwise identical workspaces differing only by a nonempty answer.md; use a local deterministic judge stub to observe which text is sent. First inspect the initial workspace to distinguish stale-file risk from agent-created-file risk.",
+      "runtime_confirmed": false
+    },
+    {
+      "id": "G3_unchecked_read_only_and_citations",
+      "status": "candidate",
+      "hypothesis": "The first bundle instructs the agent not to change files or database records, yet no src_protect or mutation rule is configured. The first and second prompts request source citations, but their rubric questions and anchors do not explicitly check citation presence.",
+      "evidence": [
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/instruction.md:7",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:2",
+        "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:65",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/instruction.md:5",
+        "snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/verifier_meta.json:2"
+      ],
+      "alternative_explanation": "External runtime policy may prohibit mutation, and a text judge may implicitly consider citations despite the specific rubric wording. These have not been inspected or measured.",
+      "cheapest_next_probe": "Use paired submissions with the same otherwise correct answer, with and without source citations; separately compare an unchanged workspace with one harmless added file. Run only in a disposable bundle on amd-tw-verification and inspect per-item reward details.",
+      "runtime_confirmed": false
+    }
+  ],
+  "runtime_trace": {
+    "branch": "verify.py::_grade first attempts to import synthesis.office_gen.grade_rubric; only ImportError/other import failure selects _grade_sc. The bundle docs call the sidecar self-contained and manifest uploads no office_gen, but pinned image contents were not inspected; deployed branch remains unresolved.",
+    "source_check": "The first task source_data_present checks original database presence and anchors. It is independent of answer text but not mathematically constant under all states: missing/modified DB anchors score 0. In a pristine read-only task it should be fixed at 1; actual state not inspected.",
+    "outer_reward": "Pinned verl General environment parses reward.json[reward] as float. It binarizes at full score only if instance.reward_binary_fullscore is truthy; the selected pinned dataset rows show no such field. EnvActor can additionally binarize if external REWARD_BINARIZE is enabled, using configurable threshold default 1.0. The pinned run_general.sh forwards these environment variables but does not define their values. Thus a 0.5 raw verifier reward is not proven to become a 0.5 training reward in all deployments.",
+    "missing_answer": "If there is no answer.md and the final assistant text is empty, neither the controller nor verifier materializes answer.md. The judge evidence then contains a missing-file marker. The judge prompt directs a 0 for unseen criteria, so with an available conforming judge and first-task source check passing, expected raw score is 0.5. A nonempty wrong answer that satisfies none of the five rubric anchors has the same expected score. This is a prediction, not observed execution.",
+    "evidence": [
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:408",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:420",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:285",
+      "snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:86",
+      "snapshots/pinned_verl/recipes/general/general_agent/environment.py:573",
+      "snapshots/pinned_verl/recipes/general/general_agent/environment.py:580",
+      "snapshots/pinned_verl/recipes/general/general_agent/environment.py:709",
+      "snapshots/pinned_verl/recipes/general/env_actor.py:101",
+      "snapshots/pinned_verl/recipes/general/env_actor.py:345",
+      "snapshots/pinned_verl/recipes/general/agent_loop.py:925",
+      "snapshots/pinned_verl/recipes/general/run_general.sh:133"
+    ]
+  },
+  "runtime_source_hash_manifest": "research/mimo/general_review/runtime_hashes.json",
+  "probe_plan": [
+    {
+      "step": 1,
+      "location": "amd-tw-verification compute node",
+      "action": "Inspect pinned sidecar image for synthesis.office_gen import availability and first-task state anchors; record image digest. Do not infer branch from bundle docstring alone.",
+      "expected": "Determine actual grading branch and whether source check returns 1."
+    },
+    {
+      "step": 2,
+      "location": "amd-tw-verification compute node",
+      "action": "In a disposable local sidecar-equivalent with fixed source DBs and deterministic stub judge, grade empty answer and nonempty wrong answer. Capture reward.json and reward_detail.json.",
+      "expected": "Both raw rewards 0.5 if _grade_sc is deployed and source check passes; five LLM zeros plus source rule 1."
+    },
+    {
+      "step": 3,
+      "location": "amd-tw-verification compute node",
+      "action": "Grade otherwise identical answer satisfying exactly the structure criterion, with stub returning 1 only for that criterion.",
+      "expected": "Raw verifier reward 0.6 (= (1 + 0.2) / 2)."
+    },
+    {
+      "step": 4,
+      "location": "source/config review",
+      "action": "Inspect effective REWARD_BINARIZE, REWARD_BINARIZE_THRESHOLD and instance.reward_binary_fullscore. Record both raw_reward/reward_continuous and rollout reward.",
+      "expected": "Identify whether training sees continuous 0.5/0.6 or binarized 0/1."
+    },
+    {
+      "step": 5,
+      "location": "amd-tw-verification compute node",
+      "action": "If necessary, compare same final assistant response with and without an agent-created nonempty answer.md; capture evidence sent to local judge stub.",
+      "expected": "Controller and verifier prefer answer.md."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "image": "docker.io/xiaomimimo/mimo-v2.6-rl-oss:format-code-task-002069",
+  "observed_at_utc": "2026-10-20T08:43:18.581816+00:00",
+  "manifest_digest": "sha256:88326a734ec3abb1fa9d44744796f819880f4801a74b940965d488ca69fd8b24",
+  "media_type": "application/vnd.oci.image.manifest.v1+json",
+  "platforms": [
+    {
+      "platform": {
+        "os": "linux",
+        "architecture": "amd64",
+        "variant": null
+      },
+      "manifest_digest": "sha256:88326a734ec3abb1fa9d44744796f819880f4801a74b940965d488ca69fd8b24",
+      "config": {
+        "mediaType": "application/vnd.oci.image.config.v1+json",
+        "digest": "sha256:0d069d29f090ea17dc3e4d92fb898ccdb7af9c66a89115d3723d240d8c788a08",
+        "size": 566
+      },
+      "layers": [
+        {
+          "digest": "sha256:11ab4f54b2bfb9af92cb660164e927081564f34a3769cca0d9eb53009efd69c7",
+          "size": 2984411075,
+          "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+        }
+      ],
+      "total_layer_compressed_bytes": 2984411075,
+      "config_metadata": {
+        "created": "2026-10-15T09:46:30.056060487Z",
+        "working_dir": null,
+        "user": null,
+        "entrypoint": null
+      }
+    }
+  ],
+  "authentication": "anonymous Docker Hub bearer token used in memory; token not retained"
+}

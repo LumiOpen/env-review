@@ -1,0 +1,25 @@
+{
+  "schema_version": "rlaudit.environment/v1",
+  "id": "apple999/wordle",
+  "framework": "verifiers_v0",
+  "loader": {
+    "source": "wordle",
+    "module": "wordle.wordle",
+    "factory": "load_environment",
+    "kwargs": {"max_guesses": 6}
+  },
+  "task": {
+    "dataset": "dataset",
+    "index": {"task": "metadata.answer_index"},
+    "expect": {"question": {"task": "prompt"}, "answer": {"task": "metadata.answer"}}
+  },
+  "interaction": {
+    "kind": "tool_sequence",
+    "tools": ["guess"],
+    "stop": "game_over",
+    "max_calls": 12,
+    "state_keys": ["game"]
+  },
+  "score": {"metric": "reward", "required_metrics": ["game_reward"]},
+  "capture": {"parsed_answer": false}
+}

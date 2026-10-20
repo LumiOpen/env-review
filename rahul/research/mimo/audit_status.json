@@ -1,0 +1,224 @@
+{
+  "phase": "First broad pass complete",
+  "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "inventory": {
+    "code_rows": 2602,
+    "general_rows": 989,
+    "general_agent_bundles": 925,
+    "general_terminal_bench_rows": 64,
+    "artifact": "inventory/summary.json"
+  },
+  "pilot": {
+    "code_reviewed": 3,
+    "general_reviewed": 3,
+    "selection_bias": "Code favors small test patches; initial General sample is alphabetical and all accounting tasks. No prevalence inference permitted."
+  },
+  "evidence_levels": {
+    "candidate": "A concrete failure hypothesis with source evidence and alternative explanations; no observed wrong verdict.",
+    "static_property": "Behavior follows from inspected source under stated assumptions, without runtime verification.",
+    "controlled_reproduction": "Observed under a recorded reduced setup, including explicitly substituted components.",
+    "environment_reproduction": "Observed through the pinned complete environment and supported configuration.",
+    "training_effect": "Observed during training with independent outcome measurements."
+  },
+  "findings": [
+    {
+      "id": "G1_sanity_weight",
+      "decision": "Controlled aggregation property; not an established incentive failure",
+      "evidence_level": "controlled_reproduction",
+      "artifact": "probes/general-reward-result.json",
+      "note": "Actual published input DB check passed. Substituted judge scores produce 0.5+0.5s. Increasing affine map preserves ranking; model judgment and production runtime untested."
+    },
+    {
+      "id": "G2_answer_file_precedence",
+      "decision": "Candidate restricted to explicit final-response/read-only contract",
+      "evidence_level": "static_property",
+      "artifact": "reviews/general.json"
+    },
+    {
+      "id": "G3_unchecked_read_only_and_citations",
+      "decision": "Candidate only; absent explicit checks do not prove wrong reward",
+      "evidence_level": "candidate",
+      "artifact": "reviews/general.json"
+    },
+    {
+      "id": "C1_mutable_golden_file",
+      "decision": "Prioritized for image inspection",
+      "evidence_level": "candidate",
+      "artifact": "reviews/code.json"
+    },
+    {
+      "id": "C2_javascript_typescript_gap",
+      "decision": "Coverage question; no defect established",
+      "evidence_level": "candidate",
+      "artifact": "reviews/code.json"
+    },
+    {
+      "id": "C3_go_json_scope",
+      "decision": "Coverage question; low priority",
+      "evidence_level": "candidate",
+      "artifact": "reviews/code.json"
+    }
+  ],
+  "jobs": [
+    {
+      "job_id": 55615,
+      "name": "mimo-general-probe",
+      "state": "COMPLETED",
+      "elapsed_seconds": 0,
+      "exit_code": "0:0",
+      "allocated_cpus": 1,
+      "requested_memory": "1G",
+      "partition": "amd-tw-verification",
+      "node": "tus1-p15-g62"
+    },
+    {
+      "job_id": 55616,
+      "name": "mimo-code-fixture-inspect",
+      "state": "COMPLETED",
+      "elapsed_seconds": 72,
+      "exit_code": "0:0",
+      "allocated_cpus": 2,
+      "requested_memory": "8G",
+      "partition": "amd-tw-verification",
+      "node": "tus1-p15-g62"
+    },
+    {
+      "job_id": 55621,
+      "name": "mimo-gen-actions",
+      "state": "COMPLETED",
+      "elapsed_seconds": 8,
+      "exit_code": "0:0",
+      "allocated_cpus": 1,
+      "requested_memory": "2G",
+      "partition": "amd-tw-verification",
+      "node": "tus1-p15-g47"
+    },
+    {
+      "job_id": 55622,
+      "name": "mimo-code-static-scan",
+      "state": "FAILED",
+      "elapsed_seconds": 0,
+      "exit_code": "1:0",
+      "allocated_cpus": 2,
+      "requested_memory": "4G",
+      "partition": "amd-tw-verification",
+      "node": "tus1-p15-g47"
+    },
+    {
+      "job_id": 55623,
+      "name": "mimo-code-static-scan",
+      "state": "COMPLETED",
+      "elapsed_seconds": 1,
+      "exit_code": "0:0",
+      "allocated_cpus": 2,
+      "requested_memory": "4G",
+      "partition": "amd-tw-verification",
+      "node": "tus1-p15-g47"
+    },
+    {
+      "job_id": 55624,
+      "name": "mimo-money-format",
+      "state": "COMPLETED",
+      "elapsed_seconds": 1,
+      "exit_code": "0:0",
+      "allocated_cpus": 1,
+      "requested_memory": "2G",
+      "partition": "amd-tw-verification",
+      "node": "tus1-p15-g47"
+    },
+    {
+      "job_id": 55625,
+      "name": "mimo-code-static-scan",
+      "state": "COMPLETED",
+      "elapsed_seconds": 1,
+      "exit_code": "0:0",
+      "allocated_cpus": 2,
+      "requested_memory": "4G",
+      "partition": "amd-tw-verification",
+      "node": "tus1-p15-g47"
+    },
+    {
+      "job_id": 55626,
+      "name": "mimo-money-isolated",
+      "state": "COMPLETED",
+      "elapsed_seconds": 1,
+      "exit_code": "0:0",
+      "allocated_cpus": 1,
+      "requested_memory": "2G",
+      "partition": "amd-tw-verification",
+      "node": "tus1-p15-g47"
+    },
+    {
+      "job_id": 55627,
+      "name": "mimo-code-static-scan",
+      "state": "COMPLETED",
+      "elapsed_seconds": 1,
+      "exit_code": "0:0",
+      "allocated_cpus": 2,
+      "requested_memory": "4G",
+      "partition": "amd-tw-verification",
+      "node": "tus1-p15-g47"
+    }
+  ],
+  "cost_control": {
+    "external_model_api_calls": 0,
+    "rl_training_runs": 0,
+    "delegated_model_cost": "Not exposed by agent tooling; cannot give exact dollar total",
+    "source_downloads": "~16.4MB core data plus small source snapshots",
+    "image_download": "One planned 2,984,411,075-byte compressed image on compute node only"
+  },
+  "local_inventory_dependencies": {
+    "python": "3.13.12",
+    "pyarrow": "24.0.0",
+    "requests": "2.32.5"
+  },
+  "roles": {
+    "inventory": "Luna",
+    "general_investigation": "Sol",
+    "code_investigation": "Sol",
+    "independent_review": "Investigators cross-reviewed the other domain",
+    "orchestration_and_probe": "Primary agent"
+  },
+  "latest_user_steering": "Set problematic/unresolved parts aside and continue remaining General and Code audit.",
+  "parked_work": [
+    {
+      "id": "C1_mutable_golden_file",
+      "reason": "Image-dependent executable probe deferred under user steering; image inspection completed, reward probe not submitted.",
+      "prepared_script": "scripts/code_reward_probe.py"
+    },
+    {
+      "id": "General_channel_and_sanity_probes",
+      "reason": "Existing controlled and static evidence retained; no paid judge or further channel probe currently scheduled."
+    }
+  ],
+  "phase_report": "phase1_report.json",
+  "confirmed_component_findings": [
+    {
+      "id": "G4_money_grouping_false_rejection",
+      "task_id": "s3k_1401_healthcare_ops_en_t4_rl_007",
+      "evidence_level": "component_reproduction_independently_reviewed",
+      "requirement": "DOCX memo must contain a readable metric table; prompt specifies no thousands-separator convention.",
+      "observation": "Identical numeric figures in two positive table cells pass with commas and fail without commas. All other document text including negative amount is fixed.",
+      "results": {
+        "grouped": 1,
+        "ungrouped": 0,
+        "rejected_numbers": [
+          "184672.54",
+          "162826.17"
+        ]
+      },
+      "mechanism": "The published _money helper searches for comma-formatted substrings instead of comparing numeric values.",
+      "evidence": "probes/money-format/55626/result.json",
+      "independent_review": "reviews/money_format.json",
+      "reproduction": "probes/money-format/55626/reproduction_manifest.json",
+      "limit": "Component check on paired synthetic DOCX tables; neither full submission, total reward nor training effect was measured."
+    }
+  ],
+  "scope": {
+    "code_rows_structurally_scanned": 2602,
+    "general_agent_prompts_screened": 925,
+    "general_metadata_bundles_sampled": 25,
+    "general_reference_answer_sets_checked": 2,
+    "general_terminal_bench_rows_inventory_only": 64
+  }
+}

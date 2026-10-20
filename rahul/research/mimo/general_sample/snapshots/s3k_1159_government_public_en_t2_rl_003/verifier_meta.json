@@ -1,0 +1,50 @@
+{
+ "items": [
+  {
+   "id": "top_cohort",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Does the final answer identify Medicaid fee-for-service (Medicaid FFS) as the cohort with the highest unweighted sampled-case error incidence among the six Medicaid/CHIP program-component cohorts in the approved, pinned Q3 2025 internal re-performance?",
+   "pass_anchor": "Pass only if the answer identifies the Medicaid FFS cohort (program Medicaid / component fee-for-service) as the top-ranked cohort. The comparison is across the six program-component cohorts after restricting to included sample cells in review run REVIEW_Q3_2025_REPERF, whose status is APPROVED and whose pin flag is set. Do not accept CHIP FFS, Medicaid eligibility, or a payment-weighted/national-benchmark result as the top cohort.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "top_counts",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Does the final answer report the top cohort's improper-case numerator as 17 and sampled-case denominator as 262?",
+   "pass_anchor": "Pass if the answer gives 17 improper sampled cases out of 262 sampled cases for Medicaid FFS. Accept ordinary equivalent wording such as '17/262' or '17 improper cases, 262 sampled cases'; do not require a particular punctuation or table format.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "top_rate",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Does the final answer state the Medicaid FFS incidence as approximately 6.49% (equivalently about 649 basis points), calculated from 17 divided by 262?",
+   "pass_anchor": "Pass if the answer reports approximately 6.49% for 17/262, with reasonable rounding tolerance of about ±0.02 percentage points, or gives the equivalent approximately 649 basis points. A materially different rate fails this item.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "basis_and_scope",
+   "tier": "important",
+   "method": "llm",
+   "question": "Does the final answer explicitly describe the result as unweighted case incidence and indicate that it used included cells from the approved, pinned Q3 2025 internal re-performance rather than a payment-weighted or national benchmark metric?",
+   "pass_anchor": "Pass if the answer clearly says the numerator and denominator are sampled/improper case counts aggregated over included cells, and identifies the approved pinned Q3 2025 internal re-performance scope. It may use equivalent business wording; it must distinguish this unweighted case-incidence calculation from payment-weighted improper-payment rates and from the national rolling benchmark.",
+   "files": [
+    "answer.md"
+   ]
+  }
+ ],
+ "check_code": "\"\"\"No deterministic post-state checks: task_003 is read-only and answer-based.\"\"\"\n\n",
+ "gold_answer": null,
+ "input": "db",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

@@ -1,0 +1,80 @@
+{
+  "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+  "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "source_manifest": "source_manifest.json",
+  "static_scan": {
+    "method": "Called rlaudit.adapters.normalize for each pinned parquet as inert data, then run_checks(tasks, [schema, mimo_contract]); no image, command, renderer, scorer, or judge execution.",
+    "cyber": {
+      "rows": 1000,
+      "findings": 0,
+      "checks": [
+        "description function/sanitizer/error type parseability",
+        "prompt-description equality",
+        "outer-inner ID equality",
+        "image-tag ID mapping"
+      ],
+      "adapter_observations": 0,
+      "parquet_sha256": "9e6e69034f4f3e6cfb5c901de642dddc7f4bacf35ab886b0e8eb53eb03084ba1"
+    },
+    "webdev": {
+      "rows": 2093,
+      "findings": 0,
+      "checks": [
+        "prompt-problem_statement equality",
+        "identifier equality",
+        "category=website",
+        "image reference presence"
+      ],
+      "adapter_observations": 0,
+      "parquet_sha256": "56ca6c96642666a27b756e20694ba60a4386d1761baadae86fd6768553d2cbac"
+    },
+    "music": {
+      "rows": 1000,
+      "findings": 0,
+      "checks": [
+        "positive integer bpm and nvoice_want",
+        "positive-fraction meter"
+      ],
+      "adapter_observations": 0,
+      "parquet_sha256": "8fa2c95fb008df032eae184f3304dd3a73e3d25727e3aac0a715484859fa4856"
+    }
+  },
+  "source_observations": [
+    {
+      "domain": "cyber",
+      "observation": "ARVO setup parses target function, sanitizer and error type from instance.description, or from problem_statement only when the description key is absent. Server matches those three fields against crash output; expected file is recorded but not compared in match expression. This is source behavior, not a demonstrated grading defect.",
+      "sources": [
+        "sources/arvo.py:26",
+        "sources/arvo.py:64",
+        "sources/server_arvo.py:197"
+      ]
+    },
+    {
+      "domain": "webdev",
+      "observation": "Group reward requires rendered screenshot and query score, then group pick and runtime gate; static row metadata cannot test renderer or external vision outcomes.",
+      "sources": [
+        "sources/group_reward.py:107",
+        "sources/group_pick.py:176",
+        "sources/group_pick.py:274"
+      ]
+    },
+    {
+      "domain": "music",
+      "observation": "compute_score extracts ABC, renders MIDI, and scores human-likeness features; extra_info is accepted by signature but unused, and requested BPM, meter, and voice count are not explicitly enforced here. No output was scored.",
+      "sources": [
+        "sources/pipeline.py:235",
+        "sources/score.py:111"
+      ]
+    }
+  ],
+  "synthetic_component_probe": {
+    "driver": "../../../../examples/drivers/mimo_webdev_reward.py",
+    "source": "sources/group_pick.py",
+    "case_rewards": [
+      0.0,
+      0.8333
+    ],
+    "scope": "component",
+    "interpretation": "Observed pinned reward arithmetic for synthetic inputs; not a defect or environment validation."
+  }
+}

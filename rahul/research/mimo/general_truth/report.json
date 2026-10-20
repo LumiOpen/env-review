@@ -1,0 +1,63 @@
+{
+  "scope": {
+    "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+    "tasks": [
+      "s3k_0438_consulting_bizops_analytics_en_t3_rl_004",
+      "s3k_0568_ecommerce_ops_en_t3_rl_001"
+    ],
+    "method": "Inspected task instructions and schema, then independently queried two bundled SQLite state databases using read-only immutable URI connections. No task code, Docker image, sidecar, model, judge, or document was executed or fetched.",
+    "download_bytes": 608000,
+    "source_hashes": "research/mimo/general_truth/source_hashes.json",
+    "queries": "research/mimo/general_truth/query.sql",
+    "query_results": "research/mimo/general_truth/results.json"
+  },
+  "findings": [
+    {
+      "task_id": "s3k_0438_consulting_bizops_analytics_en_t3_rl_004",
+      "status": "anchors_consistent_with_bundled_state",
+      "derivation": "Starting from the task's case ID RFP-2024-000731, intake_requests yields exactly one pre_change intake INT-2024-0731-0042 with validation_status rework_required and validation_outcome missing_supervisor_approval_evidence. Joining all rework rows by discovered intake_id yields exactly two validated rows with the same MISSING_SUPERVISOR_APPROVAL reason: RW-2024-0731-01 is resubmission 1 and reopened, with validated_case_count 1; RW-2024-0731-02 is resubmission 2 and resolved, with validated_case_count 0. The two evidence rows map to one distinct case and the stored validated case counts sum to 1. These independent routes support the rubric's one reportable case and both-row treatment.",
+      "rubric_comparison": "All three pass anchors are supported by the downloaded state. The phrase 'validated-rework case' in the first anchor is read as referring to validated rework history; the intake's own validation_status is rework_required. The anchor does not explicitly require the intake status to be validated.",
+      "assumptions": [
+        "The prompt's case ID uniquely selects the target intake, as also enforced by the schema's UNIQUE(case_id).",
+        "A validated rework row is identified by intake_rework_items.validation_status='validated'; both target rows meet this predicate.",
+        "Case-level count uses distinct case_id; recorded validated_case_count values provide an independent consistency check rather than being summed as two cases."
+      ],
+      "evidence": [
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/instruction.md:1",
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verifier_meta.json:10",
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verifier_meta.json:20",
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verifier_meta.json:30",
+        "research/mimo/general_truth/sources/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/tue_operations_intake/schema.sql:8",
+        "research/mimo/general_truth/sources/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/tue_operations_intake/schema.sql:26",
+        "research/mimo/general_truth/query.sql:3",
+        "research/mimo/general_truth/query.sql:11",
+        "research/mimo/general_truth/query.sql:22",
+        "research/mimo/general_truth/results.json:2"
+      ]
+    },
+    {
+      "task_id": "s3k_0568_ecommerce_ops_en_t3_rl_001",
+      "status": "anchors_consistent_with_bundled_state",
+      "derivation": "The merchant legal name selects Northstar Outdoor Commerce, Inc. In September 2025, filtering to completed_sales, non-summary rows and order bands with lower bound at least 150000 cents yields five dates: Sep 26=480, Sep 27=515, Sep 28=548, Sep 29=561, Sep 30=580 completed transactions. Their sum is 2684, and 580/2684*100 = 21.609538%, or 21.61% rounded. A distinct processor_dashboard_total row is marked is_summary_row=1 with a lower band of zero and 19406 reported transactions; it is excluded from both peak comparison and high-value monthly denominator.",
+      "rubric_comparison": "All four pass anchors match these independently selected and aggregated source rows. The peak label is unambiguous within the five selected high-value dated completed-sales cohorts; no tie occurs.",
+      "assumptions": [
+        "High-value means order_amount_band_lower_cents >= 150000, matching the task's order-at-or-above-$1500 definition.",
+        "Only the named merchant's September completed_sales rows that are not summary rows are comparable dated cohorts. The processor dashboard total is a different scope, not an additional sales date.",
+        "The sales_cohort_ledger.completed_transaction_count is the requested transaction count; issuer_authorization_events is a separate event table and was not added to it."
+      ],
+      "evidence": [
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/instruction.md:1",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/verifier_meta.json:7",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/verifier_meta.json:17",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/verifier_meta.json:27",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/verifier_meta.json:37",
+        "research/mimo/general_truth/sources/s3k_0568_ecommerce_ops_en_t3_rl_001/stripe_payments_ledger/schema.sql:1",
+        "research/mimo/general_truth/sources/s3k_0568_ecommerce_ops_en_t3_rl_001/stripe_payments_ledger/schema.sql:3",
+        "research/mimo/general_truth/query.sql:32",
+        "research/mimo/general_truth/query.sql:50",
+        "research/mimo/general_truth/results.json:46"
+      ]
+    }
+  ],
+  "interpretation": "This validates these rubric-anchor facts against the pinned bundled databases. It does not validate the full verifier contract, the correctness of external judging, the channel-precedence concern, or any RL training effect. No mismatch was found in these two anchor sets."
+}

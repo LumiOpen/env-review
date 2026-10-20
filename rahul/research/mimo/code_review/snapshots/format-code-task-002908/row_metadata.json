@@ -1,0 +1,8 @@
+{
+  "cwd": "/testbed",
+  "dataset_type": "opensource-code",
+  "docker_image": "format-code-task-002908:latest",
+  "instance_id": "format-code-task-002908",
+  "test_command": "bash /testbed/mimo_test_command.sh",
+  "verifier_timeout_sec": 1800
+}

@@ -1,0 +1,56 @@
+{
+  "phase": "Discovery only; no defects established and no upstream task code executed",
+  "pins": {
+    "dataset": "e8e81e4945270b6212204bad99de1e598f7fb077",
+    "verl": "79090e58195e80a9cfe251c95ae7a78a2132b6e2",
+    "mimo_agent": "c3df8469f250b15e7906487a6d52be4c1827a509",
+    "docker_digests": null
+  },
+  "counts": {
+    "code": 2602,
+    "cyber": 1000,
+    "general": 989,
+    "music": 1000,
+    "webdev": 2093,
+    "total_task_rows": 7684,
+    "general_bundle_directories": 925
+  },
+  "count_caveat": "Task rows are not unique runtime images. Relationship between 989 General rows and 925 bundles remains to be reconciled; this is not a confirmed defect. Size API is live/cache-backed rather than revision-addressed.",
+  "packaging": {
+    "tabular_parquet_bytes": 20225309,
+    "note": "This excludes bundled General documents and Docker images. Do not interpret HF displayed total size as the minimum audit download."
+  },
+  "runtime_findings": {
+    "code": "Row instance_json supplies test_patch, test_command, image and cwd. Runtime resets patched paths, applies tests at reward time, rewards zero exit status.",
+    "general": "HF bundles contain instructions, manifests, tools, state, documents, verifier metadata and Python verifier code; some grading uses external LLM endpoints.",
+    "cyber": "ARVO vulnerability reproduction, binary crash validation; runtime source inspected by Sol, image contents not inspected.",
+    "webdev": "Screenshot/visual evaluation includes group-relative judging; requires external vision endpoint for full reward.",
+    "music": "ABC-to-MIDI validity and music feature scoring; source inspected by Sol, no scorer run."
+  },
+  "sample_inspected": {
+    "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "source": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss/tree/e8e81e4945270b6212204bad99de1e598f7fb077/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "reads": [
+      "instruction.md",
+      "manifest.json",
+      "verifier_meta.json",
+      "verify.py",
+      "file tree"
+    ],
+    "observation": "Read-only business-analysis task over documents and four MCP-backed systems; verifier metadata includes weighted LLM rubric items. Documents and database contents have not been reviewed.",
+    "audit_question": "Reconcile requested behavior, accessible tools and evidence, active scoring criteria, and handling of unavailable judges. Do not claim violations based on source inspection alone."
+  },
+  "version_caution": "Dataset card update dated 2026-10-19 says Code images are preprocessed against reward hacking and anti_hack_cleanup must remain true. Current public release is not proven identical to historical training setup.",
+  "proposed_next_step": "Build source-only row-to-artifact inventory; classify grader types and costs; select small tasks with explicit contracts and inexpensive checks before paid judging or rollouts.",
+  "delegation": {
+    "Luna": "Dataset inventory",
+    "Sol": "Runtime/source inspection",
+    "primary": "Verified counts, inspected Code reward path and one General bundle, synthesized and persisted evidence"
+  },
+  "usage_limitations": "No paid external judge calls, Docker pulls, model rollouts or training runs. Exact delegated-agent dollar costs are unavailable.",
+  "sources": {
+    "dataset": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss/tree/e8e81e4945270b6212204bad99de1e598f7fb077",
+    "verl": "https://github.com/XiaomiMiMo/verl/tree/79090e58195e80a9cfe251c95ae7a78a2132b6e2",
+    "code_grader": "https://github.com/XiaomiMiMo/MiMo-Agent/blob/c3df8469f250b15e7906487a6d52be4c1827a509/src/mimoagent/environments/datasets/opensource_code.py"
+  }
+}

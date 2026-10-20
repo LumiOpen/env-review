@@ -1,0 +1,19 @@
+{
+  "canonical_run": 55626,
+  "prior_run": {
+    "job_id": 55624,
+    "status": "superseded_by_more_isolated_pair",
+    "reason": "Earlier pair changed grouping in negative amount too; canonical pair holds it fixed."
+  },
+  "script_sha256": "3ee9a61fef7b4a6d81f3789498bb32c5b468f561c44b6dbf2cf14345e273450d",
+  "script_snapshot": "research/mimo/probes/money-format/55626/probe_snapshot.py",
+  "result": "research/mimo/probes/money-format/55626/result.json",
+  "submission_command": "sbatch --partition=amd-tw-verification --cpus-per-task=1 --mem=2G --time=00:05:00 --wrap='/home/rahul.aralikatte@amd.com/.local/bin/uv run --no-project --with python-docx==1.2.0 --with lxml==5.4.0 python scripts/probe_general_money_format.py'",
+  "expected_component_scores": {
+    "commas": 1,
+    "no_commas": 0
+  },
+  "validation": "Unmodified task check_code, real generated DOCX tables, numerical equivalence independently checked with Decimal; only positive monetary grouping differs.",
+  "suggested_repair": "Compare parsed monetary values with documented tolerances rather than requiring a comma-formatted substring. Preserve handling of negative amounts and avoid accepting unrelated numbers.",
+  "scope_limit": "Neither complete artifact is asserted to satisfy the whole task. Result establishes a component counterexample only."
+}

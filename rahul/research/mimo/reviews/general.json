@@ -1,0 +1,80 @@
+{
+  "reviewed_report": "research/mimo/general_review/report.json",
+  "method": "Independent static review of saved source snapshots; no upstream execution or network calls",
+  "overall": "The report accurately describes several source-level mechanics. None currently establishes a harmful training incentive or a confirmed specification violation in deployed runs.",
+  "findings": [
+    {
+      "id": "G1_sanity_weight",
+      "verdict": "accepted raw arithmetic; downgraded as incentive failure",
+      "accepted": [
+        "In the self-contained sidecar branch, a passing source_data_present rule has default weight 1 while five text criteria sum to weight 1, so five zeros produce raw score 0.5.",
+        "The rule checks task source state rather than answer content, and the first prompt is read-only."
+      ],
+      "challenge": "For fixed pristine task state, raw reward equals 0.5 + 0.5 times the answer-only weighted score. This positive affine transform preserves within-task ranking. Under task-group mean-centering the 0.5 offset cancels; under standard-deviation normalization the positive scale also cancels. The saved general.yaml selects GRPO with norm_adv_by_std_in_grpo=false, so answer differences may be scaled down, but that is not evidence that empty answers are positively reinforced. A group of all-empty answers has zero centered advantage. Cross-task weighting, filtering, metric interpretation, and binarization could still matter.",
+      "unresolved": [
+        "The deployed image may select synthesis.office_gen.grade_rubric rather than the self-contained branch.",
+        "Effective REWARD_BINARIZE, REWARD_BINARIZE_THRESHOLD, reward_binary_fullscore, and exact trainer group construction are unknown.",
+        "Whether the source check passes in the actual task state is unobserved."
+      ],
+      "required_tests": [
+        "Confirm effective image grading branch and pristine source check.",
+        "Record raw verifier reward and final rollout reward under actual config for empty, wrong, and one-criterion answers.",
+        "If asserting an RL incentive defect, compare task-group advantages and downstream gradient weights under actual trainer configuration."
+      ],
+      "evidence": [
+        "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:4-65",
+        "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:343-414",
+        "research/mimo/general_review/snapshots/pinned_verl/recipes/general/config/general.yaml:84-87",
+        "research/mimo/general_review/snapshots/pinned_verl/recipes/general/env_actor.py:101-104",
+        "research/mimo/general_review/snapshots/pinned_verl/recipes/general/env_actor.py:345-352",
+        "research/mimo/general_review/snapshots/pinned_verl/recipes/general/general_agent/environment.py:573-584"
+      ]
+    },
+    {
+      "id": "G2_answer_file_precedence",
+      "verdict": "accepted precedence mechanics; downgraded as contract defect",
+      "accepted": [
+        "Pinned runtime preserves a nonempty agent-written workspace/answer.md and only copies the final reply if it is absent or empty.",
+        "Verifier-side materialization uses the same rule, and text criteria read answer.md."
+      ],
+      "challenge": "answer.md is an explicit grader artifact, and runtime deliberately materializes the final reply there. Thus the presence of answer.md alone is legitimate and does not imply answer leakage or a defect. The first task explicitly requests a final response and forbids file changes, so an agent-written divergent answer.md would violate that task while potentially being scored; that narrower channel mismatch is plausible. The second task says no file changes are required rather than forbidden, and the third does not ban them, so a blanket across-all-three violation is unsupported.",
+      "unresolved": [
+        "Initial workspace contents have not been inspected for a preexisting nonempty answer.md.",
+        "No observed divergent final-reply versus answer.md grading result.",
+        "Whether outer policy or instrumentation rejects agent-created files is unknown."
+      ],
+      "required_tests": [
+        "Inspect initial workspaces for answer.md and establish whether any content is preexisting.",
+        "For the first task, compare identical final replies with and without a divergent agent-created answer.md, capturing actual judge evidence and score; classify the file write as prompt-violating.",
+        "For other tasks, establish the intended artifact contract before calling the precedence a defect."
+      ],
+      "evidence": [
+        "research/mimo/general_review/snapshots/pinned_verl/recipes/general/general_agent/environment.py:709-721",
+        "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:420-434",
+        "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:285-307",
+        "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/instruction.md:7",
+        "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/instruction.md:5"
+      ]
+    },
+    {
+      "id": "G3_unchecked_read_only_and_citations",
+      "verdict": "accepted configured-check absence; candidate behavioral impact",
+      "accepted": [
+        "The first task says do not change files or databases; its verifier_meta.json has no src_protect and its only rule checks source anchor presence, not a full mutation diff.",
+        "The two citation-requesting prompts have no explicit citation criterion in their saved rubric items."
+      ],
+      "challenge": "These omissions do not prove that a harmful mutation is rewarded or that uncited answers receive full marks. The judge may consider citations implicitly; an external policy may reject mutation. The source anchor check can also fail for some mutations, so it is inaccurate to call all modifications unchecked.",
+      "required_tests": [
+        "On a disposable compute-node copy, compare pristine and harmless added-file states with identical correct answers; inspect per-item reward and any policy result.",
+        "Compare otherwise identical cited and uncited answers with the actual judge, preferably under controlled judge settings; retain criterion-level outputs."
+      ],
+      "evidence": [
+        "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/instruction.md:7",
+        "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json:2-70",
+        "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/instruction.md:5",
+        "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/verifier_meta.json:2-64"
+      ]
+    }
+  ],
+  "next_decision": "Prioritize branch/config and answer-channel probes only if General remains the selected audit. Report 0.5 as a conditional raw-score calibration issue, not a demonstrated reward-hacking incentive."
+}

@@ -1,0 +1,3 @@
+The environmental compliance team is preparing the FY2025 retirement worklist for Sydney Environmental Analytics Pty Ltd's Sydney Environmental Analytics LIMS. Review the two collection events dated June 17, 2025, and identify the canonical retirement assets that qualify as scheduled PCB material under the applicable more-than-50 mg/kg rule. Use only final-scope primary samples and the released final primary laboratory result for each sample.
+
+In your final response, provide the qualifying asset IDs and each final PCB concentration in mg/kg, the total number of qualifying assets, and a concise explanation of how you handled the superseded preliminary result and the records that fall at or below the threshold. Do not change any data.

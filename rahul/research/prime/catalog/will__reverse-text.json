@@ -1,0 +1,53 @@
+{
+  "endpoint": "https://api.primeintellect.ai/api/v1/environmentshub/will/reverse-text/@latest",
+  "retrieved_utc": "2026-10-20",
+  "data": {
+    "id": "y5cmu7i7hu0n31iivcezcfp2",
+    "name": "reverse-text",
+    "description": "Reverse a given text; evaluated by LCS similarity between the parsed answer and ground-truth reversal.",
+    "license": "Apache-2.0",
+    "visibility": "PUBLIC",
+    "owner": {
+      "type": "user",
+      "name": "will"
+    },
+    "created_at": "2025-08-22T02:28:46.549000",
+    "updated_at": "2025-10-23T07:28:04.866000",
+    "version_id": "ghkjmu12we8qo5tqyo0af78m",
+    "sha256": "9523b627a28dfba1104f5bc4526361a2ced57db7b22ac08432b339cc30a74a7a",
+    "metadata": {
+      "tags": [
+        "text",
+        "transformation",
+        "single-turn",
+        "xml"
+      ],
+      "license": "Apache-2.0",
+      "description": "Reverse a given text; evaluated by LCS similarity between the parsed answer and ground-truth reversal.",
+      "dependencies": [
+        "verifiers>=0.1.5.post0",
+        "datasets"
+      ],
+      "python_requires": ">=3.8",
+      "original_filename": "reverse-text-0.1.4.tar.gz"
+    },
+    "wheel_url": "https://hub.primeintellect.ai/will/reverse-text/@6941d487/reverse_text-0.1.4-py2.py3-none-any.whl",
+    "package_url": null,
+    "tracked_package_url": "https://hub.primeintellect.ai/will/reverse-text/@6941d487/download",
+    "simple_index_url": "https://hub.primeintellect.ai/will/simple/",
+    "install_index_url": "https://hub.primeintellect.ai/will/reverse-text/install/simple/",
+    "url_dependencies": [],
+    "runtime": "VERIFIERS_V0",
+    "verifiers_requirement": ">=0.1.5.post0",
+    "download_observed_final_url": "https://storage.googleapis.com/pihub-environments-prod/environments/packages/6941d4871c89-9523b627a28dfba1104f5bc4526361a2ced57db7b22ac08432b339cc30a74a7a-y5cmu7i7hu0n31iivcezcfp2.tar.gz",
+    "archive_sha256": "9523b627a28dfba1104f5bc4526361a2ced57db7b22ac08432b339cc30a74a7a",
+    "archive_bytes": 1656,
+    "archive_member_files": [
+      "README.md",
+      "pyproject.toml",
+      "reverse_text.py"
+    ],
+    "archive_members_safe": true,
+    "retrieved_utc": "2026-10-20"
+  }
+}

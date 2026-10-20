@@ -1,0 +1,205 @@
+{
+  "schema_version": "mimo-source-inventory/1",
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "source_only": true,
+  "upstream_code_executed": false,
+  "downloaded": {
+    "code.parquet": {
+      "bytes": 12619588,
+      "sha256": "3a5310751054dad1ac58cbf407c9234c1bf7775af5f3cc9be57474b39bd2a93b",
+      "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/raw/code.parquet"
+    },
+    "general_train.parquet": {
+      "bytes": 3122244,
+      "sha256": "9bfdc8b05d2bf2cb9e89815443d35507e4be30368aebf70928421795c10259b9",
+      "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/raw/general_train.parquet"
+    },
+    "image-mapping.jsonl": {
+      "bytes": 482537,
+      "sha256": "661c3c51b02682b6ef77e9f3b27fa1b813f799bf345b6621a8a56d5581f45440",
+      "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/raw/image-mapping.jsonl"
+    }
+  },
+  "directory_listing": {
+    "bytes": 131654,
+    "sha256": "7e45be7da41c0a0f02cde8b440c14825cf09eeebfc93c938b7e621d61ff8ac9f",
+    "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/raw/general-env-directories.json"
+  },
+  "domains": {
+    "code": {
+      "rows": 2602,
+      "columns": [
+        "data_source",
+        "ability",
+        "agent_name",
+        "prompt",
+        "reward_model",
+        "extra_info"
+      ]
+    },
+    "general": {
+      "rows": 989,
+      "columns": [
+        "data_source",
+        "ability",
+        "agent_name",
+        "prompt",
+        "reward_model",
+        "extra_info"
+      ]
+    }
+  },
+  "code_test_fields": {
+    "test_patch_present_rows": 2602,
+    "test_patch_nonempty_rows": 2602,
+    "test_patch_size_bytes": {
+      "count": 2602,
+      "min_bytes": 1182,
+      "median_bytes": 5305,
+      "max_bytes": 891656
+    },
+    "test_command_present_rows": 2602,
+    "test_command_nonempty_rows": 2602,
+    "test_command_size_bytes": {
+      "count": 2602,
+      "min_bytes": 34,
+      "median_bytes": 34,
+      "max_bytes": 81
+    }
+  },
+  "prompt_length_chars": {
+    "code": {
+      "count": 2602,
+      "min_chars": 99,
+      "median_chars": 1604,
+      "max_chars": 58653
+    },
+    "general": {
+      "count": 989,
+      "min_chars": 162,
+      "median_chars": 1001,
+      "max_chars": 3136
+    }
+  },
+  "general_directory_count": 925,
+  "general_rows_minus_directories": 64,
+  "general_reconciliation": {
+    "rows_matching_directory_id": 925,
+    "rows_with_no_directory_id_by_known_type": {
+      "matched_directory": 925,
+      "terminal_bench_row_without_general_env_directory": 64
+    },
+    "directory_ids_without_row_match": [],
+    "matched_directory_reference_count": 925,
+    "rows_by_dataset_type": {
+      "general_agent": 925,
+      "terminal_bench": 64
+    }
+  },
+  "image_mapping_rows": 3668,
+  "image_mapping_keys_count": 7336,
+  "image_mapping_coverage": {
+    "code_references": 2602,
+    "code_mapped": 2602,
+    "code_unmapped": [],
+    "general_references": 65,
+    "general_mapped": 65,
+    "general_unmapped": []
+  },
+  "duplicates": {
+    "code": {
+      "duplicate_ids": {},
+      "duplicate_id_count": 0,
+      "duplicate_prompt_hashes": {},
+      "duplicate_prompt_hash_count": 0
+    },
+    "general": {
+      "duplicate_ids": {},
+      "duplicate_id_count": 0,
+      "duplicate_prompt_hashes": {},
+      "duplicate_prompt_hash_count": 0
+    }
+  },
+  "candidate_selection": [
+    {
+      "rank": 1,
+      "row_index": 1634,
+      "test_patch_size_bytes": 1182,
+      "language_hint": "unknown",
+      "framework_hint": "express",
+      "hints_unverified": true
+    },
+    {
+      "rank": 2,
+      "row_index": 1057,
+      "test_patch_size_bytes": 1187,
+      "language_hint": "javascript",
+      "framework_hint": "unknown",
+      "hints_unverified": true
+    },
+    {
+      "rank": 3,
+      "row_index": 1250,
+      "test_patch_size_bytes": 1199,
+      "language_hint": "unknown",
+      "framework_hint": "unknown",
+      "hints_unverified": true
+    },
+    {
+      "rank": 4,
+      "row_index": 2003,
+      "test_patch_size_bytes": 1251,
+      "language_hint": "python",
+      "framework_hint": "unknown",
+      "hints_unverified": true
+    },
+    {
+      "rank": 5,
+      "row_index": 1803,
+      "test_patch_size_bytes": 1307,
+      "language_hint": "go",
+      "framework_hint": "unknown",
+      "hints_unverified": true
+    },
+    {
+      "rank": 6,
+      "row_index": 2538,
+      "test_patch_size_bytes": 1381,
+      "language_hint": "python",
+      "framework_hint": "express",
+      "hints_unverified": true
+    }
+  ],
+  "outputs": {
+    "rows_jsonl": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/rows.jsonl",
+    "rows_sha256": "996bc691b191f9dc7cbd03eb1c177ff0dd6b9651aee219b5ee3c0c3b016a1bc6",
+    "candidates": [
+      {
+        "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/candidates/candidate_01.json",
+        "sha256": "c9e73f746355dc844b9129d84eb80a0cbccf4a85e9e10babec86dfa277d604b8"
+      },
+      {
+        "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/candidates/candidate_02.json",
+        "sha256": "a9f3f513d872cff4dc5d71639d319a4f26bc66d7d578f2ac3933690d31372823"
+      },
+      {
+        "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/candidates/candidate_03.json",
+        "sha256": "d2005e72f0b12bfd710a853e326df8bbeb82bf52c2f08d13fa2e9e56184362af"
+      },
+      {
+        "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/candidates/candidate_04.json",
+        "sha256": "7c6339242323ee85748687507c24376eacd6dce0b2b7276f7163ffb9df55ca13"
+      },
+      {
+        "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/candidates/candidate_05.json",
+        "sha256": "243637006fc164f6e674577e8f0238660d2913ee7ac4461910c50b42845868ac"
+      },
+      {
+        "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/candidates/candidate_06.json",
+        "sha256": "2099a5c2eb4983ca056e3e8112be76cf379e051fb4d4d61266f3749170118f6b"
+      }
+    ],
+    "candidate_dir": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/candidates"
+  },
+  "reconciliation_note": "Of 989 General rows, 925 general_agent rows match s3k directory IDs and all 925 listed directories are matched. The remaining 64 rows are terminal_bench rows without a general/envs directory; this is explained by packaging/data-source type, not treated as a defect."
+}

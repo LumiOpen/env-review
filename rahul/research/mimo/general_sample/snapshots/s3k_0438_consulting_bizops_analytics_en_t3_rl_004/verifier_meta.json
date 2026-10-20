@@ -1,0 +1,40 @@
+{
+ "items": [
+  {
+   "id": "case_identity_and_intake_context",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the answer identify the target intake and correctly report its intake context and validation outcome?",
+   "pass_anchor": "Pass if the answer identifies intake_id INT-2024-0731-0042 for case RFP-2024-000731, states that it is the pre-change validated-rework case, and gives the recorded validation outcome as missing supervisor approval evidence. Equivalent wording is acceptable; do not require SQL field names."
+  },
+  {
+   "id": "two_evidence_rows_reconciled",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the answer reconcile both validated history entries, including their shared issue, sequence, and resolution state?",
+   "pass_anchor": "Pass if the answer states that both rows for INT-2024-0731-0042 concern MISSING_SUPERVISOR_APPROVAL, and distinguishes RW-2024-0731-01 as attempt 1 with resolution state reopened from RW-2024-0731-02 as attempt 2 with resolution state resolved. Natural-language equivalents such as 'first submission'/'second submission' and 'reopened'/'resolved' are acceptable."
+  },
+  {
+   "id": "case_level_count_and_row_treatment",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the answer apply the case-level rework definition and give the correct reportable count and evidence-row treatment?",
+   "pass_anchor": "Pass if the answer reports exactly 1 reportable rework case (RFP-2024-000731), explains that the cohort is counted by distinct case/intake issue rather than by evidence-row count, and says both history rows remain listed as evidence for that one case while the second occurrence does not create a second case. A clear equivalent deduplication explanation passes."
+        }
+ ],
+ "check_code": "#!/usr/bin/env python3\n\"\"\"No-op checker for a read-only, free-text response task.\"\"\"\n\nimport sqlite3\nfrom pathlib import Path\n\n\ndef target_records_are_present(workspace: Path):\n    \"\"\"Diagnostic helper; this task's scored criteria are intentionally LLM-routed.\"\"\"\n    db = workspace.parent / \"system\" / \"tue_operations_intake\" / \"state.db\"\n    if not db.exists():\n        return {\"score\": 0, \"detail\": \"intake database unavailable\"}\n    with sqlite3.connect(db) as connection:\n        request = connection.execute(\n            \"SELECT COUNT(*) FROM intake_requests WHERE intake_id=? AND case_id=?\",\n            (\"INT-2024-0731-0042\", \"RFP-2024-000731\"),\n        ).fetchone()[0]\n        rows = connection.execute(\n            \"SELECT COUNT(*) FROM intake_rework_items WHERE intake_id=? AND rework_reason_code=? AND validation_status=?\",\n            (\"INT-2024-0731-0042\", \"MISSING_SUPERVISOR_APPROVAL\", \"validated\"),\n        ).fetchone()[0]\n    score = int(request == 1 and rows == 2)\n    return {\"score\": score, \"detail\": f\"request_rows={request}, validated_history_rows={rows}\"}\n",
+ "gold_answer": null,
+ "input": "db",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

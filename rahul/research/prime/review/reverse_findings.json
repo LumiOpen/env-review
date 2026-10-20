@@ -1,0 +1,30 @@
+{
+  "declared_lcs_metric": {
+    "finding_id": "15e85e2b3c6456f850d722db",
+    "independent_bitset_lcs_length": 15,
+    "observed_reward": 0.2926829268292683,
+    "result_path": "runs/prime-v1/prime-reverse-text/probes/declared-lcs-metric/task-0b9fc17bfe814d223901c64b/variant/result.json",
+    "sequence_matcher_ratio": 0.2926829268292683,
+    "source_dataset_index": 0,
+    "string_lengths": [
+      41,
+      41
+    ],
+    "true_lcs_ratio": 0.36585365853658536
+  },
+  "exact_reversal_row49": {
+    "expected_exact_reward": 1.0,
+    "finding_id": "42dcf7bb60f0c3278232bb18",
+    "gold_length": 103,
+    "observed_reward": 0.9951219512195122,
+    "parsed_answer_loses_one_leading_space": true,
+    "parsed_length": 102,
+    "prompt_ends_with_space": true,
+    "result_path": "runs/prime-v1/prime-reverse-text/probes/exact-reversal-49/task-bfe766530d3cff1270a52542/reference/result.json",
+    "source_dataset_index": 49,
+    "source_gold_equals_character_reversal": true,
+    "submitted_answer_equals_source_gold": true
+  },
+  "review_scope": "Two selected source-rubric component probes; no prevalence or rollout claim",
+  "slurm_job_id": "55687"
+}

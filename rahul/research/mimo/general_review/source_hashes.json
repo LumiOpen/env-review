@@ -1,0 +1,95 @@
+{
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "files": [
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/instruction.md",
+      "bytes": 1943,
+      "sha256": "54066dda9e7d8064a47bde09025f8295ac9cd2e133ad086a4ee7dd1a28e3b16f"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/manifest.json",
+      "bytes": 1786,
+      "sha256": "735780380d3783c2162e691c9246872394824f12dc833f4f6ae79f650ed5d563"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json",
+      "bytes": 7280,
+      "sha256": "64218a1c0573ad03c14c67909c77bd33fde6392443883cc308ff6c77d6ad87ef"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py",
+      "bytes": 23526,
+      "sha256": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/run_verify.py",
+      "bytes": 6300,
+      "sha256": "839c5826eafb0b87d161197b3ad6106aa8eca236ed82f5eda9d67bbe7ae88fb8"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/_helpers.py",
+      "bytes": 25114,
+      "sha256": "8078e237ab386b039a653722c350b017a2dd05a476ce13f43edc42f5626d55b2"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/instruction.md",
+      "bytes": 1313,
+      "sha256": "c7bbf167203806845ab6e17a9253a1d9c2124f66670ccf0ca321b6587c1cab92"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/manifest.json",
+      "bytes": 1676,
+      "sha256": "5bf003a1fa5db7c5f52bd1810de812f8a949adb7f36135fcb899a819daa141d3"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/verifier_meta.json",
+      "bytes": 3997,
+      "sha256": "dd15ffccdb3aa18fb88726cfffdb0cc402778a25f521f2a790fb91d82546f805"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/verify.py",
+      "bytes": 23526,
+      "sha256": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/run_verify.py",
+      "bytes": 6300,
+      "sha256": "839c5826eafb0b87d161197b3ad6106aa8eca236ed82f5eda9d67bbe7ae88fb8"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_002/_helpers.py",
+      "bytes": 25114,
+      "sha256": "8078e237ab386b039a653722c350b017a2dd05a476ce13f43edc42f5626d55b2"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/instruction.md",
+      "bytes": 1364,
+      "sha256": "7707c149d9fd1d322779d34f8904eb4b0f9d97c53b32c6c412aac797876d07f8"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/manifest.json",
+      "bytes": 1676,
+      "sha256": "5bf003a1fa5db7c5f52bd1810de812f8a949adb7f36135fcb899a819daa141d3"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/verifier_meta.json",
+      "bytes": 2909,
+      "sha256": "f03ad9cccdd3bb0697b3002bc3d628d0e8fadaf9a2a812b0defebfe65ffe9cbc"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/verify.py",
+      "bytes": 23526,
+      "sha256": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/run_verify.py",
+      "bytes": 6300,
+      "sha256": "839c5826eafb0b87d161197b3ad6106aa8eca236ed82f5eda9d67bbe7ae88fb8"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/s3k_0001_accounting_audit_tax_en_t1_rl_003/_helpers.py",
+      "bytes": 25114,
+      "sha256": "8078e237ab386b039a653722c350b017a2dd05a476ce13f43edc42f5626d55b2"
+    }
+  ]
+}

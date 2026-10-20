@@ -1,0 +1,17 @@
+{
+  "url": "https://huggingface.co/api/datasets/PrimeIntellect/Reverse-Text-RL/tree/b6dc8a0d8c9f59cbd4b38c490aed11f5a31c8c7f/data",
+  "data": [
+    {
+      "type": "file",
+      "oid": "1498520e52c3bbcb88ea4b124603e628d0f7e063",
+      "size": 63899,
+      "lfs": {
+        "oid": "3cff91965e9de35d04a1d9297535bd13f8268aa38201abec97b6a5d94e7dabe2",
+        "size": 63899,
+        "pointerSize": 130
+      },
+      "xetHash": "9873cf5da33807517787aa3117c86ec4b995d850124779bef60935c1e7a45de9",
+      "path": "data/train-00000-of-00001.parquet"
+    }
+  ]
+}

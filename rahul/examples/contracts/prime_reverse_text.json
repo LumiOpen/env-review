@@ -1,0 +1,29 @@
+{
+  "schema_version": "rlaudit.environment/v1",
+  "id": "will/reverse-text",
+  "framework": "verifiers_v0",
+  "loader": {
+    "source": "reverse_text",
+    "module": "reverse_text",
+    "factory": "load_environment",
+    "kwargs": {"dataset_name": {"source": "reverse_dataset"}, "dataset_split": "train"}
+  },
+  "task": {
+    "dataset": "dataset",
+    "index": {"task": "metadata.fixture_index"},
+    "expect": {
+      "question": {"task": "prompt"},
+      "source_row_id": {"task": "metadata.source_row_id"},
+      "answer": {"task": "metadata.expected_answer"}
+    }
+  },
+  "interaction": {"kind": "completion"},
+  "score": {"metric": "reward", "required_metrics": ["lcs_reward_func"]},
+  "capture": {"parsed_answer": true},
+  "oracle": {
+    "kind": "lcs",
+    "candidate": {"case": "input.completion"},
+    "expected": {"task": "metadata.expected_answer"},
+    "tag": "reversed_text"
+  }
+}

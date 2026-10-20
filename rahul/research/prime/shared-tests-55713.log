@@ -1,0 +1,100 @@
+test_code_archive_is_read_in_memory_and_command_flag_is_candidate (test_adapters.AdapterTests.test_code_archive_is_read_in_memory_and_command_flag_is_candidate) ... ok
+test_code_parquet_retains_full_instance_without_executing_patch (test_adapters.AdapterTests.test_code_parquet_retains_full_instance_without_executing_patch) ... ok
+test_general_contract_reports_explicit_rubric_inconsistencies_only (test_adapters.AdapterTests.test_general_contract_reports_explicit_rubric_inconsistencies_only) ... ok
+test_general_missing_files_are_observations_and_existing_files_are_mapped (test_adapters.AdapterTests.test_general_missing_files_are_observations_and_existing_files_are_mapped) ... ok
+test_invalid_archive_does_not_fall_back_to_extraction_wrapper (test_adapters.AdapterTests.test_invalid_archive_does_not_fall_back_to_extraction_wrapper) ... ok
+test_local_jsonl_rejects_invalid_json_and_unsafe_file_references (test_adapters.AdapterTests.test_local_jsonl_rejects_invalid_json_and_unsafe_file_references) ... ok
+test_local_jsonl_selects_sorted_ids_and_hashes_file_source (test_adapters.AdapterTests.test_local_jsonl_selects_sorted_ids_and_hashes_file_source) ... ok
+test_schema_duplicates_and_unsupported_check_coverage (test_adapters.AdapterTests.test_schema_duplicates_and_unsupported_check_coverage) ... ok
+test_bad_reference_fails_closed (test_contracts.ContractTests.test_bad_reference_fails_closed) ... ok
+test_case_reference_requires_case_and_source_id_must_be_declared (test_contracts.ContractTests.test_case_reference_requires_case_and_source_id_must_be_declared) ... ok
+test_oracle_schema_rejects_unsupported_and_unknown_rules (test_contracts.ContractTests.test_oracle_schema_rejects_unsupported_and_unknown_rules) ... ok
+test_schema_rejects_mistakes (test_contracts.ContractTests.test_schema_rejects_mistakes) ... ok
+test_tool_contract_allows_declared_public_stop_method (test_contracts.ContractTests.test_tool_contract_allows_declared_public_stop_method) ... ok
+test_valid_contract_and_recursive_resolution (test_contracts.ContractTests.test_valid_contract_and_recursive_resolution) ... ok
+test_pipeline_sources_resolve_relative_to_config (test_examples.LocalExampleTests.test_pipeline_sources_resolve_relative_to_config) ... ok
+test_probe_task_ids_and_cases_match_the_examples (test_examples.LocalExampleTests.test_probe_task_ids_and_cases_match_the_examples) ... ok
+test_task_records_have_canonical_shape_and_unique_ids (test_examples.LocalExampleTests.test_task_records_have_canonical_shape_and_unique_ids) ... ok
+test_cyber_missing_description_uses_statement_fallback (test_mimo_contracts.ContractTests.test_cyber_missing_description_uses_statement_fallback) ... ok
+test_cyber_unparseable_target_and_image_mismatch (test_mimo_contracts.ContractTests.test_cyber_unparseable_target_and_image_mismatch) ... ok
+test_cyber_valid_and_different_grader_target (test_mimo_contracts.ContractTests.test_cyber_valid_and_different_grader_target) ... ok
+test_music_positive_constraints_and_coverage (test_mimo_contracts.ContractTests.test_music_positive_constraints_and_coverage) ... ok
+test_reviewed_webdev_arithmetic_component (test_mimo_contracts.ContractTests.test_reviewed_webdev_arithmetic_component) ... ok
+test_webdev_query_and_identifiers (test_mimo_contracts.ContractTests.test_webdev_query_and_identifiers) ... ok
+test_all_domains_preserve_source_row_and_native_id (test_mimo_subsets.MimoSubsetTests.test_all_domains_preserve_source_row_and_native_id) ... ok
+test_domain_checks_skip_invalid_task_schema (test_mimo_subsets.MimoSubsetTests.test_domain_checks_skip_invalid_task_schema) ... ok
+test_manifest_requires_pinned_pyarrow_for_each_subset (test_mimo_subsets.MimoSubsetTests.test_manifest_requires_pinned_pyarrow_for_each_subset) ... ok
+test_pinned_subsets_fully_normalize_when_available (test_mimo_subsets.MimoSubsetTests.test_pinned_subsets_fully_normalize_when_available) ... ok
+test_repeated_native_ids_are_visible_even_when_one_row_selected (test_mimo_subsets.MimoSubsetTests.test_repeated_native_ids_are_visible_even_when_one_row_selected) ... ok
+test_selection_and_malformed_rows_keep_evidence (test_mimo_subsets.MimoSubsetTests.test_selection_and_malformed_rows_keep_evidence) ... ok
+test_wrong_data_source_is_a_row_error_with_source_evidence (test_mimo_subsets.MimoSubsetTests.test_wrong_data_source_is_a_row_error_with_source_evidence) ... ok
+test_arithmetic_tag_and_rule_boundaries (test_oracles.OracleTests.test_arithmetic_tag_and_rule_boundaries) ... ok
+test_arithmetic_validity_comes_from_submitted_completion (test_oracles.OracleTests.test_arithmetic_validity_comes_from_submitted_completion) ... ok
+test_declared_arithmetic_rules_can_allow_negative_and_fractional_steps (test_oracles.OracleTests.test_declared_arithmetic_rules_can_allow_negative_and_fractional_steps) ... ok
+test_exact_text_preserves_whitespace_inside_tag (test_oracles.OracleTests.test_exact_text_preserves_whitespace_inside_tag) ... ok
+test_lcs_uses_independent_dynamic_programming (test_oracles.OracleTests.test_lcs_uses_independent_dynamic_programming) ... ok
+test_observation_cannot_change_reference_fact (test_oracles.OracleTests.test_observation_cannot_change_reference_fact) ... ok
+test_oracle_malformed_spec_and_missing_ref_raise (test_oracles.OracleTests.test_oracle_malformed_spec_and_missing_ref_raise) ... ok
+test_adapter_errors_are_preserved_and_block_their_probe_target (test_pipeline.PipelineTests.test_adapter_errors_are_preserved_and_block_their_probe_target) ... ok
+test_added_symlink_directory_is_detected (test_pipeline.PipelineTests.test_added_symlink_directory_is_detected) ... ok
+test_bad_record_does_not_block_independent_valid_probe_target (test_pipeline.PipelineTests.test_bad_record_does_not_block_independent_valid_probe_target) ... ok
+test_directory_snapshot_preserves_name_empty_dirs_and_executable_bit (test_pipeline.PipelineTests.test_directory_snapshot_preserves_name_empty_dirs_and_executable_bit) ... ok
+test_invalid_task_schema_blocks_probes_and_marks_data_errors (test_pipeline.PipelineTests.test_invalid_task_schema_blocks_probes_and_marks_data_errors) ... ok
+test_login_execution_is_rejected (test_pipeline.PipelineTests.test_login_execution_is_rejected) ... ok
+test_manifest_rejects_typos_unsafe_execution_and_nonfinite_data (test_pipeline.PipelineTests.test_manifest_rejects_typos_unsafe_execution_and_nonfinite_data) ... ok
+test_noop_audit_is_rejected_and_schema_cannot_be_disabled (test_pipeline.PipelineTests.test_noop_audit_is_rejected_and_schema_cannot_be_disabled) ... ok
+test_opaque_task_ids_never_become_filesystem_paths (test_pipeline.PipelineTests.test_opaque_task_ids_never_become_filesystem_paths) ... ok
+test_probe_failure_is_inconclusive_not_zero_reward (test_pipeline.PipelineTests.test_probe_failure_is_inconclusive_not_zero_reward) ... ok
+test_recorded_engine_can_replay_without_repository_package (test_pipeline.PipelineTests.test_recorded_engine_can_replay_without_repository_package) ... ok
+test_replay_uses_snapshot_after_original_changes (test_pipeline.PipelineTests.test_replay_uses_snapshot_after_original_changes) ... ok
+test_slurm_submission_uses_argv_and_runs_whole_worker (test_pipeline.PipelineTests.test_slurm_submission_uses_argv_and_runs_whole_worker) ... ok
+test_source_mutation_by_trusted_driver_fails_run (test_pipeline.PipelineTests.test_source_mutation_by_trusted_driver_fails_run) ... ok
+test_submission_rejects_source_nesting_before_mutating_source (test_pipeline.PipelineTests.test_submission_rejects_source_nesting_before_mutating_source) ... ok
+test_symlinks_bad_pins_and_size_budget_are_rejected (test_pipeline.PipelineTests.test_symlinks_bad_pins_and_size_budget_are_rejected) ... ok
+test_tampered_snapshot_and_added_artifacts_are_detected (test_pipeline.PipelineTests.test_tampered_snapshot_and_added_artifacts_are_detected) ... ok
+test_countdown_real_generated_row_and_invalid_solutions (test_prime_drivers.PrimeDriversTest.test_countdown_real_generated_row_and_invalid_solutions) ... ok
+test_reverse_logged_grader_error_is_not_recorded_as_zero_reward (test_prime_drivers.PrimeDriversTest.test_reverse_logged_grader_error_is_not_recorded_as_zero_reward) ... The parser and rubric parser are different. This may cause unexpected behavior.
+ok
+test_reverse_real_row_uses_pinned_source_ratio (test_prime_drivers.PrimeDriversTest.test_reverse_real_row_uses_pinned_source_ratio) ... ok
+test_wordle_tool_state_and_speed (test_prime_drivers.PrimeDriversTest.test_wordle_tool_state_and_speed) ... ok
+test_case_bound_and_docker_digest (test_probes.ProbeTests.test_case_bound_and_docker_digest) ... ok
+test_docker_forwards_stdin_and_overrides_entrypoint (test_probes.ProbeTests.test_docker_forwards_stdin_and_overrides_entrypoint) ... ok
+test_docker_memory_matches_slurm_units (test_probes.ProbeTests.test_docker_memory_matches_slurm_units) ... ok
+test_format_sensitive_toy_is_candidate (test_probes.ProbeTests.test_format_sensitive_toy_is_candidate) ... ok
+test_malformed_and_nonfinite_are_inconclusive (test_probes.ProbeTests.test_malformed_and_nonfinite_are_inconclusive) ... ok
+test_module_driver_uses_recorded_engine_and_excludes_host_pythonpath (test_probes.ProbeTests.test_module_driver_uses_recorded_engine_and_excludes_host_pythonpath) ... ok
+test_nondecreasing_state_holds_only_in_sample (test_probes.ProbeTests.test_nondecreasing_state_holds_only_in_sample) ... ok
+test_output_cap_is_inconclusive (test_probes.ProbeTests.test_output_cap_is_inconclusive) ... ok
+test_relations_are_evaluated_per_task (test_probes.ProbeTests.test_relations_are_evaluated_per_task) ... ok
+test_requires_slurm_and_trusted_opt_in (test_probes.ProbeTests.test_requires_slurm_and_trusted_opt_in) ... ok
+test_scheduler_gpu_visibility_is_preserved_without_credentials (test_probes.ProbeTests.test_scheduler_gpu_visibility_is_preserved_without_credentials) ... ok
+test_timeout_is_inconclusive (test_probes.ProbeTests.test_timeout_is_inconclusive) ... ok
+test_cli_emits_one_json_object_despite_source_stdout (test_verifiers_adapter.VerifiersAdapterTest.test_cli_emits_one_json_object_despite_source_stdout) ... ok
+test_declared_tool_bound_and_stop_condition_are_enforced (test_verifiers_adapter.VerifiersAdapterTest.test_declared_tool_bound_and_stop_condition_are_enforced) ... source loader emitted evidence
+ok
+test_independent_oracle_does_not_change_source_reward (test_verifiers_adapter.VerifiersAdapterTest.test_independent_oracle_does_not_change_source_reward) ... source loader emitted evidence
+ok
+test_initial_state_preserves_present_falsey_info (test_verifiers_adapter.VerifiersAdapterTest.test_initial_state_preserves_present_falsey_info) ... ok
+test_logged_grading_error_fails_instead_of_returning_zero (test_verifiers_adapter.VerifiersAdapterTest.test_logged_grading_error_fails_instead_of_returning_zero) ... source loader emitted evidence
+ok
+test_reverse_source_loads_local_dataset_directory_without_hook (test_verifiers_adapter.VerifiersAdapterTest.test_reverse_source_loads_local_dataset_directory_without_hook) ... Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 2 examples [00:00, 1032.83 examples/s]
+Map:   0%|          | 0/2 [00:00<?, ? examples/s]Map: 100%|██████████| 2/2 [00:00<00:00, 622.49 examples/s]
+The parser and rubric parser are different. This may cause unexpected behavior.
+Map:   0%|          | 0/2 [00:00<?, ? examples/s]Map: 100%|██████████| 2/2 [00:00<00:00, 511.88 examples/s]
+ok
+test_selected_row_mismatch_fails_before_scoring (test_verifiers_adapter.VerifiersAdapterTest.test_selected_row_mismatch_fails_before_scoring) ... source loader emitted evidence
+ok
+test_source_turn_bound_is_enforced_even_if_contract_is_looser (test_verifiers_adapter.VerifiersAdapterTest.test_source_turn_bound_is_enforced_even_if_contract_is_looser) ... source loader emitted evidence
+ok
+test_unrelated_completion_uses_declared_module_row_and_rubric (test_verifiers_adapter.VerifiersAdapterTest.test_unrelated_completion_uses_declared_module_row_and_rubric) ... source loader emitted evidence
+ok
+test_unrelated_tool_sequence_calls_declared_source_methods (test_verifiers_adapter.VerifiersAdapterTest.test_unrelated_tool_sequence_calls_declared_source_methods) ... source loader emitted evidence
+ok
+test_wordle_package_imports_and_replays_source_tool (test_verifiers_adapter.VerifiersAdapterTest.test_wordle_package_imports_and_replays_source_tool) ... Map:   0%|          | 0/2300 [00:00<?, ? examples/s]Map: 100%|██████████| 2300/2300 [00:00<00:00, 83179.42 examples/s]
+Map:   0%|          | 0/2300 [00:00<?, ? examples/s]Map:  42%|████▏     | 974/2300 [00:00<00:00, 4830.92 examples/s]Map: 100%|██████████| 2300/2300 [00:00<00:00, 10291.35 examples/s]
+ok
+
+----------------------------------------------------------------------
+Ran 81 tests in 49.166s
+
+OK

@@ -1,0 +1,4 @@
+* text=auto eol=lf
+
+# Research inputs and evidence are content-hashed; preserve their exact bytes.
+research/** -text -whitespace

@@ -1,0 +1,57 @@
+{
+  "review_type": "Independent static challenge of research/mimo/code_review/report.json",
+  "scope": "Read only saved investigator report, pinned adapter source, contextual upstream helper, row metadata, task prompts and hidden patches; no image, build, task execution, or model API",
+  "overall": "No runtime-confirmed false verdict. Keep the mutable-golden-file issue as a conditional, testable candidate. Downgrade any implication that the JavaScript or Go patches demonstrate a bug merely because their added cases are narrow.",
+  "findings": [
+    {
+      "id": "C1_mutable_golden_file",
+      "verdict": "conditional candidate, worth a controlled image probe",
+      "supported": "At reward time the adapter resets only paths in the hidden patch, applies it, then runs bash /testbed/mimo_test_command.sh. The 002069 patch changes pytago/tests/test_core.py and adds the verifier wrapper and encoded build environment; it does not name examples/bitwisenot.py or examples/bitwisenot.go. Pinned adapter has _ANTI_HACK_CLEANUP_DEFAULT = False. Even if enabled externally, the base cleanup is called during setup, before agent edits, and not during reward. Contextual upstream assert_examples_match reads the two example files from the worktree and compares expected Go with transpiler output, so a mutable expected file would be a plausible false-acceptance surface if this helper is in the image.",
+      "unresolved": "The contextual helper at pytago commit 1980345 is not proved to match format-code-task-002069:latest. Image tag is mutable and digest unknown. Exact initial fixture presence, tracking status, and any image-specific checks remain unknown. No false acceptance has been observed. A changed expected file also may be visible in model_patch or external review, which this source-only review does not rule out.",
+      "evidence": [
+        "research/mimo/code_review/sources/opensource_code.py:73",
+        "research/mimo/code_review/sources/opensource_code.py:193",
+        "research/mimo/code_review/sources/opensource_code.py:217",
+        "research/mimo/code_review/sources/base.py:148",
+        "research/mimo/code_review/sources/base.py:299",
+        "research/mimo/code_review/sources/base.py:469",
+        "research/mimo/code_review/sources/base.py:666",
+        "research/mimo/code_review/snapshots/format-code-task-002069/test.patch:1",
+        "research/mimo/code_review/snapshots/format-code-task-002069/row_metadata.json:4",
+        "research/mimo/code_review/sources/pytago_198034521b4d/pytago/tests/test_core.py:17",
+        "research/mimo/code_review/sources/pytago_198034521b4d/provenance.json:1"
+      ],
+      "cheapest_probe": "On amd-tw-verification, pin image digest; inspect exact test_core.py, bitwisenot.py/.go, and Git tracking. If helper matches, compare pristine baseline with a paired mutation of only the expected .go file while leaving transpiler broken, using the exact hidden patch and adapter. Record reward, model_patch, and fixture hashes."
+    },
+    {
+      "id": "C2_javascript_typescript_gap",
+      "verdict": "unresolved coverage question, not a demonstrated bug",
+      "supported": "The hidden patch adds a valid JavaScript class snippet containing both if (this.length) and while (!this.size || foo). Thus it does exercise a class property named size, including a negated member expression. The reported Angular TypeScript example has decorators, an optional property declaration, and positive if (this.size); that exact parser/context is not added by this patch. The command runs the whole existing AVA file, whose baseline contents in the task image were not inspected.",
+      "unresolved": "A rule that handles MemberExpression consistently across JS and TS may pass the new case and fix the reported symptom. Conversely, parser-specific or AST-context-specific differences may exist; source absence alone proves neither. The patch itself does not establish whether TypeScript is supported by the test harness, and no candidate incorrect implementation was supplied.",
+      "evidence": [
+        "research/mimo/code_review/snapshots/format-code-task-002654/problem_statement.md:7",
+        "research/mimo/code_review/snapshots/format-code-task-002654/test.patch:1",
+        "research/mimo/code_review/snapshots/format-code-task-002654/test.patch:9",
+        "research/mimo/code_review/snapshots/format-code-task-002654/test_command.sh:2"
+      ],
+      "cheapest_probe": "Inspect image rule, parser configuration, and entire existing AVA test file first. If TS parser is available, run the exact Angular sample against baseline and a proposed narrow workaround, then compare the hidden test result."
+    },
+    {
+      "id": "C3_go_json_scope",
+      "verdict": "unresolved low-priority coverage question",
+      "supported": "The patch adds an expected transactions array with one hash to an existing TestJSONEncoding Block fixture. The issue asks for populated transaction hashes from a GetBlockByNumber(false) value. The test command runs TestJSONEncoding in the current package.",
+      "unresolved": "The image fixture that constructs block, existing assertions, and marshaler implementation were not inspected. A one-hash case can verify inclusion of the populated field; it does not imply a defect for multi-hash or RPC-decoded values without a concrete divergent implementation or observation.",
+      "evidence": [
+        "research/mimo/code_review/snapshots/format-code-task-002908/problem_statement.md:1",
+        "research/mimo/code_review/snapshots/format-code-task-002908/test.patch:1",
+        "research/mimo/code_review/snapshots/format-code-task-002908/test_command.sh:4"
+      ],
+      "cheapest_probe": "Inspect image Block fixture and marshaler source. Add a paired multi-hash or RPC-decoded case only if the implementation exposes a distinct path."
+    }
+  ],
+  "corrections_to_investigator_report": [
+    "The phrase 'hidden patch only adds test method' for 002069 should be read as the behavioral test delta; the exact patch also adds mimo_build_env.tar.gz.b64 and mimo_test_command.sh. Those are reset at reward time as patch-touched paths.",
+    "Do not describe full base anti-hack cleanup as a reward-time fixture restoration. This adapter defaults it off, and the base calls it during setup only.",
+    "For 002654, avoid saying the patch does not test class-property this.size: it does. The exact TypeScript/decorator/positive-if behavior remains untested by the added snippet."
+  ]
+}

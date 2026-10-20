@@ -1,0 +1,70 @@
+{
+ "items": [
+  {
+   "id": "asc740_threshold",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final answer correctly state the ASC 740 more-likely-than-not realization threshold?",
+   "pass_anchor": "The answer must state that ASC 740 uses a more-likely-than-not threshold, meaning a likelihood greater than 50%, when assessing whether a deferred tax asset will be realized and whether a valuation allowance is needed. Equivalent wording is acceptable."
+  },
+  {
+   "id": "negative_evidence",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final answer identify the principal objective negative evidence supporting the valuation allowance?",
+   "pass_anchor": "The answer must identify the historical/cumulative loss pattern as objective negative evidence and should also recognize the forecast's execution uncertainty, the incomplete IRC Section 382 ownership-change study, and/or California NOL vintage/expiry support gaps as relevant limitations. It must convey that negative evidence outweighs the available positive evidence."
+  },
+  {
+   "id": "forecast_not_overcome",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final answer correctly assess whether the forecast overcomes the negative evidence?",
+   "pass_anchor": "The answer must conclude that the management forecast does not presently overcome the current and historical loss evidence. It should distinguish the first positive annual federal taxable income in FY2028 and later forecast profitability from sufficient ASC 740 positive evidence, noting that the forecast is execution-sensitive and follows additional loss years."
+  },
+  {
+   "id": "gross_dta",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final answer report the correct FY2024 gross deferred tax asset used in the September 19, 2025 conclusion?",
+   "pass_anchor": "The answer must report gross deferred tax assets of approximately $37.753 million (or $37,753,000), with tolerance of ±$0.001 million or ±$1,000. It should identify this as the reported FY2024 gross DTA / balance assessed at the review date, not as a forecast-only amount."
+  },
+  {
+   "id": "allowance_and_net_dta",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final answer state both the required valuation allowance and resulting net deferred tax asset?",
+   "pass_anchor": "The answer must state that a 100% valuation allowance is required/retained against the gross DTA, equal to approximately $37.753 million, and that the resulting net deferred tax asset is $0. Values may be expressed in millions or dollars with tolerance of ±$0.001 million or ±$1,000."
+  },
+  {
+   "id": "section382_and_source_distinction",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final answer preserve the distinction between reported balances and planning assumptions while explaining the Section 382 reliance limitation?",
+   "pass_anchor": "The answer should distinguish the audited FY2024 deferred-tax balance and memorandum conclusion from the FY2025-FY2030 management planning model, and should state that no quantitative IRC Section 382 limitation has been completed/included, so modeled federal NOL or credit utilization remains provisional and cannot support releasing the allowance."
+  }
+ ],
+ "check_code": "\"\"\"Read-only task checker.\n\nThe scored criteria for this task are conclusions in the final response, so they\nare intentionally delegated to the LLM rubric rather than rechecking an\nunchanged workspace with a rule.\n\"\"\"\n\n\ndef read_only_sanity(workspace):\n    return {\"score\": 1, \"detail\": \"No workspace mutation is expected.\"}\n",
+ "gold_answer": null,
+ "input": "workspace",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

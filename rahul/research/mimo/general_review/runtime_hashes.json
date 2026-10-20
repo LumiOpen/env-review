@@ -1,0 +1,35 @@
+{
+  "revision": "79090e58195e80a9cfe251c95ae7a78a2132b6e2",
+  "files": [
+    {
+      "path": "research/mimo/general_review/snapshots/pinned_verl/recipes/general/general_agent/environment.py",
+      "bytes": 32039,
+      "sha256": "6a76a5c6ee0e1608fbf204139ec87a5052bdb06ffb40e6d397dfd84fdc2a9a04"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/pinned_verl/recipes/general/general_agent/k8s_sidecar.py",
+      "bytes": 12803,
+      "sha256": "bf3a03c85c9098b61ccb57a0b3556814023b1cdb6600e8a6d89a727859708b52"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/pinned_verl/recipes/general/env_actor.py",
+      "bytes": 17595,
+      "sha256": "96096c394c91459f09c25a2866559f39e8c6c34c8cc4f52a123b76d03a4024a2"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/pinned_verl/recipes/general/agent_loop.py",
+      "bytes": 48332,
+      "sha256": "bdadc80cdca7e2448108ab8f7e4ac9fd494f4c77b11b7836e5691b807c4053f6"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/pinned_verl/recipes/general/config/general.yaml",
+      "bytes": 2496,
+      "sha256": "32d1f61fd61b3dc3558442a47e90a1a3a5f2f3da78de02132e3826f6e9919ee8"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/pinned_verl/recipes/general/run_general.sh",
+      "bytes": 10196,
+      "sha256": "2c36255905231bb1aac251cfbb8f951c47fcbdf895127aacbb230aaa548ad439"
+    }
+  ]
+}

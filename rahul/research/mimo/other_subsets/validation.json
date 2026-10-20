@@ -1,0 +1,143 @@
+{
+  "status": "completed",
+  "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "scope": "All rows; static metadata contracts and any explicitly configured component probes.",
+  "requested_subsets": [
+    "cyber",
+    "webdev",
+    "music"
+  ],
+  "rows": 4093,
+  "static_findings": 0,
+  "skipped_rows": 0,
+  "audit_job": {
+    "id": 55672,
+    "partition": "amd-tw-verification",
+    "cpus": 1,
+    "memory": "2G",
+    "gpus": 0,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed_seconds": 2,
+    "log": "research/mimo/other_subsets/logs/audit-55672.log"
+  },
+  "unit_tests": {
+    "count": 52,
+    "job_id": 55671,
+    "status": "passed",
+    "log": "research/mimo/other_subsets/logs/tests-55671.log"
+  },
+  "summary": "runs/mimo-other-v1/summary.json",
+  "report": "research/mimo/other_subsets/report.md",
+  "results": [
+    {
+      "subset": "cyber",
+      "task_count": 1000,
+      "finding_counts": {},
+      "run": "runs/mimo-other-v1/cyber",
+      "replay": "runs/mimo-other-v1/cyber-replay",
+      "fingerprint": "7946c8011e73f868df89c2fb3f4c184c810bb3c763b516170442f71c34b503b7",
+      "semantic_sha256": "99f4f778b15c487bf263b3b70544c8c78fafa5f3de8d3c7508ebe9320af6de4c",
+      "integrity": {
+        "status": "verified",
+        "fingerprint": "7946c8011e73f868df89c2fb3f4c184c810bb3c763b516170442f71c34b503b7",
+        "artifacts": 24
+      },
+      "comparison": {
+        "same_fingerprint": true,
+        "same_semantic_results": true,
+        "reproduced": true,
+        "left_semantic_sha256": "99f4f778b15c487bf263b3b70544c8c78fafa5f3de8d3c7508ebe9320af6de4c",
+        "right_semantic_sha256": "99f4f778b15c487bf263b3b70544c8c78fafa5f3de8d3c7508ebe9320af6de4c"
+      }
+    },
+    {
+      "subset": "webdev",
+      "task_count": 2093,
+      "finding_counts": {},
+      "run": "runs/mimo-other-v1/webdev",
+      "replay": "runs/mimo-other-v1/webdev-replay",
+      "fingerprint": "2494a9a3ad2af4c83c6fa52207d329082ec08ee548b25729444170d4f7d0c252",
+      "semantic_sha256": "8795ab0c94ea9b669b67fc5f4b8bc3608e1fffe48647372cf9392fb29ef187c9",
+      "integrity": {
+        "status": "verified",
+        "fingerprint": "2494a9a3ad2af4c83c6fa52207d329082ec08ee548b25729444170d4f7d0c252",
+        "artifacts": 33
+      },
+      "comparison": {
+        "same_fingerprint": true,
+        "same_semantic_results": true,
+        "reproduced": true,
+        "left_semantic_sha256": "8795ab0c94ea9b669b67fc5f4b8bc3608e1fffe48647372cf9392fb29ef187c9",
+        "right_semantic_sha256": "8795ab0c94ea9b669b67fc5f4b8bc3608e1fffe48647372cf9392fb29ef187c9"
+      }
+    },
+    {
+      "subset": "music",
+      "task_count": 1000,
+      "finding_counts": {},
+      "run": "runs/mimo-other-v1/music",
+      "replay": "runs/mimo-other-v1/music-replay",
+      "fingerprint": "b500dc24c44a21ffe2289b3233850b66b5e05fbb93dcaae583e6a18a1218892c",
+      "semantic_sha256": "89ba6bc908a358304c063e1ff4b8bc9a5dfb8da35e00eecabb6324729de74486",
+      "integrity": {
+        "status": "verified",
+        "fingerprint": "b500dc24c44a21ffe2289b3233850b66b5e05fbb93dcaae583e6a18a1218892c",
+        "artifacts": 24
+      },
+      "comparison": {
+        "same_fingerprint": true,
+        "same_semantic_results": true,
+        "reproduced": true,
+        "left_semantic_sha256": "89ba6bc908a358304c063e1ff4b8bc9a5dfb8da35e00eecabb6324729de74486",
+        "right_semantic_sha256": "89ba6bc908a358304c063e1ff4b8bc9a5dfb8da35e00eecabb6324729de74486"
+      }
+    }
+  ],
+  "component_probe": {
+    "subset": "webdev",
+    "scope": "component",
+    "synthetic": true,
+    "scores": [
+      0.0,
+      0.8333
+    ],
+    "relation_satisfied": true,
+    "limitations": "Pinned reward arithmetic only; no website or judge evaluated."
+  },
+  "pipeline_changes": [
+    "Native Cyber/Webdev/Music parquet adapters with pinned pyarrow",
+    "Source-backed static contracts with explicit coverage limits",
+    "Adapter error severity retained in reports and probe filtering",
+    "Malformed-schema domain checks skipped safely",
+    "Data errors block only affected probe targets; independent valid targets continue",
+    "Wrong-source rows flagged and repeated native identifiers surfaced",
+    "Batch audit, integrity verification, frozen-source replay, and semantic comparison"
+  ],
+  "independent_review": {
+    "status": "completed",
+    "remaining_blockers": 0,
+    "fixed": [
+      "ARVO description fallback semantics",
+      "Wrong-source dataset validation",
+      "Visibility of repeated native identifiers"
+    ]
+  },
+  "source_file_sha256": {
+    "src/rlaudit/__init__.py": "a1d0afb77f72d774813b41b79ded6281b01700a11a7ebb2e8375baa54f993fed",
+    "src/rlaudit/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/rlaudit/adapters.py": "9cbb39ef8851eb492a14e43844bb93ba638a623c6774123430bb1c4b7a4bb27e",
+    "src/rlaudit/cli.py": "d1989a0653f90d6c7438f27b2f66385302923c572d8d464bb49240a2a47003d4",
+    "src/rlaudit/manifest.py": "192e889fcca4e280687bae87bd547d8110b82fa1a8afec03c1851ae569ab941b",
+    "src/rlaudit/mimo_contracts.py": "f588d656f20c669a09310a641e9440353c66285bdd4e8d514708496ea2d5788a",
+    "src/rlaudit/pipeline.py": "20f0b965c227d1e734441658a37d309228079e953cd55a20676219a5179ff8fe",
+    "src/rlaudit/probes.py": "92a82e6e125d04d19927903d67eb1f20891d45bbc04db01d5010fe7202e32104",
+    "src/rlaudit/slurm.py": "0204f098b6ad240c417f1481f0df1006e4625f643d4d5552686fe253739920da",
+    "src/rlaudit/snapshot.py": "095bb9c7989b9f92c12118f21628114af367e3df4439a46d7e03e8255c5d8c70"
+  },
+  "limits": [
+    "No full environment execution or policy training.",
+    "No container images, website screenshots, visual judges, or ABC/MIDI rendering.",
+    "Completed means the requested operations finished, not that environments are correct."
+  ]
+}

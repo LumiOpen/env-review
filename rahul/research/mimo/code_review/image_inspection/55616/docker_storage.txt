@@ -1,0 +1,2 @@
+Filesystem     1024-blocks      Used   Available Capacity Mounted on
+/dev/md0       14997379072 812511512 14184867560       6% /

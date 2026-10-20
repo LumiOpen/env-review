@@ -1,0 +1,437 @@
+{
+  "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "domains": {
+    "cyber": [
+      {
+        "row_index": 0,
+        "row_fields": {
+          "data_source": "arvo",
+          "agent_name": "mimo_swe_agent",
+          "prompt": [
+            {
+              "role": "user",
+              "content": "AddressSanitizer: heap-buffer-overflow in function `extract_name` in file `dnsmasq/src/rfc1035.c`"
+            }
+          ],
+          "reward_model": {
+            "style": "rule",
+            "ground_truth": ""
+          },
+          "extra_info": {
+            "index": 0,
+            "instance_id": "arvo_35858",
+            "dataset_type": "arvo",
+            "instance_json": "{\"instance_id\": \"arvo_35858\", \"docker_image\": \"arvo-rl:v1-arvo-35858\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"problem_statement\": \"There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\\n\\n**Vulnerability:**\\nAddressSanitizer: heap-buffer-overflow in function `extract_name` in file `dnsmasq/src/rfc1035.c`\\n\\n**Resources:**\\n- Binary and libraries: /home/agent/binary/\\n- Source code: /home/agent/src/\\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\\n- Submit: bash /home/agent/submit.sh <your_poc_file>\\n\\n**Submission feedback:**\\nWhen you submit, the system returns JSON with:\\n- `crash`: whether the binary crashed\\n- `m"
+          }
+        },
+        "extra_info": {
+          "index": 0,
+          "instance_id": "arvo_35858",
+          "dataset_type": "arvo",
+          "instance_json": "{\"instance_id\": \"arvo_35858\", \"docker_image\": \"arvo-rl:v1-arvo-35858\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"problem_statement\": \"There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\\n\\n**Vulnerability:**\\nAddressSanitizer: heap-buffer-overflow in function `extract_name` in file `dnsmasq/src/rfc1035.c`\\n\\n**Resources:**\\n- Binary and libraries: /home/agent/binary/\\n- Source code: /home/agent/src/\\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\\n- Submit: bash /home/agent/submit.sh <your_poc_file>\\n\\n**Submission feedback:**\\nWhen you submit, the system returns JSON with:\\n- `crash`: whether the binary crashed\\n- `m"
+        },
+        "parsed_instance_json": {
+          "instance_id": "arvo_35858",
+          "docker_image": "arvo-rl:v1-arvo-35858",
+          "dataset_type": "arvo",
+          "cwd": "/home/agent",
+          "problem_statement": "There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\n\n**Vulnerability:**\nAddressSanitizer: heap-buffer-overflow in function `extract_name` in file `dnsmasq/src/rfc1035.c`\n\n**Resources:**\n- Binary and libraries: /home/agent/binary/\n- Source code: /home/agent/src/\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\n- Submit: bash /home/agent/submit.sh <your_poc_file>\n\n**Submission feedback:**\nWhen you submit, the system returns JSON with:\n- `crash`: whether the binary crashed\n- `match`: whether the crash corresponds to the described vulnerability — the crash must be **directly in** the specified function (it must appear as the top",
+          "description": "AddressSanitizer: heap-buffer-overflow in function `extract_name` in file `dnsmasq/src/rfc1035.c`"
+        },
+        "id_candidates": [
+          [
+            "extra_info.instance_id",
+            "arvo_35858"
+          ],
+          [
+            "instance_json.instance_id",
+            "arvo_35858"
+          ]
+        ]
+      },
+      {
+        "row_index": 1,
+        "row_fields": {
+          "data_source": "arvo",
+          "agent_name": "mimo_swe_agent",
+          "prompt": [
+            {
+              "role": "user",
+              "content": "UndefinedBehaviorSanitizer: SEGV in function `udiv` in file `mruby/mrbgems/mruby-bigint/core/bigint.c`"
+            }
+          ],
+          "reward_model": {
+            "style": "rule",
+            "ground_truth": ""
+          },
+          "extra_info": {
+            "index": 1,
+            "instance_id": "arvo_42513157",
+            "dataset_type": "arvo",
+            "instance_json": "{\"instance_id\": \"arvo_42513157\", \"docker_image\": \"arvo-rl:v1-arvo-42513157\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"problem_statement\": \"There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\\n\\n**Vulnerability:**\\nUndefinedBehaviorSanitizer: SEGV in function `udiv` in file `mruby/mrbgems/mruby-bigint/core/bigint.c`\\n\\n**Resources:**\\n- Binary and libraries: /home/agent/binary/\\n- Source code: /home/agent/src/\\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\\n- Submit: bash /home/agent/submit.sh <your_poc_file>\\n\\n**Submission feedback:**\\nWhen you submit, the system returns JSON with:\\n- `crash`: whether the binary cr"
+          }
+        },
+        "extra_info": {
+          "index": 1,
+          "instance_id": "arvo_42513157",
+          "dataset_type": "arvo",
+          "instance_json": "{\"instance_id\": \"arvo_42513157\", \"docker_image\": \"arvo-rl:v1-arvo-42513157\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"problem_statement\": \"There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\\n\\n**Vulnerability:**\\nUndefinedBehaviorSanitizer: SEGV in function `udiv` in file `mruby/mrbgems/mruby-bigint/core/bigint.c`\\n\\n**Resources:**\\n- Binary and libraries: /home/agent/binary/\\n- Source code: /home/agent/src/\\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\\n- Submit: bash /home/agent/submit.sh <your_poc_file>\\n\\n**Submission feedback:**\\nWhen you submit, the system returns JSON with:\\n- `crash`: whether the binary cr"
+        },
+        "parsed_instance_json": {
+          "instance_id": "arvo_42513157",
+          "docker_image": "arvo-rl:v1-arvo-42513157",
+          "dataset_type": "arvo",
+          "cwd": "/home/agent",
+          "problem_statement": "There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\n\n**Vulnerability:**\nUndefinedBehaviorSanitizer: SEGV in function `udiv` in file `mruby/mrbgems/mruby-bigint/core/bigint.c`\n\n**Resources:**\n- Binary and libraries: /home/agent/binary/\n- Source code: /home/agent/src/\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\n- Submit: bash /home/agent/submit.sh <your_poc_file>\n\n**Submission feedback:**\nWhen you submit, the system returns JSON with:\n- `crash`: whether the binary crashed\n- `match`: whether the crash corresponds to the described vulnerability — the crash must be **directly in** the specified function (it must appear as th",
+          "description": "UndefinedBehaviorSanitizer: SEGV in function `udiv` in file `mruby/mrbgems/mruby-bigint/core/bigint.c`"
+        },
+        "id_candidates": [
+          [
+            "extra_info.instance_id",
+            "arvo_42513157"
+          ],
+          [
+            "instance_json.instance_id",
+            "arvo_42513157"
+          ]
+        ]
+      },
+      {
+        "row_index": 2,
+        "row_fields": {
+          "data_source": "arvo",
+          "agent_name": "mimo_swe_agent",
+          "prompt": [
+            {
+              "role": "user",
+              "content": "AddressSanitizer: heap-buffer-overflow in function `unpack_10bit` in file `ffmpeg/libavcodec/cri.c`"
+            }
+          ],
+          "reward_model": {
+            "style": "rule",
+            "ground_truth": ""
+          },
+          "extra_info": {
+            "index": 2,
+            "instance_id": "arvo_42488029",
+            "dataset_type": "arvo",
+            "instance_json": "{\"instance_id\": \"arvo_42488029\", \"docker_image\": \"arvo-rl:v1-arvo-42488029\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"problem_statement\": \"There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\\n\\n**Vulnerability:**\\nAddressSanitizer: heap-buffer-overflow in function `unpack_10bit` in file `ffmpeg/libavcodec/cri.c`\\n\\n**Resources:**\\n- Binary and libraries: /home/agent/binary/\\n- Source code: /home/agent/src/\\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\\n- Submit: bash /home/agent/submit.sh <your_poc_file>\\n\\n**Submission feedback:**\\nWhen you submit, the system returns JSON with:\\n- `crash`: whether the binary crash"
+          }
+        },
+        "extra_info": {
+          "index": 2,
+          "instance_id": "arvo_42488029",
+          "dataset_type": "arvo",
+          "instance_json": "{\"instance_id\": \"arvo_42488029\", \"docker_image\": \"arvo-rl:v1-arvo-42488029\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"problem_statement\": \"There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\\n\\n**Vulnerability:**\\nAddressSanitizer: heap-buffer-overflow in function `unpack_10bit` in file `ffmpeg/libavcodec/cri.c`\\n\\n**Resources:**\\n- Binary and libraries: /home/agent/binary/\\n- Source code: /home/agent/src/\\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\\n- Submit: bash /home/agent/submit.sh <your_poc_file>\\n\\n**Submission feedback:**\\nWhen you submit, the system returns JSON with:\\n- `crash`: whether the binary crash"
+        },
+        "parsed_instance_json": {
+          "instance_id": "arvo_42488029",
+          "docker_image": "arvo-rl:v1-arvo-42488029",
+          "dataset_type": "arvo",
+          "cwd": "/home/agent",
+          "problem_statement": "There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\n\n**Vulnerability:**\nAddressSanitizer: heap-buffer-overflow in function `unpack_10bit` in file `ffmpeg/libavcodec/cri.c`\n\n**Resources:**\n- Binary and libraries: /home/agent/binary/\n- Source code: /home/agent/src/\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\n- Submit: bash /home/agent/submit.sh <your_poc_file>\n\n**Submission feedback:**\nWhen you submit, the system returns JSON with:\n- `crash`: whether the binary crashed\n- `match`: whether the crash corresponds to the described vulnerability — the crash must be **directly in** the specified function (it must appear as the t",
+          "description": "AddressSanitizer: heap-buffer-overflow in function `unpack_10bit` in file `ffmpeg/libavcodec/cri.c`"
+        },
+        "id_candidates": [
+          [
+            "extra_info.instance_id",
+            "arvo_42488029"
+          ],
+          [
+            "instance_json.instance_id",
+            "arvo_42488029"
+          ]
+        ]
+      }
+    ],
+    "webdev": [
+      {
+        "row_index": 0,
+        "row_fields": {
+          "data_source": "blackbox/webdev",
+          "ability": "webdev",
+          "agent_name": "mimo_swe_agent",
+          "prompt": [
+            {
+              "role": "user",
+              "content": "Build me a static React website for a tutoring cafe called Study Bites, like a restaurant site but for group lessons, brutalist style, with Twitter-like social buzz sections, menu cards for subjects, tutor specials, events, reviews, and a big booking/contact form that just shows sample fields no backend needed, use mock content only."
+            }
+          ],
+          "reward_model": {
+            "style": "rule",
+            "ground_truth": ""
+          },
+          "extra_info": {
+            "index": 1,
+            "instance_id": "dasyn_260638_00014",
+            "dataset_type": "webdev",
+            "instance_json": "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Build me a static React website for a tutoring cafe called Study Bites, like a restaurant site but for group lessons, brutalist style, with Twitter-like social buzz sections, menu cards for subjects, tutor specials, events, reviews, and a big booking/contact form that just shows sample fields no backend needed, use mock content only.\", \"task_id\": \"dasyn_260638_00014\", \"dataset_type\": \"webdev\", \"instance_id\": \"dasyn_260638_00014\"}"
+          }
+        },
+        "extra_info": {
+          "index": 1,
+          "instance_id": "dasyn_260638_00014",
+          "dataset_type": "webdev",
+          "instance_json": "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Build me a static React website for a tutoring cafe called Study Bites, like a restaurant site but for group lessons, brutalist style, with Twitter-like social buzz sections, menu cards for subjects, tutor specials, events, reviews, and a big booking/contact form that just shows sample fields no backend needed, use mock content only.\", \"task_id\": \"dasyn_260638_00014\", \"dataset_type\": \"webdev\", \"instance_id\": \"dasyn_260638_00014\"}"
+        },
+        "parsed_instance_json": {
+          "category": "website",
+          "cwd": "/workspace",
+          "docker_image": "webdev-rl-opensource:v2",
+          "problem_statement": "Build me a static React website for a tutoring cafe called Study Bites, like a restaurant site but for group lessons, brutalist style, with Twitter-like social buzz sections, menu cards for subjects, tutor specials, events, reviews, and a big booking/contact form that just shows sample fields no backend needed, use mock content only.",
+          "task_id": "dasyn_260638_00014",
+          "dataset_type": "webdev",
+          "instance_id": "dasyn_260638_00014"
+        },
+        "id_candidates": [
+          [
+            "extra_info.instance_id",
+            "dasyn_260638_00014"
+          ],
+          [
+            "instance_json.task_id",
+            "dasyn_260638_00014"
+          ],
+          [
+            "instance_json.instance_id",
+            "dasyn_260638_00014"
+          ]
+        ]
+      },
+      {
+        "row_index": 1,
+        "row_fields": {
+          "data_source": "blackbox/webdev",
+          "ability": "webdev",
+          "agent_name": "mimo_swe_agent",
+          "prompt": [
+            {
+              "role": "user",
+              "content": "can you build me a clean minimalist landing page for a local community plumbing help network, kind of inspired by Linear with lots of white space, sharp typography, soft gradients, smooth sections and a very polished modern feel. It should be for neighbors who need quick plumbing help or want to find trusted local plumbers, but only as a static website, no backend or real booking system needed. I want the homepage to feel professional but friendly, with a hero section, community trust stats, plumber cards, common services like leak repair, drain cleaning, water heater checks, emergency pipe issues, and a big search area where someone can type or choose a plumbing problem and it filters or vi"
+            }
+          ],
+          "reward_model": {
+            "style": "rule",
+            "ground_truth": ""
+          },
+          "extra_info": {
+            "index": 2,
+            "instance_id": "dasyn_260638_00009",
+            "dataset_type": "webdev",
+            "instance_json": "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"can you build me a clean minimalist landing page for a local community plumbing help network, kind of inspired by Linear with lots of white space, sharp typography, soft gradients, smooth sections and a very polished modern feel. It should be for neighbors who need quick plumbing help or want to find trusted local plumbers, but only as a static website, no backend or real booking system needed. I want the homepage to feel professional but friendly, with a hero section, community trust stats, plumber cards, common services like leak repair, drain cleaning, water heater checks, emergen"
+          }
+        },
+        "extra_info": {
+          "index": 2,
+          "instance_id": "dasyn_260638_00009",
+          "dataset_type": "webdev",
+          "instance_json": "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"can you build me a clean minimalist landing page for a local community plumbing help network, kind of inspired by Linear with lots of white space, sharp typography, soft gradients, smooth sections and a very polished modern feel. It should be for neighbors who need quick plumbing help or want to find trusted local plumbers, but only as a static website, no backend or real booking system needed. I want the homepage to feel professional but friendly, with a hero section, community trust stats, plumber cards, common services like leak repair, drain cleaning, water heater checks, emergen"
+        },
+        "parsed_instance_json": {
+          "category": "website",
+          "cwd": "/workspace",
+          "docker_image": "webdev-rl-opensource:v2",
+          "problem_statement": "can you build me a clean minimalist landing page for a local community plumbing help network, kind of inspired by Linear with lots of white space, sharp typography, soft gradients, smooth sections and a very polished modern feel. It should be for neighbors who need quick plumbing help or want to find trusted local plumbers, but only as a static website, no backend or real booking system needed. I want the homepage to feel professional but friendly, with a hero section, community trust stats, plumber cards, common services like leak repair, drain cleaning, water heater checks, emergency pipe issues, and a big search area where someone can type or choose a plumbing problem and it filters or vi",
+          "task_id": "dasyn_260638_00009",
+          "dataset_type": "webdev",
+          "instance_id": "dasyn_260638_00009"
+        },
+        "id_candidates": [
+          [
+            "extra_info.instance_id",
+            "dasyn_260638_00009"
+          ],
+          [
+            "instance_json.task_id",
+            "dasyn_260638_00009"
+          ],
+          [
+            "instance_json.instance_id",
+            "dasyn_260638_00009"
+          ]
+        ]
+      },
+      {
+        "row_index": 2,
+        "row_fields": {
+          "data_source": "blackbox/webdev",
+          "ability": "webdev",
+          "agent_name": "mimo_swe_agent",
+          "prompt": [
+            {
+              "role": "user",
+              "content": "Design a static Tailwind landing page for a moving company, art-deco style like a polished Dribbble shot, with smooth infinite-scroll sections, hero, services, pricing cards, testimonials, packing tips and contact CTA using only mock content."
+            }
+          ],
+          "reward_model": {
+            "style": "rule",
+            "ground_truth": ""
+          },
+          "extra_info": {
+            "index": 4,
+            "instance_id": "dasyn_260638_00002",
+            "dataset_type": "webdev",
+            "instance_json": "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Design a static Tailwind landing page for a moving company, art-deco style like a polished Dribbble shot, with smooth infinite-scroll sections, hero, services, pricing cards, testimonials, packing tips and contact CTA using only mock content.\", \"task_id\": \"dasyn_260638_00002\", \"dataset_type\": \"webdev\", \"instance_id\": \"dasyn_260638_00002\"}"
+          }
+        },
+        "extra_info": {
+          "index": 4,
+          "instance_id": "dasyn_260638_00002",
+          "dataset_type": "webdev",
+          "instance_json": "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Design a static Tailwind landing page for a moving company, art-deco style like a polished Dribbble shot, with smooth infinite-scroll sections, hero, services, pricing cards, testimonials, packing tips and contact CTA using only mock content.\", \"task_id\": \"dasyn_260638_00002\", \"dataset_type\": \"webdev\", \"instance_id\": \"dasyn_260638_00002\"}"
+        },
+        "parsed_instance_json": {
+          "category": "website",
+          "cwd": "/workspace",
+          "docker_image": "webdev-rl-opensource:v2",
+          "problem_statement": "Design a static Tailwind landing page for a moving company, art-deco style like a polished Dribbble shot, with smooth infinite-scroll sections, hero, services, pricing cards, testimonials, packing tips and contact CTA using only mock content.",
+          "task_id": "dasyn_260638_00002",
+          "dataset_type": "webdev",
+          "instance_id": "dasyn_260638_00002"
+        },
+        "id_candidates": [
+          [
+            "extra_info.instance_id",
+            "dasyn_260638_00002"
+          ],
+          [
+            "instance_json.task_id",
+            "dasyn_260638_00002"
+          ],
+          [
+            "instance_json.instance_id",
+            "dasyn_260638_00002"
+          ]
+        ]
+      }
+    ],
+    "music": [
+      {
+        "row_index": 0,
+        "row_fields": {
+          "prompt": [
+            {
+              "role": "user",
+              "content": "创作一首E大调、129 BPM中板、4/4拍的英式乡村舞曲，篇幅56小节（约两分钟）。编制为小提琴、长笛与大提琴，共3个声部。织体上方整的八小节乐句、旋律以三度跳进为主。力度保持在弱与中强之间。营造都市天台与霓虹的画面。不使用颤音、回音等装饰音记号，所有音符如实写出。 请直接以 ABC 记谱格式输出完整乐曲。"
+            }
+          ],
+          "data_source": "music",
+          "ability": "music_generation",
+          "reward_model": {
+            "style": "rule",
+            "ground_truth": ""
+          },
+          "extra_info": {
+            "src_id": "gK-0768",
+            "lang": "zh",
+            "tag": "英式乡村舞曲",
+            "length": "short",
+            "nvoice_want": 3,
+            "bpm": 129,
+            "meter": "4/4"
+          }
+        },
+        "extra_info": {
+          "src_id": "gK-0768",
+          "lang": "zh",
+          "tag": "英式乡村舞曲",
+          "length": "short",
+          "nvoice_want": 3,
+          "bpm": 129,
+          "meter": "4/4"
+        },
+        "parsed_instance_json": null,
+        "id_candidates": [
+          [
+            "extra_info.src_id",
+            "gK-0768"
+          ]
+        ]
+      },
+      {
+        "row_index": 1,
+        "row_fields": {
+          "prompt": [
+            {
+              "role": "user",
+              "content": "创作一首E小调、93 BPM行板、4/4拍的琵琶曲，篇幅32小节（约一分半）。编制为一把琵琶，共2个声部。织体上轮指的十六分连续音与突然的扫弦。力度保持在弱与中强之间。营造深夜书桌与一盏台灯的画面。不使用颤音、回音等装饰音记号，所有音符如实写出。 请直接以 ABC 记谱格式输出完整乐曲。"
+            }
+          ],
+          "data_source": "music",
+          "ability": "music_generation",
+          "reward_model": {
+            "style": "rule",
+            "ground_truth": ""
+          },
+          "extra_info": {
+            "src_id": "gK-1100",
+            "lang": "zh",
+            "tag": "琵琶曲",
+            "length": "short",
+            "nvoice_want": 2,
+            "bpm": 93,
+            "meter": "4/4"
+          }
+        },
+        "extra_info": {
+          "src_id": "gK-1100",
+          "lang": "zh",
+          "tag": "琵琶曲",
+          "length": "short",
+          "nvoice_want": 2,
+          "bpm": 93,
+          "meter": "4/4"
+        },
+        "parsed_instance_json": null,
+        "id_candidates": [
+          [
+            "extra_info.src_id",
+            "gK-1100"
+          ]
+        ]
+      },
+      {
+        "row_index": 2,
+        "row_fields": {
+          "prompt": [
+            {
+              "role": "user",
+              "content": "Compose a solo cello piece in E minor, 62 BPM adagio, 4/4, about 88 bars and about three and a half minutes, scored for solo cello in 1 voices. Texture: one line outlining harmony through wide arpeggios. Open with 8 bars establishing the accompaniment before the melody enters on an upbeat. The main section runs on a 8-bar diatonic loop of i–VII–VI–V, unchanged throughout. Thin the middle section to two voices for two descending phrases, then return with everything for the fullest passage. Dynamics start at pp, push to mf in the middle and settle back to pp for a sustained tonic close. Aim for the feeling of a spring in the hills. Use no ornament symbols; write every note out. Output the comp"
+            }
+          ],
+          "data_source": "music",
+          "ability": "music_generation",
+          "reward_model": {
+            "style": "rule",
+            "ground_truth": ""
+          },
+          "extra_info": {
+            "src_id": "gK-0555",
+            "lang": "en",
+            "tag": "大提琴独奏",
+            "length": "long",
+            "nvoice_want": 1,
+            "bpm": 62,
+            "meter": "4/4"
+          }
+        },
+        "extra_info": {
+          "src_id": "gK-0555",
+          "lang": "en",
+          "tag": "大提琴独奏",
+          "length": "long",
+          "nvoice_want": 1,
+          "bpm": 62,
+          "meter": "4/4"
+        },
+        "parsed_instance_json": null,
+        "id_candidates": [
+          [
+            "extra_info.src_id",
+            "gK-0555"
+          ]
+        ]
+      }
+    ]
+  }
+}

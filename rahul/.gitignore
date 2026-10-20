@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+runs/
+.rlaudit-jobs/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local bootstrap lock; audit manifests pin the execution dependencies.
+/uv.lock
+
+# Rebuildable bulk inventories; pinned source inputs remain available.
+/research/mimo/inventory/rows.jsonl
+/research/mimo/code_scan/rows.jsonl
+/research/mimo/dataset-metadata.json

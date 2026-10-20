@@ -1,0 +1,54 @@
+{
+  "endpoint": "https://api.primeintellect.ai/api/v1/environmentshub/sami/countdown/@latest",
+  "retrieved_utc": "2026-10-20",
+  "data": {
+    "id": "nbv6rk96vdc3nz8oznjom6o1",
+    "name": "countdown",
+    "description": "Countdown Numbers Game - arithmetic puzzle solving from the classic UK TV show",
+    "license": "",
+    "visibility": "PUBLIC",
+    "owner": {
+      "type": "user",
+      "name": "sami"
+    },
+    "created_at": "2026-01-23T08:10:15.775000",
+    "updated_at": "2026-01-24T02:44:15.870000",
+    "version_id": "uuz9frv8l704r2hzzj584jjf",
+    "sha256": "e821f68a918df0cab078c4eae433a283b7afbad8e0e58f6b6af006ae177d0786",
+    "metadata": {
+      "tags": [
+        "single-turn",
+        "math",
+        "reasoning",
+        "train",
+        "eval"
+      ],
+      "license": "",
+      "description": "Countdown Numbers Game - arithmetic puzzle solving from the classic UK TV show",
+      "dependencies": [
+        "verifiers>=0.1.9",
+        "datasets>=2.0.0"
+      ],
+      "python_requires": ">=3.10",
+      "original_filename": "countdown-0.1.0.tar.gz"
+    },
+    "wheel_url": "https://hub.primeintellect.ai/sami/countdown/@047cea7b/countdown-0.1.0-py3-none-any.whl",
+    "package_url": null,
+    "tracked_package_url": "https://hub.primeintellect.ai/sami/countdown/@047cea7b/download",
+    "simple_index_url": "https://hub.primeintellect.ai/sami/simple/",
+    "install_index_url": "https://hub.primeintellect.ai/sami/countdown/install/simple/",
+    "url_dependencies": [],
+    "runtime": "VERIFIERS_V0",
+    "verifiers_requirement": ">=0.1.9",
+    "download_observed_final_url": "https://storage.googleapis.com/pihub-environments-prod/environments/packages/047cea7be693-e821f68a918df0cab078c4eae433a283b7afbad8e0e58f6b6af006ae177d0786-nbv6rk96vdc3nz8oznjom6o1.tar.gz",
+    "archive_sha256": "e821f68a918df0cab078c4eae433a283b7afbad8e0e58f6b6af006ae177d0786",
+    "archive_bytes": 5785,
+    "archive_member_files": [
+      "README.md",
+      "pyproject.toml",
+      "countdown.py"
+    ],
+    "archive_members_safe": true,
+    "retrieved_utc": "2026-10-20"
+  }
+}

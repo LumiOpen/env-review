@@ -1,0 +1,100 @@
+{
+  "status": "source_trees_match_pinned_archives",
+  "environments": [
+    {
+      "environment": "{'type': 'user', 'name': 'apple999'}/wordle",
+      "archive": "research/prime/sources/apple999__wordle__7cea003c4fb9.tar.gz",
+      "sha256": "7cea003c4fb93bc42ff062089dfa2f2be6bd18f50ab8ac805863a29aeec88437",
+      "source_directory": "research/prime/sources/apple999__wordle__7cea003c4fb9",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "7dabe262af1a4a8f30ca94ec33bbd89953db6d15a2288ef9a6ce86ba8f85b8e4"
+        },
+        {
+          "path": "pyproject.toml",
+          "sha256": "e550527fe898fd16ab791b121587f3da981ca51eb6e16d8ba124c94f13fa449e"
+        },
+        {
+          "path": "scripts/build_valid_guesses.py",
+          "sha256": "ea3b2f74eb8981056d695618a0e4d1f20ee169704d989a0955c570c23dfff7d2"
+        },
+        {
+          "path": "scripts/curate_answers.py",
+          "sha256": "b1ccd68a12e4f23050f9957cf8218af1e88855aa6b5884e0350fd7e510778c91"
+        },
+        {
+          "path": "scripts/generate_answers.py",
+          "sha256": "69190326105531194a83a397ed0a37b01b852d7fcd08d584d17ec08e62cd69aa"
+        },
+        {
+          "path": "scripts/local_baseline.py",
+          "sha256": "44d92d840eaf6ddb4b57ec41149ef5e477b4b09608897b08427f8803be193ee9"
+        },
+        {
+          "path": "wordle/__init__.py",
+          "sha256": "1845d616ecb70f43e4ad28b0d042d3dfdcfbe0f6f18ad527dae54ec9ca5028ca"
+        },
+        {
+          "path": "wordle/data/answers.txt",
+          "sha256": "718d40d294fe456b0dc3dc4c608e32faa1d2936953856a3038957f47f3f829df"
+        },
+        {
+          "path": "wordle/data/valid_guesses.txt",
+          "sha256": "8e13eb9d1a9c72498af7c7b141b3f8f5b0869ff5bda6bbced0be32f817822206"
+        },
+        {
+          "path": "wordle/wordle.py",
+          "sha256": "6bc9e9f3c63bf5552f344d5015906aba59c32dfab13a22a7dbec53c04a86dfe3"
+        },
+        {
+          "path": "wordle/words.py",
+          "sha256": "9ad3ae5d58fb6639fc0d0352ad0bb122c4a8ba77d455fdad529d43d491d61ce2"
+        }
+      ],
+      "source_matches_archive": true
+    },
+    {
+      "environment": "{'type': 'user', 'name': 'sami'}/countdown",
+      "archive": "research/prime/sources/sami__countdown__e821f68a918d.tar.gz",
+      "sha256": "e821f68a918df0cab078c4eae433a283b7afbad8e0e58f6b6af006ae177d0786",
+      "source_directory": "research/prime/sources/sami__countdown__e821f68a918d",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "0922ff88973eff5ebd38d51ea5738904b74a4f6a53bb4e02e054860da9f419ee"
+        },
+        {
+          "path": "pyproject.toml",
+          "sha256": "029de311c7b2b0de91cfe2842849b1adb7a3504f84f02f9b1188f09834fbe6d5"
+        },
+        {
+          "path": "countdown.py",
+          "sha256": "baf3bba930a847cb6f1db3490f8f1a7153e2d51228308ad212af8d79aa1d3663"
+        }
+      ],
+      "source_matches_archive": true
+    },
+    {
+      "environment": "{'type': 'user', 'name': 'will'}/reverse-text",
+      "archive": "research/prime/sources/will__reverse-text__9523b627a28d.tar.gz",
+      "sha256": "9523b627a28dfba1104f5bc4526361a2ced57db7b22ac08432b339cc30a74a7a",
+      "source_directory": "research/prime/sources/will__reverse-text__9523b627a28d",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "252fa38ca454d7ca8be19ef4f4844594bc9cb2981714eaaa4d80a2681727e4c2"
+        },
+        {
+          "path": "pyproject.toml",
+          "sha256": "28659ecff6dda41bdd36b5e73f0fceee653260c31b7ab6af803ad95120529ec8"
+        },
+        {
+          "path": "reverse_text.py",
+          "sha256": "0619ec2eb360601bb2f3d384a9a118bed8e8ca6eb5b7d7f9bddb210884025edc"
+        }
+      ],
+      "source_matches_archive": true
+    }
+  ]
+}

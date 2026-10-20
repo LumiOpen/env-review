@@ -1,0 +1,851 @@
+{
+  "schema_version": "mimo-general-sample/1",
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "source": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+  "source_parquet": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/raw/general_train.parquet",
+  "source_parquet_sha256": "9bfdc8b05d2bf2cb9e89815443d35507e4be30368aebf70928421795c10259b9",
+  "selection_method": {
+    "maximum_tasks": 12,
+    "domain_parse": "Anchored s3k_<number>_<domain>_(en|zh)_t(1..5)_rl_<replicate>; observed language boundary is en/zh and observed tier boundary is 1..5; unmatched IDs are preserved as unparsed rather than guessed.",
+    "domain_subset": "Sort domain groups by row count descending then domain; choose 12 evenly spaced frequency-rank positions. This avoids alphabetic-prefix selection but is not representative.",
+    "within_domain": "Alternate en/zh by selected-domain rank; choose minimum prompt character count within that domain-language slice, then stable task ID. Exclude the three already-reviewed accounting IDs.",
+    "sample_bias": "Twelve of sixteen General domains; frequency-rank and language-balancing rules are deliberate selection filters. Prompt lengths across Chinese and English are not directly comparable. This is an audit triage sample, not a representative sample."
+  },
+  "row_counts_by_domain_language_tier": {
+    "accounting_audit_tax": {
+      "row_count": 157,
+      "language_counts": {
+        "en": 94,
+        "zh": 63
+      },
+      "tier_counts": {
+        "1": 18,
+        "2": 59,
+        "3": 52,
+        "4": 23,
+        "5": 5
+      }
+    },
+    "agriculture_coop": {
+      "row_count": 7,
+      "language_counts": {
+        "en": 1,
+        "zh": 6
+      },
+      "tier_counts": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "5": 1
+      }
+    },
+    "construction_pm": {
+      "row_count": 14,
+      "language_counts": {
+        "en": 8,
+        "zh": 6
+      },
+      "tier_counts": {
+        "1": 2,
+        "2": 3,
+        "3": 8,
+        "5": 1
+      }
+    },
+    "consulting_bizops_analytics": {
+      "row_count": 89,
+      "language_counts": {
+        "en": 54,
+        "zh": 35
+      },
+      "tier_counts": {
+        "1": 7,
+        "2": 34,
+        "3": 29,
+        "4": 17,
+        "5": 2
+      }
+    },
+    "ecommerce_ops": {
+      "row_count": 14,
+      "language_counts": {
+        "en": 9,
+        "zh": 5
+      },
+      "tier_counts": {
+        "1": 1,
+        "2": 5,
+        "3": 2,
+        "4": 4,
+        "5": 2
+      }
+    },
+    "education_research_admin": {
+      "row_count": 55,
+      "language_counts": {
+        "en": 32,
+        "zh": 23
+      },
+      "tier_counts": {
+        "1": 3,
+        "2": 20,
+        "3": 21,
+        "4": 6,
+        "5": 5
+      }
+    },
+    "energy_utilities_esg": {
+      "row_count": 47,
+      "language_counts": {
+        "en": 20,
+        "zh": 27
+      },
+      "tier_counts": {
+        "1": 5,
+        "2": 16,
+        "3": 19,
+        "4": 3,
+        "5": 4
+      }
+    },
+    "finance_insurance": {
+      "row_count": 135,
+      "language_counts": {
+        "en": 69,
+        "zh": 66
+      },
+      "tier_counts": {
+        "1": 21,
+        "2": 37,
+        "3": 49,
+        "4": 22,
+        "5": 6
+      }
+    },
+    "government_public": {
+      "row_count": 72,
+      "language_counts": {
+        "en": 38,
+        "zh": 34
+      },
+      "tier_counts": {
+        "1": 11,
+        "2": 20,
+        "3": 29,
+        "4": 12
+      }
+    },
+    "healthcare_ops": {
+      "row_count": 107,
+      "language_counts": {
+        "en": 57,
+        "zh": 50
+      },
+      "tier_counts": {
+        "1": 17,
+        "2": 33,
+        "3": 34,
+        "4": 21,
+        "5": 2
+      }
+    },
+    "hospitality_fnb": {
+      "row_count": 9,
+      "language_counts": {
+        "en": 4,
+        "zh": 5
+      },
+      "tier_counts": {
+        "2": 5,
+        "3": 3,
+        "4": 1
+      }
+    },
+    "hr_people": {
+      "row_count": 77,
+      "language_counts": {
+        "en": 41,
+        "zh": 36
+      },
+      "tier_counts": {
+        "1": 5,
+        "2": 23,
+        "3": 38,
+        "4": 9,
+        "5": 2
+      }
+    },
+    "it_information_systems": {
+      "row_count": 72,
+      "language_counts": {
+        "en": 36,
+        "zh": 36
+      },
+      "tier_counts": {
+        "1": 10,
+        "2": 25,
+        "3": 29,
+        "4": 7,
+        "5": 1
+      }
+    },
+    "last_mile_logistics": {
+      "row_count": 9,
+      "language_counts": {
+        "en": 4,
+        "zh": 5
+      },
+      "tier_counts": {
+        "2": 5,
+        "3": 2,
+        "4": 2
+      }
+    },
+    "legal_compliance": {
+      "row_count": 47,
+      "language_counts": {
+        "en": 27,
+        "zh": 20
+      },
+      "tier_counts": {
+        "1": 9,
+        "2": 16,
+        "3": 13,
+        "4": 8,
+        "5": 1
+      }
+    },
+    "manufacturing_quality": {
+      "row_count": 14,
+      "language_counts": {
+        "en": 10,
+        "zh": 4
+      },
+      "tier_counts": {
+        "1": 1,
+        "2": 4,
+        "3": 7,
+        "4": 2
+      }
+    }
+  },
+  "parse_failures": [],
+  "already_reviewed_excluded": [
+    "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "s3k_0001_accounting_audit_tax_en_t1_rl_002",
+    "s3k_0001_accounting_audit_tax_en_t1_rl_003"
+  ],
+  "selected_tasks": [
+    {
+      "rank": 1,
+      "task_id": "s3k_0033_accounting_audit_tax_en_t2_rl_002",
+      "domain": "accounting_audit_tax",
+      "domain_parse_status": "parsed",
+      "language": "en",
+      "tier": 2,
+      "replicate": 2,
+      "prompt_chars": 822,
+      "selection": "shortest prompt in assigned domain-language slice; stable task_id tie-break",
+      "prompt_mode_indication": {
+        "classification": "mixed_or_unclear",
+        "read_only_terms": [
+          "read-only"
+        ],
+        "modify_terms": [
+          "create"
+        ],
+        "heuristic_only": true
+      },
+      "manifest_method_fields": {},
+      "verifier": {
+        "item_count": 4,
+        "item_method_counts": {
+          "llm": 4
+        },
+        "gate_count_explicit": 0,
+        "critical_tier_item_count": 3,
+        "explicit_weight_count": 0,
+        "weight_missing_count": 4,
+        "weight_interpretation": "Missing per-item weights are recorded as absent; no numeric default is inferred from metadata alone.",
+        "external_judge_item_count": 4,
+        "external_judge_needed_from_item_methods": true,
+        "non_llm_methods_count": 0
+      },
+      "downloaded": {
+        "instruction.md": {
+          "bytes": 822,
+          "sha256": "51b2b54ce0af61aee07361b6362fb1a7e3b98d76ae5343170f18973b51eae31b",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0033_accounting_audit_tax_en_t2_rl_002/instruction.md"
+        },
+        "verifier_meta.json": {
+          "bytes": 2386,
+          "sha256": "9ea99d3c5def780cb1887cea71b85dc215b5a23273dc93cd811bcc25d1ee30e4",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0033_accounting_audit_tax_en_t2_rl_002/verifier_meta.json"
+        },
+        "manifest.json": {
+          "bytes": 1879,
+          "sha256": "421aa6e47d2af4ade3e31f01d75cb957c3312816513325de632cd8873cd8ae41",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0033_accounting_audit_tax_en_t2_rl_002/manifest.json"
+        }
+      }
+    },
+    {
+      "rank": 2,
+      "task_id": "s3k_0973_finance_insurance_zh_t1_rl_003",
+      "domain": "finance_insurance",
+      "domain_parse_status": "parsed",
+      "language": "zh",
+      "tier": 1,
+      "replicate": 3,
+      "prompt_chars": 162,
+      "selection": "shortest prompt in assigned domain-language slice; stable task_id tie-break",
+      "prompt_mode_indication": {
+        "classification": "mixed_or_unclear",
+        "read_only_terms": [],
+        "modify_terms": [],
+        "heuristic_only": true
+      },
+      "manifest_method_fields": {},
+      "verifier": {
+        "item_count": 5,
+        "item_method_counts": {
+          "llm": 5
+        },
+        "gate_count_explicit": 0,
+        "critical_tier_item_count": 3,
+        "explicit_weight_count": 0,
+        "weight_missing_count": 5,
+        "weight_interpretation": "Missing per-item weights are recorded as absent; no numeric default is inferred from metadata alone.",
+        "external_judge_item_count": 5,
+        "external_judge_needed_from_item_methods": true,
+        "non_llm_methods_count": 0
+      },
+      "downloaded": {
+        "instruction.md": {
+          "bytes": 444,
+          "sha256": "2167b6432719cc68367d7793849f15daa08a62b7f5c6c3cc173a31ced765ea92",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0973_finance_insurance_zh_t1_rl_003/instruction.md"
+        },
+        "verifier_meta.json": {
+          "bytes": 2487,
+          "sha256": "e9ac54ce4af4c4980d5123c59114e4bbc8c3c5657f79fc7ae024114207f8b393",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0973_finance_insurance_zh_t1_rl_003/verifier_meta.json"
+        },
+        "manifest.json": {
+          "bytes": 1747,
+          "sha256": "ed2178a50d531dd31bb37d3692818ce893e674da40b8208483d958f1dbfe1bca",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0973_finance_insurance_zh_t1_rl_003/manifest.json"
+        }
+      }
+    },
+    {
+      "rank": 3,
+      "task_id": "s3k_0438_consulting_bizops_analytics_en_t3_rl_004",
+      "domain": "consulting_bizops_analytics",
+      "domain_parse_status": "parsed",
+      "language": "en",
+      "tier": 3,
+      "replicate": 4,
+      "prompt_chars": 775,
+      "selection": "shortest prompt in assigned domain-language slice; stable task_id tie-break",
+      "prompt_mode_indication": {
+        "classification": "mixed_or_unclear",
+        "read_only_terms": [],
+        "modify_terms": [],
+        "heuristic_only": true
+      },
+      "manifest_method_fields": {},
+      "verifier": {
+        "item_count": 3,
+        "item_method_counts": {
+          "llm": 3
+        },
+        "gate_count_explicit": 0,
+        "critical_tier_item_count": 3,
+        "explicit_weight_count": 0,
+        "weight_missing_count": 3,
+        "weight_interpretation": "Missing per-item weights are recorded as absent; no numeric default is inferred from metadata alone.",
+        "external_judge_item_count": 3,
+        "external_judge_needed_from_item_methods": true,
+        "non_llm_methods_count": 0
+      },
+      "downloaded": {
+        "instruction.md": {
+          "bytes": 775,
+          "sha256": "782e759a9bedba2ed532969ccea1f9d7a0118f90c5c92b76962eec233a0bc523",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/instruction.md"
+        },
+        "verifier_meta.json": {
+          "bytes": 3161,
+          "sha256": "f8f009fcaf9fc36fd581f15026c01cf74b6c267d7babda9bb1c4249a7a857c25",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verifier_meta.json"
+        },
+        "manifest.json": {
+          "bytes": 2043,
+          "sha256": "16c79777f27337a836ea2b60ed955bff7ec6df58f4a0702d133eeaffacfdda8c",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/manifest.json"
+        }
+      }
+    },
+    {
+      "rank": 4,
+      "task_id": "s3k_1680_hr_people_zh_t1_rl_001",
+      "domain": "hr_people",
+      "domain_parse_status": "parsed",
+      "language": "zh",
+      "tier": 1,
+      "replicate": 1,
+      "prompt_chars": 255,
+      "selection": "shortest prompt in assigned domain-language slice; stable task_id tie-break",
+      "prompt_mode_indication": {
+        "classification": "mixed_or_unclear",
+        "read_only_terms": [],
+        "modify_terms": [],
+        "heuristic_only": true
+      },
+      "manifest_method_fields": {},
+      "verifier": {
+        "item_count": 4,
+        "item_method_counts": {
+          "llm": 4
+        },
+        "gate_count_explicit": 0,
+        "critical_tier_item_count": 3,
+        "explicit_weight_count": 0,
+        "weight_missing_count": 4,
+        "weight_interpretation": "Missing per-item weights are recorded as absent; no numeric default is inferred from metadata alone.",
+        "external_judge_item_count": 4,
+        "external_judge_needed_from_item_methods": true,
+        "non_llm_methods_count": 0
+      },
+      "downloaded": {
+        "instruction.md": {
+          "bytes": 741,
+          "sha256": "bee957716b95076fc207199a706425d08d8b6e1a36606d706d428b9e8299097e",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_1680_hr_people_zh_t1_rl_001/instruction.md"
+        },
+        "verifier_meta.json": {
+          "bytes": 2404,
+          "sha256": "eb3f2b765ccb5edf3098e3752a73556534bb3fc7e7e17b3d347996f221bfc9e2",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_1680_hr_people_zh_t1_rl_001/verifier_meta.json"
+        },
+        "manifest.json": {
+          "bytes": 1663,
+          "sha256": "a07a17dcc5192990eefc952c247bc9d064f31bc35a4f635c0c22e609ca6e287f",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_1680_hr_people_zh_t1_rl_001/manifest.json"
+        }
+      }
+    },
+    {
+      "rank": 5,
+      "task_id": "s3k_1159_government_public_en_t2_rl_003",
+      "domain": "government_public",
+      "domain_parse_status": "parsed",
+      "language": "en",
+      "tier": 2,
+      "replicate": 3,
+      "prompt_chars": 821,
+      "selection": "shortest prompt in assigned domain-language slice; stable task_id tie-break",
+      "prompt_mode_indication": {
+        "classification": "mixed_or_unclear",
+        "read_only_terms": [],
+        "modify_terms": [],
+        "heuristic_only": true
+      },
+      "manifest_method_fields": {},
+      "verifier": {
+        "item_count": 4,
+        "item_method_counts": {
+          "llm": 4
+        },
+        "gate_count_explicit": 0,
+        "critical_tier_item_count": 3,
+        "explicit_weight_count": 0,
+        "weight_missing_count": 4,
+        "weight_interpretation": "Missing per-item weights are recorded as absent; no numeric default is inferred from metadata alone.",
+        "external_judge_item_count": 4,
+        "external_judge_needed_from_item_methods": true,
+        "non_llm_methods_count": 0
+      },
+      "downloaded": {
+        "instruction.md": {
+          "bytes": 821,
+          "sha256": "367a1073f928bd4fc46011a0d370c68f8aae762decf28d723dbc618ce5592d7f",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_1159_government_public_en_t2_rl_003/instruction.md"
+        },
+        "verifier_meta.json": {
+          "bytes": 2885,
+          "sha256": "6bf47024f0c1dfea51b39460b1036e15f7af26eef46fe9ef4d7b61c91f858def",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_1159_government_public_en_t2_rl_003/verifier_meta.json"
+        },
+        "manifest.json": {
+          "bytes": 1857,
+          "sha256": "a228ae1433d5bf413af2fc1faafea1126e89388956d136f0192d7b11feaf36d0",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_1159_government_public_en_t2_rl_003/manifest.json"
+        }
+      }
+    },
+    {
+      "rank": 6,
+      "task_id": "s3k_0652_education_research_admin_zh_t1_rl_004",
+      "domain": "education_research_admin",
+      "domain_parse_status": "parsed",
+      "language": "zh",
+      "tier": 1,
+      "replicate": 4,
+      "prompt_chars": 214,
+      "selection": "shortest prompt in assigned domain-language slice; stable task_id tie-break",
+      "prompt_mode_indication": {
+        "classification": "mixed_or_unclear",
+        "read_only_terms": [],
+        "modify_terms": [],
+        "heuristic_only": true
+      },
+      "manifest_method_fields": {},
+      "verifier": {
+        "item_count": 5,
+        "item_method_counts": {
+          "llm": 5
+        },
+        "gate_count_explicit": 0,
+        "critical_tier_item_count": 3,
+        "explicit_weight_count": 0,
+        "weight_missing_count": 5,
+        "weight_interpretation": "Missing per-item weights are recorded as absent; no numeric default is inferred from metadata alone.",
+        "external_judge_item_count": 5,
+        "external_judge_needed_from_item_methods": true,
+        "non_llm_methods_count": 0
+      },
+      "downloaded": {
+        "instruction.md": {
+          "bytes": 620,
+          "sha256": "217a3763040972bb217c22a026c78f1e866afb6c61c275629f978c66469706f0",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0652_education_research_admin_zh_t1_rl_004/instruction.md"
+        },
+        "verifier_meta.json": {
+          "bytes": 3024,
+          "sha256": "eac3d080efdc7c67bd819c20f5cbeeb6a7fe8813de61aba986927bbfca115aa2",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0652_education_research_admin_zh_t1_rl_004/verifier_meta.json"
+        },
+        "manifest.json": {
+          "bytes": 1762,
+          "sha256": "dc24de841cac82e1d2923919d92dd3096e1caf1c603bf74454e56ff7b1036f8a",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0652_education_research_admin_zh_t1_rl_004/manifest.json"
+        }
+      }
+    },
+    {
+      "rank": 7,
+      "task_id": "s3k_0751_energy_utilities_esg_en_t5_rl_002",
+      "domain": "energy_utilities_esg",
+      "domain_parse_status": "parsed",
+      "language": "en",
+      "tier": 5,
+      "replicate": 2,
+      "prompt_chars": 742,
+      "selection": "shortest prompt in assigned domain-language slice; stable task_id tie-break",
+      "prompt_mode_indication": {
+        "classification": "mixed_or_unclear",
+        "read_only_terms": [],
+        "modify_terms": [],
+        "heuristic_only": true
+      },
+      "manifest_method_fields": {},
+      "verifier": {
+        "item_count": 4,
+        "item_method_counts": {
+          "llm": 4
+        },
+        "gate_count_explicit": 0,
+        "critical_tier_item_count": 2,
+        "explicit_weight_count": 0,
+        "weight_missing_count": 4,
+        "weight_interpretation": "Missing per-item weights are recorded as absent; no numeric default is inferred from metadata alone.",
+        "external_judge_item_count": 4,
+        "external_judge_needed_from_item_methods": true,
+        "non_llm_methods_count": 0
+      },
+      "downloaded": {
+        "instruction.md": {
+          "bytes": 742,
+          "sha256": "498ab68ec2370a55d4eb281818b0bafd6e31eefa5db2c4231f24ad7b796afc8f",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0751_energy_utilities_esg_en_t5_rl_002/instruction.md"
+        },
+        "verifier_meta.json": {
+          "bytes": 2421,
+          "sha256": "f2adc03f85a7a4c941440517e02f9a88ead50e935aaf4a37250ef29c0c3c701e",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0751_energy_utilities_esg_en_t5_rl_002/verifier_meta.json"
+        },
+        "manifest.json": {
+          "bytes": 3160,
+          "sha256": "9f9f7d6d2fb8a20cbf119eed8f5f4c6726a017225cd4ee7b449aa9fda3bf3c47",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0751_energy_utilities_esg_en_t5_rl_002/manifest.json"
+        }
+      }
+    },
+    {
+      "rank": 8,
+      "task_id": "s3k_0364_construction_pm_zh_t1_rl_004",
+      "domain": "construction_pm",
+      "domain_parse_status": "parsed",
+      "language": "zh",
+      "tier": 1,
+      "replicate": 4,
+      "prompt_chars": 256,
+      "selection": "shortest prompt in assigned domain-language slice; stable task_id tie-break",
+      "prompt_mode_indication": {
+        "classification": "mixed_or_unclear",
+        "read_only_terms": [],
+        "modify_terms": [],
+        "heuristic_only": true
+      },
+      "manifest_method_fields": {},
+      "verifier": {
+        "item_count": 6,
+        "item_method_counts": {
+          "llm": 6
+        },
+        "gate_count_explicit": 0,
+        "critical_tier_item_count": 3,
+        "explicit_weight_count": 0,
+        "weight_missing_count": 6,
+        "weight_interpretation": "Missing per-item weights are recorded as absent; no numeric default is inferred from metadata alone.",
+        "external_judge_item_count": 6,
+        "external_judge_needed_from_item_methods": true,
+        "non_llm_methods_count": 0
+      },
+      "downloaded": {
+        "instruction.md": {
+          "bytes": 768,
+          "sha256": "a366f8a331b0980b24ecb1c5f969206ffe932ad0eb7b52914f959b5a1c58edc5",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0364_construction_pm_zh_t1_rl_004/instruction.md"
+        },
+        "verifier_meta.json": {
+          "bytes": 4015,
+          "sha256": "a5f8498303d28aaeffaa57f99f4ad84ebb8c6d4a77ea6bcf14c69fd1d92d0bd0",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0364_construction_pm_zh_t1_rl_004/verifier_meta.json"
+        },
+        "manifest.json": {
+          "bytes": 1673,
+          "sha256": "0e352aa08e0e530fa97d7aed25be2896918dffce5b4934eaf133fa11b92c67d1",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0364_construction_pm_zh_t1_rl_004/manifest.json"
+        }
+      }
+    },
+    {
+      "rank": 9,
+      "task_id": "s3k_0568_ecommerce_ops_en_t3_rl_001",
+      "domain": "ecommerce_ops",
+      "domain_parse_status": "parsed",
+      "language": "en",
+      "tier": 3,
+      "replicate": 1,
+      "prompt_chars": 756,
+      "selection": "shortest prompt in assigned domain-language slice; stable task_id tie-break",
+      "prompt_mode_indication": {
+        "classification": "mixed_or_unclear",
+        "read_only_terms": [],
+        "modify_terms": [],
+        "heuristic_only": true
+      },
+      "manifest_method_fields": {},
+      "verifier": {
+        "item_count": 4,
+        "item_method_counts": {
+          "llm": 4
+        },
+        "gate_count_explicit": 0,
+        "critical_tier_item_count": 3,
+        "explicit_weight_count": 0,
+        "weight_missing_count": 4,
+        "weight_interpretation": "Missing per-item weights are recorded as absent; no numeric default is inferred from metadata alone.",
+        "external_judge_item_count": 4,
+        "external_judge_needed_from_item_methods": true,
+        "non_llm_methods_count": 0
+      },
+      "downloaded": {
+        "instruction.md": {
+          "bytes": 756,
+          "sha256": "09041499dc53c0748608063d134f0b8c48f3fdf51b04e794a326969b7888474d",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/instruction.md"
+        },
+        "verifier_meta.json": {
+          "bytes": 2198,
+          "sha256": "dde76b4914d9a1f73676baacd8c54829133d940d427dcf95e007092b9e3fe6a8",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/verifier_meta.json"
+        },
+        "manifest.json": {
+          "bytes": 1967,
+          "sha256": "237d69f8d36e2cff1d70ecb723a4320e13df92b5eddb8ee89d4864eedfcbae5f",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/manifest.json"
+        }
+      }
+    },
+    {
+      "rank": 10,
+      "task_id": "s3k_2307_manufacturing_quality_zh_t2_rl_004",
+      "domain": "manufacturing_quality",
+      "domain_parse_status": "parsed",
+      "language": "zh",
+      "tier": 2,
+      "replicate": 4,
+      "prompt_chars": 292,
+      "selection": "shortest prompt in assigned domain-language slice; stable task_id tie-break",
+      "prompt_mode_indication": {
+        "classification": "mixed_or_unclear",
+        "read_only_terms": [],
+        "modify_terms": [],
+        "heuristic_only": true
+      },
+      "manifest_method_fields": {},
+      "verifier": {
+        "item_count": 6,
+        "item_method_counts": {
+          "llm": 6
+        },
+        "gate_count_explicit": 0,
+        "critical_tier_item_count": 1,
+        "explicit_weight_count": 6,
+        "weight_missing_count": 0,
+        "weight_interpretation": "Missing per-item weights are recorded as absent; no numeric default is inferred from metadata alone.",
+        "external_judge_item_count": 6,
+        "external_judge_needed_from_item_methods": true,
+        "non_llm_methods_count": 0
+      },
+      "downloaded": {
+        "instruction.md": {
+          "bytes": 810,
+          "sha256": "fc53e7c8355a62e8348433f495bdc197b893e3271348725b379cfa2d0c5e434c",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_2307_manufacturing_quality_zh_t2_rl_004/instruction.md"
+        },
+        "verifier_meta.json": {
+          "bytes": 4109,
+          "sha256": "b1b1b7c72697c2fa5ed05339b6d3069772b2f2976891df10808579058e88de48",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_2307_manufacturing_quality_zh_t2_rl_004/verifier_meta.json"
+        },
+        "manifest.json": {
+          "bytes": 1940,
+          "sha256": "21ddfd750b5567f5e4f0383ec427495c8fe1bc990b04c699a4cbbd6985f0ed6d",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_2307_manufacturing_quality_zh_t2_rl_004/manifest.json"
+        }
+      }
+    },
+    {
+      "rank": 11,
+      "task_id": "s3k_1920_last_mile_logistics_en_t3_rl_004",
+      "domain": "last_mile_logistics",
+      "domain_parse_status": "parsed",
+      "language": "en",
+      "tier": 3,
+      "replicate": 4,
+      "prompt_chars": 1108,
+      "selection": "shortest prompt in assigned domain-language slice; stable task_id tie-break",
+      "prompt_mode_indication": {
+        "classification": "mixed_or_unclear",
+        "read_only_terms": [],
+        "modify_terms": [],
+        "heuristic_only": true
+      },
+      "manifest_method_fields": {},
+      "verifier": {
+        "item_count": 7,
+        "item_method_counts": {
+          "llm": 7
+        },
+        "gate_count_explicit": 0,
+        "critical_tier_item_count": 2,
+        "explicit_weight_count": 0,
+        "weight_missing_count": 7,
+        "weight_interpretation": "Missing per-item weights are recorded as absent; no numeric default is inferred from metadata alone.",
+        "external_judge_item_count": 7,
+        "external_judge_needed_from_item_methods": true,
+        "non_llm_methods_count": 0
+      },
+      "downloaded": {
+        "instruction.md": {
+          "bytes": 1108,
+          "sha256": "6ff31b138ea454dffde4641a166638067058bdc6151e81bd38869a86248e19ce",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_1920_last_mile_logistics_en_t3_rl_004/instruction.md"
+        },
+        "verifier_meta.json": {
+          "bytes": 5142,
+          "sha256": "9cfd6c6ccc35472f1beadee9ad3bb454531ef7519fa696881bda909ab984260e",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_1920_last_mile_logistics_en_t3_rl_004/verifier_meta.json"
+        },
+        "manifest.json": {
+          "bytes": 2147,
+          "sha256": "30279242e4391b37c3e869267458dfff30c08f59462f82eacdb3db33b4b6c80f",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_1920_last_mile_logistics_en_t3_rl_004/manifest.json"
+        }
+      }
+    },
+    {
+      "rank": 12,
+      "task_id": "s3k_0337_agriculture_coop_zh_t3_rl_005",
+      "domain": "agriculture_coop",
+      "domain_parse_status": "parsed",
+      "language": "zh",
+      "tier": 3,
+      "replicate": 5,
+      "prompt_chars": 298,
+      "selection": "shortest prompt in assigned domain-language slice; stable task_id tie-break",
+      "prompt_mode_indication": {
+        "classification": "mixed_or_unclear",
+        "read_only_terms": [],
+        "modify_terms": [],
+        "heuristic_only": true
+      },
+      "manifest_method_fields": {},
+      "verifier": {
+        "item_count": 5,
+        "item_method_counts": {
+          "llm": 5
+        },
+        "gate_count_explicit": 0,
+        "critical_tier_item_count": 2,
+        "explicit_weight_count": 0,
+        "weight_missing_count": 5,
+        "weight_interpretation": "Missing per-item weights are recorded as absent; no numeric default is inferred from metadata alone.",
+        "external_judge_item_count": 5,
+        "external_judge_needed_from_item_methods": true,
+        "non_llm_methods_count": 0
+      },
+      "downloaded": {
+        "instruction.md": {
+          "bytes": 802,
+          "sha256": "c0d22503cc9d5dee86b60364e89dff76afe684e724b584ff2a7b4ef451430618",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0337_agriculture_coop_zh_t3_rl_005/instruction.md"
+        },
+        "verifier_meta.json": {
+          "bytes": 3481,
+          "sha256": "38e5b63b2d34cead1ff76bf628a4efe134ff0b75c5ae05d83983540b02198f80",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0337_agriculture_coop_zh_t3_rl_005/verifier_meta.json"
+        },
+        "manifest.json": {
+          "bytes": 2030,
+          "sha256": "a8258196a571f02b63d288f55b03b95002a15aae5c140714b5a01436d7938905",
+          "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/general_sample/snapshots/s3k_0337_agriculture_coop_zh_t3_rl_005/manifest.json"
+        }
+      }
+    }
+  ],
+  "downloaded_total_bytes": 70790,
+  "download_scope": "Only instruction.md, verifier_meta.json, and manifest.json for selected tasks; no documents, images, runtime code, or verifier source were fetched.",
+  "cost_triage": {
+    "all_selected_external_judge_free_by_item_metadata": false,
+    "rule_or_non_llm_item_counts": {
+      "s3k_0033_accounting_audit_tax_en_t2_rl_002": 0,
+      "s3k_0973_finance_insurance_zh_t1_rl_003": 0,
+      "s3k_0438_consulting_bizops_analytics_en_t3_rl_004": 0,
+      "s3k_1680_hr_people_zh_t1_rl_001": 0,
+      "s3k_1159_government_public_en_t2_rl_003": 0,
+      "s3k_0652_education_research_admin_zh_t1_rl_004": 0,
+      "s3k_0751_energy_utilities_esg_en_t5_rl_002": 0,
+      "s3k_0364_construction_pm_zh_t1_rl_004": 0,
+      "s3k_0568_ecommerce_ops_en_t3_rl_001": 0,
+      "s3k_2307_manufacturing_quality_zh_t2_rl_004": 0,
+      "s3k_1920_last_mile_logistics_en_t3_rl_004": 0,
+      "s3k_0337_agriculture_coop_zh_t3_rl_005": 0
+    }
+  }
+}

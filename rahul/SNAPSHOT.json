@@ -1,0 +1,154 @@
+{
+  "source_repository": "https://github.com/rahul-amd/hackathon-oct26",
+  "base_commit": "48f2cbb55a135926cb2e4d4934bf599df7cc6747",
+  "release": "Completed shared Verifiers adapter before the Prime100 experiment",
+  "validated_engine_sha256": "871aca85fc3618a92d24d83c5e2504f48bf3d0dc1bcc8d933d64c17f6cbab392",
+  "engine_files": [
+    {
+      "path": "__init__.py",
+      "sha256": "a1d0afb77f72d774813b41b79ded6281b01700a11a7ebb2e8375baa54f993fed"
+    },
+    {
+      "path": "__main__.py",
+      "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
+    },
+    {
+      "path": "adapters.py",
+      "sha256": "9cbb39ef8851eb492a14e43844bb93ba638a623c6774123430bb1c4b7a4bb27e"
+    },
+    {
+      "path": "cli.py",
+      "sha256": "d1989a0653f90d6c7438f27b2f66385302923c572d8d464bb49240a2a47003d4"
+    },
+    {
+      "path": "contracts.py",
+      "sha256": "3badd47320585b76aedc033fe0f487a050d5647120654e429b18e98b14035a10"
+    },
+    {
+      "path": "manifest.py",
+      "sha256": "192e889fcca4e280687bae87bd547d8110b82fa1a8afec03c1851ae569ab941b"
+    },
+    {
+      "path": "mimo_contracts.py",
+      "sha256": "f588d656f20c669a09310a641e9440353c66285bdd4e8d514708496ea2d5788a"
+    },
+    {
+      "path": "oracles.py",
+      "sha256": "464201080fea36d326435ff9062fa53e33dcf843a809e5723aca17ccc33c0305"
+    },
+    {
+      "path": "pipeline.py",
+      "sha256": "20f0b965c227d1e734441658a37d309228079e953cd55a20676219a5179ff8fe"
+    },
+    {
+      "path": "probes.py",
+      "sha256": "a2466021b607b2b9682ff93cbe144358adab35ecd4a155bccc2b5590075b940a"
+    },
+    {
+      "path": "slurm.py",
+      "sha256": "0204f098b6ad240c417f1481f0df1006e4625f643d4d5552686fe253739920da"
+    },
+    {
+      "path": "snapshot.py",
+      "sha256": "095bb9c7989b9f92c12118f21628114af367e3df4439a46d7e03e8255c5d8c70"
+    },
+    {
+      "path": "verifiers_adapter.py",
+      "sha256": "3ad6ee9de89373627a3cc13c6f35f44149ae0c10e6d7ce8c719c889b30edc306"
+    }
+  ],
+  "historical_validation": {
+    "tests": 81,
+    "test_slurm_job": 55713,
+    "prime_cases": 34,
+    "unchanged_findings": 4,
+    "audit_slurm_job": 55712,
+    "parity_slurm_job": 55714,
+    "all_frozen_replays_reproduced": true
+  },
+  "omitted": "Ongoing Prime100 changes, project memory, bulk dataset/state files, and transient execution logs",
+  "omitted_base_files": [
+    "PROJECT_MEMORY.json",
+    "research/mimo/code_review/image_inspection/55616/pull.log",
+    "research/mimo/code_review/logs/code_fixture_inspect-55616.err",
+    "research/mimo/code_review/logs/code_fixture_inspect-55616.out",
+    "research/mimo/code_scan/logs/static-scan-55622.err",
+    "research/mimo/code_scan/logs/static-scan-55622.out",
+    "research/mimo/code_scan/logs/static-scan-55623.err",
+    "research/mimo/code_scan/logs/static-scan-55623.out",
+    "research/mimo/code_scan/logs/static-scan-55625.err",
+    "research/mimo/code_scan/logs/static-scan-55625.out",
+    "research/mimo/code_scan/logs/static-scan-55627.err",
+    "research/mimo/code_scan/logs/static-scan-55627.out",
+    "research/mimo/general_actions/slurm-55621.out",
+    "research/mimo/general_truth/sources/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/tue_operations_intake/state.db",
+    "research/mimo/general_truth/sources/s3k_0568_ecommerce_ops_en_t3_rl_001/stripe_payments_ledger/state.db",
+    "research/mimo/inventory/raw/code.parquet",
+    "research/mimo/inventory/raw/general-env-directories.json",
+    "research/mimo/inventory/raw/general_train.parquet",
+    "research/mimo/inventory/raw/image-mapping.jsonl",
+    "research/mimo/other_subsets/logs/audit-55672.log",
+    "research/mimo/other_subsets/logs/tests-55668.log",
+    "research/mimo/other_subsets/logs/tests-55670.log",
+    "research/mimo/other_subsets/logs/tests-55671.log",
+    "research/mimo/other_subsets/raw/cyber.parquet",
+    "research/mimo/other_subsets/raw/music.parquet",
+    "research/mimo/other_subsets/raw/webdev.parquet",
+    "research/mimo/probes/fixtures/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/dealcloud_disposition_workspace/state.db",
+    "research/mimo/probes/fixtures/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/sharepoint_tax_governance_library/state.db",
+    "research/mimo/probes/general-55615.log",
+    "research/mimo/probes/money-format-55624.log",
+    "research/mimo/probes/money-format-55626.log",
+    "research/pipeline/docker-smoke-55647.log",
+    "research/pipeline/docker-smoke-55653.log",
+    "research/pipeline/docker-smoke-55659.log",
+    "research/pipeline/tests-55636.log",
+    "research/pipeline/tests-55637.log",
+    "research/pipeline/tests-55638.log",
+    "research/pipeline/tests-55639.log",
+    "research/pipeline/tests-55643.log",
+    "research/pipeline/tests-55648.log",
+    "research/pipeline/tests-55652.log",
+    "research/pipeline/tests-55657.log",
+    "research/pipeline/validation-55655.log",
+    "research/pipeline/validation-55658.log",
+    "research/prime/audit-55684.log",
+    "research/prime/data/prepare-55675.log",
+    "research/prime/data/prepare-55678.log",
+    "research/prime/data/reverse_train.parquet",
+    "research/prime/framework/smoke-55674.log",
+    "research/prime/framework/smoke-55677.log",
+    "research/prime/integration/select_countdown.55673.err",
+    "research/prime/integration/select_countdown.55673.out",
+    "research/prime/integration/test_drivers.55679.err",
+    "research/prime/integration/test_drivers.55679.out",
+    "research/prime/integration/test_drivers.55681.err",
+    "research/prime/integration/test_drivers.55681.out",
+    "research/prime/integration/test_drivers.55682.err",
+    "research/prime/integration/test_drivers.55682.out",
+    "research/prime/review/verify_countdown.55676.err",
+    "research/prime/review/verify_countdown.55676.out",
+    "research/prime/review/verify_reverse_findings.55685.err",
+    "research/prime/review/verify_reverse_findings.55685.out",
+    "research/prime/review/verify_reverse_findings.55687.err",
+    "research/prime/review/verify_reverse_findings.55687.out",
+    "research/prime/tests-55683.log"
+  ],
+  "removed_in_progress_tests": 3,
+  "export_validation": {
+    "status": "passed",
+    "partition": "amd-tw-verification",
+    "slurm_job_id": 55740,
+    "archived_engine_files_verified": 13,
+    "toolkit_tests": {
+      "discovered": 81,
+      "passed": 73,
+      "skipped": 8,
+      "skip_reason": "Seven downloaded-source execution checks excluded by destination policy; one cached dataset check skipped because bulk inputs are omitted"
+    },
+    "destination_repository_tests": {
+      "passed": 96
+    },
+    "destination_catalog": "structurally_valid"
+  }
+}

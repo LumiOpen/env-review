@@ -1,0 +1,286 @@
+{
+  "schema_version": "rlaudit.review/v1",
+  "findings": [
+    {
+      "pipeline_finding_id": "15e85e2b3c6456f850d722db",
+      "pipeline_status": "candidate",
+      "reviewed_status": "confirmed_declared_metric_mismatch",
+      "title": "SequenceMatcher differs from described longest common subsequence metric",
+      "task_id": "prime-reverse-text-train-0000",
+      "environment": "will/reverse-text",
+      "probe_id": "declared-lcs-metric",
+      "run": "runs/prime-v1/prime-reverse-text",
+      "expected_values": [
+        1.0,
+        0.36585365853658536
+      ],
+      "observed_values": [
+        1.0,
+        0.2926829268292683
+      ],
+      "observations": [
+        {
+          "case_id": "reference",
+          "reward": 1.0,
+          "details": {
+            "environment": "will/reverse-text@9523b627a28d",
+            "scope": "source_rubric_component",
+            "source_row_id": 0,
+            "parsed_answer": "ti otni degrem saw kcurB ni ytinummoc ehT",
+            "expected_answer": "ti otni degrem saw kcurB ni ytinummoc ehT",
+            "rubric_metrics": {
+              "lcs_reward_func": 1.0,
+              "num_turns": 0.0
+            }
+          },
+          "result_path": "runs/prime-v1/prime-reverse-text/probes/declared-lcs-metric/task-0b9fc17bfe814d223901c64b/reference/result.json"
+        },
+        {
+          "case_id": "variant",
+          "reward": 0.2926829268292683,
+          "details": {
+            "environment": "will/reverse-text@9523b627a28d",
+            "scope": "source_rubric_component",
+            "source_row_id": 0,
+            "parsed_answer": "nd tgsmcekB irrm itT uo wye uiah ennoimct",
+            "expected_answer": "ti otni degrem saw kcurB ni ytinummoc ehT",
+            "rubric_metrics": {
+              "lcs_reward_func": 0.2926829268292683,
+              "num_turns": 0.0
+            }
+          },
+          "result_path": "runs/prime-v1/prime-reverse-text/probes/declared-lcs-metric/task-0b9fc17bfe814d223901c64b/variant/result.json"
+        }
+      ],
+      "independent_review": "research/prime/review/reverse_findings.json",
+      "limits": [
+        "Reviewed source component only; no agent rollout, prevalence estimate or training-impact demonstration."
+      ]
+    },
+    {
+      "pipeline_finding_id": "42dcf7bb60f0c3278232bb18",
+      "pipeline_status": "candidate",
+      "reviewed_status": "confirmed_component_underreward",
+      "title": "Exact reversed answer loses significant whitespace in parser",
+      "task_id": "prime-reverse-text-train-0049",
+      "environment": "will/reverse-text",
+      "probe_id": "exact-reversal-49",
+      "run": "runs/prime-v1/prime-reverse-text",
+      "expected_values": [
+        1.0,
+        0.0
+      ],
+      "observed_values": [
+        0.9951219512195122,
+        0.0
+      ],
+      "observations": [
+        {
+          "case_id": "reference",
+          "reward": 0.9951219512195122,
+          "details": {
+            "environment": "will/reverse-text@9523b627a28d",
+            "scope": "source_rubric_component",
+            "source_row_id": 49,
+            "parsed_answer": "\"doirep laiceps eht fo ytilaer laicos wen eht ot denut yltcefrep retcarahc a\" saw nílonaM ,yaw siht nI",
+            "expected_answer": " \"doirep laiceps eht fo ytilaer laicos wen eht ot denut yltcefrep retcarahc a\" saw nílonaM ,yaw siht nI",
+            "rubric_metrics": {
+              "lcs_reward_func": 0.9951219512195122,
+              "num_turns": 0.0
+            }
+          },
+          "result_path": "runs/prime-v1/prime-reverse-text/probes/exact-reversal-49/task-bfe766530d3cff1270a52542/reference/result.json"
+        },
+        {
+          "case_id": "variant",
+          "reward": 0.0,
+          "details": {
+            "environment": "will/reverse-text@9523b627a28d",
+            "scope": "source_rubric_component",
+            "source_row_id": 49,
+            "parsed_answer": "",
+            "expected_answer": " \"doirep laiceps eht fo ytilaer laicos wen eht ot denut yltcefrep retcarahc a\" saw nílonaM ,yaw siht nI",
+            "rubric_metrics": {
+              "lcs_reward_func": 0.0,
+              "num_turns": 0.0
+            }
+          },
+          "result_path": "runs/prime-v1/prime-reverse-text/probes/exact-reversal-49/task-bfe766530d3cff1270a52542/variant/result.json"
+        }
+      ],
+      "independent_review": "research/prime/review/reverse_findings.json",
+      "limits": [
+        "Reviewed source component only; no agent rollout, prevalence estimate or training-impact demonstration."
+      ]
+    },
+    {
+      "pipeline_finding_id": "c629772590dd11ce6996fecf",
+      "pipeline_status": "candidate",
+      "reviewed_status": "confirmed_component_false_acceptance",
+      "title": "Forbidden exponentiation accepted for full reward",
+      "task_id": "prime-countdown-seed-339-row-0",
+      "environment": "sami/countdown",
+      "probe_id": "forbidden-exponent",
+      "run": "runs/prime-v1/prime-countdown",
+      "expected_values": [
+        1,
+        0
+      ],
+      "observed_values": [
+        1.0,
+        1.0
+      ],
+      "observations": [
+        {
+          "case_id": "reference",
+          "reward": 1.0,
+          "details": {
+            "environment": "sami/countdown@e821f68a918d",
+            "scope": "source_rubric_component",
+            "seed": 339,
+            "row_index": 0,
+            "numbers": [
+              2,
+              5,
+              3,
+              2,
+              50,
+              7
+            ],
+            "target": 125,
+            "parsed_solution": "(5*50)/2",
+            "rubric_reward": 1.4,
+            "rubric_metrics": {
+              "exact_match_reward": 1.0,
+              "closeness_reward": 1.0,
+              "format_reward": 1.0,
+              "num_turns": 0.0
+            },
+            "metric_returned": "exact",
+            "loader_stdout": "Warning: No pre-computed puzzles found, generating on the fly..."
+          },
+          "result_path": "runs/prime-v1/prime-countdown/probes/forbidden-exponent/task-491cf5a45343a2ab39639261/reference/result.json"
+        },
+        {
+          "case_id": "variant",
+          "reward": 1.0,
+          "details": {
+            "environment": "sami/countdown@e821f68a918d",
+            "scope": "source_rubric_component",
+            "seed": 339,
+            "row_index": 0,
+            "numbers": [
+              2,
+              5,
+              3,
+              2,
+              50,
+              7
+            ],
+            "target": 125,
+            "parsed_solution": "5**3",
+            "rubric_reward": 1.4,
+            "rubric_metrics": {
+              "exact_match_reward": 1.0,
+              "closeness_reward": 1.0,
+              "format_reward": 1.0,
+              "num_turns": 0.0
+            },
+            "metric_returned": "exact",
+            "loader_stdout": "Warning: No pre-computed puzzles found, generating on the fly..."
+          },
+          "result_path": "runs/prime-v1/prime-countdown/probes/forbidden-exponent/task-491cf5a45343a2ab39639261/variant/result.json"
+        }
+      ],
+      "independent_review": "research/prime/review/verify_countdown.55676.out",
+      "limits": [
+        "Reviewed source component only; no agent rollout, prevalence estimate or training-impact demonstration."
+      ]
+    },
+    {
+      "pipeline_finding_id": "15beacaa1ab417533f7f314b",
+      "pipeline_status": "candidate",
+      "reviewed_status": "confirmed_component_false_acceptance",
+      "title": "Fractional intermediate accepted for full reward",
+      "task_id": "prime-countdown-seed-339-row-0",
+      "environment": "sami/countdown",
+      "probe_id": "fractional-intermediate",
+      "run": "runs/prime-v1/prime-countdown",
+      "expected_values": [
+        1,
+        0
+      ],
+      "observed_values": [
+        1.0,
+        1.0
+      ],
+      "observations": [
+        {
+          "case_id": "reference",
+          "reward": 1.0,
+          "details": {
+            "environment": "sami/countdown@e821f68a918d",
+            "scope": "source_rubric_component",
+            "seed": 339,
+            "row_index": 0,
+            "numbers": [
+              2,
+              5,
+              3,
+              2,
+              50,
+              7
+            ],
+            "target": 125,
+            "parsed_solution": "(5*50)/2",
+            "rubric_reward": 1.4,
+            "rubric_metrics": {
+              "exact_match_reward": 1.0,
+              "closeness_reward": 1.0,
+              "format_reward": 1.0,
+              "num_turns": 0.0
+            },
+            "metric_returned": "exact",
+            "loader_stdout": "Warning: No pre-computed puzzles found, generating on the fly..."
+          },
+          "result_path": "runs/prime-v1/prime-countdown/probes/fractional-intermediate/task-491cf5a45343a2ab39639261/reference/result.json"
+        },
+        {
+          "case_id": "variant",
+          "reward": 1.0,
+          "details": {
+            "environment": "sami/countdown@e821f68a918d",
+            "scope": "source_rubric_component",
+            "seed": 339,
+            "row_index": 0,
+            "numbers": [
+              2,
+              5,
+              3,
+              2,
+              50,
+              7
+            ],
+            "target": 125,
+            "parsed_solution": "(5/2)*50",
+            "rubric_reward": 1.4,
+            "rubric_metrics": {
+              "exact_match_reward": 1.0,
+              "closeness_reward": 1.0,
+              "format_reward": 1.0,
+              "num_turns": 0.0
+            },
+            "metric_returned": "exact",
+            "loader_stdout": "Warning: No pre-computed puzzles found, generating on the fly..."
+          },
+          "result_path": "runs/prime-v1/prime-countdown/probes/fractional-intermediate/task-491cf5a45343a2ab39639261/variant/result.json"
+        }
+      ],
+      "independent_review": "research/prime/review/verify_countdown.55676.out",
+      "limits": [
+        "Reviewed source component only; no agent rollout, prevalence estimate or training-impact demonstration."
+      ]
+    }
+  ],
+  "note": "Independent classifications supplement unchanged sealed automatic candidate reports."
+}

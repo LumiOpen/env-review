@@ -1,0 +1,515 @@
+{
+  "schema_version": "rlaudit.pipeline/v1",
+  "name": "prime-wordle",
+  "provenance": {
+    "hub_url": "https://app.primeintellect.ai/dashboard/environments/apple999/wordle",
+    "environment": "apple999/wordle",
+    "archive_sha256": "7cea003c4fb93bc42ff062089dfa2f2be6bd18f50ab8ac805863a29aeec88437",
+    "version_id": "rkmfxgz03s3zf0wni3ek2thw",
+    "runtime": "VERIFIERS_V0",
+    "scope": "Model-free source parser/rubric or state/tool component replay on frozen real task rows.",
+    "limitations": [
+      "No model rollout, policy training, paid judge, or inference service.",
+      "Framework trajectory metrics are scaffolding, not evidence of a real agent rollout.",
+      "Findings apply to the selected package and compatible pinned framework, not every Hub environment."
+    ]
+  },
+  "sources": [
+    {
+      "id": "tasks",
+      "path": "../research/prime/tasks/wordle.jsonl",
+      "sha256": "37938ff5c361257289a9b0bf6008bbdf45903697f94b4e89fca2a81d94480bcd"
+    },
+    {
+      "id": "contract",
+      "path": "../examples/contracts/prime_wordle.json",
+      "sha256": "3b0396cdb4eb2b3a41837fb0ab64f93a43e2b2884f3f4ce8e75d50d7b3f526a9"
+    },
+    {
+      "id": "wordle",
+      "path": "../research/prime/sources/apple999__wordle__7cea003c4fb9"
+    },
+    {
+      "id": "archive",
+      "path": "../research/prime/sources/apple999__wordle__7cea003c4fb9.tar.gz",
+      "sha256": "7cea003c4fb93bc42ff062089dfa2f2be6bd18f50ab8ac805863a29aeec88437"
+    },
+    {
+      "id": "catalog",
+      "path": "../research/prime/catalog/apple999__wordle.json",
+      "sha256": "2027b651b736602f7a1164963c67acbdbc970404b64008e632334dd0991faca0"
+    }
+  ],
+  "adapter": {
+    "kind": "local_jsonl",
+    "source": "tasks"
+  },
+  "checks": [
+    "schema"
+  ],
+  "probes": [
+    {
+      "id": "solve-versus-exhaust-abbey",
+      "task_ids": [
+        "prime-wordle-answer-abbey"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "reference",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "abbey"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "variant",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          1.0,
+          0.08
+        ],
+        "tolerance": 1e-12,
+        "justification": "A first-guess solve scores1. Six repeated wrong legal guesses exhaust the budget with one green each, so the documented unsolved shaping score is0.4*(1/5)=0.08."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "invalid-nonconsumption-abbey",
+      "task_ids": [
+        "prime-wordle-answer-abbey"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "direct",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "abbey"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "invalid-first",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "123"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "abbey"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "relation": {
+        "kind": "invariant",
+        "tolerance": 0,
+        "justification": "The prompt states invalid guesses do not consume a valid guess. Both sequences solve on their first valid guess; only two tool invocations are replayed, within the12-turn cap."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "fewer-valid-guesses-abbey",
+      "task_ids": [
+        "prime-wordle-answer-abbey"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "two-valid",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "abbey"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "one-valid",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "abbey"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "relation": {
+        "kind": "nondecreasing",
+        "tolerance": 0,
+        "justification": "The documented solve-speed preference should not lower reward when the same target is solved in fewer valid guesses."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "solve-versus-exhaust-apple",
+      "task_ids": [
+        "prime-wordle-answer-apple"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "reference",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "variant",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "abbey"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "abbey"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "abbey"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "abbey"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "abbey"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "abbey"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          1.0,
+          0.08
+        ],
+        "tolerance": 1e-12,
+        "justification": "A first-guess solve scores1. Six repeated wrong legal guesses exhaust the budget with one green each, so the documented unsolved shaping score is0.4*(1/5)=0.08."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "invalid-nonconsumption-apple",
+      "task_ids": [
+        "prime-wordle-answer-apple"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "direct",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "invalid-first",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "123"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "relation": {
+        "kind": "invariant",
+        "tolerance": 0,
+        "justification": "The prompt states invalid guesses do not consume a valid guess. Both sequences solve on their first valid guess; only two tool invocations are replayed, within the12-turn cap."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "fewer-valid-guesses-apple",
+      "task_ids": [
+        "prime-wordle-answer-apple"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "two-valid",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "abbey"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "one-valid",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "relation": {
+        "kind": "nondecreasing",
+        "tolerance": 0,
+        "justification": "The documented solve-speed preference should not lower reward when the same target is solved in fewer valid guesses."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "duplicate-letter-replay",
+      "task_ids": [
+        "prime-wordle-answer-apple"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "reference",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "allee"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "variant",
+          "input": {
+            "calls": [
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apply"
+                }
+              },
+              {
+                "tool": "guess",
+                "args": {
+                  "word": "apple"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          0.9,
+          0.9
+        ],
+        "tolerance": 1e-12,
+        "justification": "Both sequences solve in two valid guesses under the documented speed formula. Per-letter feedback is retained for independent duplicate-letter review; equality alone does not validate those marks."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    }
+  ],
+  "execution": {
+    "partition": "amd-tw-verification",
+    "cpus": 2,
+    "memory": "4G",
+    "time_limit": "00:05:00",
+    "max_source_bytes": 4194304,
+    "max_source_files": 64,
+    "max_tasks": 10,
+    "max_probe_cases": 20,
+    "timeout_seconds": 45,
+    "max_probe_seconds": 240,
+    "max_output_bytes": 262144,
+    "allow_trusted_process": true,
+    "dependencies": {
+      "verifiers": "0.3.0",
+      "datasets": "4.3.0",
+      "pyarrow": "24.0.0"
+    }
+  }
+}

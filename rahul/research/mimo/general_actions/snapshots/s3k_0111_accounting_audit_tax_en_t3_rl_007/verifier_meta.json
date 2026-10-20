@@ -1,0 +1,80 @@
+{
+ "items": [
+  {
+   "id": "northstar_entity_scope",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the response correctly establish the complete Northstar entity scope rather than relying on one display-name spelling?",
+   "pass_anchor": "The response must recognize that Northstar Data Systems, Inc., Northstar Data Systems, and NDS are variants of the same canonical entity, PAYER-NORTHSTAR-001. Equivalent wording is acceptable; the answer must make clear that all variants were included in the population."
+  },
+        {
+            "id": "posted_2023_population",
+            "tier": "critical",
+            "method": "llm",
+            "files": [
+    "answer.md"
+   ],
+            "question": "Does the response correctly recompute the posted 2023 Northstar account 2255 invoice-basis population?",
+            "pass_anchor": "The posted 2023 invoice-basis population is 14 reimbursement invoice lines totaling exactly $24,302.35. Accept equivalent currency formatting and a rounding tolerance of $0.01, but both the count and total must be correct and must refer to posted 2023 account 2255 activity for the canonical Northstar entity."
+        },
+        {
+            "id": "support_schedule_tie",
+            "tier": "critical",
+            "method": "llm",
+            "files": [
+                "answer.md"
+            ],
+            "question": "Does the response explicitly tie the recomputed GL population to the Disputed Reimbursement Support Schedule 2023?",
+            "pass_anchor": "The response must explicitly state that the recomputed posted 2023 account-2255 Northstar population ties to the Disputed Reimbursement Support Schedule 2023 at the aggregate level: 14 entries and $24,302.35 (zero count and amount variance, allowing $0.01 rounding). The schedule's row-level invoice identifiers and amounts differ from the live NetSuite records, so an answer claiming a row-for-row tie must qualify that claim; it must not present those rows as identical without noting the limitation."
+        },
+        {
+            "id": "cutoff_invoice",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the response identify the year-end reimbursement invoice and its accounting facts?",
+   "pass_anchor": "The cutoff item is invoice INV-23-1731, posted on December 29, 2023 in period 2023-12, for $2,104.55 to account 2255. The answer must identify the invoice number, date, and amount; equivalent date and currency formats are acceptable with a $0.01 tolerance."
+  },
+  {
+   "id": "posted_cash_settlement",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the response correctly trace the cutoff invoice to the posted cash settlement after year-end?",
+   "pass_anchor": "The linked posted cash receipt is RCPT-24-0028 dated January 2, 2024 for $2,104.55. It is linked to INV-23-1731 through external reference NS-CLEAR-2024-0102. The answer must provide the receipt number and date and make clear that settlement occurred in 2024; the amount or external reference may be used as corroboration."
+  },
+  {
+   "id": "staging_duplicate_exclusion",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the response correctly identify and exclude the bank-feed duplicate candidate without doubling the cash event?",
+   "pass_anchor": "BANKFEED-STG-24-0081 is a STAGING bank-feed candidate, not a posted second receipt. Its operating-cash line JL-NS-BF01-01 shares source line key RCPT-NS-2024-0102 and the same $2,104.55 amount with posted receipt line JL-NS-R001-01. The response must exclude the staging candidate and retain only RCPT-24-0028 as the economic cash event. Equivalent explanations based on posting status plus the shared source key are acceptable."
+  },
+  {
+   "id": "cutoff_conclusion",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the response state the correct 2023 accrual-versus-cash cutoff conclusion and tie it to the population?",
+   "pass_anchor": "The $2,104.55 item belongs in the $24,302.35 2023 accrual-basis reimbursement population because the invoice was posted in December 2023, but it is not part of 2023 cash receipts because the only posted settlement occurred on January 2, 2024. The answer must state both sides of this conclusion and must not double the 2024 cash event for the staging candidate."
+  }
+ ],
+ "check_code": "\"\"\"Rule checks for task_007.\n\nThis is a read-only analysis task. All scored conclusions are evaluated from\nthe final answer with LLM rubric items, so there are no deterministic state\nchecks.\n\"\"\"\n\n",
+ "gold_answer": null,
+ "input": "both",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

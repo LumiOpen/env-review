@@ -1,0 +1,85 @@
+{
+  "status": "completed",
+  "architecture": "Common pipeline, shared framework adapter, declarative environment contracts, reusable independent oracles",
+  "framework": "verifiers_v0",
+  "documentation": "docs/environment-contracts.md",
+  "contracts": [
+    "examples/contracts/prime_reverse_text.json",
+    "examples/contracts/prime_countdown.json",
+    "examples/contracts/prime_wordle.json"
+  ],
+  "unit_tests": {
+    "status": "passed",
+    "count": 81,
+    "job_id": 55713,
+    "log": "research/prime/shared-tests-55713.log",
+    "initial_issue": "First full suite exposed test mock leakage; scoped patch restored the cached module before rerun."
+  },
+  "prime": {
+    "audit_job_id": 55712,
+    "parity_job_id": 55714,
+    "collection": "runs/prime-shared-v1",
+    "task_count": 7,
+    "case_count": 34,
+    "relation_count": 17,
+    "baseline_scores_match": true,
+    "unchanged_findings": 4,
+    "all_frozen_replays_reproduced": true,
+    "validation": "research/prime/shared_adapter_validation.json"
+  },
+  "fourth_environment": {
+    "source": "examples/verifiers_demo",
+    "custom_audit_driver": false,
+    "runtime": "Actual pinned Verifiers v0 loader and rubric",
+    "collection": "runs/verifiers-demo-v1",
+    "audit_job_id": 55704,
+    "verify_job_id": 55705,
+    "archived_replay_job_id": 55708,
+    "compare_job_id": 55709,
+    "source_rewards": [
+      1.0,
+      0.0
+    ],
+    "reference_rewards": [
+      1.0,
+      0.0
+    ],
+    "integrity": {
+      "status": "verified",
+      "fingerprint": "62f950d1c549793547a73228bfece14dd5e1d06a8628afe0117a2e43a3ef3acc",
+      "artifacts": 34
+    },
+    "comparison": {
+      "same_fingerprint": true,
+      "same_semantic_results": true,
+      "reproduced": true,
+      "left_semantic_sha256": "4e4856f046ecd2eac696315454cc8a9b12e93f2b4fd96596cae9be3ccce6f811",
+      "right_semantic_sha256": "4e4856f046ecd2eac696315454cc8a9b12e93f2b4fd96596cae9be3ccce6f811"
+    }
+  },
+  "partition": "amd-tw-verification",
+  "gpus": 0,
+  "model_calls": 0,
+  "paid_judge_calls": 0,
+  "independent_review": {
+    "status": "passed",
+    "scope": "Core module review, concrete row binding, all 34 case rewards/source observations, relations, finding IDs, fourth environment, frozen replay"
+  },
+  "known_limits": [
+    "Only the reviewed Verifiers v0 interface is supported by the new adapter.",
+    "Oracle rules require independent review and do not certify environment correctness.",
+    "Wordle has declared relation probes and source game/feedback capture, without an independent game oracle.",
+    "Trusted-process execution has no network isolation; direct tool replay is not a model rollout.",
+    "Separate Slurm replay provisioning failed to fetch locked site-local ROCm torch; archived replay passed inside a matching compute runtime. Dependency capture includes installed optional requirements."
+  ],
+  "file_sha256": {
+    "src/rlaudit/contracts.py": "3badd47320585b76aedc033fe0f487a050d5647120654e429b18e98b14035a10",
+    "src/rlaudit/oracles.py": "464201080fea36d326435ff9062fa53e33dcf843a809e5723aca17ccc33c0305",
+    "src/rlaudit/verifiers_adapter.py": "3ad6ee9de89373627a3cc13c6f35f44149ae0c10e6d7ce8c719c889b30edc306",
+    "src/rlaudit/probes.py": "a2466021b607b2b9682ff93cbe144358adab35ecd4a155bccc2b5590075b940a",
+    "examples/contracts/prime_reverse_text.json": "586c47e50ef6f1a4536b1e34db799ed1c0dca6022e790b5b99c17f81919e31fd",
+    "examples/contracts/prime_countdown.json": "deed7b564f3f7f89d52c969fb0d377832eacee8c8a8dba4280a6a2321c53e6e6",
+    "examples/contracts/prime_wordle.json": "3b0396cdb4eb2b3a41837fb0ab64f93a43e2b2884f3f4ce8e75d50d7b3f526a9",
+    "examples/verifiers_demo/pipeline.json": "3caaa1f496584251052478c6353317ee1590235a55b57097eb1c303a3ee3906a"
+  }
+}

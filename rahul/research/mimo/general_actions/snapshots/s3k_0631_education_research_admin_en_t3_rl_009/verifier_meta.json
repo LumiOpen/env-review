@@ -1,0 +1,50 @@
+{
+ "items": [
+  {
+   "id": "mandatory_coverage",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final answer correctly report the current mandatory-control completion count and compare it with the workbook schedule?",
+   "pass_anchor": "Ground truth: the approved current profile has 10 mandatory controls with implemented evidence out of 10 mandatory controls in the workbook schedule (10/10, complete). The answer must make clear that the count is based on current mandatory controls with implemented evidence, not on every catalog row or every historical event. Accept equivalent wording and formatting."
+  },
+  {
+   "id": "retention_timing",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final answer correctly recompute and conclude on both the portable transfer/deletion deadline and the open-text review deadline?",
+   "pass_anchor": "Ground truth: the production portable transfer completed at 2025-10-15 15:12 UTC and portable deletion completed at 2025-10-16 14:55 UTC, an elapsed 23 hours 43 minutes, so it is within the 24-hour limit. The open-text review completed on 2025-10-23 17:36 UTC against a due timestamp of 2025-10-24 23:59 UTC, so it was completed before the due deadline and satisfies the five-business-day requirement. The answer may express the date/time relationship in equivalent language."
+  },
+  {
+   "id": "synthetic_exclusion",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final answer correctly explain why the synthetic test activity is excluded from sensitive-data failure calculations?",
+   "pass_anchor": "Ground truth: the synthetic test transfer is explicitly exempt, has no sensitive data element, and has reportable_milestone_flag=0; therefore it is not a reportable sensitive-data milestone and must be excluded from the 24-hour sensitive-data failure calculation. It may remain in the audit history. Do not require the event identifier to be repeated."
+  },
+  {
+   "id": "retired_history_exclusion",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final answer correctly explain why retired-control history is excluded from current mandatory coverage and reconcile the conclusion to the workbook/eRRM security evidence?",
+   "pass_anchor": "Ground truth: the historical portable-transfer record carries only a retired control identifier that is absent from the current control catalog, leaving its current control_id null. It remains audit history but cannot contribute to current mandatory coverage. The resulting 10/10 current coverage agrees with the 10-control security evidence and control-set statements in the eRRM workbook. Do not require the event identifier to be repeated."
+  }
+ ],
+ "check_code": "\"\"\"No rule checks are used: this is an act=none narrative assurance task.\n\nAll scored criteria intentionally inspect the agent's final answer through the\nLLM rubric, because the task has no mutable post-state.\n\"\"\"\n\n",
+ "gold_answer": null,
+ "input": "both",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

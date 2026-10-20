@@ -1,0 +1,62 @@
+{
+  "schema_version": "rlaudit.pipeline/v1",
+  "name": "mimo-music-bounded",
+  "provenance": {
+    "dataset": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss",
+    "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+    "source_revisions": {
+      "XiaomiMiMo/verl": "79090e58195e80a9cfe251c95ae7a78a2132b6e2"
+    },
+    "scope": "All rows; narrow static metadata contracts, plus explicitly declared component probes.",
+    "deferred": [
+      "ABC/MIDI rendering, feature extraction and prompt adherence require a separate audit; deferred."
+    ]
+  },
+  "sources": [
+    {
+      "id": "music",
+      "path": "../research/mimo/other_subsets/raw/music.parquet",
+      "sha256": "8fa2c95fb008df032eae184f3304dd3a73e3d25727e3aac0a715484859fa4856"
+    },
+    {
+      "id": "pipeline",
+      "path": "../research/mimo/other_subsets/contracts/sources/pipeline.py",
+      "sha256": "6644ab466b74fde06437714a1dc7094d9b0d486fb381a54616fbb82844bf6e0e"
+    },
+    {
+      "id": "score",
+      "path": "../research/mimo/other_subsets/contracts/sources/score.py",
+      "sha256": "8f4198724fe48998a36ea99892342ce43e57655eaa3d6a627bd8741206a25872"
+    },
+    {
+      "id": "source-manifest",
+      "path": "../research/mimo/other_subsets/contracts/source_manifest.json",
+      "sha256": "207842027cc507caa8d813eaee81ac3400624acf8ad9292bd2bd29497c87d6b0"
+    }
+  ],
+  "adapter": {
+    "kind": "mimo_music",
+    "source": "music"
+  },
+  "checks": [
+    "schema",
+    "mimo_contract"
+  ],
+  "probes": [],
+  "execution": {
+    "partition": "amd-tw-verification",
+    "cpus": 1,
+    "memory": "2G",
+    "time_limit": "00:03:00",
+    "max_source_bytes": 16777216,
+    "max_source_files": 12,
+    "max_tasks": 2200,
+    "max_probe_cases": 4,
+    "timeout_seconds": 5,
+    "max_probe_seconds": 15,
+    "allow_trusted_process": false,
+    "dependencies": {
+      "pyarrow": "24.0.0"
+    }
+  }
+}

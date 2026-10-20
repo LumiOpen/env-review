@@ -1,0 +1,62 @@
+{
+  "schema_version": "rlaudit.pipeline/v1",
+  "name": "mimo-cyber-bounded",
+  "provenance": {
+    "dataset": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss",
+    "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+    "source_revisions": {
+      "XiaomiMiMo/MiMo-Agent": "c3df8469f250b15e7906487a6d52be4c1827a509"
+    },
+    "scope": "All rows; narrow static metadata contracts, plus explicitly declared component probes.",
+    "deferred": [
+      "Target image execution and crash matching require an image-backed audit; deferred."
+    ]
+  },
+  "sources": [
+    {
+      "id": "cyber",
+      "path": "../research/mimo/other_subsets/raw/cyber.parquet",
+      "sha256": "9e6e69034f4f3e6cfb5c901de642dddc7f4bacf35ab886b0e8eb53eb03084ba1"
+    },
+    {
+      "id": "arvo",
+      "path": "../research/mimo/other_subsets/contracts/sources/arvo.py",
+      "sha256": "3db309007de9b22dfc8bb7b758eafcf4eefa791cc47b3071d3e7850f972ee8b3"
+    },
+    {
+      "id": "server-arvo",
+      "path": "../research/mimo/other_subsets/contracts/sources/server_arvo.py",
+      "sha256": "f2dbc86e1d4b23d3974df085280371695750f9b66245be21132c8ace62e0a04a"
+    },
+    {
+      "id": "source-manifest",
+      "path": "../research/mimo/other_subsets/contracts/source_manifest.json",
+      "sha256": "207842027cc507caa8d813eaee81ac3400624acf8ad9292bd2bd29497c87d6b0"
+    }
+  ],
+  "adapter": {
+    "kind": "mimo_cyber",
+    "source": "cyber"
+  },
+  "checks": [
+    "schema",
+    "mimo_contract"
+  ],
+  "probes": [],
+  "execution": {
+    "partition": "amd-tw-verification",
+    "cpus": 1,
+    "memory": "2G",
+    "time_limit": "00:03:00",
+    "max_source_bytes": 16777216,
+    "max_source_files": 12,
+    "max_tasks": 2200,
+    "max_probe_cases": 4,
+    "timeout_seconds": 5,
+    "max_probe_seconds": 15,
+    "allow_trusted_process": false,
+    "dependencies": {
+      "pyarrow": "24.0.0"
+    }
+  }
+}

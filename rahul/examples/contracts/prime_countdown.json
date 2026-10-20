@@ -1,0 +1,38 @@
+{
+  "schema_version": "rlaudit.environment/v1",
+  "id": "sami/countdown",
+  "framework": "verifiers_v0",
+  "loader": {
+    "source": "countdown",
+    "module": "countdown",
+    "factory": "load_environment",
+    "kwargs": {"num_examples": 1, "eval_examples": 1, "seed": {"task": "metadata.seed"}}
+  },
+  "task": {
+    "dataset": "dataset",
+    "index": 0,
+    "expect": {
+      "question": {"task": "prompt"},
+      "info.numbers": {"task": "metadata.numbers"},
+      "info.target": {"task": "metadata.target"},
+      "answer": ""
+    }
+  },
+  "interaction": {"kind": "completion"},
+  "score": {"metric": "exact_match_reward", "required_metrics": ["exact_match_reward", "closeness_reward", "format_reward"]},
+  "capture": {"parsed_answer": false},
+  "oracle": {
+    "kind": "arithmetic",
+    "expression": {"case": "input.completion"},
+    "numbers": {"task": "metadata.numbers"},
+    "target": {"task": "metadata.target"},
+    "tag": "solution",
+    "rules": {
+      "operators": ["add", "sub", "mul", "div"],
+      "positive_literals": true,
+      "positive_intermediates": true,
+      "integer_intermediates": true,
+      "use_each_at_most_once": true
+    }
+  }
+}

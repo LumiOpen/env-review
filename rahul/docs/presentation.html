@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="A six-slide research brief on reproducible audits of RL environments, with findings from MiMo and Prime Intellect.">
+  <title>Who checks the reward? · rlaudit</title>
+  <style>
+    :root { color-scheme:dark; --bg:#0b111a; --ink:#f3f1eb; --muted:#a8b2c0; --line:#2c3949; --lime:#d1f59a; --amber:#ffbb77; --red:#f59a91; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:radial-gradient(ellipse at 50% 0,#1b293a 0,transparent 65%),var(--bg); color:var(--ink); font-family:Inter,Aptos,"Segoe UI",Arial,sans-serif; min-height:100dvh; }
+    button,a { -webkit-tap-highlight-color:transparent; }
+    button { font:inherit; }
+    button:focus-visible,a:focus-visible { outline:3px solid var(--lime); outline-offset:5px; }
+    a { color:inherit; text-underline-offset:3px; }
+    .shell { min-height:100dvh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:15px; padding:20px 24px; }
+    .topbar,.controls { width:min(1360px,calc(100vw - 48px),calc((100dvh - 122px)*16/9)); display:flex; align-items:center; justify-content:space-between; }
+    .brand { font-size:11px; font-weight:700; letter-spacing:.18em; color:#d7e0ec; display:flex; align-items:center; gap:10px; }
+    .brand-icon { width:13px; height:13px; border:2px solid var(--lime); transform:rotate(-12deg); }
+    .topbar .meta { font-size:11px; color:var(--muted); }
+    .stage { width:min(1360px,calc(100vw - 48px),calc((100dvh - 122px)*16/9)); aspect-ratio:16/9; position:relative; container-type:inline-size; }
+    .slide { position:absolute; inset:0; display:none; flex-direction:column; overflow:hidden; padding:4.2cqw 4.8cqw 3.1cqw; background:#132030; border:1px solid #344154; border-radius:14px; box-shadow:0 24px 90px #0005; }
+    .slide.active { display:flex; animation:arrive .25s ease-out; }
+    .slide.light { background:#f1eee6; color:#182432; border-color:#d7d4cd; --muted:#5a6877; --line:#d4d9d7; }
+    .slide.cover { background:radial-gradient(ellipse at 95% 10%,#2c4057 0,transparent 55%),#132030; }
+    .slide.impact { background:radial-gradient(ellipse at 100% 0,#45372d 0,transparent 58%),#19232f; }
+    .kicker { margin:0 0 1.4cqw; color:var(--lime); font-size:1.02cqw; font-weight:700; letter-spacing:.2em; text-transform:uppercase; }
+    .light .kicker { color:#4a6841; }
+    h1,h2,h3,p { margin:0; }
+    h1 { font-size:6.9cqw; line-height:1.03; letter-spacing:-.065em; font-weight:650; }
+    h1 em { font-family:Georgia,"Times New Roman",serif; font-weight:400; color:var(--lime); }
+    h2 { font-size:3.85cqw; line-height:1.08; letter-spacing:-.045em; font-weight:650; }
+    h3 { font-size:1.55cqw; line-height:1.25; letter-spacing:-.025em; font-weight:650; }
+    .lead { margin-top:1.2cqw; color:var(--muted); font-size:1.45cqw; line-height:1.5; max-width:72cqw; }
+    .slide-footer { margin-top:auto; padding-top:1.4cqw; display:flex; align-items:center; justify-content:space-between; gap:2cqw; font-size:.84cqw; color:var(--muted); line-height:1.4; }
+    .slide-footer a { text-decoration-color:#7e8f9d; }
+    .slide-number { font-size:.95cqw; letter-spacing:.12em; white-space:nowrap; }
+    .cover-body { display:grid; grid-template-columns:1.2fr .9fr; align-items:center; gap:3.5cqw; flex:1; }
+    .cover .lead { max-width:43cqw; font-size:1.52cqw; margin-top:2cqw; }
+    .cover-art { width:100%; }
+    .cover-stats { display:flex; gap:3.6cqw; margin-top:2.8cqw; }
+    .cover-stats strong { display:block; font-size:2.8cqw; letter-spacing:-.06em; color:var(--ink); }
+    .cover-stats span { display:block; margin-top:.4cqw; color:var(--muted); font-size:.94cqw; }
+    .pill { display:inline-flex; align-items:center; gap:.55cqw; padding:.52cqw .8cqw; border-radius:99px; border:1px solid var(--line); font-size:.85cqw; font-weight:650; letter-spacing:.04em; }
+    .pill::before { content:""; width:.4cqw; height:.4cqw; border-radius:50%; background:currentColor; }
+    .pill.good { color:var(--lime); border-color:#6e8e5270; }
+    .pill.warn { color:var(--amber); border-color:#b77b4666; }
+    .pipeline { display:grid; grid-template-columns:repeat(5,1fr); gap:1cqw; margin-top:3cqw; }
+    .step { position:relative; padding:1.65cqw 1.25cqw; background:#f9f7f1; border:1px solid #d4d9d7; border-radius:10px; min-height:14.5cqw; }
+    .step:not(:last-child)::after { content:"→"; position:absolute; right:-.87cqw; top:4.5cqw; z-index:1; color:#526150; font-size:1.4cqw; background:#f1eee6; }
+    .step b { display:block; color:#6a8064; font-size:1cqw; letter-spacing:.12em; margin-bottom:2.3cqw; }
+    .step h3 { font-size:1.55cqw; margin-bottom:.8cqw; }
+    .step p { color:#5a6877; font-size:1.05cqw; line-height:1.6; }
+    .evidence-bar { margin-top:1.8cqw; padding:1.2cqw 1.5cqw; display:flex; align-items:center; gap:2cqw; border:1px solid #bfc9bd; border-radius:9px; background:#e5ebdc; }
+    .evidence-bar strong { font-size:1.15cqw; white-space:nowrap; }
+    .evidence-bar span { font-size:1.06cqw; color:#4e6052; line-height:1.5; }
+    .scope-grid { display:grid; grid-template-columns:1.15fr 1fr; gap:1.6cqw; margin-top:1.6cqw; }
+    .panel { padding:1.8cqw; border:1px solid var(--line); border-radius:11px; background:#172638; }
+    .panel-title { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2cqw; }
+    .panel-title span { font-size:.9cqw; color:var(--muted); }
+    .source-id { display:block; margin:-.6cqw 0 1cqw; color:#afc0d3; font-size:.85cqw; line-height:1.5; overflow-wrap:anywhere; }
+    .scope-result { margin-top:1cqw; padding:.85cqw 1cqw; border-left:3px solid var(--amber); background:#ffbb7709; color:#d9e2ec; font-size:1cqw; line-height:1.5; }
+    .scope-result strong { color:var(--amber); }
+    table { width:100%; border-collapse:collapse; }
+    .scope-table th,.scope-table td { padding:.83cqw 0; border-bottom:1px solid var(--line); text-align:left; font-size:1.02cqw; line-height:1.35; }
+    .scope-table th { font-size:.79cqw; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); font-weight:500; }
+    .scope-table td:nth-child(2) { color:var(--lime); font-variant-numeric:tabular-nums; width:5.5cqw; }
+    .scope-table td:last-child { color:#bdc7d3; font-size:.92cqw; }
+    .scope-table tr:last-child td { border-bottom:0; }
+    .prime-row { display:flex; justify-content:space-between; align-items:center; padding:1.02cqw 0; border-bottom:1px solid var(--line); }
+    .prime-row strong { display:block; font-size:1.22cqw; font-weight:600; }
+    .prime-row small { display:block; margin-top:.35cqw; color:var(--muted); font-size:.9cqw; }
+    .prime-row .count { font-size:1.8cqw; color:var(--lime); letter-spacing:-.045em; }
+    .prime-row .outcome { font-size:.95cqw; color:var(--amber); white-space:nowrap; margin-left:.8cqw; }
+    .prime-row .outcome.clear { color:var(--lime); }
+    .scope-note { margin-top:1.4cqw; color:var(--muted); font-size:1.03cqw; line-height:1.55; }
+    .scope-note strong { color:#dfebf8; font-weight:500; }
+    .target-line { display:flex; align-items:center; gap:.7cqw; margin:1.6cqw 0 1.8cqw; color:var(--muted); font-size:1.04cqw; }
+    .number { display:grid; place-items:center; width:2.8cqw; height:2.8cqw; border:1px solid #58626c; border-radius:7px; font-weight:650; color:var(--ink); }
+    .target { margin-left:1.3cqw; color:var(--amber); font-size:1.7cqw; font-weight:650; letter-spacing:-.04em; }
+    .countdown-grid { display:grid; grid-template-columns:1.5fr .9fr; gap:2.3cqw; align-items:stretch; }
+    .equations { border-top:1px solid #53606b; }
+    .equation { display:grid; grid-template-columns:1.2fr 1.35fr .6fr; align-items:center; gap:1cqw; padding:1.35cqw .3cqw; border-bottom:1px solid #3d4854; }
+    code { font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace; }
+    .equation code { font-size:1.75cqw; letter-spacing:-.04em; }
+    .equation p { font-size:1.01cqw; line-height:1.45; color:#c7d0d9; }
+    .equation .score { font-size:2.25cqw; letter-spacing:-.06em; font-weight:600; text-align:right; color:var(--lime); }
+    .equation.bad code { color:var(--amber); }
+    .score-label { text-align:right; color:var(--muted); font-size:.8cqw; text-transform:uppercase; letter-spacing:.1em; padding:.4cqw .3cqw; }
+    .callout { padding:2.1cqw; background:#ffbb7710; border:1px solid #ad825657; border-radius:11px; display:flex; flex-direction:column; justify-content:center; }
+    .callout h3 { color:var(--amber); font-size:2.25cqw; letter-spacing:-.045em; line-height:1.15; }
+    .callout p { color:#c6c7c6; font-size:1.15cqw; line-height:1.6; margin-top:1.3cqw; }
+    .callout .micro { font-size:.87cqw; color:#adbbb9; margin-top:1.5cqw; }
+    .findings { display:grid; grid-template-columns:1fr 1fr; gap:1.4cqw; margin-top:2.2cqw; }
+    .finding { background:#faf8f2; border:1px solid #d6d8d0; border-radius:10px; padding:1.7cqw; }
+    .finding .tag { color:#65745e; font-size:.82cqw; font-weight:650; text-transform:uppercase; letter-spacing:.1em; margin-bottom:.8cqw; }
+    .metric { margin:1cqw 0 .9cqw; font-size:3.25cqw; line-height:1.1; letter-spacing:-.055em; font-weight:600; }
+    .metric span { font-size:1.8cqw; color:#839077; margin:0 .4cqw; }
+    .finding p { color:#5a6877; font-size:1.07cqw; line-height:1.55; }
+    .contextual-findings { grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.2cqw; margin-top:1.8cqw; }
+    .contextual-findings .finding { padding:1.3cqw; display:flex; flex-direction:column; }
+    .contextual-findings .tag { font-size:.79cqw; line-height:1.4; margin-bottom:.75cqw; }
+    .contextual-findings h3 { font-size:1.65cqw; min-height:4.2cqw; }
+    .contextual-findings .case-source { font-size:.83cqw; line-height:1.5; margin:.65cqw 0 1cqw; min-height:3.8cqw; overflow-wrap:anywhere; }
+    .contextual-findings .case-task { font-size:1.02cqw; min-height:4.6cqw; }
+    .contextual-findings p strong { color:#27372d; font-weight:650; }
+    .comparison { margin:1.1cqw 0; padding:1cqw 0; border-top:1px solid #d9ddd1; border-bottom:1px solid #d9ddd1; display:grid; gap:.8cqw; }
+    .comparison div { display:flex; align-items:baseline; justify-content:space-between; gap:.7cqw; }
+    .comparison span { color:#62715e; font-size:.9cqw; }
+    .comparison strong { font-size:1.9cqw; line-height:1; letter-spacing:-.04em; font-weight:650; }
+    .comparison .observed { color:#915329; }
+    .comparison.money strong { font-size:1.35cqw; }
+    .money-example { margin:.75cqw 0; padding:.65cqw; border-radius:5px; background:#e9eddf; font-size:.88cqw; color:#42533a; line-height:1.55; }
+    .contextual-findings .case-explanation { font-size:1.02cqw; line-height:1.55; }
+    .mini-findings { display:grid; grid-template-columns:1fr 1fr; gap:1.4cqw; margin-top:1.3cqw; }
+    .mini { padding:1.2cqw 1.4cqw; border-left:3px solid #738568; background:#e6ebdf; border-radius:0 7px 7px 0; }
+    .mini h3 { font-size:1.16cqw; margin-bottom:.5cqw; }
+    .mini p { color:#576655; font-size:.99cqw; line-height:1.5; }
+    .next-grid { display:grid; grid-template-columns:.95fr 1.1fr; gap:3cqw; margin-top:2.2cqw; }
+    .big-proof { display:flex; align-items:baseline; gap:1cqw; }
+    .big-proof strong { font-size:5cqw; line-height:1.1; color:var(--lime); letter-spacing:-.06em; }
+    .big-proof span { font-size:1.15cqw; color:var(--muted); }
+    .proof-copy { margin-top:1cqw; color:#c6d1de; font-size:1.15cqw; line-height:1.65; }
+    .command { background:#0d1723; border:1px solid var(--line); border-radius:8px; padding:1.2cqw; margin-top:1.5cqw; font-size:.93cqw; line-height:1.7; color:#dbedc9; overflow-wrap:anywhere; }
+    .layers { display:grid; gap:.62cqw; }
+    .layer { display:flex; justify-content:space-between; align-items:center; gap:1cqw; padding:1.05cqw 1.2cqw; border:1px solid var(--line); border-radius:7px; background:#1b2a3b; font-size:1.1cqw; }
+    .layer span { font-size:.85cqw; color:var(--muted); }
+    .layer.built { border-color:#67874b88; background:#9ac66e0b; }
+    .layer.built span { color:var(--lime); }
+    .next-label { color:var(--amber); font-size:.85cqw; letter-spacing:.08em; margin-bottom:.8cqw; text-transform:uppercase; }
+    .limits { margin-top:1.3cqw; font-size:.99cqw; line-height:1.55; color:var(--muted); }
+    .controls { gap:18px; }
+    .controls-left,.controls-right { display:flex; align-items:center; gap:9px; }
+    .control { height:33px; min-width:34px; border:1px solid #344154; border-radius:6px; color:#d7e0ec; background:#152131; cursor:pointer; padding:0 10px; font-size:12px; }
+    .control:hover:not(:disabled) { background:#24364b; border-color:#7e9469; }
+    .control:disabled { opacity:.3; cursor:default; }
+    .slide-status { min-width:36px; font-size:11px; color:#b7c3d1; text-align:center; font-variant-numeric:tabular-nums; }
+    .dots { display:flex; align-items:center; gap:8px; }
+    .dot { width:8px; height:8px; padding:0; border:0; border-radius:10px; background:#3e4d61; cursor:pointer; transition:width .2s,background .2s; }
+    .dot.current { width:23px; background:var(--lime); }
+    .key-hint { color:#78889a; font-size:10px; }
+    .stage.read-all { aspect-ratio:auto; display:grid; gap:22px; }
+    .stage.read-all .slide { position:relative; inset:auto; aspect-ratio:16/9; display:flex; animation:none; }
+    .shell.reading { justify-content:flex-start; }
+    .reading .topbar,.reading .controls,.reading .stage { width:min(1360px,calc(100vw - 48px)); }
+    .reading .controls { position:sticky; bottom:12px; padding:9px 12px; background:#0b111aee; border:1px solid var(--line); border-radius:10px; backdrop-filter:blur(12px); }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    @keyframes arrive { from { opacity:.5; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+    @media (max-width:700px) {
+      .shell { padding:16px 12px; gap:12px; justify-content:flex-start; }
+      .topbar,.controls,.stage,.reading .topbar,.reading .controls,.reading .stage { width:100%; }
+      .topbar .meta { display:none; }
+      .stage { aspect-ratio:auto; }
+      .slide { position:relative; padding:28px 24px; min-height:calc(100dvh - 124px); overflow:visible; }
+      .stage.read-all .slide { aspect-ratio:auto; }
+      .kicker { font-size:10px; margin-bottom:16px; }
+      h1 { font-size:48px; } h2 { font-size:34px; } h3 { font-size:18px; }
+      .lead,.cover .lead { font-size:15px; margin-top:14px; max-width:none; }
+      .cover-body,.scope-grid,.countdown-grid,.next-grid { grid-template-columns:1fr; gap:22px; }
+      .cover-body { margin-top:12px; }
+      .cover-art { display:none; }
+      .cover-stats { gap:26px; margin-top:28px; }
+      .cover-stats strong { font-size:30px; } .cover-stats span { font-size:11px; margin-top:5px; }
+      .slide-footer { font-size:10px; padding-top:26px; gap:16px; } .slide-number { font-size:10px; }
+      .pipeline { grid-template-columns:1fr; gap:8px; margin-top:22px; }
+      .step { padding:14px; min-height:0; display:grid; grid-template-columns:26px 90px 1fr; align-items:start; gap:10px; }
+      .step b { font-size:11px; margin:3px 0 0; } .step h3 { font-size:15px; margin:0; } .step p { font-size:12px; line-height:1.45; }
+      .step::after { display:none; }
+      .evidence-bar { margin-top:14px; padding:14px; gap:8px; align-items:flex-start; flex-direction:column; }
+      .evidence-bar strong,.evidence-bar span { font-size:12px; }
+      .panel { padding:18px; } .panel-title { margin-bottom:10px; } .panel-title span { font-size:10px; }
+      .source-id { margin:-4px 0 12px; font-size:10px; } .scope-result { margin-top:12px; padding:12px; font-size:12px; }
+      .scope-table th { font-size:9px; } .scope-table td { font-size:12px; padding:10px 0; } .scope-table td:nth-child(2) { width:60px; } .scope-table td:last-child { font-size:11px; }
+      .scope-table th:first-child,.scope-table td:first-child { padding-right:8px; }
+      .prime-row { padding:12px 0; } .prime-row strong { font-size:14px; } .prime-row small { font-size:11px; margin-top:4px; } .prime-row .count { font-size:24px; }
+      .prime-row .outcome { font-size:11px; margin-left:8px; }
+      .scope-note { font-size:12px; margin-top:14px; }
+      .target-line { font-size:12px; gap:6px; margin:20px 0; flex-wrap:wrap; } .number { width:28px; height:30px; } .target { font-size:22px; margin-left:6px; }
+      .equation { grid-template-columns:1fr 1.3fr 40px; gap:8px; padding:16px 0; } .equation code { font-size:16px; } .equation p { font-size:11px; } .equation .score { font-size:24px; } .score-label { font-size:9px; padding:5px 0; }
+      .callout { padding:20px; } .callout h3 { font-size:26px; } .callout p { font-size:13px; margin-top:12px; } .callout .micro { font-size:11px; margin-top:12px; }
+      .pill { font-size:10px; padding:5px 8px; gap:5px; } .pill::before { width:4px; height:4px; }
+      .findings,.mini-findings { grid-template-columns:1fr; gap:12px; margin-top:20px; } .finding { padding:18px; } .finding .tag { font-size:10px; margin-bottom:8px; } .finding h3 { font-size:18px; } .metric { font-size:34px; margin:12px 0; } .metric span { font-size:22px; } .finding p { font-size:13px; }
+      .contextual-findings .finding { padding:18px; } .contextual-findings .tag { font-size:10px; margin-bottom:8px; } .contextual-findings h3 { font-size:22px; min-height:0; }
+      .contextual-findings .case-source { font-size:11px; min-height:0; margin:10px 0 14px; } .contextual-findings .case-task { font-size:13px; min-height:0; }
+      .comparison { margin:14px 0; padding:13px 0; gap:12px; } .comparison div { gap:12px; } .comparison span { font-size:12px; } .comparison strong { font-size:27px; } .comparison.money strong { font-size:20px; }
+      .money-example { margin:10px 0; padding:10px; font-size:12px; } .contextual-findings .case-explanation { font-size:13px; }
+      .mini { padding:15px; } .mini h3 { font-size:14px; margin-bottom:5px; } .mini p { font-size:12px; }
+      .big-proof strong { font-size:62px; } .big-proof span,.proof-copy { font-size:14px; } .proof-copy { margin-top:12px; }
+      .command { margin-top:16px; padding:14px; font-size:11px; } .layers { gap:7px; } .layer { padding:13px; font-size:13px; } .layer span { font-size:10px; } .next-label { font-size:10px; margin-bottom:10px; } .limits { font-size:12px; margin-top:16px; }
+      .key-hint { display:none; } .controls { flex-wrap:wrap; gap:10px; } .dots { display:none; }
+    }
+    @page { size:13.333in 7.5in; margin:0; }
+    @media print {
+      body { background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      .shell { display:block; padding:0; } .topbar,.controls { display:none!important; }
+      .stage,.reading .stage { display:block; width:13.333in; aspect-ratio:auto; }
+      .slide,.stage.read-all .slide { display:flex!important; position:relative; inset:auto; width:13.333in; height:7.5in; min-height:0; aspect-ratio:16/9; border:0; border-radius:0; box-shadow:none; break-after:page; animation:none; }
+      .slide:last-child { break-after:auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell" id="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-icon" aria-hidden="true"></span> RLAUDIT <span style="color:#64778d">/</span> RESEARCH BRIEF</div>
+      <div class="meta">20 OCT 2026 · SIX SLIDES · OFFLINE READY</div>
+    </header>
+
+    <main class="stage" id="stage" aria-label="RL environment audit presentation">
+      <section class="slide cover active" id="slide-1" aria-labelledby="title-1">
+        <p class="kicker">01 / The question</p>
+        <div class="cover-body">
+          <div>
+            <h1 id="title-1">Who checks<br>the <em>reward?</em></h1>
+            <p class="lead">Reproducible audits of the tasks, graders,<br>and environments that teach models.</p>
+            <div class="cover-stats">
+              <div><strong>2</strong><span>source collections</span></div>
+              <div><strong>34</strong><span>Prime probe cases</span></div>
+              <div><strong>56</strong><span>tests passed</span></div>
+            </div>
+          </div>
+          <svg class="cover-art" viewBox="0 0 420 370" role="img" aria-label="A policy receives a reward of 1.4; an independent audit asks whether the solution was valid.">
+            <defs><pattern id="cover-dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#8ba1bb" opacity=".15"/></pattern><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8" fill="none" stroke="#9baebf" stroke-width="1.2"/></marker></defs>
+            <rect width="420" height="370" fill="url(#cover-dots)"/>
+            <path d="M88 114H315V233H228" stroke="#8399ae" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+            <path d="M167 233H88V158" stroke="#8399ae" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+            <rect x="25" y="79" width="126" height="74" rx="12" fill="#1d3044" stroke="#6b8198"/>
+            <text x="88" y="110" text-anchor="middle" fill="#f3f1eb" font-size="20" font-family="Arial,sans-serif">POLICY</text>
+            <text x="88" y="132" text-anchor="middle" fill="#9db0c4" font-size="11" font-family="Arial,sans-serif" letter-spacing="1.5">A CANDIDATE</text>
+            <rect x="220" y="71" width="171" height="104" rx="12" fill="#d1f59a"/>
+            <text x="242" y="98" fill="#30412b" font-size="11" font-family="Arial,sans-serif" letter-spacing="2">REWARD</text>
+            <text x="240" y="155" fill="#1c3026" font-size="60" font-family="Arial,sans-serif" font-weight="600" letter-spacing="-4">1.4</text>
+            <rect x="139" y="204" width="119" height="60" rx="10" fill="#1d3044" stroke="#6b8198"/>
+            <text x="198" y="240" text-anchor="middle" fill="#dce6ef" font-size="16" font-family="Arial,sans-serif">OPTIMIZE</text>
+            <path d="M305 176V308H180" stroke="#ffbb77" stroke-width="1.5" stroke-dasharray="5 6" fill="none"/>
+            <circle cx="166" cy="308" r="17" fill="#ffbb77"/>
+            <text x="166" y="315" text-anchor="middle" fill="#362d29" font-size="23" font-family="Georgia,serif">?</text>
+            <text x="192" y="342" fill="#ffcc99" font-size="14" font-family="Arial,sans-serif">Was the solution valid?</text>
+          </svg>
+        </div>
+        <footer class="slide-footer"><span>MiMo RL-oss + Prime Intellect Hub · Bounded research pilot</span><span class="slide-number">01 — 06</span></footer>
+      </section>
+
+      <section class="slide light" id="slide-2" aria-labelledby="title-2" hidden>
+        <p class="kicker">02 / What we built</p>
+        <h2 id="title-2">From a suspicion<br>to replayable evidence.</h2>
+        <p class="lead">One bounded pipeline records exactly what was checked, on which inputs, and why a result matters.</p>
+        <div class="pipeline">
+          <div class="step"><b>01</b><h3>Pin</h3><p>Snapshot source,<br>tasks, code, and<br>dependency versions.</p></div>
+          <div class="step"><b>02</b><h3>Normalize</h3><p>Map environment<br>records into a<br>common task format.</p></div>
+          <div class="step"><b>03</b><h3>Probe</h3><p>Run static checks<br>and small paired<br>counterexamples.</p></div>
+          <div class="step"><b>04</b><h3>Review</h3><p>Compare grader<br>behavior with an<br>independent oracle.</p></div>
+          <div class="step"><b>05</b><h3>Replay</h3><p>Verify hashes and<br>reproduce semantic<br>results from snapshots.</p></div>
+        </div>
+        <div class="evidence-bar"><strong>Every finding has a trail.</strong><span>Task → requirement → candidate input → actual score → independent review → frozen replay.</span></div>
+        <footer class="slide-footer"><span>Execution on Slurm compute nodes · Explicit budgets and incomplete outcomes</span><span><a href="pipeline.md">Pipeline contract</a> &nbsp; / &nbsp; 02 — 06</span></footer>
+      </section>
+
+      <section class="slide" id="slide-3" aria-labelledby="title-3" hidden>
+        <p class="kicker">03 / The ground covered</p>
+        <h2 id="title-3">What we audited and how deeply.</h2>
+        <p class="lead">MiMo is a released training-task collection. Prime is a hub of runnable RL environments.</p>
+        <div class="scope-grid">
+          <div class="panel">
+            <div class="panel-title"><h3>MiMo training data</h3><span>Mostly static inspection</span></div>
+            <a class="source-id" href="https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss"><code>XiaomiMiMo/MiMo-V2.6-RL-oss</code></a>
+            <table class="scope-table"><thead><tr><th scope="col">Subset</th><th scope="col">Rows</th><th scope="col">What we checked</th></tr></thead><tbody>
+              <tr><td>Code</td><td>2,602</td><td>Schema, patches, test-command inspection</td></tr>
+              <tr><td>General</td><td>925</td><td>Prompts; 25 sampled metadata bundles; selected rules</td></tr>
+              <tr><td>Cyber</td><td>1,000</td><td>Metadata, target descriptions, image references</td></tr>
+              <tr><td>Webdev</td><td>2,093</td><td>Metadata + isolated reward arithmetic</td></tr>
+              <tr><td>Music</td><td>1,000</td><td>Tempo, meter, and voice-count metadata</td></tr>
+            </tbody></table>
+            <p class="scope-result"><strong>Result:</strong> One reproduced General DOCX rule failure (slide 5). No confirmed defect from the other checks.</p>
+          </div>
+          <div class="panel">
+            <div class="panel-title"><h3>Prime Intellect Hub</h3><span>Executed component checks</span></div>
+            <span class="source-id">Frozen source: will/reverse-text · sami/countdown · apple999/wordle</span>
+            <div class="prime-row"><div><strong>Reverse Text</strong><small>Reverse every character · 4 rows / 12 cases</small></div><span class="outcome">2 issues</span></div>
+            <div class="prime-row"><div><strong>Countdown</strong><small>Reach an arithmetic target · 1 puzzle / 8 cases</small></div><span class="outcome">2 issues</span></div>
+            <div class="prime-row"><div><strong>Wordle</strong><small>Guess a five-letter word · 2 targets / 14 cases</small></div><span class="outcome clear">0 found</span></div>
+            <p class="scope-note"><strong>34 cases across seven task rows.</strong> A case is a crafted answer or tool/state sequence. We ran actual parser, reward, and game-state functions; all three audits replayed identically.</p>
+          </div>
+        </div>
+        <footer class="slide-footer"><span>Not full agent rollouts or training runs. Static checks and selected cases cannot establish overall correctness.</span><span><a href="../research/mimo/phase1_report.json">MiMo scope</a> · <a href="../research/prime/report.md">Prime scope</a> &nbsp; / &nbsp; 03 — 06</span></footer>
+      </section>
+
+      <section class="slide impact" id="slide-4" aria-labelledby="title-4" hidden>
+        <p class="kicker">04 / The clearest failure</p>
+        <h2 id="title-4">Break the rules.<br>Keep the full reward.</h2>
+        <div class="target-line"><span>Numbers</span><span class="number">2</span><span class="number">5</span><span class="number">3</span><span class="number">2</span><span class="number">50</span><span class="number">7</span><span class="target">→ 125</span><span style="margin-left:auto">Countdown · Seed 339</span></div>
+        <div class="countdown-grid">
+          <div>
+            <div class="score-label">Full reward</div>
+            <div class="equations">
+              <div class="equation"><code>(5*50)/2</code><p>Legal control<br><span style="color:#9dc689">Positive integer steps</span></p><span class="score">1.4</span></div>
+              <div class="equation bad"><code>(5/2)*50</code><p>Invalid intermediate<br><span style="color:#ffbb77">5/2 is fractional</span></p><span class="score">1.4</span></div>
+              <div class="equation bad"><code>5**3</code><p>Forbidden operation<br><span style="color:#ffbb77">Exponentiation is not allowed</span></p><span class="score">1.4</span></div>
+            </div>
+          </div>
+          <aside class="callout"><span class="pill warn" style="align-self:flex-start;margin-bottom:1.5cqw">Confirmed component failure</span><h3>The grader rewards<br>an invalid shortcut.</h3><p>The actual parser and rubric accept both invalid answers. An independent arithmetic checker rejects them.</p><p class="micro">This demonstrates a reward-validation defect. Learned exploitation or training impact was not measured.</p></aside>
+        </div>
+        <footer class="slide-footer"><span>sami/countdown · Frozen package 0.1.0 · Exact-match reward also equals 1.0 for all three</span><span><a href="../research/prime/report.md">Source &amp; evidence</a> &nbsp; / &nbsp; 04 — 06</span></footer>
+      </section>
+
+      <section class="slide light" id="slide-5" aria-labelledby="title-5" hidden>
+        <p class="kicker">05 / Other findings</p>
+        <h2 id="title-5">Reverse Text and MiMo: the failures.</h2>
+        <div class="findings contextual-findings">
+          <article class="finding">
+            <div class="tag">Prime · will/reverse-text 0.1.4</div>
+            <h3>A correct reversal<br>loses credit.</h3>
+            <p class="case-source">Dataset: <code>PrimeIntellect/Reverse-Text-RL</code><br>Train split · row 49</p>
+            <p class="case-task"><strong>Task:</strong> Reverse every character, including spaces.</p>
+            <div class="comparison"><div><span>Expected reward</span><strong>1.0000</strong></div><div><span>Actual reward</span><strong class="observed">0.9951</strong></div></div>
+            <p class="case-explanation"><strong>Issue:</strong> The correct 103-character answer begins with a space. The XML parser strips it to 102 characters, so a correct response is penalized.</p>
+          </article>
+          <article class="finding">
+            <div class="tag">Prime · will/reverse-text 0.1.4</div>
+            <h3>Partial credit uses<br>a different metric.</h3>
+            <p class="case-source">Dataset: <code>PrimeIntellect/Reverse-Text-RL</code><br>Train split · row 0 · modified answer</p>
+            <p class="case-task"><strong>Declared metric:</strong> Partial credit by longest common subsequence.</p>
+            <div class="comparison"><div><span>Independent metric</span><strong>0.3659</strong></div><div><span>Actual reward</span><strong class="observed">0.2927</strong></div></div>
+            <p class="case-explanation"><strong>Issue:</strong> The code uses SequenceMatcher instead. For this incorrect answer, true subsequence overlap is 15/41; the implemented metric awards different partial credit.</p>
+          </article>
+          <article class="finding">
+            <div class="tag">MiMo · General · Healthcare memo</div>
+            <h3>Commas decide<br>the verdict.</h3>
+            <p class="case-source">Dataset: <code>XiaomiMiMo/MiMo-V2.6-RL-oss</code><br><a href="../research/mimo/phase1_report.json"><code>s3k_1401_healthcare_ops_en_t4_rl_007</code></a></p>
+            <p class="case-task"><strong>Task:</strong> Put correct financial figures in a DOCX table. No comma format is required.</p>
+            <div class="comparison money"><div><span>With commas</span><strong>Pass · 1</strong></div><div><span>Without commas</span><strong class="observed">Fail · 0</strong></div></div>
+            <div class="money-example"><code>184,672.54 → 184672.54</code></div>
+            <p class="case-explanation"><strong>Issue:</strong> Same values and memo text; the checker matches formatted strings. Isolated DOCX rules reject equivalent numbers. Total reward was not tested.</p>
+          </article>
+        </div>
+        <footer class="slide-footer"><span>Evidence from frozen sources and paired component probes. Training impact was not measured.</span><span><a href="../research/prime/report.md">Prime evidence</a> · <a href="../research/mimo/phase1_report.json">MiMo evidence</a> &nbsp; / &nbsp; 05 — 06</span></footer>
+      </section>
+
+      <section class="slide" id="slide-6" aria-labelledby="title-6" hidden>
+        <p class="kicker">06 / What this enables</p>
+        <h2 id="title-6">Make the infrastructure reusable.<br>Keep the semantics explicit.</h2>
+        <div class="next-grid">
+          <div>
+            <div class="big-proof"><strong>56</strong><span>tests passed at the pilot checkpoint</span></div>
+            <p class="proof-copy">Pinned inputs. Bounded execution. Preserved evidence. Matching replays for all three Prime audits.</p>
+            <p class="proof-copy">Grading-time framework errors are surfaced as inconclusive probes, instead of misleading zero rewards.</p>
+            <div class="command"><code>sbatch scripts/audit_prime.slurm<br>  --output runs/prime-new</code></div>
+          </div>
+          <div>
+            <p class="next-label">Architecture direction · Adapter consolidation is next</p>
+            <div class="layers">
+              <div class="layer built"><strong>Shared runner</strong><span>Built &amp; validated</span></div>
+              <div class="layer"><strong>Framework adapters</strong><span>One per interface</span></div>
+              <div class="layer"><strong>Reusable probe families</strong><span>Arithmetic, parsing, state</span></div>
+              <div class="layer"><strong>Small audit contracts</strong><span>Task-specific rules &amp; oracles</span></div>
+            </div>
+            <p class="limits">A reproducible score is evidence about a specific check. Establishing correctness still requires an independent specification and appropriate coverage.</p>
+          </div>
+        </div>
+        <footer class="slide-footer"><span><a href="../README.md">Repository guide</a> · <a href="../research/prime/report.md">Prime report</a> · <a href="../research/mimo/other_subsets/report.md">MiMo report</a></span><span class="slide-number">06 — 06</span></footer>
+      </section>
+    </main>
+
+    <nav class="controls" aria-label="Presentation navigation">
+      <div class="controls-left"><button class="control" id="previous" aria-label="Previous slide">←</button><span class="slide-status" id="status" aria-live="polite">1 / 6</span><button class="control" id="next" aria-label="Next slide">→</button><span class="key-hint">ARROW KEYS TO NAVIGATE</span></div>
+      <div class="dots" id="dots" aria-label="Go to slide"></div>
+      <div class="controls-right"><button class="control" id="read-all" aria-pressed="false">Read all</button><button class="control" id="fullscreen" aria-label="Toggle fullscreen">Fullscreen</button><button class="control" id="print">Print / PDF</button></div>
+    </nav>
+    <p class="sr-only" id="announcement" aria-live="polite"></p>
+  </div>
+  <noscript><style>.slide{display:flex;position:relative;aspect-ratio:16/9}.stage{aspect-ratio:auto}.controls{display:none}.shell{justify-content:flex-start}.stage{display:grid;gap:22px}</style><p style="text-align:center">JavaScript is off. All six slides are shown in reading order.</p></noscript>
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll('.slide')];
+      const stage = document.getElementById('stage');
+      const shell = document.getElementById('shell');
+      const previous = document.getElementById('previous');
+      const next = document.getElementById('next');
+      const readAll = document.getElementById('read-all');
+      const status = document.getElementById('status');
+      let reading = false;
+      function indexFromHash() {
+        const match = /^#slide-(\d+)$/.exec(location.hash);
+        return match ? Math.min(slides.length - 1, Math.max(0, Number(match[1]) - 1)) : 0;
+      }
+      let current = indexFromHash();
+      const dots = slides.map((slide, index) => {
+        const button = document.createElement('button');
+        button.className = 'dot';
+        button.setAttribute('aria-label', `Slide ${index + 1}: ${slide.querySelector('h1,h2').textContent}`);
+        button.addEventListener('click', () => go(index));
+        document.getElementById('dots').append(button);
+        return button;
+      });
+      function render() {
+        slides.forEach((slide, index) => {
+          const visible = reading || index === current;
+          slide.hidden = !visible;
+          slide.inert = !visible;
+          slide.classList.toggle('active', index === current);
+          dots[index].classList.toggle('current', index === current);
+          dots[index].setAttribute('aria-current', index === current ? 'step' : 'false');
+        });
+        previous.disabled = current === 0;
+        next.disabled = current === slides.length - 1;
+        status.textContent = `${current + 1} / ${slides.length}`;
+        document.getElementById('announcement').textContent = `Slide ${current + 1}: ${slides[current].querySelector('h1,h2').textContent}`;
+      }
+      function go(index) {
+        current = Math.min(slides.length - 1, Math.max(0, index));
+        history.replaceState(null, '', `#slide-${current + 1}`);
+        render();
+        if (reading) slides[current].scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+      previous.addEventListener('click', () => go(current - 1));
+      next.addEventListener('click', () => go(current + 1));
+      readAll.addEventListener('click', () => {
+        reading = !reading;
+        stage.classList.toggle('read-all', reading);
+        shell.classList.toggle('reading', reading);
+        readAll.textContent = reading ? 'Slide view' : 'Read all';
+        readAll.setAttribute('aria-pressed', String(reading));
+        render();
+        if (!reading) window.scrollTo({ top:0 });
+      });
+      document.getElementById('fullscreen').addEventListener('click', async () => {
+        try {
+          if (document.fullscreenElement) await document.exitFullscreen();
+          else if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+        } catch (_) { /* Some browsers restrict fullscreen for local files. */ }
+      });
+      document.getElementById('print').addEventListener('click', () => window.print());
+      window.addEventListener('hashchange', () => {
+        current = indexFromHash();
+        render();
+      });
+      document.addEventListener('keydown', event => {
+        if (event.altKey || event.ctrlKey || event.metaKey || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
+        if (event.key === ' ' && event.target.closest('button,a')) return;
+        if (['ArrowRight','ArrowDown','PageDown',' '].includes(event.key)) { event.preventDefault(); go(current + 1); }
+        else if (['ArrowLeft','ArrowUp','PageUp'].includes(event.key)) { event.preventDefault(); go(current - 1); }
+        else if (event.key === 'Home') { event.preventDefault(); go(0); }
+        else if (event.key === 'End') { event.preventDefault(); go(slides.length - 1); }
+        else if (event.key.toLowerCase() === 'f') document.getElementById('fullscreen').click();
+      });
+      render();
+    })();
+  </script>
+</body>
+</html>

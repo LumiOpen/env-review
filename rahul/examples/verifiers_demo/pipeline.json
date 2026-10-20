@@ -1,0 +1,49 @@
+{
+  "schema_version": "rlaudit.pipeline/v1",
+  "name": "verifiers-demo-copy-token",
+  "sources": [
+    {"id": "tasks", "path": "tasks.jsonl"},
+    {"id": "environment", "path": "environment.py"},
+    {"id": "contract", "path": "contract.json"}
+  ],
+  "adapter": {"kind": "local_jsonl", "source": "tasks"},
+  "checks": ["schema"],
+  "probes": [
+    {
+      "id": "copy-token-control",
+      "task_ids": ["verifiers-demo-copy-token-0"],
+      "command": ["{python}", "-m", "rlaudit.verifiers_adapter", "--contract", "{source:contract}"],
+      "cases": [
+        {"id": "correct", "input": {"completion": "<answer>maple</answer>"}},
+        {"id": "wrong", "input": {"completion": "<answer>pear</answer>"}}
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [1.0, 0.0],
+        "tolerance": 0.0,
+        "justification": "The independent exact-text oracle checks the submitted answer field against the selected source row."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    }
+  ],
+  "execution": {
+    "partition": "amd-tw-verification",
+    "cpus": 1,
+    "memory": "2G",
+    "time_limit": "00:05:00",
+    "max_source_bytes": 1048576,
+    "max_source_files": 8,
+    "max_tasks": 1,
+    "max_probe_cases": 2,
+    "timeout_seconds": 45,
+    "max_probe_seconds": 120,
+    "max_output_bytes": 65536,
+    "allow_trusted_process": true,
+    "dependencies": {
+      "verifiers": "0.3.0",
+      "datasets": "4.3.0",
+      "pyarrow": "24.0.0"
+    }
+  }
+}

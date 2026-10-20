@@ -1,0 +1,45 @@
+{
+  "dataset": "PrimeIntellect/Reverse-Text-RL",
+  "revision": "b6dc8a0d8c9f59cbd4b38c490aed11f5a31c8c7f",
+  "url": "https://huggingface.co/datasets/PrimeIntellect/Reverse-Text-RL/resolve/b6dc8a0d8c9f59cbd4b38c490aed11f5a31c8c7f/data/train-00000-of-00001.parquet",
+  "sha256": "3cff91965e9de35d04a1d9297535bd13f8268aa38201abec97b6a5d94e7dabe2",
+  "total_rows": 1000,
+  "selected": [
+    {
+      "dataset_index": 0,
+      "source_prompt": "The community in Bruck was merged into it",
+      "answer": "ti otni degrem saw kcurB ni ytinummoc ehT"
+    },
+    {
+      "dataset_index": 1,
+      "source_prompt": "In 1891 the community inaugurated its own cemetery",
+      "answer": "yretemec nwo sti detaruguani ytinummoc eht 1981 nI"
+    },
+    {
+      "dataset_index": 2,
+      "source_prompt": "On the other hand, the Rabbinate of Baiersdorf was dissolved in 1894, and after 1900 no Jews lived in Bruck",
+      "answer": "kcurB ni devil sweJ on 0091 retfa dna ,4981 ni devlossid saw frodsreiaB fo etanibbaR eht ,dnah rehto eht nO"
+    },
+    {
+      "dataset_index": 49,
+      "source_prompt": "In this way, Manolín was \"a character perfectly tuned to the new social reality of the special period\" ",
+      "answer": " \"doirep laiceps eht fo ytilaer laicos wen eht ot denut yltcefrep retcarahc a\" saw nílonaM ,yaw siht nI"
+    }
+  ],
+  "metric_case": {
+    "dataset_index": 0,
+    "source_prompt": "The community in Bruck was merged into it",
+    "answer": "ti otni degrem saw kcurB ni ytinummoc ehT",
+    "candidate_answer": "nd tgsmcekB irrm itT uo wye uiah ennoimct",
+    "lcs_length": 15,
+    "expected_lcs_ratio": 0.36585365853658536,
+    "sequence_matcher_ratio": 0.2926829268292683,
+    "attempt": 0,
+    "sampling_seed": 20261020
+  },
+  "prompt_edge_counts": {
+    "leading_or_trailing_whitespace": 3,
+    "length_over_200": 0
+  },
+  "limits": "Three prefix rows plus one real whitespace edge row; at most100 deterministic response permutations per row; no prevalence claim."
+}

@@ -1,0 +1,50 @@
+{
+ "items": [
+  {
+   "id": "peak_date",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Did the final answer identify the September 2025 completed-sales date with the largest high-value cohort?",
+   "pass_anchor": "The correct peak date is September 30, 2025 (2025-09-30). The comparison is across the five dated Northstar completed-sales cohorts whose amount-band lower bound is at least $1,500.00; the processor dashboard summary is not a dated cohort and must not determine the peak. Accept equivalent date formats.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "peak_count",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Did the final answer report the correct number of high-value completed transactions on the peak date?",
+   "pass_anchor": "For September 30, 2025, the high-value completed-sales cohort contains 580 transactions. Accept numeric formatting such as 580 or 580 transactions.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "monthly_share",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Did the final answer report the correct clean September high-value total and calculate the peak day's share of that total?",
+   "pass_anchor": "The clean September high-value completed-sales total is 2,684 transactions. The peak-day share is 580 / 2,684 = approximately 21.61% (allow a reasonable rounding tolerance, about ±0.1 percentage point).",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "summary_exclusion",
+   "tier": "important",
+   "method": "llm",
+   "question": "Did the final answer explicitly state that the processor dashboard summary was excluded from the cohort comparison and monthly denominator?",
+   "pass_anchor": "The answer must say in substance that the processor-dashboard total/summary row was excluded or not used, because the analysis retains dated completed-sales cohorts and uses the clean completed-sales high-value total. Do not require a particular wording.",
+   "files": [
+    "answer.md"
+   ]
+  }
+ ],
+ "check_code": "\"\"\"This read-only task has no deterministic post-state to verify.\"\"\"\n\n",
+ "gold_answer": null,
+ "input": "db",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

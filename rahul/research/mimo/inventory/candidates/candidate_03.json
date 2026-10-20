@@ -1,0 +1,40 @@
+{
+  "selection_rank": 3,
+  "selection_reason": "greedy smallest nonempty test_patch with heuristic language/framework hints used to prefer diversity; deterministic row-index tie-break",
+  "selection_bias": "Concentrates on unusually small explicit test patches and heuristic language/framework keyword cues (unverified, may reflect generic prose); excludes empty patches and may underrepresent larger or less explicit task families. This is a triage sample, not representative and not a vulnerability claim.",
+  "row_index": 1250,
+  "language_hint": "unknown",
+  "framework_hint": "unknown",
+  "hints_unverified": true,
+  "row": {
+    "data_source": "opensource-code",
+    "ability": "swe",
+    "agent_name": "mimo_swe_agent",
+    "prompt": [
+      {
+        "content": "<!-- ✨ Thanks for reporting a bug! ➡️ Please don't ignore this template -->\r\n\r\n<!-- 1️⃣ Explain here what's wrong -->\r\n\r\nThe above rule reports errors for class properties that match the rule.\r\n\r\n<!-- 2️⃣ Specify which rule is buggy here and in the title -->\r\n\r\n<!-- 3️⃣ Add some examples where the issue appears -->\r\n\r\n```ts\r\n@Component({\r\n  selector: 'app-headline',\r\n  templateUrl: './headline.component.html',\r\n  styleUrls: ['./headline.component.scss'],\r\n})\r\nexport class HeadlineComponent implements OnInit {\r\n  @Input() size?: HeadlineSizes\r\n\r\n  ngOnInit(): void {\r\n    if (this.size) this.classes.push(this.size) // ← reported\r\n  }\r\n}\r\n```",
+        "role": "user"
+      }
+    ],
+    "reward_model": {
+      "ground_truth": "",
+      "style": "rule"
+    },
+    "extra_info": {
+      "dataset_type": "opensource-code",
+      "index": 1412,
+      "instance_id": "format-code-task-002654",
+      "instance_json": "{\"cwd\": \"/testbed\", \"dataset_type\": \"opensource-code\", \"docker_image\": \"format-code-task-002654:latest\", \"instance_id\": \"format-code-task-002654\", \"problem_statement\": \"<!-- \\u2728 Thanks for reporting a bug! \\u27a1\\ufe0f Please don't ignore this template -->\\r\\n\\r\\n<!-- 1\\ufe0f\\u20e3 Explain here what's wrong -->\\r\\n\\r\\nThe above rule reports errors for class properties that match the rule.\\r\\n\\r\\n<!-- 2\\ufe0f\\u20e3 Specify which rule is buggy here and in the title -->\\r\\n\\r\\n<!-- 3\\ufe0f\\u20e3 Add some examples where the issue appears -->\\r\\n\\r\\n```ts\\r\\n@Component({\\r\\n  selector: 'app-headline',\\r\\n  templateUrl: './headline.component.html',\\r\\n  styleUrls: ['./headline.component.scss'],\\r\\n})\\r\\nexport class HeadlineComponent implements OnInit {\\r\\n  @Input() size?: HeadlineSizes\\r\\n\\r\\n  ngOnInit(): void {\\r\\n    if (this.size) this.classes.push(this.size) // \\u2190 reported\\r\\n  }\\r\\n}\\r\\n```\", \"test_command\": \"bash /testbed/mimo_test_command.sh\", \"test_patch\": \"diff --git a/test/explicit-length-check.mjs b/test/explicit-length-check.mjs\\nindex f4ff2d138e..9853fe7865 100644\\n--- a/test/explicit-length-check.mjs\\n+++ b/test/explicit-length-check.mjs\\n@@ -138,7 +138,17 @@ test({\\n });\\n \\n test.snapshot({\\n-\\tvalid: [],\\n+\\tvalid: [\\n+\\n+\\t\\toutdent`\\n+\\t\\t\\tclass A {\\n+\\t\\t\\t\\ta() {\\n+\\t\\t\\t\\t\\tif (this.length);\\n+\\t\\t\\t\\t\\twhile (!this.size || foo);\\n+\\t\\t\\t\\t}\\n+\\t\\t\\t}\\n+\\t\\t`\\n+\\t],\\n \\tinvalid: [\\n \\t\\toutdent`\\n \\t\\t\\tif (\\ndiff --git a/mimo_build_env.tar.gz.b64 b/mimo_build_env.tar.gz.b64\\nnew file mode 100644\\n--- /dev/null\\n+++ b/mimo_build_env.tar.gz.b64\\n@@ -0,0 +1,4 @@\\n+H4sIAAAAAAAAA+3R3QqCMBjG8R13FbuBzJmblxM6R1p+RK7w8lMJiqA6MSL6/07ed2ywB54gO5VV\\n+vnHNeSU+JRwkWk9z8DinXelIKaMSkygRjlsopP5YojunzqdHKcWxbf2rd+/uf1Rw69+7zm9sW9dp\\n+kwddMd8fb/s361v/sRn6j02khQzni/Dcn/dvczkVn7l80Rx6mZ5TOZ5Xrj9UpS39snLN1hdLWzi7\\n+D+pdt/h2ZAAAAAAAAAAAAAAAAABXF4m0SAsAKAAA\\ndiff --git a/mimo_test_command.sh b/mimo_test_command.sh\\nnew file mode 100755\\n--- /dev/null\\n+++ b/mimo_test_command.sh\\n@@ -0,0 +1,6 @@\\n+#!/usr/bin/env bash\\n+\\n+set -uo pipefail\\n+cd /testbed || exit 1\\n+base64 -d mimo_build_env.tar.gz.b64 | tar -xzf - -C /testbed || exit 1\\n+exec bash -lc 'cd /testbed && bash -eo pipefail /testbed/.build_env/test_command.sh'\\n\", \"verifier_timeout_sec\": 1800}"
+    }
+  },
+  "instance_json_decoded": {
+    "cwd": "/testbed",
+    "dataset_type": "opensource-code",
+    "docker_image": "format-code-task-002654:latest",
+    "instance_id": "format-code-task-002654",
+    "problem_statement": "<!-- ✨ Thanks for reporting a bug! ➡️ Please don't ignore this template -->\r\n\r\n<!-- 1️⃣ Explain here what's wrong -->\r\n\r\nThe above rule reports errors for class properties that match the rule.\r\n\r\n<!-- 2️⃣ Specify which rule is buggy here and in the title -->\r\n\r\n<!-- 3️⃣ Add some examples where the issue appears -->\r\n\r\n```ts\r\n@Component({\r\n  selector: 'app-headline',\r\n  templateUrl: './headline.component.html',\r\n  styleUrls: ['./headline.component.scss'],\r\n})\r\nexport class HeadlineComponent implements OnInit {\r\n  @Input() size?: HeadlineSizes\r\n\r\n  ngOnInit(): void {\r\n    if (this.size) this.classes.push(this.size) // ← reported\r\n  }\r\n}\r\n```",
+    "test_command": "bash /testbed/mimo_test_command.sh",
+    "test_patch": "diff --git a/test/explicit-length-check.mjs b/test/explicit-length-check.mjs\nindex f4ff2d138e..9853fe7865 100644\n--- a/test/explicit-length-check.mjs\n+++ b/test/explicit-length-check.mjs\n@@ -138,7 +138,17 @@ test({\n });\n \n test.snapshot({\n-\tvalid: [],\n+\tvalid: [\n+\n+\t\toutdent`\n+\t\t\tclass A {\n+\t\t\t\ta() {\n+\t\t\t\t\tif (this.length);\n+\t\t\t\t\twhile (!this.size || foo);\n+\t\t\t\t}\n+\t\t\t}\n+\t\t`\n+\t],\n \tinvalid: [\n \t\toutdent`\n \t\t\tif (\ndiff --git a/mimo_build_env.tar.gz.b64 b/mimo_build_env.tar.gz.b64\nnew file mode 100644\n--- /dev/null\n+++ b/mimo_build_env.tar.gz.b64\n@@ -0,0 +1,4 @@\n+H4sIAAAAAAAAA+3R3QqCMBjG8R13FbuBzJmblxM6R1p+RK7w8lMJiqA6MSL6/07ed2ywB54gO5VV\n+vnHNeSU+JRwkWk9z8DinXelIKaMSkygRjlsopP5YojunzqdHKcWxbf2rd+/uf1Rw69+7zm9sW9dp\n+kwddMd8fb/s361v/sRn6j02khQzni/Dcn/dvczkVn7l80Rx6mZ5TOZ5Xrj9UpS39snLN1hdLWzi7\n+D+pdt/h2ZAAAAAAAAAAAAAAAAABXF4m0SAsAKAAA\ndiff --git a/mimo_test_command.sh b/mimo_test_command.sh\nnew file mode 100755\n--- /dev/null\n+++ b/mimo_test_command.sh\n@@ -0,0 +1,6 @@\n+#!/usr/bin/env bash\n+\n+set -uo pipefail\n+cd /testbed || exit 1\n+base64 -d mimo_build_env.tar.gz.b64 | tar -xzf - -C /testbed || exit 1\n+exec bash -lc 'cd /testbed && bash -eo pipefail /testbed/.build_env/test_command.sh'\n",
+    "verifier_timeout_sec": 1800
+  }
+}

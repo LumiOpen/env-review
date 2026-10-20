@@ -1,0 +1,25 @@
+{
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "files": [
+    {
+      "path": "research/mimo/general_truth/sources/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/tue_operations_intake/schema.sql",
+      "bytes": 3208,
+      "sha256": "deff721afcb83e413167016bc15eb8cca355b89c76e29048a20713b10fd73d4a"
+    },
+    {
+      "path": "research/mimo/general_truth/sources/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/tue_operations_intake/state.db",
+      "bytes": 458752,
+      "sha256": "fbea4555bcba531d0befa799cb0670f820f38761d355b398c5e70d095d8a8190"
+    },
+    {
+      "path": "research/mimo/general_truth/sources/s3k_0568_ecommerce_ops_en_t3_rl_001/stripe_payments_ledger/schema.sql",
+      "bytes": 2680,
+      "sha256": "ff299d0f1a00de66638f0602813a9a35bcac45d8902649f23aeac288b4cc8ed0"
+    },
+    {
+      "path": "research/mimo/general_truth/sources/s3k_0568_ecommerce_ops_en_t3_rl_001/stripe_payments_ledger/state.db",
+      "bytes": 143360,
+      "sha256": "fe8e32b45dcdd3e95001c6c811f1060264121f6fd2d0a797909c74b60835926c"
+    }
+  ]
+}

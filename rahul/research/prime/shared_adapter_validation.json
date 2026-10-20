@@ -1,0 +1,125 @@
+{
+  "status": "passed",
+  "partition": "amd-tw-verification",
+  "baseline": "runs/prime-v1",
+  "collection": "runs/prime-shared-v1",
+  "task_count": 7,
+  "case_count": 34,
+  "results": [
+    {
+      "name": "prime-reverse-text",
+      "task_count": 4,
+      "case_count": 12,
+      "relation_count": 6,
+      "baseline_scores_and_source_metrics_match": true,
+      "finding_ids": [
+        "15e85e2b3c6456f850d722db",
+        "42dcf7bb60f0c3278232bb18"
+      ],
+      "integrity": {
+        "status": "verified",
+        "fingerprint": "a7f24b20b6452211a12e5b79e9e63608abdfb921562deb094b298a7457f24644",
+        "artifacts": 82
+      },
+      "comparison": {
+        "same_fingerprint": true,
+        "same_semantic_results": true,
+        "reproduced": true,
+        "left_semantic_sha256": "59bef716133e860df3adbf61a07e497f95f033134f7b283ab91578b3321175ba",
+        "right_semantic_sha256": "59bef716133e860df3adbf61a07e497f95f033134f7b283ab91578b3321175ba"
+      }
+    },
+    {
+      "name": "prime-countdown",
+      "task_count": 1,
+      "case_count": 8,
+      "relation_count": 4,
+      "baseline_scores_and_source_metrics_match": true,
+      "finding_ids": [
+        "15beacaa1ab417533f7f314b",
+        "c629772590dd11ce6996fecf"
+      ],
+      "integrity": {
+        "status": "verified",
+        "fingerprint": "7b2d8040f6d690ca5dab12f8ab3c265b78e76e7284f8bac03acd0a1f5c39d5c4",
+        "artifacts": 64
+      },
+      "comparison": {
+        "same_fingerprint": true,
+        "same_semantic_results": true,
+        "reproduced": true,
+        "left_semantic_sha256": "d382a001469f614a9f2b070eddb6687d56079fb85d52ee8d424723b4891cf61e",
+        "right_semantic_sha256": "d382a001469f614a9f2b070eddb6687d56079fb85d52ee8d424723b4891cf61e"
+      }
+    },
+    {
+      "name": "prime-wordle",
+      "task_count": 2,
+      "case_count": 14,
+      "relation_count": 7,
+      "baseline_scores_and_source_metrics_match": true,
+      "finding_ids": [],
+      "integrity": {
+        "status": "verified",
+        "fingerprint": "dddf1bbbf7b817bd858dbf703b6f478349423c4e03cb734803f222270f7c86da",
+        "artifacts": 94
+      },
+      "comparison": {
+        "same_fingerprint": true,
+        "same_semantic_results": true,
+        "reproduced": true,
+        "left_semantic_sha256": "da9486cb6a14aafdfa7ff3e58b2322cf83388ef429e8e21db17441088cca1264",
+        "right_semantic_sha256": "da9486cb6a14aafdfa7ff3e58b2322cf83388ef429e8e21db17441088cca1264"
+      }
+    }
+  ],
+  "independent_reference_disagreements": [
+    {
+      "case_id": "exact-reversal-49:prime-reverse-text-train-0049:reference",
+      "source_reward": 0.9951219512195122,
+      "reference_reward": 1.0,
+      "reference_facts": {
+        "lcs_length": 103,
+        "candidate_length": 103,
+        "expected_length": 103,
+        "expected_reward": 1.0
+      }
+    },
+    {
+      "case_id": "declared-lcs-metric:prime-reverse-text-train-0000:variant",
+      "source_reward": 0.2926829268292683,
+      "reference_reward": 0.36585365853658536,
+      "reference_facts": {
+        "lcs_length": 15,
+        "candidate_length": 41,
+        "expected_length": 41,
+        "expected_reward": 0.36585365853658536
+      }
+    },
+    {
+      "case_id": "fractional-intermediate:prime-countdown-seed-339-row-0:variant",
+      "source_reward": 1.0,
+      "reference_reward": 0.0,
+      "reference_facts": {
+        "valid": false,
+        "reason": "fractional intermediate result",
+        "expected_reward": 0.0
+      }
+    },
+    {
+      "case_id": "forbidden-exponent:prime-countdown-seed-339-row-0:variant",
+      "source_reward": 1.0,
+      "reference_reward": 0.0,
+      "reference_facts": {
+        "valid": false,
+        "reason": "operator or syntax outside declared arithmetic rules",
+        "expected_reward": 0.0
+      }
+    }
+  ],
+  "limits": [
+    "Cross-engine parity uses case IDs, source scores/metrics, parser/game observations, relation outcomes, and finding IDs; it does not compare changed input fingerprints.",
+    "Each migrated run's replay must match its own fingerprint and semantic digest.",
+    "Model-free component checks; no agent rollout, training, GPU, paid judge, or prevalence estimate."
+  ]
+}

@@ -1,0 +1,2 @@
+{"task_id": "prime-wordle-answer-abbey", "domain": "prime_wordle", "prompt": "Start the game. Make your first guess with the `guess` tool.", "metadata": {"answer_index": 1, "answer": "abbey"}, "files": {}}
+{"task_id": "prime-wordle-answer-apple", "domain": "prime_wordle", "prompt": "Start the game. Make your first guess with the `guess` tool.", "metadata": {"answer_index": 73, "answer": "apple"}, "files": {}}

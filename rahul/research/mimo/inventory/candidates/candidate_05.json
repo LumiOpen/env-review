@@ -1,0 +1,40 @@
+{
+  "selection_rank": 5,
+  "selection_reason": "greedy smallest nonempty test_patch with heuristic language/framework hints used to prefer diversity; deterministic row-index tie-break",
+  "selection_bias": "Concentrates on unusually small explicit test patches and heuristic language/framework keyword cues (unverified, may reflect generic prose); excludes empty patches and may underrepresent larger or less explicit task families. This is a triage sample, not representative and not a vulnerability claim.",
+  "row_index": 1803,
+  "language_hint": "go",
+  "framework_hint": "unknown",
+  "hints_unverified": true,
+  "row": {
+    "data_source": "opensource-code",
+    "ability": "swe",
+    "agent_name": "mimo_swe_agent",
+    "prompt": [
+      {
+        "content": "## Feature request: kebab-case transform for tag values\n\nI'm using `gomodifytags` to add `json` tags to my structs, but the API I'm targeting expects field names in kebab-case (lowercase words separated by hyphens), e.g. a field `MyExample` should serialize as `\"my-example\"`.\n\nRight now `-transform` only supports `snakecase` and `camelcase`:\n\n```\n$ gomodifytags -file foo.go -line 4,6 -add-tags json -transform snakecase\n```\ngives me `json:\"my_example\"`, and `camelcase` gives me `json:\"myExample\"`. There's no option to get `json:\"my-example\"`.\n\nIt would be great if `-transform` supported a hyphen-separated lowercase style as well, so that:\n\n```go\ntype foo struct {\n    bar       string\n    MyExample bool\n    MyAnother []string\n}\n```\n\ncould be rewritten to:\n\n```go\ntype foo struct {\n    bar       string   `json:\"bar\"`\n    MyExample bool     `json:\"my-example\"`\n    MyAnother []string `json:\"my-another\"`\n}\n\n```\n\nwithout having to manually fix up every tag after running the tool.\n\nA name like `lispcase` for the new `-transform` value would be fine.",
+        "role": "user"
+      }
+    ],
+    "reward_model": {
+      "ground_truth": "",
+      "style": "rule"
+    },
+    "extra_info": {
+      "dataset_type": "opensource-code",
+      "index": 2026,
+      "instance_id": "format-code-task-000942",
+      "instance_json": "{\"cwd\": \"/testbed\", \"dataset_type\": \"opensource-code\", \"docker_image\": \"format-code-task-000942:latest\", \"instance_id\": \"format-code-task-000942\", \"problem_statement\": \"## Feature request: kebab-case transform for tag values\\n\\nI'm using `gomodifytags` to add `json` tags to my structs, but the API I'm targeting expects field names in kebab-case (lowercase words separated by hyphens), e.g. a field `MyExample` should serialize as `\\\"my-example\\\"`.\\n\\nRight now `-transform` only supports `snakecase` and `camelcase`:\\n\\n```\\n$ gomodifytags -file foo.go -line 4,6 -add-tags json -transform snakecase\\n```\\ngives me `json:\\\"my_example\\\"`, and `camelcase` gives me `json:\\\"myExample\\\"`. There's no option to get `json:\\\"my-example\\\"`.\\n\\nIt would be great if `-transform` supported a hyphen-separated lowercase style as well, so that:\\n\\n```go\\ntype foo struct {\\n    bar       string\\n    MyExample bool\\n    MyAnother []string\\n}\\n```\\n\\ncould be rewritten to:\\n\\n```go\\ntype foo struct {\\n    bar       string   `json:\\\"bar\\\"`\\n    MyExample bool     `json:\\\"my-example\\\"`\\n    MyAnother []string `json:\\\"my-another\\\"`\\n}\\n\\n```\\n\\nwithout having to manually fix up every tag after running the tool.\\n\\nA name like `lispcase` for the new `-transform` value would be fine.\", \"test_command\": \"bash /testbed/mimo_test_command.sh\", \"test_patch\": \"diff --git a/main_test.go b/main_test.go\\nindex e685d4a..6e5079c 100644\\n--- a/main_test.go\\n+++ b/main_test.go\\n@@ -196,6 +196,15 @@ func TestRewrite(t *testing.T) {\\n \\t\\t\\t\\ttransform: \\\"camelcase\\\",\\n \\t\\t\\t},\\n \\t\\t},\\n+\\t\\t{\\n+\\t\\t\\tfile: \\\"line_lispcase_add\\\",\\n+\\t\\t\\tcfg: &config{\\n+\\t\\t\\t\\tadd:       []string{\\\"json\\\"},\\n+\\t\\t\\t\\toutput:    \\\"source\\\",\\n+\\t\\t\\t\\tline:      \\\"4,6\\\",\\n+\\t\\t\\t\\ttransform: \\\"lispcase\\\",\\n+\\t\\t\\t},\\n+\\t\\t},\\n \\t\\t{\\n \\t\\t\\tfile: \\\"line_camelcase_add\\\",\\n \\t\\t\\tcfg: &config{\\ndiff --git a/mimo_build_env.tar.gz.b64 b/mimo_build_env.tar.gz.b64\\nnew file mode 100644\\n--- /dev/null\\n+++ b/mimo_build_env.tar.gz.b64\\n@@ -0,0 +1,5 @@\\n+H4sIAAAAAAAAA+3Su07DMBQG4Mx5ivMCieMQl6kDEqgMoDDAXDlxbqKOo9ipxNtjMkAFollaVYj/\\n+W2z5cmz5d1xM3U5tq37PgnNJvGsh5tb73s59LtIkFUmWZn4d5ys/ROJsNzowWSdHomA0xh1btzT/\\n+R8Vf+bvKum1ptJa9im17ujOW8r/6kX+2SkRAyemu8Lt/nn+paA6+qFSoX1U3UjT4ET2wxgzStcyO\\n+JWs6105F7P8Gq6Xr2nDXU2Trz52LG/ycNqqr35xsbLjJOeeP+e3Lw93a1DVt8qeb5/v1QRFqDH3U\\n+pmhPx2td+v0AAAAAAAAAAAAAAAAAAAAAAC7pHUblb3wAKAAA\\ndiff --git a/mimo_test_command.sh b/mimo_test_command.sh\\nnew file mode 100755\\n--- /dev/null\\n+++ b/mimo_test_command.sh\\n@@ -0,0 +1,6 @@\\n+#!/usr/bin/env bash\\n+\\n+set -uo pipefail\\n+cd /testbed || exit 1\\n+base64 -d mimo_build_env.tar.gz.b64 | tar -xzf - -C /testbed || exit 1\\n+exec bash -lc 'cd /testbed && bash -eo pipefail /testbed/.build_env/test_command.sh'\\n\", \"verifier_timeout_sec\": 1800}"
+    }
+  },
+  "instance_json_decoded": {
+    "cwd": "/testbed",
+    "dataset_type": "opensource-code",
+    "docker_image": "format-code-task-000942:latest",
+    "instance_id": "format-code-task-000942",
+    "problem_statement": "## Feature request: kebab-case transform for tag values\n\nI'm using `gomodifytags` to add `json` tags to my structs, but the API I'm targeting expects field names in kebab-case (lowercase words separated by hyphens), e.g. a field `MyExample` should serialize as `\"my-example\"`.\n\nRight now `-transform` only supports `snakecase` and `camelcase`:\n\n```\n$ gomodifytags -file foo.go -line 4,6 -add-tags json -transform snakecase\n```\ngives me `json:\"my_example\"`, and `camelcase` gives me `json:\"myExample\"`. There's no option to get `json:\"my-example\"`.\n\nIt would be great if `-transform` supported a hyphen-separated lowercase style as well, so that:\n\n```go\ntype foo struct {\n    bar       string\n    MyExample bool\n    MyAnother []string\n}\n```\n\ncould be rewritten to:\n\n```go\ntype foo struct {\n    bar       string   `json:\"bar\"`\n    MyExample bool     `json:\"my-example\"`\n    MyAnother []string `json:\"my-another\"`\n}\n\n```\n\nwithout having to manually fix up every tag after running the tool.\n\nA name like `lispcase` for the new `-transform` value would be fine.",
+    "test_command": "bash /testbed/mimo_test_command.sh",
+    "test_patch": "diff --git a/main_test.go b/main_test.go\nindex e685d4a..6e5079c 100644\n--- a/main_test.go\n+++ b/main_test.go\n@@ -196,6 +196,15 @@ func TestRewrite(t *testing.T) {\n \t\t\t\ttransform: \"camelcase\",\n \t\t\t},\n \t\t},\n+\t\t{\n+\t\t\tfile: \"line_lispcase_add\",\n+\t\t\tcfg: &config{\n+\t\t\t\tadd:       []string{\"json\"},\n+\t\t\t\toutput:    \"source\",\n+\t\t\t\tline:      \"4,6\",\n+\t\t\t\ttransform: \"lispcase\",\n+\t\t\t},\n+\t\t},\n \t\t{\n \t\t\tfile: \"line_camelcase_add\",\n \t\t\tcfg: &config{\ndiff --git a/mimo_build_env.tar.gz.b64 b/mimo_build_env.tar.gz.b64\nnew file mode 100644\n--- /dev/null\n+++ b/mimo_build_env.tar.gz.b64\n@@ -0,0 +1,5 @@\n+H4sIAAAAAAAAA+3Su07DMBQG4Mx5ivMCieMQl6kDEqgMoDDAXDlxbqKOo9ipxNtjMkAFollaVYj/\n+W2z5cmz5d1xM3U5tq37PgnNJvGsh5tb73s59LtIkFUmWZn4d5ys/ROJsNzowWSdHomA0xh1btzT/\n+R8Vf+bvKum1ptJa9im17ujOW8r/6kX+2SkRAyemu8Lt/nn+paA6+qFSoX1U3UjT4ET2wxgzStcyO\n+JWs6105F7P8Gq6Xr2nDXU2Trz52LG/ycNqqr35xsbLjJOeeP+e3Lw93a1DVt8qeb5/v1QRFqDH3U\n+pmhPx2td+v0AAAAAAAAAAAAAAAAAAAAAAC7pHUblb3wAKAAA\ndiff --git a/mimo_test_command.sh b/mimo_test_command.sh\nnew file mode 100755\n--- /dev/null\n+++ b/mimo_test_command.sh\n@@ -0,0 +1,6 @@\n+#!/usr/bin/env bash\n+\n+set -uo pipefail\n+cd /testbed || exit 1\n+base64 -d mimo_build_env.tar.gz.b64 | tar -xzf - -C /testbed || exit 1\n+exec bash -lc 'cd /testbed && bash -eo pipefail /testbed/.build_env/test_command.sh'\n",
+    "verifier_timeout_sec": 1800
+  }
+}
