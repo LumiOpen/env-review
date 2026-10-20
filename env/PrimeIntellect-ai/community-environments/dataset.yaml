@@ -1,0 +1,14 @@
+schema_version: '1'
+id: gh:PrimeIntellect-ai/community-environments
+source:
+  provider: github
+  url: https://github.com/PrimeIntellect-ai/community-environments
+  revision: cf220ee86500e94b5415d8b226557ce5d950f1db
+review_status: exploring
+task_identity:
+  fields:
+    - environment_directory_name
+notes: >
+  Community-contributed RL environments for the Prime Intellect Environments Hub.
+  Each environment lives under environments/<name>/. Initial findings cover
+  game environments with programmatic verifiers audited via static code review.

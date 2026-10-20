@@ -1,0 +1,72 @@
+schema_version: '1'
+id: ER-87102930
+dataset: gh:PrimeIntellect-ai/community-environments
+revision: cf220ee86500e94b5415d8b226557ce5d950f1db
+title: nyt_connections auto-completes the last group, giving success_reward=1.0 when 3 groups found with 0 lives remaining
+status: confirmed
+category: reward_shortcut
+tasks:
+  - id: nyt_connections
+problem:
+  description: >
+    When the model correctly identifies 3 out of 4 groups, auto_complete_final_group
+    (line 179) automatically marks the remaining 4 words as the fourth group.
+    success_reward checks only whether found_groups has length 4 (line 197),
+    which is satisfied by the auto-completed group. A model that guesses 3 groups
+    correctly while burning all 4 lives on the third guess receives the same
+    success_reward (1.0) as a model that correctly identifies all 4 groups
+    without any mistakes.
+  expected: >
+    success_reward should reflect whether the model independently identified
+    all 4 groups. Auto-completion of the final group should either not
+    contribute to success_reward or be scored differently from active discovery.
+  actual: >
+    auto_complete_final_group (lines 179-190) triggers at line 307 whenever
+    3 groups are found and 4 words remain. success_reward at line 193-197
+    returns 1.0 if len(found_groups) == 4, counting the auto-completed group
+    indistinguishably from one the model found. A model that solves 3/4 groups
+    gets full success reward without engaging with the fourth.
+evidence:
+  - source: environments/nyt_connections/nyt_connections.py
+    line_start: 179
+    line_end: 197
+    quote: |
+      def auto_complete_final_group(self) -> ConnectionsGroup | None:
+          """If only 4 words remain, automatically complete the final group."""
+          if len(self.remaining_words) == 4 and len(self.found_groups) == 3:
+              remaining_set = set(self.remaining_words)
+              found_group_names = {g.group for g in self.found_groups}
+              for group in self.answer:
+                  if group.group not in found_group_names:
+                      group_set = set(w.upper() for w in group.members)
+                      if remaining_set == group_set:
+                          return group
+          return None
+
+
+      def success_reward(**kwargs) -> float:
+          state = kwargs.get("state", {})
+          data = json.loads(state.get("answer", "{}"))
+          found = data.get("found_groups", [])
+          return 1.0 if len(found) == 4 else 0.0
+validation:
+  method: static
+  summary: >
+    Static reading of auto_complete_final_group (lines 179-190) and
+    success_reward (lines 193-197) confirms that: (1) the auto-complete fires
+    whenever 3 groups are found and 4 words remain; (2) success_reward counts
+    auto-completed groups identically to model-found groups. The call site
+    at line 307 confirms auto-complete runs during env_response after any
+    correct third guess.
+  assumptions:
+    - The auto-completed group is stored in found_groups identically to model-found groups.
+    - No flag distinguishes auto-completed from model-found groups in state.
+  not_run:
+    - End-to-end game trace confirming the exact reward values in a 3-correct-0-lives scenario.
+provenance:
+  discovered_by: AI-assisted static code review, 2026-10-20
+discussion: >
+  Fix options: (1) exclude auto-completed groups from success_reward by
+  tracking a flag; (2) gate success_reward on lives > 0 at completion;
+  (3) use progress_reward (found/4) for success metric, which gives 0.75
+  for 3/4 groups found independently.
