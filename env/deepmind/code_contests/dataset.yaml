@@ -1,0 +1,16 @@
+schema_version: '1'
+id: hf:deepmind/code_contests
+source:
+  provider: huggingface
+  url: https://huggingface.co/datasets/deepmind/code_contests
+  revision: "0000000000000000000000000000000000000000"
+review_status: exploring
+task_identity:
+  fields:
+    - name
+notes: >
+  Competitive programming problems sourced from Codeforces, AtCoder, and other
+  platforms, with public and private test cases used as the reward signal in
+  coding RL training. CodeContests+ (EMNLP 2025 Findings) found that incorrect
+  test cases substantially reduce True Positive Rate; under the same quality
+  thresholds CodeContests+ yields twice the effective problems.

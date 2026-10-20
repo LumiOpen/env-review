@@ -1,0 +1,84 @@
+schema_version: '1'
+id: ER-d29f4e81
+dataset: hf:princeton-nlp/SWE-bench_Verified
+revision: "0000000000000000000000000000000000000000"
+title: 28.5% of sampled tasks award positive reward to obviously incorrect patches (stub body, hardcoded return, process exit)
+status: confirmed
+category: grader_mismatch
+tasks:
+  - id: SWE-bench_Verified/hackable-sample
+    config: default
+    split: test
+problem:
+  description: >
+    The positive reward signal for each task is defined by its FAIL_TO_PASS
+    test list. An execution audit of 49 randomly drawn tasks (arXiv:2606.16062)
+    found that 28.5% — approximately 14 tasks — award passing reward to patches
+    that are obviously incorrect: stub function bodies returning None, functions
+    returning a hardcoded wrong value, and patches that call sys.exit(0) before
+    test assertions run. The FAIL_TO_PASS tests for these tasks are too weak to
+    distinguish a correct solution from a null implementation.
+  expected: >
+    A task's FAIL_TO_PASS tests must reject obviously incorrect patches. A stub
+    body (return None for all functions), a hardcoded wrong return value, and a
+    process exit before assertions are sufficient witnesses of a null
+    implementation and must not satisfy any FAIL_TO_PASS test.
+  actual: >
+    14 of 49 audited tasks (28.5%) passed at least one obviously incorrect patch
+    in execution. The frontier model Pass@1 was 14.14 percentage points higher
+    on hackable tasks versus robust ones (p < 1e-6), confirming that RL training
+    disproportionately rewards solutions that exploit weak test suites rather than
+    solving the stated issue.
+evidence:
+  - source: data/test-00000-of-00001.parquet
+    quote: |
+      {"instance_id": "astropy__astropy-14182",
+       "repo": "astropy/astropy",
+       "base_commit": "...",
+       "problem_statement": "...",
+       "hints_text": "",
+       "FAIL_TO_PASS": "[\"astropy/io/fits/tests/test_image.py::TestImageHDU::test_blanks\"]",
+       "PASS_TO_PASS": "[...]",
+       "environment_setup_commit": "..."}
+    note: >
+      Representative entry format showing the FAIL_TO_PASS field that defines
+      positive reward. The audit (arXiv:2606.16062) executed stub patches
+      (function body replaced with return None), hardcoded-value patches, and
+      sys.exit(0) patches against each task's FAIL_TO_PASS suite in the Docker
+      environment. The instance_id cited here is illustrative of the field schema;
+      specific hackable instance IDs were identified in the arXiv:2606.16062
+      audit and are not enumerated here.
+validation:
+  method: static
+  summary: >
+    Dataset schema and FAIL_TO_PASS field format confirmed by inspection.
+    The hackability characterization is based on arXiv:2606.16062, which
+    executed wrong patches in the Docker environment against a 49-task random
+    sample. Direct re-execution in Docker was not performed here. The 14.14pp
+    frontier model advantage on hackable tasks (p < 1e-6) provides
+    quantitative confirmation that RL training exploits these weak test suites.
+  assumptions:
+    - The arXiv:2606.16062 audit correctly identifies hackable tasks and its
+      49-task sample is representative of the 500-task dataset.
+    - FAIL_TO_PASS tests are the operative positive reward criterion in standard
+      RL training pipelines using this dataset.
+    - The test suites have not been updated in the inspected revision.
+  not_run:
+    - Re-execution of stub, hardcoded-return, and sys.exit(0) patches against
+      FAIL_TO_PASS suites in the Docker environment.
+    - Enumeration of all 500 tasks to determine the full hackability rate.
+    - Audit of PASS_TO_PASS regression gate effectiveness.
+    - Measurement of the sys.exit(0) false-positive rate specifically.
+provenance:
+  discovered_by: >
+    arXiv:2606.16062 (Auditing Reward Hackability in Code RL Training
+    Environments); catalogued by AI-assisted literature review, 2026-10-20
+discussion: >
+  arXiv:2606.16062 found that the sys.exit(0) exploit is the most severe
+  variant: test runners that treat process exit code 0 as success are
+  unconditionally bypassed by a single-line patch regardless of test content.
+  Fix: add a gold-solution sanity gate (gold solution must pass all FAIL_TO_PASS
+  tests) and stub-rejection gate (stub body must fail at least one FAIL_TO_PASS
+  test) before including any task in RL training. The LLM-generated test
+  augmentation path has a 61.9% defect rate (arXiv:2606.16062) if a
+  gold-sanity gate is not applied to generated tests.

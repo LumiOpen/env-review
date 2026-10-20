@@ -1,0 +1,19 @@
+schema_version: '1'
+id: hf:google/IFEval
+source:
+  provider: huggingface
+  url: https://huggingface.co/datasets/google/IFEval
+  revision: "0000000000000000000000000000000000000000"
+review_status: exploring
+task_identity:
+  fields:
+    - prompt
+notes: >
+  541 prompts pairing a user instruction with one or more verifiable constraints
+  (paragraph count, word count, keyword presence, format, etc.). Evaluation is
+  performed by the instruction_following_eval Python package distributed with
+  the dataset. Three grader defects are documented: the paragraph-count at_least
+  checker requires exactly N rather than at least N; the symbol-frequency checker
+  only handles a-z and always scores 0 for non-alphabetic symbols; and data
+  augmentation produced a subset of prompts with simultaneously infeasible
+  constraint combinations.

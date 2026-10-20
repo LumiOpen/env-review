@@ -1,0 +1,71 @@
+schema_version: '1'
+id: ER-47a08d5b
+dataset: gh:sierra-research/tau-bench
+revision: "0000000000000000000000000000000000000000"
+title: Evaluator awards passing reward to an empty agent response for action-free task instances
+status: candidate
+category: grader_mismatch
+tasks:
+  - id: tau-bench/action-free-instances
+problem:
+  description: >
+    The tau-bench evaluator scores a task as passed when the agent's actions and
+    final state satisfy the task goal condition. For task instances where the goal
+    check is satisfied by the absence of prohibited state changes, or where the
+    verification logic performs a null-safe comparison that passes on an absent
+    output, an empty string response satisfies the pass condition. tau² Bench
+    (arXiv:2609.04611) documents this as a grader defect: the intended behavior
+    requires the agent to understand and respond substantively; the evaluator
+    accepts the null response.
+  expected: >
+    An empty or null agent response must not satisfy a task that requires the
+    agent to perform any substantive action or provide any non-trivial output.
+    The evaluator must distinguish a null response from a compliant one.
+  actual: >
+    Empty responses are counted as successful task completions in instances where
+    the goal check logic does not enforce non-emptiness of the agent output. This
+    creates a false-positive reward signal in RL training pipelines using
+    tau-bench: a policy that produces no output on these instances receives
+    positive gradient toward the null action.
+evidence:
+  - source: tau_bench/eval.py
+    quote: |
+      reward = int(env.task_done())
+    note: >
+      Illustrative of the binary reward path documented in tau² Bench
+      (arXiv:2609.04611). The evaluator calls task_done() whose logic for
+      action-free instances can return True regardless of agent output content.
+      Direct code quotation at the pinned revision was not performed; the quote
+      represents the documented evaluation pattern.
+validation:
+  method: static
+  summary: >
+    Finding based on tau² Bench (arXiv:2609.04611) documentation of the
+    empty-response scoring defect. Source code at the pinned revision was not
+    directly inspected. Evaluation path structure inferred from the repository
+    layout and the tau² Bench report.
+  assumptions:
+    - The tau² Bench report correctly identifies the scoring behavior and the
+      affected task instance class.
+    - The affected evaluation path is active in the default configuration and
+      in the inspected revision.
+    - The empty-response exploit applies to at least a subset of tasks where
+      goal conditions do not enforce output presence.
+  not_run:
+    - Direct inspection of tau_bench/eval.py and goal-check logic at the pinned
+      revision.
+    - Execution of an empty-response agent against the task suite to enumerate
+      affected task IDs.
+    - Measurement of the fraction of tasks where empty response passes.
+    - Assessment of GRPO advantage misalignment from dense per-turn rewards
+      (addressed separately in MT-GRPO, arXiv:2604.02869).
+provenance:
+  discovered_by: >
+    tau² Bench (arXiv:2609.04611);
+    catalogued by AI-assisted literature review, 2026-10-20
+discussion: >
+  tau² Bench (arXiv:2609.04611) introduced fixes for both this defect and the
+  advantage misalignment in multi-turn GRPO. Multi-turn RL with dense per-turn
+  rewards on tau-bench also creates a separate advantage-attribution defect
+  documented in MT-GRPO (arXiv:2604.02869). This finding is candidate pending
+  direct code inspection at a pinned revision.

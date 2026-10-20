@@ -1,0 +1,16 @@
+schema_version: '1'
+id: gh:sierra-research/tau-bench
+source:
+  provider: github
+  url: https://github.com/sierra-research/tau-bench
+  revision: "0000000000000000000000000000000000000000"
+review_status: exploring
+task_identity:
+  fields:
+    - task_id
+notes: >
+  Retail and airline agentic benchmark tasks evaluated via multi-turn
+  tool-calling. Each task is scored binary pass/fail by comparing the agent's
+  actions and final state against a reference trajectory. tau² Bench
+  (arXiv:2609.04611) documents that the evaluator awards passing reward to
+  empty agent responses in action-free task instances.

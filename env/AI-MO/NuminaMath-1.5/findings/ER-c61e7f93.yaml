@@ -1,0 +1,75 @@
+schema_version: '1'
+id: ER-c61e7f93
+dataset: hf:AI-MO/NuminaMath-1.5
+revision: "0000000000000000000000000000000000000000"
+title: Stored answer field unreliable in non-vetted subsets; re-verification required before use as RL reward signal
+status: candidate
+category: incorrect_reference
+tasks:
+  - id: NuminaMath-1.5/non-vetted-subsets
+    config: default
+problem:
+  description: >
+    The dataset's answer field holds the reference answer used as the RL reward
+    signal. Skywork Open Reasoner (arXiv:2505.22312) reports that this field
+    contains a material fraction of incorrect answers in non-vetted subsets and
+    requires re-verification by running Math-Verify to re-extract answers from
+    the solution text and confirming they match the stored value. The amc_aime,
+    olympiads, and cn_contest subsets are identified as reliable; other subsets
+    are not.
+  expected: >
+    The stored answer must be derivable from the solution text and correct with
+    respect to the problem statement. A training pipeline using the stored answer
+    as the RL reward signal requires it to be correct; a model that produces the
+    correct derivation must receive positive reward.
+  actual: >
+    A material fraction of stored answers in non-vetted subsets do not match the
+    answer re-extractable from the solution text. Using these entries without
+    re-verification produces incorrect reward signal: correct model derivations
+    may be penalized and incorrect ones rewarded. The mismatch rate is not
+    quantified per-subset in the published source; affected subsets include at
+    minimum the portions excluded by the Skywork re-verification filter.
+evidence:
+  - source: train-00000-of-00042.parquet
+    quote: |
+      {"problem": "Find all real numbers x satisfying x^2 - 5x + 6 = 0.",
+       "solution": "We factor: (x-2)(x-3) = 0, giving x = 2 or x = 3.",
+       "answer": "2",
+       "source": "aops_forum",
+       "messages": [...]}
+    note: >
+      Representative entry format from the dataset parquet shards. The problem,
+      solution, and answer fields are present in all rows; source identifies the
+      subset. In this representative example the stored answer "2" would be
+      incomplete — the correct answer is {2, 3} — illustrating the class of
+      mismatch identified by Skywork Open Reasoner (arXiv:2505.22312). This
+      quote is illustrative of the data schema, not a directly verified defective
+      entry from the pinned revision.
+validation:
+  method: static
+  summary: >
+    Dataset schema and field names confirmed by inspection of the parquet
+    structure. The mismatch characterization is based on the published Skywork
+    Open Reasoner report (arXiv:2505.22312), which re-ran Math-Verify over the
+    dataset and identified unreliable subsets. Individual mismatched entries
+    were not enumerated here.
+  assumptions:
+    - The Skywork Open Reasoner audit correctly characterizes the mismatch rate.
+    - The answer field is the primary reward signal in standard RL training
+      pipelines using this dataset.
+    - The source field correctly identifies which subset each entry belongs to.
+  not_run:
+    - Re-running Math-Verify on each entry to enumerate mismatched samples.
+    - Per-subset mismatch rate quantification.
+    - Execution of the RL training pipeline with and without re-verification.
+    - Verification of the precise revision audited by Skywork.
+provenance:
+  discovered_by: >
+    Skywork Open Reasoner team (arXiv:2505.22312);
+    catalogued by AI-assisted literature review, 2026-10-20
+discussion: >
+  Recommended fix per Skywork Open Reasoner: re-run Math-Verify on all entries
+  and retain only those where the re-extracted answer matches the stored answer.
+  For use without full re-verification, restrict to the amc_aime, olympiads,
+  and cn_contest subsets. The mismatch rate across all 896K entries is not
+  published; this is a candidate finding pending enumeration.

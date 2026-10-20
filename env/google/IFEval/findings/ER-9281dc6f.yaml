@@ -1,0 +1,71 @@
+schema_version: '1'
+id: ER-9281dc6f
+dataset: hf:google/IFEval
+revision: "0000000000000000000000000000000000000000"
+title: Data augmentation produced prompts with simultaneously infeasible constraint combinations
+status: candidate
+category: specification
+tasks:
+  - id: IFEval/infeasible-multi-constraint-prompts
+problem:
+  description: >
+    IFEval prompts are constructed by pairing a base instruction with one or more
+    verifiable constraints. Data augmentation combined constraints without checking
+    mutual satisfiability. Some resulting prompts contain constraint pairs that
+    cannot be simultaneously satisfied by any response: for example, a prompt
+    may require both "no commas in the response" and "format your response as
+    JSON" — JSON syntax requires commas and the no-comma constraint cannot be met
+    while producing valid JSON. Any model response to such a prompt must violate
+    at least one constraint and will receive a non-perfect score regardless of
+    quality.
+  expected: >
+    Every prompt must have at least one response that satisfies all of its
+    constraints simultaneously. Constraint combinations that are mutually
+    exclusive under any reasonable interpretation must not appear in the dataset.
+  actual: >
+    A subset of prompts contains constraint combinations where no response can
+    satisfy all constraints at once. These prompts produce ceiling-bounded scores
+    for every model, introducing a systematic floor on the per-prompt false
+    negative rate that cannot be corrected by model improvement.
+evidence:
+  - source: data/input_data.jsonl
+    quote: |
+      {"key": "no_comma+json_format",
+       "prompt": "List three benefits of exercise in JSON format. Do not include any commas in your response.",
+       "instruction_id_list": ["no_comma", "json_format"],
+       "kwargs": [{}, {}]}
+    note: >
+      Illustrative example of the infeasibility class: valid JSON syntax requires
+      commas as value separators; the no_comma constraint cannot be satisfied
+      simultaneously. The entry is constructed to illustrate the schema; specific
+      infeasible prompt IDs in the pinned revision were identified in
+      arXiv:2512.14754 and are not individually enumerated here.
+validation:
+  method: static
+  summary: >
+    Finding documented in arXiv:2512.14754. Dataset prompt format confirmed by
+    inspection. Individual infeasible prompts were not enumerated here; their
+    existence and count in the published dataset are reported in arXiv:2512.14754.
+  assumptions:
+    - arXiv:2512.14754 correctly identifies the infeasible constraint pairs and
+      their frequency in the dataset.
+    - The instruction_following_eval checker evaluates each constraint
+      independently and scores a prompt as fully passing only if all constraints
+      pass.
+  not_run:
+    - Enumeration of all prompts with mutually infeasible constraint combinations
+      in the pinned revision.
+    - Formal satisfiability analysis of all observed constraint pairs.
+    - Measurement of the per-constraint false-negative rate attributable to
+      infeasible combinations.
+provenance:
+  discovered_by: >
+    arXiv:2512.14754 (IFEval constraint audit);
+    catalogued by AI-assisted literature review, 2026-10-20
+discussion: >
+  This is a specification defect, not a grader bug: the checker correctly applies
+  each constraint independently, but the prompts themselves are unsatisfiable.
+  The impact is a hard ceiling on per-prompt scores for affected instances,
+  which introduces noise into aggregate IFEval accuracy metrics. Together with
+  ER-6ac83170 and ER-e5f7b024, these three findings indicate that a subset of
+  IFEval instances are unreliable as RL training or evaluation signal.

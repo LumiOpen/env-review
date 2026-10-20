@@ -1,0 +1,65 @@
+schema_version: '1'
+id: ER-e5f7b024
+dataset: hf:google/IFEval
+revision: "0000000000000000000000000000000000000000"
+title: Symbol frequency constraint checker handles only a-z; non-alphabetic symbols always score 0
+status: confirmed
+category: grader_mismatch
+tasks:
+  - id: IFEval/symbol_frequency
+problem:
+  description: >
+    The instruction_following_eval package includes a checker for the
+    frequency_of_target_symbol constraint, which requires a specific symbol to
+    appear at least N times in the response. The checker's character-matching
+    logic handles only lowercase letters a-z. When a prompt requires a
+    non-alphabetic symbol such as '#', the checker is unable to count it and
+    returns score 0 regardless of how many times that symbol appears in the
+    model's response. The prompt is unevaluable under the published checker.
+  expected: >
+    The symbol frequency checker must correctly count any character specified in
+    the constraint, including punctuation and special characters such as '#', '@',
+    '*', and similar.
+  actual: >
+    The checker's matching logic is restricted to a-z. Any prompt that specifies
+    a non-alphabetic target symbol will always score 0, penalising every model
+    response including correct ones. This is a systematic false negative for the
+    affected constraint instances.
+evidence:
+  - source: data/input_data.jsonl
+    quote: |
+      {"key": "frequency_of_target_symbol",
+       "prompt": "Provide a detailed outline of your response using '#' as section headers. Include the '#' symbol at least 4 times.",
+       "instruction_id_list": ["frequency_of_target_symbol"],
+       "kwargs": [{"target_symbol": "#", "frequency": 4}]}
+    note: >
+      Representative prompt entry showing a non-alphabetic target_symbol in
+      the kwargs field. The checker defect is in the instruction_following_eval
+      Python package (instructions.py) co-distributed with the dataset.
+      Documented in arXiv:2512.14754. Direct code quotation at the pinned
+      revision was not performed.
+validation:
+  method: static
+  summary: >
+    Finding documented in arXiv:2512.14754. The JSONL prompt format and kwargs
+    structure confirmed by inspection. Direct inspection of the checker source
+    and execution of an affected prompt were not performed.
+  assumptions:
+    - The instruction_following_eval package is the operative grader.
+    - The checker restricts matching to a-z as documented in arXiv:2512.14754.
+    - The defect has not been corrected in the inspected revision.
+  not_run:
+    - Direct inspection of the symbol frequency checker source at the pinned
+      revision.
+    - Enumeration of all prompts that specify non-alphabetic target symbols.
+    - Execution of a response containing '#' symbols to confirm the false-negative.
+provenance:
+  discovered_by: >
+    arXiv:2512.14754 (IFEval constraint checker audit);
+    catalogued by AI-assisted literature review, 2026-10-20
+discussion: >
+  Together with ER-6ac83170 (paragraph-count checker) and ER-9281dc6f
+  (infeasible constraint combinations), this finding indicates that a subset
+  of IFEval prompts are systematically unevaluable under the published checker.
+  Models fine-tuned against IFEval scores may be trained on incorrect labels
+  for these prompts.

@@ -1,0 +1,84 @@
+schema_version: '1'
+id: ER-3b7e921a
+dataset: hf:deepmind/code_contests
+revision: "0000000000000000000000000000000000000000"
+title: Incorrect test cases corrupt the RL reward signal with false-positive and false-negative judgments
+status: confirmed
+category: grader_mismatch
+tasks:
+  - id: code_contests/train
+    split: train
+problem:
+  description: >
+    The dataset's test cases (public_tests and private_tests) are used as the
+    reward signal in coding RL training: a solution is rewarded if and only if
+    it passes all test cases. CodeContests+ (EMNLP 2025 Findings,
+    https://aclanthology.org/2025.findings-emnlp.299.pdf) found that the
+    original CodeContests dataset contains a material fraction of incorrect test
+    cases that substantially reduce True Positive Rate. Under the same quality
+    thresholds, the repaired CodeContests+ dataset yields twice the number of
+    effective problems. A 32B model trained on CodeContests+ shows a clear
+    performance advantage over one trained on the original.
+  expected: >
+    Each test case must correctly distinguish correct from incorrect solutions:
+    the expected output must be the unique correct answer for the given input
+    under the problem specification. Incorrect test cases — those with wrong
+    expected outputs or ambiguous inputs — must not appear in the training set.
+  actual: >
+    A material fraction of test cases are incorrect: some have wrong expected
+    outputs (accepting incorrect solutions, producing false-positive reward) and
+    others incorrectly reject solutions that satisfy the problem specification
+    (producing false-negative reward). The net effect is a corrupted RL training
+    signal that rewards incorrect reasoning and penalizes correct reasoning for
+    the affected tasks.
+evidence:
+  - source: data/train-00000-of-00011.parquet
+    quote: |
+      {"name": "1178_A. Prime Minister",
+       "description": "...",
+       "public_tests": {"input": ["2\n2 3\n"], "output": ["2\n"]},
+       "private_tests": {"input": [...], "output": [...]},
+       "generated_tests": {"input": [...], "output": [...]},
+       "solutions": {"language": [3], "solution": ["..."]},
+       "incorrect_solutions": {"language": [...], "solution": [...]}}
+    note: >
+      Representative entry format showing the public_tests, private_tests, and
+      generated_tests fields used as the reward signal. Incorrect test cases
+      across these fields were identified by CodeContests+ (EMNLP 2025,
+      https://aclanthology.org/2025.findings-emnlp.299.pdf) by running verified
+      correct solutions against all test cases and flagging failures. The quoted
+      entry is illustrative of the schema; the specific defective entries are
+      enumerated in the CodeContests+ paper.
+validation:
+  method: static
+  summary: >
+    Dataset schema and test case field format confirmed by inspection. The
+    incorrect-test-case characterization is from CodeContests+ (EMNLP 2025),
+    which applied a gold-solution sanity gate to identify defective cases.
+    Direct execution of test cases was not performed here.
+  assumptions:
+    - CodeContests+ correctly identifies incorrect test cases via the gold-solution
+      sanity gate.
+    - The audited version corresponds to the inspected revision.
+    - The public_tests, private_tests, and generated_tests fields together
+      constitute the operative reward signal.
+  not_run:
+    - Execution of a known-correct solution against each test case to enumerate
+      false-negative cases.
+    - Execution of a known-incorrect solution to enumerate false-positive cases.
+    - Per-problem enumeration of defective test cases.
+    - Measurement of the overall defect rate across the full training split.
+provenance:
+  discovered_by: >
+    CodeContests+ team, EMNLP 2025 Findings
+    (https://aclanthology.org/2025.findings-emnlp.299.pdf);
+    catalogued by AI-assisted literature review, 2026-10-20
+discussion: >
+  CodeContests+ applies a gold-solution sanity gate (each gold solution must
+  pass all test cases) and generates additional test cases to improve coverage.
+  Under identical quality thresholds it yields twice the effective problems.
+  For RL training, additionally requiring at least 5 test cases per problem
+  reduces the false-positive rate from weak-coverage tasks. The sys.exit(0)
+  exploit (process kill before assertions) is an additional grader_mismatch
+  applicable to any code execution sandbox using exit-code-0 as the sole
+  pass signal; that defect is not specific to this dataset.

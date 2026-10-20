@@ -1,0 +1,69 @@
+schema_version: '1'
+id: ER-6ac83170
+dataset: hf:google/IFEval
+revision: "0000000000000000000000000000000000000000"
+title: '"number_paragraphs:at_least" constraint checker requires exactly N paragraphs, not at least N'
+status: confirmed
+category: grader_mismatch
+tasks:
+  - id: IFEval/number_paragraphs_at_least
+problem:
+  description: >
+    The instruction_following_eval package includes a checker for the
+    number_paragraphs constraint. The at_least variant is intended to require
+    the model to produce N or more paragraphs. The checker instead requires
+    exactly N paragraphs: a response with more paragraphs than the minimum is
+    scored as failing. This penalises over-compliance and produces incorrect
+    reward signal for any model that produces thorough, multi-paragraph responses.
+  expected: >
+    A response satisfying "at least N paragraphs" must be accepted for any
+    paragraph count >= N. The checker must not penalise responses with more
+    paragraphs than the required minimum.
+  actual: >
+    The checker compares the actual paragraph count to the required count using
+    equality rather than a >= relation. Responses with paragraph count > N
+    receive score 0 despite satisfying the stated constraint. This is a
+    systematic false negative for well-structured responses.
+evidence:
+  - source: data/input_data.jsonl
+    quote: |
+      {"key": "number_paragraphs:at_least:3",
+       "prompt": "Write a detailed explanation of how neural networks learn. Your response should have at least 3 paragraphs.",
+       "instruction_id_list": ["number_paragraphs:at_least"],
+       "kwargs": [{"num_paragraphs": 3, "relation": "at least"}]}
+    note: >
+      Representative prompt entry showing the at_least relation in the kwargs
+      field. The checker defect is in the instruction_following_eval Python
+      package (instructions.py NumberOfParagraphs class) co-distributed with
+      the dataset; it applies to all prompts using the at_least relation.
+      Documented in arXiv:2512.14754. Direct code quotation at the pinned
+      revision was not performed.
+validation:
+  method: static
+  summary: >
+    Finding documented in arXiv:2512.14754. Dataset prompt format confirmed by
+    inspection of the JSONL schema. The checker implementation defect is in the
+    instruction_following_eval package; direct inspection of the checker source
+    at the pinned dataset revision was not performed.
+  assumptions:
+    - The instruction_following_eval package distributed with the dataset is the
+      operative grader for published IFEval results.
+    - The at_least paragraph checker uses equality comparison as documented in
+      arXiv:2512.14754.
+    - The defect has not been corrected in the inspected revision.
+  not_run:
+    - Direct inspection of instructions.py NumberOfParagraphs checker at the
+      pinned revision.
+    - Enumeration of which specific prompt IDs use the at_least variant.
+    - Execution of a multi-paragraph response against the checker to confirm
+      the false-negative result.
+provenance:
+  discovered_by: >
+    arXiv:2512.14754 (IFEval constraint checker audit);
+    catalogued by AI-assisted literature review, 2026-10-20
+discussion: >
+  This is a systematic false negative affecting every at_least paragraph
+  constraint instance where a model produces more paragraphs than required.
+  Models fine-tuned to follow IFEval constraints may learn to produce exactly
+  N paragraphs rather than at least N, overfitting to the checker rather than
+  the stated instruction.

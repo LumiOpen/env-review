@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "eval-verifier"
+version = "0.1.0"
+description = "Agentic skill for detecting anomalies in LLM eval benchmarks and RL training environments"
+requires-python = ">=3.10"
+dependencies = [
+    "click>=8.1",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+math = ["sympy>=1.12", "antlr4-python3-runtime==4.11"]
+datasets = ["datasets>=2.18", "huggingface-hub>=0.22"]
+openai = ["openai>=1.20"]
+docker = ["docker>=7.0"]
+all = [
+    "sympy>=1.12",
+    "antlr4-python3-runtime==4.11",
+    "datasets>=2.18",
+    "huggingface-hub>=0.22",
+    "openai>=1.20",
+    "docker>=7.0",
+]
+
+[project.scripts]
+eval-verifier = "eval_verifier.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["eval_verifier*"]

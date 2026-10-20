@@ -1,0 +1,16 @@
+schema_version: '1'
+id: hf:AI-MO/NuminaMath-1.5
+source:
+  provider: huggingface
+  url: https://huggingface.co/datasets/AI-MO/NuminaMath-1.5
+  revision: "0000000000000000000000000000000000000000"
+review_status: exploring
+task_identity:
+  fields:
+    - problem
+notes: >
+  896K math problems from competition and textbook sources across multiple subsets
+  (amc_aime, olympiads, cn_contest, aops_forum, and others). The answer field
+  holds the stored reference answer used as the RL reward signal. Skywork Open
+  Reasoner (arXiv:2505.22312) reports that only the amc_aime, olympiads, and
+  cn_contest subsets are reliable without re-verification.

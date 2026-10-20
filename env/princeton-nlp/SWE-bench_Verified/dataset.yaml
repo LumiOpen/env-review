@@ -1,0 +1,16 @@
+schema_version: '1'
+id: hf:princeton-nlp/SWE-bench_Verified
+source:
+  provider: huggingface
+  url: https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified
+  revision: "0000000000000000000000000000000000000000"
+review_status: exploring
+task_identity:
+  fields:
+    - instance_id
+notes: >
+  500 human-verified GitHub issue resolution tasks. Each task defines positive
+  reward via a FAIL_TO_PASS test list and a regression gate via PASS_TO_PASS.
+  arXiv:2606.16062 audited 49 randomly sampled tasks and found 28.5% have test
+  suites that pass obviously incorrect patches (stub body, hardcoded wrong
+  return, process exit before assertions).

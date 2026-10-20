@@ -1,0 +1,15 @@
+schema_version: '1'
+id: gh:openai/human-eval
+source:
+  provider: github
+  url: https://github.com/openai/human-eval
+  revision: "0000000000000000000000000000000000000000"
+review_status: exploring
+task_identity:
+  fields:
+    - task_id
+  path_pattern: data/HumanEval.jsonl.gz
+notes: >
+  164 Python programming tasks with function stubs, docstrings, and test cases.
+  EvalPlus (NeurIPS 2023) documented that approximately 11% of entries have
+  defective canonical solutions that fail their own test cases.
