@@ -1,0 +1,98 @@
+[
+  {
+    "finding_id": "ER-2f4b62ce",
+    "source": "general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/instruction.md",
+    "sha256": "79cf451a0bc8b170dbd69995a4de1a712a807557d2a62de6169da7eaf3d187ed",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-2f4b62ce",
+    "source": "general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/verifier_meta.json",
+    "sha256": "8e3db5cce771b6e93367bd98792b37757fe1c83a91056c40911a8a31e7a039f2",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-2f4b62ce",
+    "source": "general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/verify.py",
+    "sha256": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-2f4b62ce",
+    "source": "general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/verify.py",
+    "sha256": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-2f4b62ce",
+    "source": "general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/tools/yonyou_hedge_approval.py",
+    "sha256": "4078d9c0544ed5a6c11ab9929990fe3977686704dfb040a603dfd4a62ac70fab",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-2f4b62ce",
+    "source": "general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/mcp_http.py",
+    "sha256": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-2f4b62ce",
+    "source": "general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/mcp_http.py",
+    "sha256": "e2107557b5b930365fd6aa4a42e1449ea535d620605959ff6cf66ca9293d7cda",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-dc84a371",
+    "source": "general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json",
+    "sha256": "64218a1c0573ad03c14c67909c77bd33fde6392443883cc308ff6c77d6ad87ef",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-dc84a371",
+    "source": "general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py",
+    "sha256": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-b371c82d",
+    "source": "general/envs/s3k_1587_hospitality_fnb_zh_t4_rl_003/verifier_meta.json",
+    "sha256": "fb45e809cfe640f660dd575dd7422e89468e7023aaf5f5f00419d03b3a1201cb",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-b371c82d",
+    "source": "general/envs/s3k_1587_hospitality_fnb_zh_t4_rl_003/verify.py",
+    "sha256": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-a4183e90",
+    "source": "general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/instruction.md",
+    "sha256": "54066dda9e7d8064a47bde09025f8295ac9cd2e133ad086a4ee7dd1a28e3b16f",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-a4183e90",
+    "source": "general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json",
+    "sha256": "64218a1c0573ad03c14c67909c77bd33fde6392443883cc308ff6c77d6ad87ef",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-a4183e90",
+    "source": "general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py",
+    "sha256": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-742d8a16",
+    "source": "general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/tools/avt_quality_data_mart.py",
+    "sha256": "7a5f333db56a811052706b6c0147e5c09c788aefe873157cf34b8634e6cca345",
+    "quote_verified": true
+  },
+  {
+    "finding_id": "ER-742d8a16",
+    "source": "general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/verifier_meta.json",
+    "sha256": "e610509f982563a7dfccc912cea59790dcfe8eab8fed97e2cfac0ed8ea0d4e17",
+    "quote_verified": true
+  }
+]

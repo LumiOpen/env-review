@@ -1,0 +1,168 @@
+{
+  "detector_version": "structural-1",
+  "review_status": "candidates_only",
+  "root": "data/mimo/general/envs",
+  "inventory": "data/mimo/dataset-api.raw",
+  "environments_discovered": 34,
+  "environments_inspected": 34,
+  "environments_uninspectable": 0,
+  "inspected_task_ids": [
+    "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "s3k_0136_accounting_audit_tax_en_t4_rl_003",
+    "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+    "s3k_0321_agriculture_coop_en_t2_rl_007",
+    "s3k_0345_agriculture_coop_zh_t5_rl_006",
+    "s3k_0355_construction_pm_en_t3_rl_005",
+    "s3k_0364_construction_pm_zh_t1_rl_007",
+    "s3k_0399_consulting_bizops_analytics_en_t2_rl_006",
+    "s3k_0493_consulting_bizops_analytics_zh_t2_rl_002",
+    "s3k_0565_ecommerce_ops_en_t2_rl_002",
+    "s3k_0591_ecommerce_ops_zh_t5_rl_003",
+    "s3k_0607_education_research_admin_en_t2_rl_003",
+    "s3k_0688_education_research_admin_zh_t3_rl_005",
+    "s3k_0732_energy_utilities_esg_en_t3_rl_005",
+    "s3k_0754_energy_utilities_esg_zh_t1_rl_008",
+    "s3k_0807_finance_insurance_en_t1_rl_005",
+    "s3k_0988_finance_insurance_zh_t1_rl_005",
+    "s3k_0990_finance_insurance_zh_t1_rl_008",
+    "s3k_1161_government_public_en_t2_rl_005",
+    "s3k_1245_government_public_zh_t3_rl_002",
+    "s3k_1354_healthcare_ops_en_t3_rl_006",
+    "s3k_1530_healthcare_ops_zh_t3_rl_003",
+    "s3k_1564_hospitality_fnb_en_t2_rl_002",
+    "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "s3k_1617_hr_people_en_t2_rl_006",
+    "s3k_1752_hr_people_zh_t4_rl_006",
+    "s3k_1806_it_information_systems_en_t3_rl_001",
+    "s3k_1867_it_information_systems_zh_t3_rl_001",
+    "s3k_1920_last_mile_logistics_en_t3_rl_004",
+    "s3k_1936_last_mile_logistics_zh_t4_rl_004",
+    "s3k_1954_legal_compliance_en_t2_rl_007",
+    "s3k_2088_legal_compliance_zh_t1_rl_005",
+    "s3k_2244_manufacturing_quality_en_t3_rl_006",
+    "s3k_2328_manufacturing_quality_zh_t3_rl_007"
+  ],
+  "candidate_count": 2,
+  "signals_by_detector": {
+    "implicit_sanity_weight": 2
+  },
+  "signals_by_task": {
+    "s3k_0000_accounting_audit_tax_en_t1_rl_008": 1,
+    "s3k_1587_hospitality_fnb_zh_t4_rl_003": 1
+  },
+  "errors": [],
+  "candidates": [
+    {
+      "detector_id": "implicit_sanity_weight",
+      "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+      "category": "review_signal",
+      "claim": "Non-gate sanity item 'source_data_present' omits weight while substantive items have fractional weights.",
+      "evidence": [
+        {
+          "path": "verifier_meta.json",
+          "line_start": 58,
+          "line_end": 63,
+          "quote": "  {\n   \"id\": \"source_data_present\",\n   \"tier\": \"sanity\",\n   \"method\": \"rule\",\n   \"fn\": \"check_source_data_present\"\n  }"
+        },
+        {
+          "path": "verifier_meta.json",
+          "line_start": 3,
+          "line_end": 13,
+          "quote": "  {\n   \"id\": \"current_recommended_structure\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.2,\n   \"files\": [\n    \"answer.md\"\n   ],\n   \"question\": \"Does the final answer identify the current recommended installment transaction and correctly exclude superseded alternatives from the current closing-status conclusion?\",\n   \"pass_anchor\": \"Ground truth from the DealCloud Disposition Workspace and approved SharePoint records: the current recommended record is the installment-sale transaction for CASE-FAIRFAX3-2025Q3 (transaction DC-TXN-25Q3-024, status recommended). The direct-sale records for that case and the partnership-interest/equity-transfer record are not the current recommended structure; the earlier direct-sale bid is superseded, the active direct-sale row is only the all-cash fallback/comparison, and the equity-transfer row is superseded. The answer must not use the completed buyer-solvency row attached to the superseded equity-transfer transaction as proof that the recommended installment package is ready.\"\n  },"
+        },
+        {
+          "path": "verifier_meta.json",
+          "line_start": 14,
+          "line_end": 24,
+          "quote": "  {\n   \"id\": \"documentary_tax_components\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.2,\n   \"files\": [\n    \"answer.md\"\n   ],\n   \"question\": \"Does the final answer report the approved County and City of Los Angeles documentary-transfer-tax components and the approved summary for the recommended installment transaction?\",\n   \"pass_anchor\": \"Ground truth from active DealCloud closing requirements for the recommended installment transaction: Los Angeles County documentary-transfer-tax component = $9,141.00; City of Los Angeles component = $37,395.00; approved documentary-transfer-tax summary = $46,536.00. The component rows are authoritative and add to the summary. The answer must use these installment values, not the $13,200.00 county, $54,000.00 city, or $67,200.00 summary belonging to the active direct-sale comparison, and not the inactive legacy county amount.\"\n  },"
+        },
+        {
+          "path": "verifier_meta.json",
+          "line_start": 25,
+          "line_end": 35,
+          "quote": "  {\n   \"id\": \"protection_statuses\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.25,\n   \"files\": [\n    \"answer.md\"\n   ],\n   \"question\": \"Does the final answer correctly separate every material protection for the recommended installment structure into approved/complete versus unresolved, including the absence of an active buyer-solvency row for that transaction?\",\n   \"pass_anchor\": \"Ground truth from the approved memorandum, workbook controls, and active DealCloud requirements: payment covenant is approved for $6,000,000.00 over the three-year note term; federal nonforeign affidavit is approved (the requirement is active, but the updated affidavit remains a closing condition); seller-note collateral covering $6,000,000.00 is in review; California withholding clearance is in review; buyer-solvency diligence is required by the approved recommendation but has no active requirement row on the recommended installment transaction. A buyer-solvency requirement marked complete exists only on the superseded equity-transfer transaction and must not be counted for the installment package. The answer should also recognize that the approved/complete tax items do not resolve the open protections.\"\n  },"
+        },
+        {
+          "path": "verifier_meta.json",
+          "line_start": 36,
+          "line_end": 46,
+          "quote": "  {\n   \"id\": \"controlled_payment_split_and_fallback\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.2,\n   \"files\": [\n    \"answer.md\"\n   ],\n   \"question\": \"Does the final answer state the controlled recommendation's payment split and its fallback position?\",\n   \"pass_anchor\": \"Ground truth from the approved Fairfax & 3rd Structuring Recommendation and decision record DEC-2025-017: proceed with a negotiated installment asset sale using a $7,183,750.00 closing principal payment and a $21,551,250.00 secured seller note. The approved fallback is an all-cash direct sale if installment protections are not acceptable; the partnership-interest transfer is not prioritized. The answer must tie the open protections to this controlled recommendation rather than treating the DealCloud comparison row's different $8,310,000.00 / $6,000,000.00 figures as the approved split.\"\n  },"
+        },
+        {
+          "path": "verifier_meta.json",
+          "line_start": 47,
+          "line_end": 57,
+          "quote": "  {\n   \"id\": \"readiness_conclusion\",\n   \"tier\": \"important\",\n   \"method\": \"llm\",\n   \"weight\": 0.15,\n   \"files\": [\n    \"answer.md\"\n   ],\n   \"question\": \"Does the final answer reach the correct execution-readiness conclusion for the recommended package and explain the gating logic?\",\n   \"pass_anchor\": \"Ground truth conclusion: the package is not ready for unconditional authorization to close as documented. The approved documentary-tax amounts, approved payment covenant, and approved/required federal affidavit do not eliminate the unresolved seller-note collateral and California withholding review, and buyer-solvency diligence is still a required condition without an active installment-row completion record. The recommendation is conditional: proceed with negotiation/close preparation only after the stated protections and diligence are resolved; otherwise use the all-cash direct-sale fallback. Do not call the package fully ready merely because some tax requirements are approved or because a superseded transaction shows a completed requirement.\"\n  },"
+        }
+      ],
+      "assumptions": [
+        "If this item is scored with the verifier's default weight of 1, it can outweigh individual substantive items.",
+        "Author intent and impact require review; this is not automatically invalid."
+      ],
+      "severity": "low"
+    },
+    {
+      "detector_id": "implicit_sanity_weight",
+      "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+      "category": "review_signal",
+      "claim": "Non-gate sanity item 'source_data_unchanged' omits weight while substantive items have fractional weights.",
+      "evidence": [
+        {
+          "path": "verifier_meta.json",
+          "line_start": 69,
+          "line_end": 74,
+          "quote": "  {\n   \"id\": \"source_data_unchanged\",\n   \"tier\": \"sanity\",\n   \"method\": \"rule\",\n   \"fn\": \"check_source_data_unchanged\"\n  }"
+        },
+        {
+          "path": "verifier_meta.json",
+          "line_start": 3,
+          "line_end": 13,
+          "quote": "  {\n   \"id\": \"single_trigger_classification\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.3,\n   \"question\": \"最终回答是否识别出定稿结果中唯一的两项单阈值高差异SKU，并正确分类为：黑方 Johnnie Walker Black Label 仅金额触发、可口可乐仅数量触发？\",\n   \"pass_anchor\": \"真实数据库中，2024年10月句容假日度假酒店大堂吧定稿核对运行 RECON-2024-10-LBB-FINAL 内，独立按绝对差异量与各自数量阈值、绝对差异金额与金额阈值重算后，恰有两项只越过一条线：SKU-SPIRIT-JW-BLACK（黑方 Johnnie Walker Black Label）为仅金额触发；SKU-SOFTDRINK-COCA-COLA（可口可乐）为仅数量触发。回答必须同时给出这两项和正确分类，不能加入草稿中的橙汁等干扰项，也不能把二者说成同时触发。\",\n   \"files\": [\n    \"answer.md\"\n   ]\n  },"
+        },
+        {
+          "path": "verifier_meta.json",
+          "line_start": 14,
+          "line_end": 24,
+          "quote": "  {\n   \"id\": \"jw_quantity_comparison\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.15,\n   \"question\": \"最终回答是否正确给出黑方的差异数量与数量阈值，并判断数量未达到阈值？\",\n   \"pass_anchor\": \"黑方 Johnnie Walker Black Label 的差异数量为 15 mL，数量阈值为 30 mL，因 15 < 30，数量线未触发。允许写成正差异15mL、绝对差异15mL或多耗15mL；核心数值、单位和未达阈值的比较必须正确。\",\n   \"files\": [\n    \"answer.md\"\n   ]\n  },"
+        },
+        {
+          "path": "verifier_meta.json",
+          "line_start": 25,
+          "line_end": 35,
+          "quote": "  {\n   \"id\": \"jw_amount_comparison\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.15,\n   \"question\": \"最终回答是否正确给出黑方的差异金额与金额阈值，并判断金额达到阈值？\",\n   \"pass_anchor\": \"黑方 Johnnie Walker Black Label 的差异金额为 1170 分（11.70元），金额阈值为 1000 分（10.00元），因 1170 >= 1000，金额线触发。分或元均可，但换算、大小关系与触发结论必须一致。\",\n   \"files\": [\n    \"answer.md\"\n   ]\n  },"
+        },
+        {
+          "path": "verifier_meta.json",
+          "line_start": 36,
+          "line_end": 46,
+          "quote": "  {\n   \"id\": \"coke_quantity_comparison\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.15,\n   \"question\": \"最终回答是否正确给出可口可乐的差异数量与数量阈值，并判断数量达到阈值？\",\n   \"pass_anchor\": \"可口可乐的差异数量为 1 罐，数量阈值为 1 罐；阈值采用达到即触发的包含边界口径，因此 1 >= 1，数量线触发。回答不能用严格大于号把边界值排除。\",\n   \"files\": [\n    \"answer.md\"\n   ]\n  },"
+        },
+        {
+          "path": "verifier_meta.json",
+          "line_start": 47,
+          "line_end": 57,
+          "quote": "  {\n   \"id\": \"coke_amount_comparison\",\n   \"tier\": \"critical\",\n   \"method\": \"llm\",\n   \"weight\": 0.15,\n   \"question\": \"最终回答是否正确给出可口可乐的差异金额与金额阈值，并判断金额未达到阈值？\",\n   \"pass_anchor\": \"可口可乐的差异金额为 620 分（6.20元），金额阈值为 1000 分（10.00元），因 620 < 1000，金额线未触发。分或元均可，但换算、大小关系与未触发结论必须正确。\",\n   \"files\": [\n    \"answer.md\"\n   ]\n  },"
+        },
+        {
+          "path": "verifier_meta.json",
+          "line_start": 58,
+          "line_end": 68,
+          "quote": "  {\n   \"id\": \"finalized_scope\",\n   \"tier\": \"important\",\n   \"method\": \"llm\",\n   \"weight\": 0.1,\n   \"question\": \"最终回答是否明确采用2024年10月大堂吧的定稿核对结果，并体现未混入同期草稿或其他范围的数据？\",\n   \"pass_anchor\": \"正确口径是 period_id PERIOD-2024-10、org_id ORG-HIRJ-LBB、状态为 FINAL 的唯一运行 RECON-2024-10-LBB-FINAL（版本3）；同期 RECON-2024-10-LBB-DRAFT（版本2）必须排除。回答无需强制写内部编号，但应明确说明采用定稿/最终版本而非草稿；若把草稿中的橙汁、雪碧或路易十三作为本题单阈值结论，则此项不通过。\",\n   \"files\": [\n    \"answer.md\"\n   ]\n  },"
+        }
+      ],
+      "assumptions": [
+        "If this item is scored with the verifier's default weight of 1, it can outweigh individual substantive items.",
+        "Author intent and impact require review; this is not automatically invalid."
+      ],
+      "severity": "low"
+    }
+  ],
+  "limitations": [
+    "Selected local cache; no population prevalence estimate or negative labels.",
+    "Corpus code and SQL are never executed; SQL/schema relationships are not screened.",
+    "Dynamic names, external imports, and unavailable helpers prevent missing-name conclusions.",
+    "Weight effects depend on the runtime scoring path; agent/vision suppression is not inferred.",
+    "Python syntax is checked against the local interpreter grammar.",
+    "Without a complete inventory, local upload absence is not a defect signal."
+  ]
+}

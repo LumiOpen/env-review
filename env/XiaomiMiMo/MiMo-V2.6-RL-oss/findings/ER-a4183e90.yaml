@@ -1,0 +1,135 @@
+schema_version: '1'
+id: ER-a4183e90
+dataset: hf:XiaomiMiMo/MiMo-V2.6-RL-oss
+revision: e8e81e4945270b6212204bad99de1e598f7fb077
+title: Fairfax citation requirement is absent from item-local grading criteria
+status: candidate
+category: grader_mismatch
+tasks:
+- id: s3k_0000_accounting_audit_tax_en_t1_rl_008
+  path: general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008
+problem:
+  description: The instruction requires business-source citations for each conclusion, but the five item-local
+    questions and pass anchors do not explicitly require answer citations.
+  expected: A correct factual answer without the requested source attribution should lose the appropriate
+    credit.
+  actual: A citation-free answer can match all factual anchors. The judge receives answer.md and one rubric
+    item, not the full task instruction. Whether a production judge nevertheless enforces citations has
+    not been tested.
+evidence:
+- source: general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/instruction.md
+  line_start: 7
+  line_end: 7
+  quote: 'In your final response, include: (1) the current recommended transaction and the records you
+    excluded from current status, (2) both documentary-tax components and their approved summary, (3)
+    every material closing protection with its status and any relevant amount, (4) a clear ready/not-ready
+    conclusion with the reasons, and (5) the approved installment payment split and fallback. Cite the
+    source document or system for each conclusion in business terms; do not change any files or database
+    records.'
+- source: general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json
+  line_start: 1
+  line_end: 63
+  quote: |-
+    {
+     "items": [
+      {
+       "id": "current_recommended_structure",
+       "tier": "critical",
+       "method": "llm",
+       "weight": 0.2,
+       "files": [
+        "answer.md"
+       ],
+       "question": "Does the final answer identify the current recommended installment transaction and correctly exclude superseded alternatives from the current closing-status conclusion?",
+       "pass_anchor": "Ground truth from the DealCloud Disposition Workspace and approved SharePoint records: the current recommended record is the installment-sale transaction for CASE-FAIRFAX3-2025Q3 (transaction DC-TXN-25Q3-024, status recommended). The direct-sale records for that case and the partnership-interest/equity-transfer record are not the current recommended structure; the earlier direct-sale bid is superseded, the active direct-sale row is only the all-cash fallback/comparison, and the equity-transfer row is superseded. The answer must not use the completed buyer-solvency row attached to the superseded equity-transfer transaction as proof that the recommended installment package is ready."
+      },
+      {
+       "id": "documentary_tax_components",
+       "tier": "critical",
+       "method": "llm",
+       "weight": 0.2,
+       "files": [
+        "answer.md"
+       ],
+       "question": "Does the final answer report the approved County and City of Los Angeles documentary-transfer-tax components and the approved summary for the recommended installment transaction?",
+       "pass_anchor": "Ground truth from active DealCloud closing requirements for the recommended installment transaction: Los Angeles County documentary-transfer-tax component = $9,141.00; City of Los Angeles component = $37,395.00; approved documentary-transfer-tax summary = $46,536.00. The component rows are authoritative and add to the summary. The answer must use these installment values, not the $13,200.00 county, $54,000.00 city, or $67,200.00 summary belonging to the active direct-sale comparison, and not the inactive legacy county amount."
+      },
+      {
+       "id": "protection_statuses",
+       "tier": "critical",
+       "method": "llm",
+       "weight": 0.25,
+       "files": [
+        "answer.md"
+       ],
+       "question": "Does the final answer correctly separate every material protection for the recommended installment structure into approved/complete versus unresolved, including the absence of an active buyer-solvency row for that transaction?",
+       "pass_anchor": "Ground truth from the approved memorandum, workbook controls, and active DealCloud requirements: payment covenant is approved for $6,000,000.00 over the three-year note term; federal nonforeign affidavit is approved (the requirement is active, but the updated affidavit remains a closing condition); seller-note collateral covering $6,000,000.00 is in review; California withholding clearance is in review; buyer-solvency diligence is required by the approved recommendation but has no active requirement row on the recommended installment transaction. A buyer-solvency requirement marked complete exists only on the superseded equity-transfer transaction and must not be counted for the installment package. The answer should also recognize that the approved/complete tax items do not resolve the open protections."
+      },
+      {
+       "id": "controlled_payment_split_and_fallback",
+       "tier": "critical",
+       "method": "llm",
+       "weight": 0.2,
+       "files": [
+        "answer.md"
+       ],
+       "question": "Does the final answer state the controlled recommendation's payment split and its fallback position?",
+       "pass_anchor": "Ground truth from the approved Fairfax & 3rd Structuring Recommendation and decision record DEC-2025-017: proceed with a negotiated installment asset sale using a $7,183,750.00 closing principal payment and a $21,551,250.00 secured seller note. The approved fallback is an all-cash direct sale if installment protections are not acceptable; the partnership-interest transfer is not prioritized. The answer must tie the open protections to this controlled recommendation rather than treating the DealCloud comparison row's different $8,310,000.00 / $6,000,000.00 figures as the approved split."
+      },
+      {
+       "id": "readiness_conclusion",
+       "tier": "important",
+       "method": "llm",
+       "weight": 0.15,
+       "files": [
+        "answer.md"
+       ],
+       "question": "Does the final answer reach the correct execution-readiness conclusion for the recommended package and explain the gating logic?",
+       "pass_anchor": "Ground truth conclusion: the package is not ready for unconditional authorization to close as documented. The approved documentary-tax amounts, approved payment covenant, and approved/required federal affidavit do not eliminate the unresolved seller-note collateral and California withholding review, and buyer-solvency diligence is still a required condition without an active installment-row completion record. The recommendation is conditional: proceed with negotiation/close preparation only after the stated protections and diligence are resolved; otherwise use the all-cash direct-sale fallback. Do not call the package fully ready merely because some tax requirements are approved or because a superseded transaction shows a completed requirement."
+      },
+      {
+       "id": "source_data_present",
+       "tier": "sanity",
+       "method": "rule",
+       "fn": "check_source_data_present"
+      }
+- source: general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py
+  line_start: 311
+  line_end: 329
+  quote: |-
+    def _run_llm_sc(items, ws, votes=1):
+        """text-judge llm 项:**逐 item 独立调用**(判定完全隔离,与筛分口径一致;证据按 files
+        组合缓存,同交付物不重复抽)。全局限流在 controller 侧判分闸(GA_JUDGE_GATE),不在
+        这里。judge 拿不到任何可用 verdict → 抛 _JudgeUnavailable(由 _grade_sc 转 mask),
+        绝不记 0。"""
+        import statistics
+        out = {}
+        ev_cache = {}
+        for it in items:
+            key = tuple(sorted(it.get("files") or []))
+            if key not in ev_cache:
+                ev_cache[key] = _evidence_sc(ws, list(key))
+            item_txt = ("- [" + it["id"] + "] " + str(it.get("question", it.get("desc", "")))
+                        + "(满足=1:" + str(it.get("pass_anchor", "")) + ")")
+            prompt = _LLM_PROMPT.replace("{evidence}", ev_cache[key]).replace("{items}", item_txt)
+            vals = []
+            for _ in range(max(1, votes)):
+                j = None
+                for _p in range(2):   # 解析感知重试:传输成功但 JSON 不可解析,再要一次
+validation:
+  method: static
+  summary: Compared the task citation requirement with all five text rubric items and traced the per-item
+    judge prompt construction. Candidate remains unresolved because observed LLM grading behavior is unavailable.
+  assumptions:
+  - The per-item judge prompt is the published standalone prompt.
+  - Source names in pass anchors may cause a judge to infer a citation expectation; this has not been
+    ruled out.
+  not_run:
+  - Original verifier and tool server execution
+  - End-to-end agent rollout
+  - Production LLM judge calls
+provenance:
+  discovered_by: gpt-6-luna shared-verifier screen; parent review
+  experiment: env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-initial
+discussion: Do not count this candidate as a confirmed false positive without a stronger witness or grading
+  probe.

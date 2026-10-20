@@ -1,0 +1,14 @@
+env-review
+Copyright 2026 LumiOpen contributors
+
+Review code and original review contributions are provided under Apache-2.0.
+
+This repository contains attributed evidence quotations from
+XiaomiMiMo/MiMo-V2.6-RL-oss, whose dataset card declares Apache-2.0:
+https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss
+Source revisions and paths are recorded in each finding. Upstream authors retain
+their rights. Downloaded environment sources and databases are not redistributed
+as the review repository's corpus.
+
+The allenai/Dolci-Think-RL-7B entry currently records source metadata only:
+https://huggingface.co/datasets/allenai/Dolci-Think-RL-7B

@@ -1,0 +1,36 @@
+# Copy to env/<org>/<dataset>/findings/<finding-id>.yaml and replace placeholders.
+# Generate a stable unique ID: ER- followed by eight lowercase hexadecimal digits.
+# Keep candidates visible as candidates; confirmation requires reviewed evidence.
+schema_version: "1"
+id: ER-01234567
+dataset: hf:ORG/DATASET
+revision: "0000000000000000000000000000000000000000" # Full pinned source commit.
+title: Describe one independently reviewable issue
+status: candidate
+category: other
+tasks:
+  - id: TASK_ID
+    # For row-based tasks, also record config, split, and zero-based row_index.
+    # For directory tasks, add path: general/envs/TASK_ID
+problem:
+  description: Describe the problem and which task behavior it affects.
+  expected: State the intended contract, citing its source where possible.
+  actual: State the observed behavior without overstating unresolved impact.
+evidence:
+  - source: relative/path/in/pinned/source
+    quote: |
+      Replace with exact source text supporting the claim.
+    # Add line_start and optionally line_end for source lines.
+    # Add json_pointer (for example /items/0/weight) for structured evidence.
+validation:
+  method: static
+  summary: Describe the checks actually performed and their results.
+  assumptions:
+    - State any runtime conditions needed for the claimed effect.
+  not_run:
+    - State which runtime or end-to-end checks remain unperformed.
+  # reproducer: Relative path or documented command, if available.
+provenance:
+  discovered_by: GitHub handle or reviewer name
+  # experiment: Relative path or identifier of the discovery experiment.
+# discussion: Link or notes for review disagreements and follow-up work.

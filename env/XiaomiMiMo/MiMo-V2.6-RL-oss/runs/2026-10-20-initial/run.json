@@ -1,0 +1,44 @@
+{
+  "id": "2026-10-20-initial",
+  "dataset": "hf:XiaomiMiMo/MiMo-V2.6-RL-oss",
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "purpose": "Exploratory discovery, not held-out evaluation",
+  "sample": "sample-001.json",
+  "acquisition": "acquisition-001.json",
+  "raw_outputs": [
+    "structural-001.json",
+    "luna-shared-verifier-001.json",
+    "luna-contract-001.json",
+    "readonly-001.json"
+  ],
+  "adjudications": "adjudications.json",
+  "summary": "summary.json",
+  "models": [
+    {
+      "run_id": "luna-shared-verifier-001",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high",
+      "elapsed_seconds": 191,
+      "tokens": null,
+      "cost_usd": null
+    },
+    {
+      "run_id": "luna-contract-001",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high",
+      "elapsed_seconds": 216,
+      "tokens": null,
+      "cost_usd": null
+    }
+  ],
+  "limits": [
+    "Different screens have different scopes and samples; do not rank detection effectiveness from these counts.",
+    "Read-only detector was derived from the finance finding and evaluated on discovery data.",
+    "Native Codex subagent runs; token and dollar usage were not exposed to this workspace.",
+    "No original grader, task tool server, setup, or rollout executed.",
+    "Raw model output is unadjudicated; fields called quote may include paraphrases. Canonical YAML quotations were independently checked against pinned sources.",
+    "Raw outputs originally used experiments/ paths; those files were relocated into this run directory without modifying the reports.",
+    "Acquisition selected source text and initial databases, excluding workspace binary documents.",
+    "All current adjudications are agent-assisted static reviews, not independent human reviews."
+  ]
+}

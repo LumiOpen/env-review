@@ -1,0 +1,65 @@
+[
+  {
+    "run_id": "structural-001",
+    "candidate_id": "implicit_sanity_weight:s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-dc84a371"
+    ],
+    "reason": "Weighting arithmetic and source predicates confirmed; harmful training impact not established."
+  },
+  {
+    "run_id": "structural-001",
+    "candidate_id": "implicit_sanity_weight:s3k_1587_hospitality_fnb_zh_t4_rl_003",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-b371c82d"
+    ],
+    "reason": "Weighting arithmetic and source predicates confirmed; harmful training impact not established."
+  },
+  {
+    "run_id": "luna-shared-verifier-001",
+    "candidate_id": "LUNA-SV-001",
+    "decision": "confirmed",
+    "case_ids": [
+      "ER-2f4b62ce"
+    ],
+    "reason": "Write-capable public operation found; parent traced registration, immutable initial database, and answer-only standalone grading."
+  },
+  {
+    "run_id": "luna-shared-verifier-001",
+    "candidate_id": "LUNA-SV-002",
+    "decision": "candidate",
+    "case_ids": [
+      "ER-a4183e90"
+    ],
+    "reason": "Citation coverage concern retained, but production judge behavior is unresolved."
+  },
+  {
+    "run_id": "luna-shared-verifier-001",
+    "candidate_id": "LUNA-SV-003",
+    "decision": "behavior_only",
+    "case_ids": [
+      "ER-dc84a371"
+    ],
+    "reason": "0.5 scoring baseline confirmed; whether this is an RL defect is unresolved."
+  },
+  {
+    "run_id": "luna-shared-verifier-001",
+    "candidate_id": "LUNA-SV-004",
+    "decision": "rejected",
+    "case_ids": [
+      "ER-742d8a16"
+    ],
+    "reason": "Publishing tool computes reconciliation flag itself and rejects or marks unmatched records; proposed bypass contradicted."
+  },
+  {
+    "run_id": "readonly-001",
+    "candidate_id": "readonly-1f224a2753cc",
+    "decision": "confirmed",
+    "case_ids": [
+      "ER-2f4b62ce"
+    ],
+    "reason": "Same reviewed finance instance that motivated this rule; not held-out validation. Other 20 task candidates remain unreviewed."
+  }
+]

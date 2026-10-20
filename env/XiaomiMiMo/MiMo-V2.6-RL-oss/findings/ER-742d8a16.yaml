@@ -1,0 +1,62 @@
+schema_version: '1'
+id: ER-742d8a16
+dataset: hf:XiaomiMiMo/MiMo-V2.6-RL-oss
+revision: e8e81e4945270b6212204bad99de1e598f7fb077
+title: 'Rejected: manufacturing snapshot tool does check reconciliation state'
+status: rejected
+category: grader_mismatch
+tasks:
+- id: s3k_2328_manufacturing_quality_zh_t3_rl_007
+  path: general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007
+problem:
+  description: Initial candidate alleged that an agent could publish source_reconciled=1 despite unmatched
+    upstream records because the verifier trusted that flag.
+  expected: The publishing operation must derive source_reconciled from actual reconciliation state, and
+    grading must reject a zero flag.
+  actual: The publishing tool counts unmatched records and sets reconciled=0 when any exist, even if require_reconciliation=False.
+    With require_reconciliation=True it refuses publication. The grader rejects source_reconciled!=1.
+    Initial unmatched count is zero.
+evidence:
+- source: general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/tools/avt_quality_data_mart.py
+  line_start: 241
+  line_end: 259
+  quote: |2-
+        _date(snapshot_date, "snapshot_date")
+        if not calculated_by or not calculation_run_id: raise ValueError("calculated_by and calculation_run_id are required")
+        with _con() as con:
+            metrics = _recalculate(con, ecn_id, snapshot_date, metric_codes, ["avt_change_tracker", "yonyou_nc_erp", "teamcenter_plm"])
+            unmatched = con.execute("SELECT COUNT(*) FROM source_reconciliation WHERE ecn_id=? AND event_date<=? AND reconciliation_result='unmatched'", (ecn_id, snapshot_date)).fetchone()[0]
+            if require_reconciliation and unmatched:
+                con.rollback()
+                return {"published": False, "ecn_id": ecn_id, "snapshot_date": snapshot_date, "calculation_run_id": calculation_run_id, "metrics": [], "rejected_reason": f"{unmatched} unmatched source records remain"}
+            output = []
+            now = datetime.now().replace(microsecond=0).isoformat()
+            for item in metrics:
+                mid = con.execute("SELECT metric_id FROM quality_metric_definition WHERE metric_code=?", (item["metric_code"],)).fetchone()[0]
+                existing = con.execute("SELECT snapshot_id FROM ecn_metric_snapshot WHERE ecn_id=? AND metric_id=? AND snapshot_date=?", (ecn_id, mid, snapshot_date)).fetchone()
+                reconciled = 0 if unmatched else 1
+                if existing:
+                    sid = existing[0]
+                    con.execute("UPDATE ecn_metric_snapshot SET snapshot_value=?,source_reconciled=?,published_at=?,published_by=?,calculation_run_id=?,note=? WHERE snapshot_id=?", (item["value"] or 0, reconciled, now, calculated_by, calculation_run_id, publish_note, sid))
+                else:
+                    con.execute("INSERT INTO ecn_metric_snapshot (ecn_id,metric_id,snapshot_date,snapshot_value,source_reconciled,published_at,published_by,calculation_run_id,note) VALUES (?,?,?,?,?,?,?,?,?)", (ecn_id, mid, snapshot_date, item["value"] or 0, reconciled, now, calculated_by, calculation_run_id, publish_note))
+- source: general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/verifier_meta.json
+  json_pointer: /check_code
+  quote: unreconciled = [code for code, row in by_code.items() if row["source_reconciled"] != 1]
+  note: Decoded Python string in check_code, inspected as text only.
+validation:
+  method: static
+  summary: Inspected the publish path and verifier condition; queried the initial unmatched count read-only.
+    The proposed bypass is contradicted by the shown operation.
+  assumptions:
+  - This rejection concerns the proposed publish_metric_snapshot bypass, not every possible mutation or
+    future-state scenario.
+  not_run:
+  - Original verifier and tool server execution
+  - End-to-end agent rollout
+  - Production LLM judge calls
+provenance:
+  discovered_by: gpt-6-luna shared-verifier candidate; rejected after parent code and data review
+  experiment: env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-initial
+discussion: Useful counterexample for a grader-only screen that neglects tool-enforced invariants. This
+  does not certify the overall task as defect-free.

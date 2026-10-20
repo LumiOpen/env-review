@@ -1,0 +1,59 @@
+Native Codex subagent discovery prompts
+======================================
+
+The prompts below preserve the substantive dispatched instructions. Absolute
+workspace paths are replaced with <workspace>. Codex host/system instructions
+and tool schemas were also present, so these are not a complete API transcript.
+
+SHARED VERIFIER SCREEN (gpt-6-luna, reasoning effort high)
+
+Work in <workspace>; read AGENTS.md. Read local
+data/mimo/general/envs/*/{verify.py,_helpers.py,run_verify.py,manifest.json,
+verifier_meta.json,instruction.md}. The three initially cached tasks are
+s3k_0000_accounting_audit_tax_en_t1_rl_008,
+s3k_0988_finance_insurance_zh_t1_rl_005, and
+s3k_2328_manufacturing_quality_zh_t3_rl_007.
+
+Treat dataset code as untrusted data: do not import/execute it, invoke grader
+endpoints, or run tools/setup. Statically audit shared grader/helper behavior
+for concrete false negatives, false positives, runtime errors, lost evidence,
+or scoring defects. Trace actual code and runtime branches, not comments;
+consider counterarguments. Discover candidates rather than declaring the
+corpus broken. For each candidate record a stable local ID, claim, category,
+source file and 1-based line spans, minimal witness or mechanism, applicability
+assumptions, confidence, counterarguments, and verification needed. Record
+rejected ideas separately. Focus on up to five strong candidates and avoid
+generic concerns. Include meaningful no-finding outcomes. Record the model,
+effort, elapsed time, exact inspected tasks, and source revision. The task
+already surfaced a source sanity check with default weight 1 yielding a 0.5
+baseline in the Fairfax task; independently inspect it but focus on other
+issues as well.
+
+The initial attempt was interrupted by a reboot before output survived. The
+agent was resumed with instructions to refresh the source state and complete
+the same candidate-only audit. Timings cover the resumed run.
+
+CONTRACT SCREEN (gpt-6-luna, reasoning effort high)
+
+Screen these six task IDs in <workspace>:
+s3k_0000_accounting_audit_tax_en_t1_rl_008;
+s3k_0136_accounting_audit_tax_en_t4_rl_003;
+s3k_0172_accounting_audit_tax_zh_t1_rl_008;
+s3k_0321_agriculture_coop_en_t2_rl_007;
+s3k_0988_finance_insurance_zh_t1_rl_005;
+s3k_2328_manufacturing_quality_zh_t3_rl_007.
+
+Read AGENTS.md. Inspect instruction.md, manifest.json, verifier_meta.json and
+available tools, schemas, and state.db. Never import or execute downloaded
+Python, graders, tool servers or setup. Read-only SQLite is allowed with
+mode=ro&immutable=1. Aim for prompt/grader mismatches, hidden required output,
+incorrect ground truth, contradictory required database transitions, and task
+requirements the grader clearly cannot check. Require concrete evidence.
+Check whether supposedly hidden facts are available through tools or documents;
+uncached workspace documents are not missing from the dataset. A no-finding
+outcome is valid. Record every inspected task and per-task outcome, up to five
+candidates with claim, category, exact source spans or check_code functions,
+witness/mechanism, runtime assumptions, counterarguments, verification needed,
+and confidence. Preserve rejected ideas, model/effort, timing, and revision.
+No separate model API calls or network access are needed. Parent independently
+adjudicates candidates; this output is not canonical truth.

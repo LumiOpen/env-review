@@ -1,0 +1,115 @@
+{
+  "id": "allenai/Dolci-Think-RL-7B",
+  "sha": "0fb6466d31ef3a9dd16985ef635e6429e05a6491",
+  "lastModified": "2026-01-05T16:23:56.000Z",
+  "cardData": {
+    "dataset_info": {
+      "features": [
+        {
+          "name": "ground_truth",
+          "list": "string"
+        },
+        {
+          "name": "dataset",
+          "list": "string"
+        },
+        {
+          "name": "custom_id",
+          "dtype": "string"
+        },
+        {
+          "name": "original_dataset",
+          "dtype": "string"
+        },
+        {
+          "name": "outputs",
+          "list": "string"
+        },
+        {
+          "name": "total_rollouts",
+          "dtype": "int64"
+        },
+        {
+          "name": "total_correct_rollouts",
+          "dtype": "float64"
+        },
+        {
+          "name": "passrate",
+          "dtype": "float64"
+        },
+        {
+          "name": "dataset_source",
+          "dtype": "string"
+        },
+        {
+          "name": "input_ids_prompt",
+          "list": "int64"
+        },
+        {
+          "name": "input_ids",
+          "list": "int32"
+        },
+        {
+          "name": "attention_mask",
+          "list": "int8"
+        },
+        {
+          "name": "labels",
+          "list": "int64"
+        },
+        {
+          "name": "prompt",
+          "dtype": "string"
+        },
+        {
+          "name": "id",
+          "dtype": "string"
+        },
+        {
+          "name": "key",
+          "dtype": "string"
+        },
+        {
+          "name": "constraint_type",
+          "dtype": "string"
+        },
+        {
+          "name": "constraint",
+          "dtype": "string"
+        },
+        {
+          "name": "conversation_hash",
+          "dtype": "string"
+        },
+        {
+          "name": "model",
+          "dtype": "string"
+        },
+        {
+          "name": "predicted_label",
+          "dtype": "string"
+        }
+      ],
+      "splits": [
+        {
+          "name": "train",
+          "num_bytes": 4083445248,
+          "num_examples": 102014
+        }
+      ],
+      "download_size": 1893783057,
+      "dataset_size": 4083445248
+    },
+    "configs": [
+      {
+        "config_name": "default",
+        "data_files": [
+          {
+            "split": "train",
+            "path": "data/train-*"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "method": "text comparison, read-only SQL, independent arithmetic",
+  "original_grader_executed": false,
+  "verified_quotes": 16,
+  "checks": [
+    {
+      "source": "general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/system/yonyou_hedge_approval/state.db",
+      "sha256": "1a72c74f2fc5611e2e6e1026fe04d4c2903bb3a285c8373d0e30b795d631aad3",
+      "query": "SELECT case_id,batch_id,company_id,product_id,contract_id FROM hedge_approval_cases WHERE case_id=?",
+      "parameters": [
+        "HAC-2025-0317-01"
+      ],
+      "rows": [
+        [
+          "HAC-2025-0317-01",
+          "BATCH-2025-CU-01",
+          "ORG_JCC_600362",
+          "PRODUCT_CATHODE_COPPER",
+          "SHFE-CU2509"
+        ]
+      ]
+    },
+    {
+      "source": "general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/dealcloud_disposition_workspace/state.db",
+      "sha256": "cb2a18e5355866cc7f713aafe28502531be392b9e4e12e2b008362cd313ef45f",
+      "query": "SELECT structure_code,transaction_status FROM disposition_transactions WHERE transaction_id=? AND case_id=?",
+      "parameters": [
+        "DC-TXN-25Q3-024",
+        "CASE-FAIRFAX3-2025Q3"
+      ],
+      "rows": [
+        [
+          "installment_sale",
+          "recommended"
+        ]
+      ]
+    },
+    {
+      "source": "general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/dealcloud_disposition_workspace/state.db",
+      "sha256": "cb2a18e5355866cc7f713aafe28502531be392b9e4e12e2b008362cd313ef45f",
+      "query": "SELECT COUNT(*) FROM closing_requirements WHERE transaction_id=? AND active_flag=1",
+      "parameters": [
+        "DC-TXN-25Q3-024"
+      ],
+      "rows": [
+        [
+          7
+        ]
+      ]
+    },
+    {
+      "source": "general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/sharepoint_tax_governance_library/state.db",
+      "sha256": "3f2b8c5bf394dff0d3b15b0966a3b806a316cc75e44625d2232de7bc778cc311",
+      "query": "SELECT status,decision_code FROM decision_records WHERE decision_id=? AND case_id=?",
+      "parameters": [
+        "DEC-2025-017",
+        "CASE-FAIRFAX3-2025Q3"
+      ],
+      "rows": [
+        [
+          "approved",
+          "INSTALLMENT_ASSET_SALE"
+        ]
+      ]
+    },
+    {
+      "source": "general/envs/s3k_1587_hospitality_fnb_zh_t4_rl_003/system/beverage_variance_workbench/state.db",
+      "sha256": "91baf5230682b58f5959fc2482347f56c84fefd2046d5468ce09b4e20c54bc92",
+      "query": "SELECT v.sku_id,v.sku_name,v.base_unit,v.variance_quantity_base,v.variance_cost_fen,v.quantity_threshold_base,v.amount_threshold_fen FROM reconciliation_runs r JOIN sku_variance_results v ON v.run_id=r.run_id WHERE r.period_id='PERIOD-2024-10' AND r.org_id='ORG-HIRJ-LBB' AND r.run_status='FINAL' AND ((ABS(v.variance_cost_fen)>=v.amount_threshold_fen AND ABS(v.variance_quantity_base)<v.quantity_threshold_base) OR (ABS(v.variance_quantity_base)>=v.quantity_threshold_base AND ABS(v.variance_cost_fen)<v.amount_threshold_fen)) ORDER BY v.sku_id",
+      "parameters": [],
+      "rows": [
+        [
+          "SKU-SOFTDRINK-COCA-COLA",
+          "可口可乐",
+          "CAN",
+          1,
+          620,
+          1,
+          1000
+        ],
+        [
+          "SKU-SPIRIT-JW-BLACK",
+          "黑方 Johnnie Walker Black Label",
+          "ML",
+          15,
+          1170,
+          30,
+          1000
+        ]
+      ]
+    },
+    {
+      "source": "general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/system/avt_quality_data_mart/state.db",
+      "sha256": "f3195fa5c741b5e7ffe915bfcdca95f40c9206018fc51fb99e51da5a85571433",
+      "query": "SELECT COUNT(*) FROM source_reconciliation WHERE ecn_id=? AND event_date<=? AND reconciliation_result='unmatched'",
+      "parameters": [
+        "ECN-2025-017",
+        "2025-03-18"
+      ],
+      "rows": [
+        [
+          0
+        ]
+      ]
+    }
+  ],
+  "weights": [
+    {
+      "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+      "substantive_weight": 1.0,
+      "sanity_weight": 1,
+      "score_if_substantive_zero_and_sanity_one": 0.5
+    },
+    {
+      "task_id": "s3k_1587_hospitality_fnb_zh_t4_rl_003",
+      "substantive_weight": 1.0,
+      "sanity_weight": 1,
+      "score_if_substantive_zero_and_sanity_one": 0.5
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+[
+  {
+    "run_id": "structural-001",
+    "inspected_task_count": 34,
+    "candidate_count": 2,
+    "reviewed_count": 2,
+    "unreviewed_count": 0,
+    "decisions": {
+      "behavior_only": 2
+    },
+    "matched_confirmed_defect_ids": [],
+    "task_false_positive_rate": null,
+    "recall": null,
+    "metric_limits": "Discovery reference set is incomplete; unflagged tasks are unlabeled. Different scopes and selected samples do not support a method ranking."
+  },
+  {
+    "run_id": "luna-shared-verifier-001",
+    "inspected_task_count": 3,
+    "candidate_count": 4,
+    "reviewed_count": 4,
+    "unreviewed_count": 0,
+    "decisions": {
+      "behavior_only": 1,
+      "candidate": 1,
+      "confirmed": 1,
+      "rejected": 1
+    },
+    "matched_confirmed_defect_ids": [
+      "ER-2f4b62ce"
+    ],
+    "task_false_positive_rate": null,
+    "recall": null,
+    "metric_limits": "Discovery reference set is incomplete; unflagged tasks are unlabeled. Different scopes and selected samples do not support a method ranking."
+  },
+  {
+    "run_id": "luna-contract-001",
+    "inspected_task_count": 6,
+    "candidate_count": 0,
+    "reviewed_count": 0,
+    "unreviewed_count": 0,
+    "decisions": {},
+    "matched_confirmed_defect_ids": [],
+    "task_false_positive_rate": null,
+    "recall": null,
+    "metric_limits": "Discovery reference set is incomplete; unflagged tasks are unlabeled. Different scopes and selected samples do not support a method ranking."
+  },
+  {
+    "run_id": "readonly-001",
+    "inspected_task_count": 34,
+    "candidate_count": 21,
+    "reviewed_count": 1,
+    "unreviewed_count": 20,
+    "decisions": {
+      "confirmed": 1
+    },
+    "matched_confirmed_defect_ids": [
+      "ER-2f4b62ce"
+    ],
+    "task_false_positive_rate": null,
+    "recall": null,
+    "metric_limits": "Discovery reference set is incomplete; unflagged tasks are unlabeled. Different scopes and selected samples do not support a method ranking."
+  }
+]

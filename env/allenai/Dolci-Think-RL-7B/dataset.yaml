@@ -1,0 +1,18 @@
+schema_version: '1'
+id: hf:allenai/Dolci-Think-RL-7B
+source:
+  provider: huggingface
+  url: https://huggingface.co/datasets/allenai/Dolci-Think-RL-7B
+  revision: 0fb6466d31ef3a9dd16985ef635e6429e05a6491
+review_status: queued
+task_identity:
+  fields:
+  - custom_id
+  - id
+  - conversation_hash
+  config: default
+  split: train
+  notes: Candidate record identifiers from the published schema; uniqueness has not
+    been checked. Pin revision and include row_index when an ID is ambiguous.
+notes: Follow-on dataset suggested by Jonathan. Metadata inspected only; no examples
+  or graders audited. Published metadata lists 102014 training rows.

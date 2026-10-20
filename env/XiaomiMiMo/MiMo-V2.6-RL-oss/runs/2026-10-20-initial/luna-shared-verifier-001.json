@@ -1,0 +1,198 @@
+{
+  "detector_name": "luna-shared-verifier-static-screen",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "started_at_utc": "2026-10-20T08:40:06Z",
+  "finished_at_utc": "2026-10-20T08:43:17Z",
+  "elapsed_seconds": 191,
+  "source_dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+  "source_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "exact_inspected_task_ids": [
+    "s3k_0988_finance_insurance_zh_t1_rl_005",
+    "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+    "s3k_2328_manufacturing_quality_zh_t3_rl_007"
+  ],
+  "inspected_files": {
+    "shared_runtime_copies_identical_by_sha256": {
+      "data/mimo/general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+      "data/mimo/general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/_helpers.py": "8078e237ab386b039a653722c350b017a2dd05a476ce13f43edc42f5626d55b2",
+      "data/mimo/general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/run_verify.py": "839c5826eafb0b87d161197b3ad6106aa8eca236ed82f5eda9d67bbe7ae88fb8"
+    },
+    "task_specific_files": [
+      {
+        "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+        "files": {
+          "instruction.md": "79cf451a0bc8b170dbd69995a4de1a712a807557d2a62de6169da7eaf3d187ed",
+          "manifest.json": "5c0af5256189f49937540705a615772fa89f0cd8d9bea4ac0c4647aadb2e5a02",
+          "verifier_meta.json": "8e3db5cce771b6e93367bd98792b37757fe1c83a91056c40911a8a31e7a039f2"
+        }
+      },
+      {
+        "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+        "files": {
+          "instruction.md": "54066dda9e7d8064a47bde09025f8295ac9cd2e133ad086a4ee7dd1a28e3b16f",
+          "manifest.json": "735780380d3783c2162e691c9246872394824f12dc833f4f6ae79f650ed5d563",
+          "verifier_meta.json": "64218a1c0573ad03c14c67909c77bd33fde6392443883cc308ff6c77d6ad87ef"
+        }
+      },
+      {
+        "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+        "files": {
+          "instruction.md": "05acb4eb24d758d1b7503acb7fbdefa06cfcc1b21457c25ae22c12698fa59eca",
+          "manifest.json": "a3ed9611e775be742c0df31e4127858fca641622188d5bea69508f9ffbbb0ff8",
+          "verifier_meta.json": "e610509f982563a7dfccc912cea59790dcfe8eab8fed97e2cfac0ed8ea0d4e17"
+        }
+      }
+    ]
+  },
+  "review_status": "exploratory candidates only; parent adjudication required; no corpus code was imported or executed, and no grader endpoint or setup was invoked",
+  "candidate_findings": [
+    {
+      "local_id": "LUNA-SV-001",
+      "claim": "On the self-contained sidecar scoring path, a response that earns full credit can coexist with system-record mutations in the read-only finance task: its rubric has only answer.md LLM items, no source-protection configuration or state rule, and verify() does not inspect the post_state argument.",
+      "category": "false_positive / missing read-only invariant",
+      "source_spans": [
+        {
+          "file": "data/mimo/general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/instruction.md",
+          "start_line": 3,
+          "end_line": 3
+        },
+        {
+          "file": "data/mimo/general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/verifier_meta.json",
+          "start_line": 4,
+          "end_line": 54
+        },
+        {
+          "file": "data/mimo/general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/verify.py",
+          "start_line": 343,
+          "end_line": 389
+        },
+        {
+          "file": "data/mimo/general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/verify.py",
+          "start_line": 458,
+          "end_line": 465
+        },
+        {
+          "file": "data/mimo/general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/run_verify.py",
+          "start_line": 34,
+          "end_line": 51
+        }
+      ],
+      "minimal_witness_or_mechanism": "A run produces an answer matching the five text anchors, then also changes an approval or execution record. In the fallback grader, _grade_sc only applies src_protect when verifier_meta has src_protect and only runs configured gates/rules; this task's metadata contains neither and its check_code says there are no deterministic post-state checks. run_verify builds post_state, but verify() accepts it and never reads it before _grade(ws). The text rubric can therefore return full reward without observing the mutation.",
+      "applicability_assumptions": "Impact requires the deployed task tool surface to expose at least one write-capable operation and the sidecar to take the documented self-contained _grade_sc branch (the shared file documents that branch for environments without synthesis.office_gen.grade_rubric). No-mutation is still an explicit task constraint even if this particular tool surface turns out to be read-only.",
+      "confidence": "medium-high for the missing check on the sidecar branch; medium for runtime impact until tool mutability is confirmed",
+      "counterarguments": "The task is declared read-only and its approval/execution servers may expose only read operations. In that case the missing verifier invariant is not exploitable in this task. A separate locally installed grade_rubric implementation, if present in deployment, may also alter the path.",
+      "verification_needed": "Inspect the deployed tool capability declarations without calling them, then in an isolated disposable fixture with a stub judge verify whether changing one system row leaves the sidecar reward unchanged. Compare the actual deployment branch with the self-contained branch."
+    },
+    {
+      "local_id": "LUNA-SV-002",
+      "claim": "The Fairfax rubric can award full score to an answer that omits the required business-source citations, because each scored question and pass anchor checks transaction facts and conclusions but none requires citing the source document or system; the judge receives answer.md only.",
+      "category": "false_positive / rubric coverage gap",
+      "source_spans": [
+        {
+          "file": "data/mimo/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/instruction.md",
+          "start_line": 7,
+          "end_line": 7
+        },
+        {
+          "file": "data/mimo/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json",
+          "start_line": 4,
+          "end_line": 56
+        },
+        {
+          "file": "data/mimo/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py",
+          "start_line": 311,
+          "end_line": 340
+        }
+      ],
+      "minimal_witness_or_mechanism": "An answer states the exact recommended transaction, tax amounts, protection statuses, readiness conclusion, payment split, and fallback, but names no DealCloud, SharePoint, memorandum, workbook, or other source. That answer can satisfy every pass_anchor: the questions only ask whether the facts/conclusions are correct, the anchors do not require citations, and _run_llm_sc sends the judge only the answer.md evidence plus that one item. The separate source_data_present sanity rule validates fixture anchors, not answer citations.",
+      "applicability_assumptions": "Assumes the judge follows the item question and pass_anchor, which omit the instruction's citation requirement, rather than adding the full task instruction as hidden grading context. The visible shared prompt supplies only evidence and the current item.",
+      "confidence": "medium-high",
+      "counterarguments": "A judge may independently infer that source names are desirable from the phrase 'Ground truth from ...' in some anchors, or an answer with unsupported factual claims may be rejected on general reasoning. Neither mechanism is made a scored requirement, however, and the prompt explicitly frames the anchor as the pass condition.",
+      "verification_needed": "Use a stubbed judge or offline adjudication against a witness answer omitting source names, and confirm the production judge prompt remains item-local as shown. Do not use the live judge endpoint for this audit."
+    },
+    {
+      "local_id": "LUNA-SV-003",
+      "claim": "The Fairfax sanity rule contributes an unweighted default weight of 1 to reward, matching the combined weight of all five substantive LLM criteria; on a valid untouched input and an unanswered/fully failing text response, the score is 0.5 instead of 0.",
+      "category": "scoring_defect / nonzero baseline",
+      "source_spans": [
+        {
+          "file": "data/mimo/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json",
+          "start_line": 4,
+          "end_line": 63
+        },
+        {
+          "file": "data/mimo/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json",
+          "start_line": 65,
+          "end_line": 65
+        },
+        {
+          "file": "data/mimo/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py",
+          "start_line": 395,
+          "end_line": 400
+        },
+        {
+          "file": "data/mimo/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py",
+          "start_line": 420,
+          "end_line": 433
+        }
+      ],
+      "minimal_witness_or_mechanism": "The five LLM weights sum to 1.0 (0.20 + 0.20 + 0.25 + 0.20 + 0.15). source_data_present has method=rule but no weight; _grade_sc defaults every unweighted atom to 1 and includes it in the denominator. On a valid fixture, the rule returns 1. With no usable answer, all five LLM scores are 0 and an empty agent_output leaves answer.md absent, so the weighted score is 1/(1+1)=0.5. The same default also makes the sanity check as influential as all substantive criteria combined.",
+      "applicability_assumptions": "Requires the valid untouched fixture to meet the three anchors checked by check_source_data_present, as expected for the task's supplied source databases, and the substantive item scores to be zero. Exact baseline should be confirmed against the fixture; the static weighting result is certain.",
+      "confidence": "high for the weighting arithmetic; medium-high for the initial-state pass assumption",
+      "counterarguments": "A sanity criterion may intentionally contribute partial credit because it tests source availability, and a no-op does not meet the overall task. The issue is its implicit unit weight despite being labeled sanity and the resulting half-reward baseline; perhaps that weight was intentional, but no explicit weight documents that choice.",
+      "verification_needed": "In a disposable initial-state copy, evaluate only the rule result and scoring arithmetic with a stub judge returning zero for each text item; confirm that the reward is 0.5. No production grader or endpoint is needed."
+    },
+    {
+      "local_id": "LUNA-SV-004",
+      "claim": "The manufacturing task's rubric can accept a claimed 'zero unmatched source records' result without checking actual upstream reconciliation state; its deterministic rules inspect only the published mart snapshots and trust each snapshot's source_reconciled flag.",
+      "category": "false_positive / missing source-state validation",
+      "source_spans": [
+        {
+          "file": "data/mimo/general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/instruction.md",
+          "start_line": 3,
+          "end_line": 3
+        },
+        {
+          "file": "data/mimo/general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/verifier_meta.json",
+          "start_line": 52,
+          "end_line": 56
+        },
+        {
+          "file": "data/mimo/general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/verifier_meta.json",
+          "start_line": 79,
+          "end_line": 79
+        },
+        {
+          "file": "data/mimo/general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/verify.py",
+          "start_line": 274,
+          "end_line": 340
+        }
+      ],
+      "minimal_witness_or_mechanism": "If an upstream source contains unmatched rows but an agent can still publish the expected three mart rows with source_reconciled=1 and write '0 unmatched' in answer.md, the rule check passes its snapshot fields and the LLM item can accept the claim. The embedded check_code for check_snapshot_post_state and check_preserve_existing_snapshots queries ecn_metric_snapshot and quality_metric_definition only; it never queries an upstream reconciliation table. LLM evidence is answer.md, so it cannot independently verify the database claim.",
+      "applicability_assumptions": "Requires unmatched source rows to be possible in the supplied state and a mutation path that permits snapshot publication or the source_reconciled flag to be set despite them. The provided snapshot rule code is embedded in verifier_meta.json; line 79 is the start of its one-line JSON-escaped check_code string, and both helper rules in that string restrict queries to the mart tables.",
+      "confidence": "medium; the static absence of an upstream check is clear, while data-state and tool-enforcement impact are not established from the inspected files",
+      "counterarguments": "The upstream task tool may enforce reconciliation as a publish precondition, or its initial records may guarantee zero unmatched rows. The materialized source_reconciled flag may also be written only after a server-side reconciliation check. None of those protections is asserted by this verifier code.",
+      "verification_needed": "Inspect the relevant read/publish API contract and a disposable copy of source plus mart state; confirm whether an unmatched row can coexist with a publishable snapshot. Avoid invoking the task's live tools or setup."
+    }
+  ],
+  "rejected_ideas": [
+    {
+      "idea": "The shared evidence helper silently truncates answer text, causing unsupported judge conclusions.",
+      "reason_rejected": "For these three rubrics the evidence file is plain-text answer.md, and _evidence_sc uses extract_evidence. The shared helper adds explicit truncation/loss markers and _LLM_PROMPT requires a zero when target evidence is truncated. I found no concrete silent-loss path for these sampled files."
+    },
+    {
+      "idea": "extract_agent_output always selects the chronologically wrong assistant response.",
+      "reason_rejected": "The implementation overwrites output in lexicographic file order across JSONL files, which could be wrong if one rollout has multiple session files whose path order differs from chronology. The inspected manifests and task files do not establish that a rollout has multiple logs, so I did not promote this conditional runner concern to a finding."
+    },
+    {
+      "idea": "The fallback judge endpoint must fail because the task manifest has no env_passthrough values.",
+      "reason_rejected": "The shared verifier explicitly describes controller-injected judge variables, while the inspected manifest field does not establish the actual runner's injected environment. Treating the absence of manifest-listed environment values as proof of runtime failure would overstate the evidence."
+    }
+  ],
+  "no_finding_outcomes": [
+    "The three shared runtime files are byte-identical across all sampled environments; no task-specific divergence was found in verify.py, _helpers.py, or run_verify.py.",
+    "No separate concrete defect was established in _helpers.py's evidence extraction or numeric/text utilities for these three answer.md-based rubric sets.",
+    "These three selected environments are a convenience sample only; results do not estimate corpus-wide defect prevalence."
+  ]
+}

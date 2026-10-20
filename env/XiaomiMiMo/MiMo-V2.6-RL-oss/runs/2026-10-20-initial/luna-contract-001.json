@@ -1,0 +1,323 @@
+{
+  "run_id": "luna-contract-001",
+  "purpose": "Exploratory cheap contract-alignment screen; candidate discovery only, not canonical adjudication.",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "start_time_utc": "2026-10-20 08:44:11 UTC",
+  "end_time_utc": "2026-10-20 08:47:47 UTC",
+  "elapsed_seconds": 216,
+  "dataset": {
+    "name": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+    "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+    "retrieved_date": "2026-10-20",
+    "file_count": 41292,
+    "environment_count": 925,
+    "lock_source": "experiments/dataset-lock.json"
+  },
+  "screen": {
+    "task_ids": [
+      "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+      "s3k_0136_accounting_audit_tax_en_t4_rl_003",
+      "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+      "s3k_0321_agriculture_coop_en_t2_rl_007",
+      "s3k_0988_finance_insurance_zh_t1_rl_005",
+      "s3k_2328_manufacturing_quality_zh_t3_rl_007"
+    ],
+    "inspected_task_count": 6,
+    "database_cross_checked_task_count": 5,
+    "candidate_count": 0,
+    "unique_defect_families": 0,
+    "affected_task_instances": 0,
+    "review_status": "candidate_discovery_only",
+    "prevalence_inference": false,
+    "method": "Read instruction.md, manifest.json, verifier_meta.json, schema.sql and selected SQLite rows through mode=ro&immutable=1. No model API or network calls. Did not import or execute downloaded Python, graders, tool servers, or setup scripts; did not mutate task state."
+  },
+  "candidates": [],
+  "per_task": [
+    {
+      "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+      "outcome": "No concrete prompt/grader mismatch found.",
+      "confidence": "high for DB-backed contract alignment; controlled workbook contents were represented through the local SharePoint evidence register.",
+      "evidence": [
+        {
+          "source": "instruction.md",
+          "span": "lines 2-6",
+          "quote": "Requires the current recommended installment record; component taxes; every material protection; the approved payment split and all-cash fallback."
+        },
+        {
+          "source": "verifier_meta.json",
+          "span": "items current_recommended_structure, documentary_tax_components, protection_statuses, controlled_payment_split_and_fallback",
+          "quote": "The anchors distinguish the active installment record from superseded alternatives, require $9,141 + $37,395 = $46,536, and require $7,183,750 / $21,551,250 from approved DEC-2025-017."
+        },
+        {
+          "source": "DealCloud state.db",
+          "span": "disposition_transactions row DC-TXN-25Q3-024; active closing_requirements rows REQ-DC-25Q3-107, 108, 109, 110, 111, 112, 114",
+          "quote": "Recommended installment record has seven active requirements; approved county/city/summary amounts are $9,141/$37,395/$46,536; covenant and affidavit are approved; collateral and withholding are in review; no active buyer-solvency requirement is attached."
+        },
+        {
+          "source": "SharePoint state.db",
+          "span": "decision_records row DEC-2025-017; document_evidence_register rows in DOC-MEM-2025-031",
+          "quote": "Approved decision text and evidence record the controlled split $7,183,750 closing payment / $21,551,250 secured note, fallback all-cash sale, and buyer-solvency as required."
+        }
+      ]
+    },
+    {
+      "task_id": "s3k_0136_accounting_audit_tax_en_t4_rl_003",
+      "outcome": "No concrete prompt/grader mismatch found in the inspected contract; exact source amounts were not independently checked against the cited workspace documents.",
+      "confidence": "medium; prompt and rubric are aligned, but the Annual Report, Investor Presentation, and dashboard are not present in this task’s local artifact inventory.",
+      "evidence": [
+        {
+          "source": "instruction.md",
+          "span": "lines 1-5",
+          "quote": "Requests six FY2024 measures, their classifications, separation of reported GAAP benchmarks from internal six-SKU measures, reconciliation caveat, and named source evidence."
+        },
+        {
+          "source": "verifier_meta.json",
+          "span": "items reported_gaap_benchmarks, adjusted_ebitda_caveat, internal_margin_amounts, source_evidence_and_separation",
+          "quote": "The rubric covers the same six measures, calls adjusted EBITDA non-GAAP with a GAAP reconciliation reference, and keeps dashboard six-SKU measures internal."
+        },
+        {
+          "source": "local artifact inventory",
+          "span": "task directory contains instruction.md, manifest.json, verifier_meta.json, tools and system databases; no workspace subdirectory",
+          "quote": "Workspace uploads are not available in this cache view; treated as unobserved, not missing from the dataset."
+        }
+      ]
+    },
+    {
+      "task_id": "s3k_0172_accounting_audit_tax_zh_t1_rl_008",
+      "outcome": "No concrete prompt/grader mismatch found; underlying U9C and Weaver values support the rubric bridge.",
+      "confidence": "high for database arithmetic; the cited processing sheet/report was not locally present for direct file comparison.",
+      "evidence": [
+        {
+          "source": "instruction.md",
+          "span": "lines 1-5",
+          "quote": "Asks for independent gross loss/gain/net calculations under both systems, formal per-item composition, and an equal gross reclassification explaining unchanged net."
+        },
+        {
+          "source": "verifier_meta.json",
+          "span": "items u9c_gross_net, weaver_formal_breakdown, formal_source_and_net, gross_reclass_bridge",
+          "quote": "Requires U9C $1,900/$309.56/$1,590.44; Weaver losses $3,218.60 and gains $1,628.16; both gross sides increase $1,318.60 while net remains unchanged."
+        },
+        {
+          "source": "Yonyou U9C state.db",
+          "span": "inventory_period_balance DETAIL rows, count_date 2024-12-31, count_status FINAL",
+          "quote": "48 detail rows independently sum to 190000 fen loss and 30956 fen gain, net loss 159044 fen; subtotal is a separate record level."
+        },
+        {
+          "source": "Weaver E-cology state.db",
+          "span": "inventory_variance_case rows IVC-2024-1217-01 through IVC-2024-1231-06",
+          "quote": "Exactly six same-date VERIFIED cases sum to 321860 fen LOSS and 162816 fen GAIN."
+        }
+      ]
+    },
+    {
+      "task_id": "s3k_0321_agriculture_coop_en_t2_rl_007",
+      "outcome": "No concrete prompt/grader mismatch found; collateral, adjustment, commitment, and dated debt rows support the stated calculations and classifications.",
+      "confidence": "high for database-backed arithmetic and pool classifications; cited appraisals/workbook and other workspace documents were not locally present for direct file comparison.",
+      "evidence": [
+        {
+          "source": "instruction.md",
+          "span": "lines 1-3",
+          "quote": "Requests classification of the pool records, borrowing-base availability and cushion, secured LTV, and evidence/date distinctions."
+        },
+        {
+          "source": "verifier_meta.json",
+          "span": "items asset-classification, borrowing-base, secured-ltv, evidence-and-temporal-traps",
+          "quote": "Requires the five pool records to be classified separately, grain advance net of active adjustments, and LTV to use the non-summary collateral support denominator."
+        },
+        {
+          "source": "collateral borrowing-base state.db",
+          "span": "collateral_assets rows CA-PBFF-*; borrowing_base_adjustments rows ADJ-PBFF-*; collateral_pools row CP-PBFF-250930-01",
+          "quote": "Five classifications match anchors; eligible grain advance is $2,394,000 less $180,215.35 = $2,213,784.65; non-summary active collateral totals $12,801,608.65."
+        },
+        {
+          "source": "Agrilending state.db",
+          "span": "facility_requests row PBFF-OL-2025-001; term_debt_payment_schedule rows PBFF-TD-2025-001-A, 004-C, 006-B, 009-A, 011-D",
+          "quote": "Proposed commitment is $2,145,750; five active secured balances applicable 2025-09-30 total $6,087,642.16."
+        }
+      ]
+    },
+    {
+      "task_id": "s3k_0988_finance_insurance_zh_t1_rl_005",
+      "outcome": "No concrete prompt/grader mismatch found; approval and execution-evidence rows substantiate batch and total anchors.",
+      "confidence": "high.",
+      "evidence": [
+        {
+          "source": "instruction.md",
+          "span": "lines 1-3",
+          "quote": "Requires approval/batch/contract identity, valid authorization, fill-only batch totals, and exclusion of contract/settlement/position evidence from additional trade accumulation."
+        },
+        {
+          "source": "verifier_meta.json",
+          "span": "items approval_execution_identity, three_batch_fill_details, aggregate_execution_totals, evidence_scope_and_no_double_count, controlled_difference_conclusion",
+          "quote": "Requires 100/80/400t, 50/40/200t, 30/26/130t fills and totals 180 instructed, 146 executed, 730t, 34 unfilled."
+        },
+        {
+          "source": "Yonyou approval state.db",
+          "span": "hedge_approval_cases row HAC-2025-0317-01; approval_actions sequences 5-6; execution_evidence rows for EXEC-01-A/B/C",
+          "quote": "Approved case identifies BATCH-2025-CU-01 and SHFE-CU2509; committee and trade authorizations are AUTHORIZED; three TRADE_FILL rows match the anchor. A contract and C settlement/position rows are separately typed supporting records."
+        }
+      ]
+    },
+    {
+      "task_id": "s3k_2328_manufacturing_quality_zh_t3_rl_007",
+      "outcome": "No concrete prompt/grader mismatch found; current source rows agree with the requested recomputation and preserve-existing-snapshot behavior.",
+      "confidence": "high for database-backed values and post-state rubric; source documents outside database state were not separately inspected.",
+      "evidence": [
+        {
+          "source": "instruction.md",
+          "span": "lines 1-5",
+          "quote": "Uses current action details, deduplicated old-material inventory and valid dispositions, future approved/released/site-available documents, zero unmatched sources, and asks to publish only missing metrics."
+        },
+        {
+          "source": "verifier_meta.json",
+          "span": "items snapshot_post_state, action_recompute, legacy_balance_recompute, document_switch_recompute, reconciliation_conclusion, publication_action_reported, preserve_existing_snapshots",
+          "quote": "Expected values are 100%, 0 pieces, 100%; it explicitly rejects the stale 6/8 meeting snapshot and preserves the already-correct document-switch row."
+        },
+        {
+          "source": "Change Tracker state.db",
+          "span": "change_action rows for ECN-2025-017, action_no 1-8",
+          "quote": "All eight current actions are closed; meeting snapshot is separately 6/8 at 75%."
+        },
+        {
+          "source": "Yonyou NC ERP state.db",
+          "span": "inventory_detail rows PD-20250218-07 and material_disposition rows for ECN-2025-017",
+          "quote": "Deduplicated old material count is 124+98+64=286; the duplicate 10-piece count row and SKU_SUMMARY are identifiable as exclusions; posted dispositions total 176+110=286."
+        },
+        {
+          "source": "Teamcenter PLM state.db",
+          "span": "future document_revision rows ATS-CP-MC2400 1.9, ATS-MC2400-DRW D, ATS-WI-07 2.4 and corresponding distribution rows",
+          "quote": "All three future revisions approved, released, effective 2025-03-18 and available at the Tianjin site."
+        },
+        {
+          "source": "Quality data mart state.db",
+          "span": "source_reconciliation rows through 2025-03-18; ecn_metric_snapshot row DOCUMENT_SWITCH_RATE / 2025-03-18",
+          "quote": "No unmatched reconciliation rows by cutoff; two controlled_diff rows are distinct; correct 100% document-switch snapshot exists with original RUN-20250318-ECN017-E metadata."
+        }
+      ]
+    }
+  ],
+  "rejected_ideas": [
+    {
+      "claim": "For Fairfax, the approved payment split conflicts with the recommended DealCloud row’s $8.31m closing principal and $6m note.",
+      "category": "apparent ground-truth conflict",
+      "source_spans": [
+        {
+          "source": "instruction.md",
+          "span": "line 5",
+          "quote": "Explicitly directs tying protections to the approved $7,183,750 payment and $21,551,250 note, not substituting the DealCloud comparison figures."
+        },
+        {
+          "source": "verifier_meta.json",
+          "span": "item controlled_payment_split_and_fallback",
+          "quote": "Uses DEC-2025-017 as the controlled recommendation and says not to treat the comparison row’s different figures as the approved split."
+        },
+        {
+          "source": "SharePoint state.db",
+          "span": "approved decision record DEC-2025-017",
+          "quote": "Recommendation text contains the exact requested split."
+        }
+      ],
+      "reason_rejected": "The source discrepancy is explicitly scoped and resolved by the prompt’s approved-document precedence; it is not a grader mismatch.",
+      "runtime_assumptions": "No runtime execution; SELECT-only immutable SQLite reads.",
+      "verification_needed": "No additional verification for contract alignment; independent parent adjudication can inspect linked controlled workbook if available.",
+      "confidence": "high"
+    },
+    {
+      "claim": "The Chinese inventory task has inconsistent gross loss/gain figures across U9C and Weaver, potentially making its answer contradictory.",
+      "category": "intentional reconciliation trap",
+      "source_spans": [
+        {
+          "source": "instruction.md",
+          "span": "lines 2-4",
+          "quote": "Explicitly frames equal net with differing gross amounts and requests an equal reclassification bridge."
+        },
+        {
+          "source": "verifier_meta.json",
+          "span": "item gross_reclass_bridge",
+          "quote": "Explicitly expects $1,318.60 added to each side with zero net change."
+        }
+      ],
+      "reason_rejected": "Both source databases independently substantiate the requested arithmetic; the different gross classifications are the task objective.",
+      "runtime_assumptions": "No runtime execution; SELECT-only immutable SQLite reads.",
+      "verification_needed": "Direct inspection of the linked processing sheet/report remains useful if later cached.",
+      "confidence": "high"
+    },
+    {
+      "claim": "Hedge contracts, settlement statements, and positions could be mistakenly expected as extra fills, or the checker may require a nonexistent fourth fill.",
+      "category": "evidence-scope false positive",
+      "source_spans": [
+        {
+          "source": "instruction.md",
+          "span": "line 2",
+          "quote": "Says contracts, settlement statements, and position reports may be used for tie-out but cannot be accumulated again as trade fills."
+        },
+        {
+          "source": "verifier_meta.json",
+          "span": "item evidence_scope_and_no_double_count",
+          "quote": "Explicitly maps the contract to A and settlement/position tie-out to C, excluding them from the 146-lot/730-ton total."
+        }
+      ],
+      "reason_rejected": "The instruction and grader align with the typed evidence rows; the three TRADE_FILL rows are the only counted execution records.",
+      "runtime_assumptions": "No runtime execution; SELECT-only immutable SQLite reads.",
+      "verification_needed": "None for the static contract screen.",
+      "confidence": "high"
+    },
+    {
+      "claim": "The quality snapshot grader conflicts with a historical 6/8 and 75% action completion snapshot.",
+      "category": "stale-versus-current source false positive",
+      "source_spans": [
+        {
+          "source": "instruction.md",
+          "span": "line 1",
+          "quote": "Says to use current action detail rather than the cross-department meeting-time summary."
+        },
+        {
+          "source": "verifier_meta.json",
+          "span": "item action_recompute",
+          "quote": "Explicitly says 6/8, 75% is a meeting-time snapshot and requires current 8/8, 100%."
+        }
+      ],
+      "reason_rejected": "Current action rows show all eight closed; the historical review snapshot is explicitly superseded for the requested as-of date.",
+      "runtime_assumptions": "No runtime execution; SELECT-only immutable SQLite reads.",
+      "verification_needed": "None for contract alignment; do not apply the requested publishing action during this static screen.",
+      "confidence": "high"
+    }
+  ],
+  "limitations": [
+    "The local task artifact inventory did not include the workspace document payloads for s3k_0136 or direct file copies of linked documents referenced by other prompts. Per instructions, uncached workspace content was not treated as missing; no candidate is based on its absence.",
+    "This is selected-task candidate discovery across six requested IDs, not a prevalence estimate or canonical adjudication."
+  ],
+  "source_sha256": {
+    "experiments/dataset-lock.json": "7d654f25bf5ea7e22a03eb5b0bdc15d03f56284328b851ede28c8ac3f3afa94d",
+    "data/mimo/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/instruction.md": "54066dda9e7d8064a47bde09025f8295ac9cd2e133ad086a4ee7dd1a28e3b16f",
+    "data/mimo/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/manifest.json": "735780380d3783c2162e691c9246872394824f12dc833f4f6ae79f650ed5d563",
+    "data/mimo/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json": "64218a1c0573ad03c14c67909c77bd33fde6392443883cc308ff6c77d6ad87ef",
+    "data/mimo/general/envs/s3k_0136_accounting_audit_tax_en_t4_rl_003/instruction.md": "c1e1513d4dac6cc79ea0873def8dfb40a3835e6e7f44bcafb677faa4bd5ac435",
+    "data/mimo/general/envs/s3k_0136_accounting_audit_tax_en_t4_rl_003/manifest.json": "49fad42306061ad06e39fe817221043dec690dc0d2ead30e44aac7ed53ead95b",
+    "data/mimo/general/envs/s3k_0136_accounting_audit_tax_en_t4_rl_003/verifier_meta.json": "f3890fd5210adbafce140ba4590089e0ab2a8fdc6604565ff7789259b6bfcb57",
+    "data/mimo/general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/instruction.md": "475f9e8fd0b6c97f2698e3afc9a29a89d80f0e32b1b2e242e6599b02ad04d0ea",
+    "data/mimo/general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/manifest.json": "828ba73381f056f2836bf1da29f7403659443b6b2f7f49fdded13a3011e4ed94",
+    "data/mimo/general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/verifier_meta.json": "b542764bb74e4d11538178f7e539c94b9dea6dfa792cc236edbc35fc3c56716c",
+    "data/mimo/general/envs/s3k_0321_agriculture_coop_en_t2_rl_007/instruction.md": "248e3074432d1bf50858243e0af8529fad28779b234ba0f98438200603fe4d53",
+    "data/mimo/general/envs/s3k_0321_agriculture_coop_en_t2_rl_007/manifest.json": "473891bcf05dce9b1e01fc28dfa467144674c4a5c1d2fe8879fabca28ea5033b",
+    "data/mimo/general/envs/s3k_0321_agriculture_coop_en_t2_rl_007/verifier_meta.json": "f15408e7644a4d4f8c29005bbd9e3d6969c100f4620ace072b5afacd87b90277",
+    "data/mimo/general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/instruction.md": "79cf451a0bc8b170dbd69995a4de1a712a807557d2a62de6169da7eaf3d187ed",
+    "data/mimo/general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/manifest.json": "5c0af5256189f49937540705a615772fa89f0cd8d9bea4ac0c4647aadb2e5a02",
+    "data/mimo/general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/verifier_meta.json": "8e3db5cce771b6e93367bd98792b37757fe1c83a91056c40911a8a31e7a039f2",
+    "data/mimo/general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/instruction.md": "05acb4eb24d758d1b7503acb7fbdefa06cfcc1b21457c25ae22c12698fa59eca",
+    "data/mimo/general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/manifest.json": "a3ed9611e775be742c0df31e4127858fca641622188d5bea69508f9ffbbb0ff8",
+    "data/mimo/general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/verifier_meta.json": "e610509f982563a7dfccc912cea59790dcfe8eab8fed97e2cfac0ed8ea0d4e17",
+    "data/mimo/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/dealcloud_disposition_workspace/state.db": "cb2a18e5355866cc7f713aafe28502531be392b9e4e12e2b008362cd313ef45f",
+    "data/mimo/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/sharepoint_tax_governance_library/state.db": "3f2b8c5bf394dff0d3b15b0966a3b806a316cc75e44625d2232de7bc778cc311",
+    "data/mimo/general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/system/weaver_ecology_approval/state.db": "4199cac1f9c970703474af926db6311ae5853f7e856343ac1462e88291e6a051",
+    "data/mimo/general/envs/s3k_0172_accounting_audit_tax_zh_t1_rl_008/system/yonyou_u9c_inventory/state.db": "e3a69cc1b572056d119b528db357833fffa9916c9f0b697b4be0a7f8ab170fcb",
+    "data/mimo/general/envs/s3k_0321_agriculture_coop_en_t2_rl_007/system/fcsamerica_collateral_borrowing_base/state.db": "b31df0caea250437a64219a4562c814513aa87e1793ab8d1e7a69df17c8673e0",
+    "data/mimo/general/envs/s3k_0321_agriculture_coop_en_t2_rl_007/system/fcsamerica_agrilending_core/state.db": "4cae43bb4757063dc92c5bcd4a180f6804d8f46e650496f5916fde1b4f4f8464",
+    "data/mimo/general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/system/yonyou_hedge_approval/state.db": "1a72c74f2fc5611e2e6e1026fe04d4c2903bb3a285c8373d0e30b795d631aad3",
+    "data/mimo/general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/system/avt_change_tracker/state.db": "fccf8ade48e587855822d539734530421d9d40f222c2f07afde5f665201c4162",
+    "data/mimo/general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/system/yonyou_nc_erp/state.db": "ff3e96fd8bcbc5990f39e54b6ec577f4b83dd4d4baf887d1bd8773ad8257610e",
+    "data/mimo/general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/system/teamcenter_plm/state.db": "16e916d71a4dddebc2c660aa3670adba8ab2bd895728e380e283528504afbc9f",
+    "data/mimo/general/envs/s3k_2328_manufacturing_quality_zh_t3_rl_007/system/avt_quality_data_mart/state.db": "f3195fa5c741b5e7ffe915bfcdca95f40c9206018fc51fb99e51da5a85571433"
+  }
+}

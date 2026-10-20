@@ -1,0 +1,157 @@
+schema_version: '1'
+id: ER-2f4b62ce
+dataset: hf:XiaomiMiMo/MiMo-V2.6-RL-oss
+revision: e8e81e4945270b6212204bad99de1e598f7fb077
+title: Read-only finance task exposes writes that its standalone grader does not observe
+status: confirmed
+category: grader_mismatch
+tasks:
+- id: s3k_0988_finance_insurance_zh_t1_rl_005
+  path: general/envs/s3k_0988_finance_insurance_zh_t1_rl_005
+problem:
+  description: The task prohibits changing system records, but the published MCP surface exposes a persistent
+    write operation and the standalone grading path reads only answer.md.
+  expected: An episode that changes system records must be distinguishable from an otherwise identical
+    compliant read-only episode.
+  actual: All five rubric items judge the answer text; no state rule, source-protection configuration,
+    or trajectory check observes the additional write. The two episodes present identical grading evidence.
+evidence:
+- source: general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/instruction.md
+  line_start: 3
+  line_end: 3
+  quote: 汇总时要以已经完成核验且处于有效授权范围内的成交回报为实际成交依据，注意合同、结算单和持仓报表可以用于勾稽，但不能再次当作成交回报累计。最终回复请给出分批明细、指令总手数、实际成交总手数、覆盖总吨数和未成交差额，并判断该差额是否属于分批执行中因未成交形成的受控差异；同时用关键证据说明理由。此项仅做只读核对，不要修改任何系统记录。
+- source: general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/verifier_meta.json
+  line_start: 45
+  line_end: 57
+  quote: |2-
+       "tier": "important",
+       "method": "llm",
+       "files": [
+        "answer.md"
+       ],
+       "question": "最终回复是否正确解释34手差额的逐批来源，并将其判断为未成交形成的受控差异？",
+       "pass_anchor": "正确解释为三批未成交分别20手、10手和4手，合计34手；每批成交手数均未超过对应指令，三条成交回报均已核验且处于授权范围内，因此差额来自分批指令未完全成交，是受控执行差异，而不是超授权成交、漏算第四批或证据失效。若只写“有34手差额”但不说明逐批来源和业务性质，不通过。"
+      }
+     ],
+     "check_code": "\"\"\"No deterministic post-state checks for this read-only reconciliation task.\"\"\"\n\n# All scored conclusions are judged by the text rubric because this task is\n# read-only and the source database must remain unchanged.\n",
+     "gold_answer": null,
+     "input": "db",
+     "act": "none",
+- source: general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/verify.py
+  line_start: 343
+  line_end: 361
+  quote: |-
+    def _grade_sc(ws):
+        """sidecar 自包含判分(赋分体系 v2):红线 gate(method=rule)先跑,任一挂 → score=0(llm 跳过);
+        原子 rule 子进程 + text-llm 直调 judge 模型,Σw·s/Σw 归一(gate 不进分母,与 grade_meta 口径一致);
+        agent 项与 judge=vision 项 sidecar 不跑、不进分母(pod 无渲染/vision 通道)。"""
+        meta = _meta(); items = meta.get("items") or []; code = meta.get("check_code", "")
+        results = {}
+        gates = [it for it in items if it.get("gate")]
+        atoms = [it for it in items if not it.get("gate")]
+        gate_failed = []
+        sp = meta.get("src_protect")
+        if sp:   # 源守恒 gate(自动):solve 写足迹之外的文件/DB 表被动 → 整题 0(防篡改源底稿)
+            try:
+                import importlib.util
+                spec = importlib.util.spec_from_file_location("_th_fp", str(HERE / "_helpers.py"))
+                th = importlib.util.module_from_spec(spec); spec.loader.exec_module(th)
+                bad = th.protect_diff(ws, sp) if hasattr(th, "protect_diff") else []
+                note_sp = None
+            except Exception as e:
+                bad, note_sp = [], "源守恒 gate 执行失败,放行: " + str(e)
+- source: general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/verify.py
+  line_start: 458
+  line_end: 466
+  quote: |-
+    def verify(env_path="/work", post_state=None, agent_output="", **kw):
+        """harbor run_verify.py 入口:ws=<env_path>/workspace(共享卷,含 answer.md + 交付物);
+        DB 后态由 check_code 经 _helpers.db_path 读 ws.parent/system/<mcp>/state.db(sidecar 的 /work/system)。"""
+        ws = Path(env_path) / "workspace"
+        _materialize_answer(ws, agent_output)
+        r = _grade(ws)
+        sc = float(r.get("score", 0.0) or 0.0)
+        out = {"reward": sc, "score": sc, "detail": r, "results": _as_results(r.get("items"))}
+        if isinstance(r, dict) and r.get("reward_error"):
+- source: general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/tools/yonyou_hedge_approval.py
+  line_start: 221
+  line_end: 247
+  quote: |2-
+            raise ValueError("executed_lots cannot exceed instruction_lots")
+        if not evidence_document_no or not source_file_name or not recorded_by:
+            raise ValueError("evidence_document_no, source_file_name and recorded_by are required")
+        try:
+            date.fromisoformat(evidence_date)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("evidence_date must be a valid YYYY-MM-DD date") from exc
+        con = _con()
+        try:
+            case = con.execute("SELECT batch_id, company_id, product_id, contract_id FROM hedge_approval_cases WHERE case_id = ?", (case_id,)).fetchone()
+            if case is None:
+                raise ValueError(f"case_id not found: {case_id}")
+            company = con.execute("SELECT company_id FROM organization_spine WHERE company_id = ?", (company_id,)).fetchone()
+            product = con.execute("SELECT product_id FROM product_spine WHERE product_id = ?", (product_id,)).fetchone()
+            if company is None or product is None:
+                raise ValueError("company_id or product_id not found in master data")
+            if (case["batch_id"], case["company_id"], case["product_id"], case["contract_id"]) != (batch_id, company_id, product_id, contract_id):
+                raise ValueError("case, batch, company, product and contract do not match")
+            evidence_id = f"EVD-{evidence_date.replace('-', '')}-{uuid4().hex[:6].upper()}"
+            values = (evidence_id, case_id, batch_id, company_id, product_id, contract_id, execution_batch_no, evidence_type, instruction_lots, executed_lots, covered_quantity_ton, reference_notional_yuan, evidence_document_no, evidence_date, verification_status, authorization_status, source_file_name, recorded_by, notes)
+            con.execute("INSERT INTO execution_evidence VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", values)
+            con.commit()
+            return {"evidence_id": evidence_id, "persisted": True, "record": dict(con.execute("SELECT * FROM execution_evidence WHERE evidence_id = ?", (evidence_id,)).fetchone())}
+        except Exception:
+            con.rollback()
+            raise
+        finally:
+- source: general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/mcp_http.py
+  line_start: 191
+  line_end: 200
+  quote: |-
+    def _public_functions(module) -> list[tuple[str, Any]]:
+        out: list[tuple[str, Any]] = []
+        for name, obj in inspect.getmembers(module, inspect.isfunction):
+            if name.startswith("_"):
+                continue
+            if getattr(obj, "__module__", None) != module.__name__:
+                continue
+            out.append((name, obj))
+        out.sort(key=lambda kv: kv[0])
+        return out
+- source: general/envs/s3k_0988_finance_insurance_zh_t1_rl_005/mcp_http.py
+  line_start: 345
+  line_end: 356
+  quote: |2-
+
+        module = _load_tools_module(tools_path)
+        fns = _public_functions(module)
+        if not fns:
+            print(f"FATAL: no public tool functions found in {tools_path}",
+                  file=sys.stderr)
+            sys.exit(1)
+
+        mcp = FastMCP(server_name, host="0.0.0.0", port=port)
+        for name, fn in fns:
+            mcp.add_tool(_wrap_capped(fn), name=name,
+                         description=_first_line(fn.__doc__) or name)
+validation:
+  method: static
+  summary: Statically traced registration of public tool functions, persistent INSERT/commit, all answer-only
+    rubric items, absence of src_protect/gates/rules, and ignored post_state. Read the initial database
+    to verify that the witness identifiers and foreign-key targets exist. This establishes a grading-observability
+    defect for the published standalone path; it is not an executed exploit.
+  assumptions:
+  - The self-contained _grade_sc path is active; an external installed grade_rubric may behave differently.
+  - No additional deployment-specific guard beyond the published setup is assumed.
+  - Comparisons hold answer text and judge randomness fixed; the defect concerns unobserved state, not
+    a promised numeric LLM score.
+  not_run:
+  - Original verifier and tool server execution
+  - End-to-end agent rollout
+  - Production LLM judge calls
+  reproducer: env/XiaomiMiMo/MiMo-V2.6-RL-oss/evidence/ER-2f4b62ce/witness.json
+provenance:
+  discovered_by: gpt-6-luna shared-verifier screen; independently adjudicated by parent Codex agent
+  experiment: env/XiaomiMiMo/MiMo-V2.6-RL-oss/runs/2026-10-20-initial
+discussion: Agent-assisted static adjudication, not independent human validation. Runtime reproduction
+  remains useful before making claims about deployed training behavior.

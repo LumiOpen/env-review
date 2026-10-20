@@ -1,0 +1,15 @@
+schema_version: '1'
+id: hf:XiaomiMiMo/MiMo-V2.6-RL-oss
+source:
+  provider: huggingface
+  url: https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss
+  revision: e8e81e4945270b6212204bad99de1e598f7fb077
+review_status: exploring
+task_identity:
+  fields:
+  - environment_directory_name
+  path_pattern: general/envs/{task_id}
+  notes: The initial sample covers exposed knowledge-work environment directories,
+    not every task family in the dataset.
+notes: '34-task discovery sample: one task per domain/language stratum with seed 42,
+  plus two additional reconnaissance cases. No corpus-wide defect-rate estimate.'
