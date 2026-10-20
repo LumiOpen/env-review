@@ -21,7 +21,8 @@ are deferred separately. See [review scope](docs/scope.md) for this boundary.
 ## Datasets
 
 - [XiaomiMiMo / MiMo-V2.6-RL-oss](env/XiaomiMiMo/MiMo-V2.6-RL-oss): initial exploration of exposed knowledge-work environments.
-- [allenai / Dolci-Think-RL-7B](env/allenai/Dolci-Think-RL-7B): queued; source metadata inspected, no task audits yet.
+- [allenai / Dolci-Think-RL-7B](env/allenai/Dolci-Think-RL-7B): full-split audit with an instruction-contradiction witness.
+- [LumiOpen / AutoIF-FI](env/LumiOpen/AutoIF-FI): full-split audit of saved prompts and focused verifier review.
 
 ## Layout
 

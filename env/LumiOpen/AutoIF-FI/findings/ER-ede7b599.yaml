@@ -1,0 +1,48 @@
+schema_version: '1'
+id: ER-ede7b599
+dataset: hf:LumiOpen/AutoIF-FI
+revision: abeaec4f62f5f875810de0514176d9a5fc0506ea
+title: Table-alignment verifiers disagree on pipe characters inside a JSON answer
+status: confirmed
+category: grader_mismatch
+tasks:
+  - id: train:10568:turn2
+    config: default
+    split: train
+    row_index: 10568
+problem:
+  description: Constraint 531 has saved verifier functions with different Markdown-table detection rules. One treats pipe characters inside JSON string values as a table; another requires an actual pipe-led table row.
+  expected: Functions for the same constraint should agree on the saved JSON answer, which has no rendered Markdown table.
+  actual: Function 0 finds no table and reaches `return True`; function 2 treats consecutive JSON property lines as a header and separator, then rejects the JSON key as a non-centered table column. The pipeline accepts a constraint if any saved function returns true.
+evidence:
+  - source: train.parquet
+    note: Row 10568, messages[3].content begins with a JSON code fence. The literal `\n` sequences are inside JSON string values.
+    quote: |
+      ```json
+      {
+        "1": "| :---: |\n| :---: |\n| Guizhou Red Star Developing Duyun Luyou Co., Ltd. on merkittävä kemianteollisuuden toimija
+  - source: train.parquet
+    note: Row 10568, constraint_id 531, eval_funcs[0]; these source lines require a leading pipe.
+    quote: |
+      if line.startswith('|') and '|' in line:
+  - source: train.parquet
+    note: Row 10568, constraint_id 531, eval_funcs[2]; these source lines permit any pipe in a JSON property line.
+    quote: "if '|' in line:"
+  - source: train.parquet
+    note: Row 10568, constraint_id 531, eval_funcs[2]; the next JSON property line contains both characters.
+    quote: "if '|' in sep_line and '-' in sep_line:"
+validation:
+  method: static
+  summary: Traced both published function bodies against the saved response. Function 0 skips the JSON property lines; function 2 enters its table branch on two adjacent property lines and rejects the first split column, which begins with a JSON key. No downloaded verifier was executed.
+  assumptions:
+    - Markdown tables inside escaped JSON string values are not rendered Markdown tables in this JSON code block.
+    - The saved response is passed to the published verifier functions as a string, as described by the dataset card.
+  not_run:
+    - Execution of the downloaded verifier functions or an end-to-end training rollout.
+  reproducer: https://datasets-server.huggingface.co/rows?dataset=LumiOpen%2FAutoIF-FI&config=default&split=train&offset=10568&length=1
+provenance:
+  discovered_by: AI-assisted static verifier review, 2026-10-20
+discussion: >
+  The project source rejects a constraint only when the mean of its function
+  results is zero, so disagreement is tolerated:
+  https://github.com/LumiOpen/dispatcher/blob/1c03b0194b803b82630986aaec66ca3241658ef4/examples/autoif/tasks/responses_task.py#L345-L347 .

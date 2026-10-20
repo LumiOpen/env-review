@@ -1,0 +1,37 @@
+schema_version: '1'
+id: ER-d9b76484
+dataset: hf:LumiOpen/AutoIF-FI
+revision: abeaec4f62f5f875810de0514176d9a5fc0506ea
+title: Stored user prompt drops a required terminal punctuation value
+status: confirmed
+category: specification
+tasks:
+  - id: train:57
+    config: default
+    split: train
+    row_index: 57
+problem:
+  description: The first saved user turn omits the period that the resolved constraint requires as the response's final character.
+  expected: The saved user instruction should specify the same required value as its constraint metadata.
+  actual: The user sees "end with [blank]" while the metadata requires a period; this occurs before any earlier turn could supply the missing value.
+evidence:
+  - source: train.parquet
+    note: Row 57, constraints entry with constraint_id 313.
+    quote: 'Vastauksen on päätyttävä merkkiin ..'
+  - source: train.parquet
+    note: Row 57, messages[0].content, relevant clause from the first user turn.
+    quote: 'Vastauksen on päätyttävä merkkiin  ja vastauksen tulee sisältää vähintään 5 sanaa, joissa on täsmälleen 7 merkkiä.'
+validation:
+  method: static
+  summary: Compared resolved constraint and first saved user message at the pinned Parquet revision. A full-split scan found the same terminal-placeholder deletion pattern in 3006 distinct rows; this finding lists one directly reviewed witness.
+  assumptions:
+    - The saved messages field is the intended SFT user-facing conversation.
+  not_run:
+    - Model training or measurement of the effect of this mismatch on downstream behavior.
+  reproducer: https://datasets-server.huggingface.co/rows?dataset=LumiOpen%2FAutoIF-FI&config=default&split=train&offset=57&length=1
+provenance:
+  discovered_by: AI-assisted full-dataset static audit, 2026-10-20
+discussion: >
+  The response generation stage used the full resolved constraint. The mismatch
+  is introduced later when successful turns are rewritten into saved SFT messages.
+  See https://github.com/LumiOpen/dispatcher/blob/1c03b0194b803b82630986aaec66ca3241658ef4/examples/autoif/src/utils/text_utils.py#L80 .
