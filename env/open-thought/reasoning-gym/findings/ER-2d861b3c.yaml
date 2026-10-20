@@ -1,0 +1,79 @@
+schema_version: '1'
+id: ER-2d861b3c
+dataset: gh:open-thought/reasoning-gym
+revision: 49b07130b3fcd12f2d064bba7c43869543a0e7e7
+title: Multiple open upstream defects make reasoning-gym unreliable for RL training without task filtering
+status: behavior_only
+category: other
+tasks:
+  - id: propositional_logic
+  - id: syllogisms
+  - id: family_relationships
+problem:
+  description: >
+    At the pinned revision, reasoning-gym has at least three independently
+    reported upstream issues affecting verifier correctness across different
+    task families. Taken together, they indicate the library should not be
+    used for RL training without explicitly filtering or patching the affected
+    tasks.
+  expected: >
+    Each task's score_answer should return a reliable reward signal that
+    rewards correct reasoning and penalises incorrect reasoning across all
+    generated items.
+  actual: >
+    Three open issues report verifier defects that invert or trivialise the
+    reward signal for a non-negligible fraction of generated items:
+    (1) propositional_logic awards full reward for any answer when premises
+    are contradictory, estimated at ~37% of items (issue #528);
+    (2) syllogisms stores incorrect validity labels for ~18% of items,
+    actively rewarding logically fallacious conclusions (issue #536);
+    (3) family_relationships returns the relationship from the wrong
+    perspective for in-law query pairs, penalising correct answers (issue #535).
+    These defects are reported independently and cover three separate task
+    families, suggesting systematic quality gaps beyond isolated edge cases.
+evidence:
+  - source: reasoning_gym/logic/propositional_logic.py
+    quote: >
+      Upstream issue #528 reports that _is_valid_conclusion returns True for
+      any conclusion when the premise set is unsatisfiable, because the loop
+      over variable assignments finds no counterexample when no satisfying
+      assignment exists. Estimated ~37% of generated items are affected.
+    note: "https://github.com/open-thought/reasoning-gym/issues/528"
+  - source: reasoning_gym/logic/syllogisms.py
+    quote: >
+      Upstream issue #536 reports that ~18% of generated items have incorrect
+      validity labels. Two argument forms committing the undistributed-middle
+      fallacy are mislabeled as valid: "All X are Y; Some Y are not Z ⊢ Some
+      X are not Z" and "All X are Y; Some Y are Z ⊢ Some X are Z".
+    note: "https://github.com/open-thought/reasoning-gym/issues/536"
+  - source: reasoning_gym/algorithmic/family_relationships.py
+    quote: >
+      Upstream issue #535 reports that in-law relationship queries return the
+      direction from the wrong perspective. Example: "What is Sarah to
+      Elizabeth?" where Sarah is Edward's wife and Elizabeth is Edward's mother
+      returns "mother-in-law" instead of "daughter-in-law".
+    note: "https://github.com/open-thought/reasoning-gym/issues/535"
+validation:
+  method: static
+  summary: >
+    This finding consolidates three independently reported upstream GitHub
+    issues. The defects have not been independently reproduced end-to-end here;
+    the evidence is the upstream issue reports and static code review of the
+    relevant verifier logic. Prevalence estimates come from the issue reporters
+    and have not been independently verified.
+  assumptions:
+    - The upstream issues are accurately described and have not been fixed at the pinned revision.
+    - No downstream filtering of affected items is applied before training.
+  not_run:
+    - Independent reproduction of any of the three defects end-to-end.
+    - Automated corpus scan to independently verify prevalence estimates.
+    - RL training experiment measuring empirical reward corruption.
+provenance:
+  discovered_by: static review and upstream issue triage, 2026-10-20
+discussion: >
+  This finding is intentionally scoped to flag the environment as currently
+  unreliable rather than to claim independent discovery. Each upstream issue
+  should be tracked for resolution. Once all three are closed and fixed, this
+  finding can be updated to status: fixed with the resolving revision.
+  See also ER-a0427124 for an independently identified reward-shortcut in the
+  countdown task.
