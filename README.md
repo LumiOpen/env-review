@@ -22,6 +22,8 @@ are deferred separately. See [review scope](docs/scope.md) for this boundary.
 
 - [XiaomiMiMo / MiMo-V2.6-RL-oss](env/XiaomiMiMo/MiMo-V2.6-RL-oss): initial exploration of exposed knowledge-work environments.
 - [allenai / Dolci-Think-RL-7B](env/allenai/Dolci-Think-RL-7B): queued; source metadata inspected, no task audits yet.
+- [open-thought / reasoning-gym](env/open-thought/reasoning-gym): 5 findings across math, logic, and game tasks — reward shortcuts and grader mismatches identified via static code review.
+- [PrimeIntellect-ai / community-environments](env/PrimeIntellect-ai/community-environments): 4 findings across game environments (gptworld, mastermind, nyt_connections, hanabi) — reward shortcuts via stdout injection, auto-complete, and JSON parsing.
 
 ## Layout
 
