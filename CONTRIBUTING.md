@@ -7,17 +7,28 @@ review status, so we can compare methods against the same reference set.
 
 ## Current scope
 
-Review the dataset assuming correct intended presentation. Instructions, task
-inputs, reference answers, criteria, and task-specific tool/grading behavior
-remain open to scrutiny. Runner mistakes in file delivery, tool dispatch,
-isolation, or reward plumbing are deferred in `notes/harness/`, outside the
-task index. See [scope and examples](docs/scope.md).
+Review the dataset assuming presentation conforming to its published task and
+environment contract. Instructions, task inputs, reference answers, criteria,
+and task-specific tool/grading behavior remain open to scrutiny. So do missing
+or contradictory restrictions that the task depends on: a conforming harness
+should not have to invent an undocumented offline requirement to make a task
+valid. Use `environment_specification` for those claims and `answer_exposure`
+for exposed reference answers or solutions. These are independent failure
+modes: a specification gap need not include a demonstrated leak, and exposure
+can occur in a fully specified environment. Include evidence of the effect on
+the task. Other task ambiguities use `specification`; other reward shortcuts
+use `reward_shortcut`.
+
+Runner mistakes in implementing an applicable requirement, such as file
+delivery, tool dispatch, isolation, or reward plumbing, are deferred in
+`notes/harness/`, outside the task index. See [scope and examples](docs/scope.md).
 
 Use the existing `validation.assumptions` field for the conditions a dataset
 claim needs. A harness audit is not a prerequisite to contributing a task
-finding. If a claim depends on an unresolved presentation choice, record that
-dependency instead of assuming the worst deployment or declaring the task
-broken.
+finding. If a claim depends on an unresolved presentation choice, distinguish
+an evidenced gap in the published specification from a policy we have not
+inspected or a runtime condition we have not tested. A specification finding
+does not by itself establish successful exploitation.
 
 ## Add or review a finding
 

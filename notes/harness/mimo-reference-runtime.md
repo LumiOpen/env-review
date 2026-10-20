@@ -5,6 +5,10 @@ These observations are outside the canonical task findings and dataset defect
 counts. Dataset investigations currently assume correct intended presentation,
 as described in [review scope](../../docs/scope.md). This note does not make a
 harness audit a prerequisite or prescribe an implementation for contributors.
+Access-policy observations here may inform a separate task-environment
+specification claim if a task depends on a missing or contradictory public
+requirement. That is distinct from the deferred guard-implementation issue;
+this note itself does not assign a task defect label.
 
 Source review on 2026-10-20. This describes the published reproduction code and
 the inspected task sample. It does not establish the original training

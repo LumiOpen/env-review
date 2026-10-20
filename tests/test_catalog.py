@@ -204,6 +204,17 @@ class CatalogTests(unittest.TestCase):
             self.assertEqual(status, index["findings"][0]["status"])
             self.assertEqual(status, index["tasks"][0]["findings"][0]["status"])
 
+    def test_answer_exposure_and_environment_specification_are_independent_categories(self):
+        for category in ("answer_exposure", "environment_specification"):
+            with self.subTest(category=category):
+                self.finding["category"] = category
+                self.write_finding()
+                self.assertEqual([], validate_catalog(self.root))
+                index = build_index(self.root)
+                self.assertEqual(category, index["findings"][0]["category"])
+                self.assertEqual(category, index["tasks"][0]["findings"][0]["category"])
+                self.assertEqual("candidate", index["findings"][0]["status"])
+
     def test_template_fits_schema_after_setting_dataset_reference(self):
         template = Path(__file__).resolve().parents[1] / "templates/finding.yaml"
         finding = yaml.safe_load(template.read_text())

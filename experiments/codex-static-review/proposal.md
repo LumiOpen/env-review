@@ -34,8 +34,10 @@ context can include:
   and grading materials. Record `unspecified` when the inspected instructions
   say nothing; this is not evidence of either permission or technical blocking.
 - Intended restrictions: tool allowlists, file isolation, and cleanup. Assume
-  the harness enforces these for the dataset review; implementation failures
-  belong in deferred harness notes.
+  the harness enforces published requirements for the dataset review, but do
+  not supply unstated restrictions. Material omissions or contradictions in
+  the contract are dataset issues; implementation failures belong in deferred
+  harness notes.
 - Grader inputs, execution identity, feedback exposed during rollout, and
   opportunities for repeated submissions or state reuse.
 - Public availability of task solutions or grading artifacts at the time of
@@ -49,14 +51,15 @@ provides background. This method does not require extending that investigation.
 | ID | Criterion | Required investigation |
 | --- | --- | --- |
 | inputs | Required information | Can the solver obtain necessary assets and facts through the intended interface? Distinguish uncached assets from absent source assets. |
-| specification | Coherent task | Are essential requirements consistent and sufficiently determined? Identify consequential ambiguity, not stylistic preferences. |
+| specification | Coherent task | Are essential task requirements consistent and sufficiently determined? Identify consequential ambiguity, not stylistic preferences. |
+| environment_specification | Environment contract | Does the task depend on a capability or access restriction that the published environment contract omits or contradicts? No answer leak is required for this check. |
 | false_negative | Valid behavior rejected | Does a permitted answer, equivalent representation, or allowed sequence fail an actual grading condition? |
 | false_positive | Invalid behavior rewarded | Can a substantive obligation or prohibition be violated without affecting the relevant grade? Include state and trajectory requirements. |
 | reference | Correct references | Reconcile authoritative data, calculations, identifiers, dates, and expected values. |
 | feasibility | Reachable result | Can exposed tools transform initial state into the required result? Check tool-enforced invariants and alternative paths. |
 | verifier | Task grading logic | Inspect the supplied task checks and evidence requirements, assuming correct delivery by the runner. Defer generic runner failures. |
 | reward | Meaningful scoring | Explain weights, defaults, gates, aggregation, and no-op behavior. An unusual reward offset is not automatically a defect. |
-| answer_exposure | Answers in intended inputs | Do intended task materials or tool responses reveal answers that undermine the task? Defer accidental harness leaks. |
+| answer_exposure | Answers in intended inputs | Do intended task materials or tool responses reveal reference answers or solutions that undermine the task? A complete environment specification does not rule out exposure. Defer accidental harness leaks. |
 | grader_tampering | Grading process influence | Can intended task inputs or permitted tool actions influence grading without satisfying the task, while evaluator-only files remain protected? |
 
 ## Answer exposure and reward hacking
@@ -70,8 +73,9 @@ For `answer_exposure`, examine:
 - Task tool APIs whose declared responses expose answer-bearing columns or
   files. Generic isolation and dispatch failures are outside this pass.
 - Online lookup of public benchmark answers, upstream fixes, solved versions,
-  or task-specific discussions when external retrieval is an intended task
-  capability. Unknown egress is not grounds to flag the dataset.
+  or task-specific discussions when external retrieval is allowed, or when the
+  task depends on a restriction absent from the published contract. Unknown
+  deployed egress does not resolve the specification question or prove a hack.
 - Feedback that lets the solver extract hidden answers or optimize against a
   supposedly held-out test through repeated submissions.
 

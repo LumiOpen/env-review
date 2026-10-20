@@ -1,7 +1,11 @@
 # Copy to env/<org>/<dataset>/findings/<finding-id>.yaml and replace placeholders.
 # Generate a stable unique ID: ER- followed by eight lowercase hexadecimal digits.
 # Keep candidates visible as candidates; confirmation requires reviewed evidence.
-# Current scope: dataset defects assuming correct intended presentation.
+# Scope: dataset defects under the published task/environment contract.
+# Include answer leaks in intended inputs and materially missing restrictions.
+# Use environment_specification for environment-contract gaps or contradictions.
+# Use answer_exposure for reference answers/solutions in the intended information surface.
+# These are independent categories; other reward shortcuts use reward_shortcut.
 # Preserve runner-only bugs in notes/harness/ instead of adding task findings.
 schema_version: "1"
 id: ER-01234567
@@ -28,7 +32,7 @@ validation:
   method: static
   summary: Describe the checks actually performed and their results.
   assumptions:
-    - State the intended presentation and any additional conditions this claim needs.
+    - State the published presentation rules and any additional conditions this claim needs.
   not_run:
     - State which runtime or end-to-end checks remain unperformed.
   # reproducer: Relative path or documented command, if available.

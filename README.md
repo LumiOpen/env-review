@@ -13,10 +13,10 @@ Findings describe specific tasks and source revisions. An unflagged task is
 **unlabeled**, not known good. A rejected finding rejects that claim, not every
 possible problem with the task.
 
-The current focus is dataset defects assuming the task is presented correctly.
-Harness implementation bugs are deferred separately. See [review scope](docs/scope.md)
-for this boundary, including which grading and answer-exposure issues remain
-in scope.
+The current focus is dataset defects under presentation conforming to the
+published task/environment contract. Answers in intended inputs and missing
+restrictions that the task depends on are in scope; harness implementation bugs
+are deferred separately. See [review scope](docs/scope.md) for this boundary.
 
 ## Datasets
 
