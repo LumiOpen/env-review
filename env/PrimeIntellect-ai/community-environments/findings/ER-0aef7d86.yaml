@@ -2,34 +2,38 @@ schema_version: '1'
 id: ER-0aef7d86
 dataset: gh:PrimeIntellect-ai/community-environments
 revision: cf220ee86500e94b5415d8b226557ce5d950f1db
-title: gptworld reward parsed from stdout regex — any code printing [N][True] scores 1.0
+title: gptworld reward regex matches first bracket pair in stdout — model code printing before game engine shadows real score
 status: confirmed
 category: reward_shortcut
 tasks:
   - id: gptworld
 problem:
   description: >
-    Both reward functions (__moves_reward and __win_reward) parse their signals
-    exclusively from the sandbox stdout string using re.findall(r"\[(.*?)\]",
-    output_str). The agent's submitted code runs in a sandbox and its entire
-    stdout is captured as state["output"]. Any code that prints a string
-    matching [<integer>][True] at any point scores full win reward (1.0) and
-    a moves reward of min_moves/printed_integer — regardless of whether the
-    maze was actually solved.
+    The game engine (utils/main.py) prints the result as
+    "moves: [N]; win: [True|False]" on the last line of stdout (line 248).
+    The model's submitted code is executed via exec() on line 240 of the same
+    process, so any print() inside the submitted function fires before the
+    game engine's summary line. extract_values uses re.findall, which returns
+    ALL bracket-enclosed values in the output — it takes the first two matches.
+    A submitted function that prints any string containing [<int>] and [True]
+    before the game engine line has its values picked up first, shadowing the
+    real outcome. Additionally, __moves_reward has no upper cap, so printing
+    [1][True] yields moves_reward = min_moves/1 > 1.0 for any puzzle with
+    min_moves > 1.
   expected: >
-    Reward must be derived from the actual game state after execution, not
-    from stdout text that the agent's code can freely produce.
+    Reward must use only the game engine's final summary line, not any earlier
+    bracket-enclosed output that the model's code can freely produce.
   actual: >
-    extract_values (line 103-108) applies re.findall(r"\[(.*?)\]", output_str)
-    to the full stdout. __win_reward (line 97-99) returns 1.0 when the parsed
-    second bracket value is "true". __moves_reward (line 90-94) returns
-    min_moves/moves with no upper cap — printing "[1][True]" yields
-    moves_reward = min_moves/1 which exceeds 1.0 for any puzzle where
-    min_moves > 1. The simplest exploit: `print("[1][True]")`.
+    extract_values (line 103) runs re.findall(r"\[(.*?)\]", output_str) on
+    the full stdout and returns the first two matches. Model code executed via
+    exec() (utils/main.py line 240) can print [1][True] before the engine's
+    summary, causing extract_values to return (1, True) instead of the real
+    (actual_moves, False). __win_reward then returns 1.0 and __moves_reward
+    returns min_moves/1 — unbounded above 1.0.
 evidence:
   - source: environments/gptworld/gptworld.py
     line_start: 90
-    line_end: 108
+    line_end: 109
     quote: |
       def __moves_reward(state: vf.State, completion, answer, **kwargs) -> float:
           extracted_values = extract_values(state["output"])
@@ -50,24 +54,36 @@ evidence:
               first = int(values[0])
               second = values[1].strip().lower() == "true"
               return first, second
+          return -1, False
+  - source: environments/gptworld/utils/main.py
+    line_start: 238
+    line_end: 248
+    quote: >-
+      code += "\nq['board'] = my_example()\nwin = q['board'].board.check_win()"
+      try: exec(code); i = len(q["board"].actions)
+      except Exception as e: i = -1; win = False; print("Invalid code"); exit()
+      print("moves: [" + str(i) + "]; win: [" + str(win) + "]")
 validation:
   method: static
   summary: >
-    Static reading of extract_values (lines 103-108), __win_reward (97-99),
-    and __moves_reward (90-94) confirms the reward is computed solely from
-    regex-parsed stdout. The agent's submitted code is executed via bash in a
-    sandbox (line 166-169) and its full output is stored as state["output"]
-    with no sanitisation before being passed to both reward functions.
-    Concrete exploit: submitted code contains `print("[1][True]")`;
-    win_reward = 1.0, moves_reward = min_moves (unbounded above 1.0).
+    Static reading of utils/main.py confirms the game engine prints its
+    summary on line 248 as the last stdout line. The model's code runs via
+    exec() at line 240 in the same process — any print() inside the submitted
+    function fires before line 248. extract_values in gptworld.py uses
+    re.findall (not re.search for the last match), taking the first two
+    bracket-enclosed values in the full stdout. A submitted function containing
+    `print("[1][True]")` causes extract_values to return (1, True), giving
+    win_reward=1.0 and moves_reward=min_moves/1 (unbounded above 1.0).
   assumptions:
-    - The sandbox does not strip or filter stdout before storing it in state["output"].
-    - No additional reward normalisation is applied downstream.
+    - The sandbox captures all stdout from the exec() call and the game engine in one stream stored in state["output"].
+    - No additional reward normalisation caps moves_reward above 1.0.
   not_run:
     - End-to-end execution confirming the exploit in a live sandbox.
 provenance:
-  discovered_by: AI-assisted static code review, 2026-10-20
+  discovered_by: AI-assisted static code review, 2026-10-20; verified against local clone
 discussion: >
-  Fix requires deriving win/move count from the game engine's internal state
-  after execution, not from stdout. The current design conflates the game's
-  reporting protocol (printing [moves][win]) with a tamper-proof reward signal.
+  The game engine output format "moves: [N]; win: [True|False]" is defined in
+  utils/main.py (from the original srush/GPTworld project). The wrapper in
+  gptworld.py trusts stdout order but uses findall rather than extracting only
+  the last occurrence. Fix: parse only the last line of stdout, or use a more
+  specific pattern that matches the "moves: [N]; win: [True]" format verbatim.
