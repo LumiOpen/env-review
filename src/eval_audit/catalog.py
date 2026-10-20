@@ -137,17 +137,29 @@ def _load_catalog(root: Path):
         else:
             dataset = read_record(manifest_path, "dataset")
         if dataset is not None:
-            expected_id = f"hf:{directory.parent.name}/{directory.name}"
+            slug = f"{directory.parent.name}/{directory.name}"
+            provider = dataset["source"]["provider"]
+            if provider == "github":
+                expected_id = f"gh:{slug}"
+            else:
+                expected_id = f"hf:{slug}"
             if dataset["id"] != expected_id:
                 error(manifest_path, f"Dataset identity must match its directory: expected {expected_id!r}.", "/id")
             if dataset["id"] in dataset_ids:
                 error(manifest_path, f"Duplicate dataset id {dataset['id']!r}; first declared in {dataset_ids[dataset['id']]}.", "/id")
             dataset_ids.setdefault(dataset["id"], manifest_path.relative_to(root).as_posix())
             url = urlsplit(dataset["source"]["url"])
-            expected_path = "/datasets/" + dataset["id"][3:]
-            if (url.scheme != "https" or url.netloc != "huggingface.co" or url.path.rstrip("/") != expected_path
-                    or url.query or url.fragment):
-                error(manifest_path, "Source URL must identify the same Hugging Face dataset as id.", "/source/url")
+            if provider == "github":
+                expected_url_prefix = f"https://github.com/{slug}"
+                if (url.scheme != "https" or url.netloc != "github.com"
+                        or not url.path.rstrip("/").startswith(f"/{slug}")
+                        or url.query or url.fragment):
+                    error(manifest_path, "Source URL must identify the same GitHub repository as id.", "/source/url")
+            else:
+                expected_path = "/datasets/" + dataset["id"][3:]
+                if (url.scheme != "https" or url.netloc != "huggingface.co" or url.path.rstrip("/") != expected_path
+                        or url.query or url.fragment):
+                    error(manifest_path, "Source URL must identify the same Hugging Face dataset as id.", "/source/url")
             datasets.append((manifest_path.relative_to(root).as_posix(), dataset))
         for finding_path in (path for path in finding_paths if path.parent.parent == directory):
             if finding_path.suffix != ".yaml":
