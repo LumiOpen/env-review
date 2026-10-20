@@ -1,0 +1,46 @@
+{
+  "tested_on": "2026-10-20",
+  "environments": 1835,
+  "verdicts": {
+    "works": 859,
+    "broken": 398,
+    "unverifiable_here": 361,
+    "hollow": 76,
+    "rotted": 64,
+    "harness": 43,
+    "undeclared_deps": 19,
+    "listed_but_missing": 7,
+    "not_installable": 6,
+    "works_weak_reward": 2
+  },
+  "agent_reviewed_environments": 442,
+  "reviews": {
+    "failure_audit": {
+      "genuine": 74,
+      "artifact": 17,
+      "unclear": 1
+    },
+    "fake_scoring_review": {
+      "benign": 30,
+      "hollow": 16,
+      "weak": 4
+    },
+    "scoring_review": {
+      "answer_not_target:not_genuine": 126,
+      "judge_or_external:not_genuine": 70,
+      "grader_bug:genuine": 38,
+      "harness_format:not_genuine": 31,
+      "reward_not_correctness:genuine": 25,
+      "harness_pairing:not_genuine": 23
+    }
+  },
+  "scoring_check": {
+    "scales": 347,
+    "no_answers": 250,
+    "flat": 230,
+    "weak": 55,
+    "no_gold_hits": 25,
+    "not_run": 13,
+    "inverted": 5
+  }
+}
