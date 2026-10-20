@@ -371,3 +371,5 @@ error rate in mind. Do not read them as task-defect prevalence.
 | `dummy_rows` | Placeholder data | The code contains placeholder or toy tasks instead of (or alongside) real data. |
 | `const_reward` | Constant score | A scoring function gives the same score no matter what the answer is. |
 | `scanner_gaming` | Mentions quality scan | The code refers to the hub's quality scan, which may mean it was written to pass the scan rather than to be useful. |
+
+Interactive dashboard: [`dashboard/`](dashboard/) (run `python3 dashboard/serve.py`, then open http://127.0.0.1:8000).
