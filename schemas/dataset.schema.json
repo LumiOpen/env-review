@@ -7,13 +7,13 @@
   "required": ["schema_version", "id", "source", "review_status", "task_identity"],
   "properties": {
     "schema_version": {"const": "1"},
-    "id": {"type": "string", "pattern": "^hf:[^/\\s:]+/[^/\\s:]+$"},
+    "id": {"type": "string", "pattern": "^(hf|gh):[^/\\s:]+/[^/\\s:]+$"},
     "source": {
       "type": "object",
       "additionalProperties": false,
       "required": ["provider", "url", "revision"],
       "properties": {
-        "provider": {"const": "huggingface"},
+        "provider": {"enum": ["huggingface", "github"]},
         "url": {"type": "string", "format": "uri"},
         "revision": {"type": "string", "pattern": "^[0-9a-fA-F]{40}$"}
       }

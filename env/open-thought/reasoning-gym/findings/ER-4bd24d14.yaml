@@ -1,0 +1,88 @@
+schema_version: '1'
+id: ER-4bd24d14
+dataset: gh:open-thought/reasoning-gym
+revision: 49b07130b3fcd12f2d064bba7c43869543a0e7e7
+title: sokoban silently ignores invalid move characters, allowing padding to solve any puzzle
+status: confirmed
+category: reward_shortcut
+tasks:
+  - id: sokoban
+problem:
+  description: >
+    score_answer iterates over every character in the raw answer string and
+    passes each to game.player.update(key=move). The player only acts on
+    R/L/U/D; any other character sets move=None and returns 0 with no error.
+    A model can embed a valid move sequence anywhere in an arbitrarily long
+    response — prose, explanation, repeated characters — and the simulation
+    will still complete the puzzle. Repeatedly cycling through valid moves
+    (e.g. "LRUdlrudruldlrud..." thousands of times) will eventually solve
+    any solvable puzzle.
+  expected: >
+    Only characters forming a valid move sequence (R, L, U, D) should be
+    accepted. Invalid characters should either be rejected outright or cause
+    the scoring to return 0.0.
+  actual: >
+    Line 136 iterates `for move in answer` over the raw string with no
+    pre-filtering. player.update (player.py lines 15–26) silently no-ops
+    on any character that is not R/L/U/D. Non-move characters consume no
+    game state, so the simulation behaves as if they were absent.
+evidence:
+  - source: reasoning_gym/games/sokoban.py
+    line_start: 128
+    line_end: 144
+    quote: |
+      try:
+          grid_list = [list(line) for line in entry["metadata"]["gamestr"].replace(" ", "").strip().split("\n")]
+          matrix = np.array(grid_list)
+
+          h, w = matrix.shape
+          game = self._Game(height=h, width=w)
+          game.load_puzzle_matrix(matrix)
+
+          for move in answer:
+              game.player.update(key=move)
+
+          if self._is_solved(game.get_curr_state()):
+              return 1.0
+      except:
+          pass
+
+      return 0.0
+  - source: reasoning_gym/games/contrib/sokoban/src/player.py
+    line_start: 15
+    line_end: 26
+    quote: |
+      def update(self, key: str = None) -> int:
+          move = None
+          if key:
+              if key == "R":
+                  move = (1, 0)
+              elif key == "L":
+                  move = (-1, 0)
+              elif key == "U":
+                  move = (0, -1)
+              elif key == "D":
+                  move = (0, 1)
+          if move:
+              ...
+validation:
+  method: static
+  summary: >
+    Static reading of score_answer (sokoban.py lines 136–137) and
+    player.update (player.py lines 15–26) confirms that non-RLUD characters
+    are silently discarded. The loop iterates over the entire answer string
+    character by character with no length limit or character filter. A brute-force
+    response repeating "LRUD" N times will exhaustively explore a bounded grid
+    and solve any solvable puzzle given sufficient N.
+  assumptions:
+    - No upstream length limit or character filter is applied to the answer before score_answer is called.
+    - The puzzle is solvable (unsolvable puzzles cannot be bypassed by this method).
+  not_run:
+    - Empirical confirmation that a brute-force LRUD repetition solves a representative sample of generated puzzles.
+    - Measurement of the answer length required to guarantee solution.
+provenance:
+  discovered_by: AI-assisted static code review, 2026-10-20
+discussion: >
+  Fix: filter answer to only RLUD characters before the loop, or add a
+  maximum move count proportional to puzzle size. Either change prevents
+  brute-force exploration while preserving valid move sequences.

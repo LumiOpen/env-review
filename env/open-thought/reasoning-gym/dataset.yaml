@@ -1,0 +1,15 @@
+schema_version: '1'
+id: gh:open-thought/reasoning-gym
+source:
+  provider: github
+  url: https://github.com/open-thought/reasoning-gym
+  revision: 49b07130b3fcd12f2d064bba7c43869543a0e7e7
+review_status: exploring
+task_identity:
+  fields:
+    - task_name
+notes: >
+  110+ verifiable RL environments across algebra, arithmetic, algorithmic,
+  games, logic, cognition, graphs, geometry, and code domains. All tasks
+  expose a score_answer(answer, entry) -> float interface. Initial findings
+  focus on confirmed verifier defects backed by open GitHub issues.

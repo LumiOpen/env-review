@@ -1,0 +1,79 @@
+schema_version: '1'
+id: ER-09603978
+dataset: gh:open-thought/reasoning-gym
+revision: 49b07130b3fcd12f2d064bba7c43869543a0e7e7
+title: default score_answer awards partial credit to any response containing the oracle answer as a substring
+status: confirmed
+category: reward_shortcut
+tasks:
+  - id: countdown
+  - id: sokoban
+  - id: puzzle24
+problem:
+  description: >
+    The base ProceduralDataset.score_answer (dataset.py lines 63–72) awards
+    partial credit proportional to len(oracle)/len(answer) whenever the oracle
+    answer appears anywhere in the model's response string. Tasks that do not
+    override score_answer inherit this behaviour. A model that learns to include
+    the oracle answer verbatim in a long response — even surrounded by wrong
+    reasoning — receives non-zero reward without solving the task.
+  expected: >
+    Partial credit should not be awarded to responses that merely contain the
+    correct answer as a substring. An answer is either correct or it is not;
+    length-scaled substring credit creates a reward signal for memorising
+    oracle answers rather than reasoning to them.
+  actual: >
+    Line 70: `elif oracle_answer in answer: reward = len(oracle_answer) / len(answer)`.
+    For a short oracle (e.g. "42") and a long response ("I am not sure but
+    maybe 42 is the answer to everything"), reward = 2/50 = 0.04. This is
+    non-zero and provides gradient signal toward including oracle substrings
+    in output. The same pattern is duplicated in utils.py:117 and
+    tsumego.py:295.
+evidence:
+  - source: reasoning_gym/dataset.py
+    line_start: 63
+    line_end: 72
+    quote: |
+      def score_answer(self, answer: Optional[str], entry: dict[str, Any]) -> float:
+          """Overwrite this method in derived classes if a single oracle answer is not available."""
+          oracle_answer = entry["answer"]
+          reward = 0.0
+          if isinstance(answer, str) and len(answer) > 0:
+              if answer == oracle_answer:
+                  reward = 1.0
+              elif oracle_answer in answer:
+                  reward = len(oracle_answer) / len(answer)
+          return reward
+  - source: reasoning_gym/utils.py
+    line_start: 117
+    line_end: 117
+    quote: |
+      if oracle_answer in answer:
+  - source: reasoning_gym/games/tsumego.py
+    line_start: 295
+    line_end: 295
+    quote: |
+      elif oracle_answer in answer:
+validation:
+  method: static
+  summary: >
+    Static reading of dataset.py lines 63–72 confirms the substring partial
+    credit path. Tasks that override score_answer are unaffected; tasks using
+    the default implementation inherit the shortcut. Confirmed duplicates in
+    utils.py:117 and tsumego.py:295 by grep. The reward magnitude is bounded
+    by len(oracle)/len(answer) and decreases as responses grow longer, which
+    additionally incentivises concise responses that embed the oracle with
+    minimal surrounding text.
+  assumptions:
+    - The affected tasks do not wrap score_answer in a cascade that would normalise or override this reward.
+    - The model can observe and memorise oracle answers from the training distribution.
+  not_run:
+    - Enumeration of all tasks that use the default score_answer without overriding it.
+    - RL training experiment measuring whether models learn to exploit substring inclusion.
+provenance:
+  discovered_by: AI-assisted static code review, 2026-10-20
+discussion: >
+  The substring branch may have been intended as a formatting-tolerance
+  mechanism (accepting "The answer is 42" when oracle is "42"). A safer
+  alternative is to strip common prefixes/suffixes and compare after
+  normalisation, rather than awarding credit proportional to length ratio.

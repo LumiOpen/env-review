@@ -1,0 +1,65 @@
+schema_version: '1'
+id: ER-0d54f13e
+dataset: gh:open-thought/reasoning-gym
+revision: 49b07130b3fcd12f2d064bba7c43869543a0e7e7
+title: number_sorting tolerance=1 allows integer-rounded answers to score 1.0 on decimal tasks
+status: confirmed
+category: reward_shortcut
+tasks:
+  - id: number_sorting
+problem:
+  description: >
+    score_answer uses tolerance=1 when checking whether each element of the
+    model's sorted list matches the expected value. With the default config
+    (max_decimals=2), all generated numbers have at most 2 decimal places,
+    so the maximum rounding error from truncating to integers is 0.005 per
+    element — well within the tolerance of 1. A model that outputs the correct
+    sort order with all values rounded to the nearest integer scores 1.0 on
+    every sample.
+  expected: >
+    Tolerance should be small enough to require that the model reproduce the
+    actual decimal values, not just their integer approximations.
+  actual: >
+    Line 154 sets tolerance=1. With max_decimals=2 (line 23), the maximum
+    error from integer rounding is 0.005, which is 200× smaller than the
+    tolerance. The correctly-sorted integer-rounded list always passes the
+    per-element check at line 156 and scores 1.0.
+evidence:
+  - source: reasoning_gym/algorithmic/number_sorting.py
+    line_start: 153
+    line_end: 159
+    quote: |
+      # Check if the values are close enough (allowing for small rounding differences)
+      tolerance = 1  # Increased tolerance to handle decimal differences
+      for i in range(len(user_floats)):
+          if abs(user_floats[i] - expected_floats[i]) > tolerance:
+              return 0.0
+
+      return 1.0
+  - source: reasoning_gym/algorithmic/number_sorting.py
+    line_start: 22
+    line_end: 23
+    quote: |
+      min_decimals: int = 0  # Minimum decimal places
+      max_decimals: int = 2  # Maximum decimal places
+validation:
+  method: static
+  summary: >
+    With max_decimals=2, the largest generated decimal value has 2 decimal
+    places. Rounding such a value to an integer introduces error of at most
+    0.005. Since 0.005 < 1 (tolerance), the check at line 156 always passes
+    for integer-rounded answers. The comment "Increased tolerance to handle
+    decimal differences" suggests this was a deliberate but overcorrected fix
+    to a prior bug. Verified by arithmetic: max rounding error
+    = 0.5 * 10^(-max_decimals) = 0.5 * 0.01 = 0.005 << 1.
+  assumptions:
+    - The default config (max_decimals=2) is used; custom configs with max_decimals=0 would not be affected differently.
+    - The model still needs to output a correctly sorted list (line 146/148 check), so the bypass requires correct sort order with wrong decimal values.
+  not_run:
+    - End-to-end RL training run confirming reward inflation.
+provenance:
+  discovered_by: AI-assisted static code review, 2026-10-20
+discussion: >
+  Fix: reduce tolerance to 1e-6 or to 0.5 * 10**(-max_decimals) computed
+  from config. The current value appears to be an overcorrection of a prior
+  floating-point comparison bug (PR #380).

@@ -1,0 +1,95 @@
+schema_version: '1'
+id: ER-a0427124
+dataset: gh:open-thought/reasoning-gym
+revision: 49b07130b3fcd12f2d064bba7c43869543a0e7e7
+title: countdown number-validation extracts integers from full model output, not just the expression
+status: candidate
+category: reward_shortcut
+tasks:
+  - id: countdown
+problem:
+  description: >
+    score_answer passes the raw model answer string to _extract_ints, which
+    applies the regex \b\d+\b to the entire string. The function is documented
+    as extracting integers from an expression, but it operates on all text in
+    the response. A model can satisfy the number-validation check (return 0.05
+    instead of 0.01) by including the source numbers anywhere in its output —
+    prose, scratchpad, or explanation — even when the arithmetic expression
+    itself is wrong or missing the required numbers.
+  expected: >
+    Number validation should extract integers only from the arithmetic
+    expression the model proposes, not from surrounding natural-language text.
+    A response that mentions the source numbers in prose but uses different
+    numbers in its expression should fail the check.
+  actual: >
+    _extract_ints runs _num_re.findall(answer) on the full answer string.
+    score_answer at line 222 passes the raw answer directly. A response such as
+    "The numbers are 3, 7, 25, 50. My expression: 3 + 1 = 4" would pass
+    number validation for source numbers {3, 7, 25, 50} even though 1 is
+    not a source number and the expression does not use all required numbers
+    — parse_expr would fail or return the wrong value, but the number check
+    passes first and the fallback reward 0.05 is returned rather than 0.01.
+evidence:
+  - source: reasoning_gym/games/countdown.py
+    line_start: 27
+    line_end: 35
+    quote: |
+      _num_re = re.compile(r"\b\d+\b")  # pre-compile once, reuse
+
+
+      def _extract_ints(expr_str: str) -> list[int]:
+          """
+          Fast path: grab the literal integers that appear in the source text.
+          Handles duplicates correctly (e.g. "1 + 1 + 81" ⇒ [1, 1, 81]).
+          """
+          return [int(m) for m in _num_re.findall(expr_str)]
+  - source: reasoning_gym/games/countdown.py
+    line_start: 213
+    line_end: 233
+    quote: |
+      def score_answer(self, answer: Optional[str], entry: dict[str, Any]) -> float:
+          """Determine if the solution provided solves the problem"""
+          reward = 0.01  # Default reward
+
+          if answer is None or not answer.strip():
+              return reward
+
+          try:
+              user_answer = float(parse_expr(answer))
+              used_numbers = _extract_ints(answer)
+              target_numbers = entry["metadata"]["numbers"]
+
+              if sorted(used_numbers) != sorted(target_numbers):
+                  return 0.05
+
+              if np.isclose(user_answer, entry["metadata"]["target"], atol=1e-6):
+                  return 1.0
+
+              return 0.05 if answer else 0.01
+          except Exception:
+              return 0.01
+validation:
+  method: static
+  summary: >
+    Static reading of score_answer (lines 213-233) and _extract_ints (lines
+    30-35) confirms that _extract_ints receives the full answer string with no
+    pre-parsing step to isolate the arithmetic expression. The regex \b\d+\b
+    at line 27 matches any decimal integer token. When parse_expr raises an
+    exception (line 221), execution falls to the except branch returning 0.01,
+    so the gaming vector applies specifically to responses where parse_expr
+    succeeds on a partial or malformed expression but the used numbers are
+    drawn from prose context.
+  assumptions:
+    - No upstream caller pre-processes or truncates the answer before passing it to score_answer.
+    - The cascade scorer does not re-extract numbers independently before invoking score_answer.
+  not_run:
+    - Adversarial rollout confirming a model can reliably exploit this to inflate reward above 0.01.
+    - Tracing whether parse_expr ever succeeds on a response that embeds the expression amid prose.
+provenance:
+  discovered_by: static code review, 2026-10-20
+discussion: >
+  The gaming vector yields 0.05, not 1.0, so impact is limited to the gap
+  between the baseline reward (0.01) and the number-match partial credit (0.05).
+  Upgrading to confirmed requires demonstrating a concrete input where
+  parse_expr succeeds, sorted(used_numbers) matches target_numbers due to
+  prose context, but the expression value does not match the target.

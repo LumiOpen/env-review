@@ -1,0 +1,86 @@
+schema_version: '1'
+id: ER-75be15ef
+dataset: gh:open-thought/reasoning-gym
+revision: 49b07130b3fcd12f2d064bba7c43869543a0e7e7
+title: puzzle24 number validation checks range only, not that numbers match the puzzle
+status: confirmed
+category: reward_shortcut
+tasks:
+  - id: puzzle24
+problem:
+  description: >
+    score_answer validates that the model used exactly 4 integers and that each
+    falls within [min_value, max_value] (default 1–10), but never checks that
+    the used numbers match the specific numbers given in the puzzle. A model can
+    score 1.0 on any puzzle by outputting any expression using 4 numbers in
+    range that evaluates to 24, regardless of what numbers the task provided.
+  expected: >
+    The used numbers must form the same multiset as entry["metadata"]["numbers"].
+    Using different numbers that happen to be in the valid range should not
+    score 1.0.
+  actual: >
+    Lines 122–129 check len(used_numbers) == 4 and range bounds, then reward
+    1.0 if the expression equals 24. The multiset entry["metadata"]["numbers"]
+    is stored in the item but never compared to used_numbers. A model given
+    puzzle numbers [5, 7, 8, 9] can output "(1+2+3)*4" — four in-range numbers
+    that evaluate to 24 — and receive full reward.
+evidence:
+  - source: reasoning_gym/games/puzzle24.py
+    line_start: 114
+    line_end: 132
+    quote: |
+      def score_answer(self, answer: Optional[str], entry: dict[str, Any]) -> float:
+          reward = 0.01
+          if answer is not None:
+              try:
+                  answer = answer.strip()
+                  user_answer = int(parse_expr(answer))
+                  solved = user_answer == 24
+                  used_numbers = [int(num) for num in re.findall(r"\b\d+\b", answer)]
+                  if len(used_numbers) != 4:
+                      reward = 0.01
+                  elif any(num > self.config.max_value or num < self.config.min_value for num in used_numbers):
+                      reward = 0.01
+                  elif not solved:
+                      reward = 0.01
+                  else:
+                      reward = 1.0
+              except Exception as e:
+                  reward = 0.01
+          return reward
+  - source: reasoning_gym/games/puzzle24.py
+    line_start: 103
+    line_end: 112
+    quote: |
+      return {
+          "question": question,
+          "answer": expr_str,
+          "metadata": {
+              "source_dataset": DATASET_NAME,
+              "source_index": idx,
+              "numbers": numbers,
+              "difficulty": {"value": (self.config.min_value, self.config.max_value)},
+          },
+      }
+validation:
+  method: static
+  summary: >
+    Static reading of score_answer (lines 114–132) confirms no comparison
+    between used_numbers and entry["metadata"]["numbers"]. The metadata field
+    "numbers" is populated at generation time (line 109) but is absent from
+    the scoring path. Concrete exploit: default config has min_value=1,
+    max_value=10 (lines 27–28); "(1+2+3)*4" uses four in-range numbers,
+    evaluates to 24, passes all three checks, and scores 1.0 on every puzzle
+    regardless of the given numbers.
+  assumptions:
+    - No upstream caller pre-validates numbers against the puzzle before invoking score_answer.
+    - The cascade scorer does not add a number-match check before or after score_answer.
+  not_run:
+    - End-to-end RL training run confirming reward inflation from this bypass.
+provenance:
+  discovered_by: AI-assisted static code review, 2026-10-20
+discussion: >
+  Fix requires adding a multiset comparison:
+  sorted(used_numbers) != sorted(entry["metadata"]["numbers"]) → return 0.01.
+  This is the highest-severity finding in this dataset: it is a complete task
+  bypass achieving full reward without engaging with the puzzle at all.
