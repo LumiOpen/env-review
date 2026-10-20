@@ -1,0 +1,87 @@
+{
+ "items": [
+  {
+   "id": "peak_date",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final response identify October 21, 2025 as the unique date with the highest planned simultaneous capacity exposure?",
+   "pass_anchor": "Ground truth from ServiceNow Withdrawal Control: after filtering to cohort_id ATL-Q4-2025-CONTROLLED-WITHDRAWAL and excluding CANCELLED cases, expanding each interval as planned_withdrawal_date <= calendar_date < planned_return_date, October 21, 2025 is the unique maximum date. Accept equivalent date formats and wording such as 2025-10-21 or October 21. Do not accept a return-date-inclusive result that shifts the peak.",
+   "weight": 1.0
+  },
+  {
+   "id": "peak_case_count",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final response report two concurrently active withdrawal cases at the peak date?",
+   "pass_anchor": "Ground truth: exactly 2 non-cancelled controlled-withdrawal cases are active on October 21, 2025 under the half-open interval rule. Accept numeric or spelled-out forms.",
+   "weight": 1.0
+  },
+  {
+   "id": "peak_vehicle_count",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final response distinguish the peak's two active cases from the number of distinct vehicles and report two distinct vehicles out?",
+   "pass_anchor": "Ground truth: the two active peak cases belong to 2 distinct vehicles. The broader eligible controlled cohort contains 10 cases but 9 distinct vehicles because one vehicle has two separate non-overlapping cases; the response should preserve this distinction rather than deduplicating the cases.",
+   "weight": 1.0
+  },
+  {
+   "id": "peak_stops_total",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final response report 26 deliverable stops removed at the peak?",
+   "pass_anchor": "Ground truth from the two active peak cases: removed_capacity_stops totals 10 + 16 = 26 stops per operating day. Accept equivalent wording such as 26 stops/day or 26 daily stops removed, with reasonable formatting variation.",
+   "weight": 1.0
+  },
+  {
+   "id": "peak_composition",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final response identify both contributing cases and assign the 10-stop and 16-stop contributions correctly?",
+   "pass_anchor": "Ground truth: the complete peak set is exactly SWC-2025-00431 (10 removed stops) and SWC-2025-00436 (16 removed stops) on October 21, 2025. Accept identification by case ID; if the response also gives vehicle IDs, the corresponding vehicles are UPS-ATL-VH-1211 and UPS-ATL-VH-1326 respectively. The pairing of case and contribution must be correct, and reject a response that adds any other case to the peak composition or omits either of these two.",
+   "weight": 1.0
+  },
+  {
+   "id": "scope_and_exclusions",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final response explain the eligible population and exclude the cancelled on-route-only records rather than counting them as exposure?",
+   "pass_anchor": "Ground truth: the controlled cohort has 10 non-cancelled eligible cases across 9 distinct vehicles. The two cancelled ATL-Q4-2025-ON_ROUTE_ONLY cases (SWC-2025-00476 and SWC-2025-00479) are excluded; they have zero removed stops and must not be treated as controlled-calendar cases. Accept a clear equivalent explanation without requiring the cancelled case IDs.",
+   "weight": 1.0
+  },
+  {
+   "id": "interval_semantics",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Did the final response state or demonstrate the correct half-open treatment in which the withdrawal date counts and the planned return date does not?",
+   "pass_anchor": "Ground truth rule: an active interval includes its planned withdrawal date and every date before its planned return date, but excludes the planned return date itself. Accept equivalent language such as 'first day out through the day before return' and reject answers that count a vehicle on its return date.",
+   "weight": 1.0
+  }
+ ],
+ "check_code": "\"\"\"No rule-based post-state checks are needed for this read-only analysis task.\"\"\"\n",
+ "gold_answer": null,
+ "input": "db",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

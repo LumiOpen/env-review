@@ -1,0 +1,59 @@
+{
+  "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "files": [
+    {
+      "domain": "cyber",
+      "path": "sources/arvo.py",
+      "repository": "XiaomiMiMo/MiMo-Agent",
+      "revision": "c3df8469f250b15e7906487a6d52be4c1827a509",
+      "upstream_path": "src/mimoagent/environments/datasets/arvo.py",
+      "url": "https://raw.githubusercontent.com/XiaomiMiMo/MiMo-Agent/c3df8469f250b15e7906487a6d52be4c1827a509/src/mimoagent/environments/datasets/arvo.py",
+      "sha256": "3db309007de9b22dfc8bb7b758eafcf4eefa791cc47b3071d3e7850f972ee8b3"
+    },
+    {
+      "domain": "cyber",
+      "path": "sources/server_arvo.py",
+      "repository": "XiaomiMiMo/MiMo-Agent",
+      "revision": "c3df8469f250b15e7906487a6d52be4c1827a509",
+      "upstream_path": "src/mimoagent/environments/datasets/resources/server_arvo.py",
+      "url": "https://raw.githubusercontent.com/XiaomiMiMo/MiMo-Agent/c3df8469f250b15e7906487a6d52be4c1827a509/src/mimoagent/environments/datasets/resources/server_arvo.py",
+      "sha256": "f2dbc86e1d4b23d3974df085280371695750f9b66245be21132c8ace62e0a04a"
+    },
+    {
+      "domain": "webdev",
+      "path": "sources/group_pick.py",
+      "repository": "XiaomiMiMo/verl",
+      "revision": "79090e58195e80a9cfe251c95ae7a78a2132b6e2",
+      "upstream_path": "recipes/design/grader_service/src/design_grader/service/group_pick.py",
+      "url": "https://raw.githubusercontent.com/XiaomiMiMo/verl/79090e58195e80a9cfe251c95ae7a78a2132b6e2/recipes/design/grader_service/src/design_grader/service/group_pick.py",
+      "sha256": "5f8edbc6ed5e0c4c842658b8c06069b8c7c69e5482d19399c61f8dbb98b0fe38"
+    },
+    {
+      "domain": "webdev",
+      "path": "sources/group_reward.py",
+      "repository": "XiaomiMiMo/verl",
+      "revision": "79090e58195e80a9cfe251c95ae7a78a2132b6e2",
+      "upstream_path": "recipes/design/webdev/group_reward.py",
+      "url": "https://raw.githubusercontent.com/XiaomiMiMo/verl/79090e58195e80a9cfe251c95ae7a78a2132b6e2/recipes/design/webdev/group_reward.py",
+      "sha256": "f42cc7461be88d1eef1b7e999e44442658681fdae81c0d21c592b3aedf9d929f"
+    },
+    {
+      "domain": "music",
+      "path": "sources/pipeline.py",
+      "repository": "XiaomiMiMo/verl",
+      "revision": "79090e58195e80a9cfe251c95ae7a78a2132b6e2",
+      "upstream_path": "recipes/design/music/scorer/pipeline.py",
+      "url": "https://raw.githubusercontent.com/XiaomiMiMo/verl/79090e58195e80a9cfe251c95ae7a78a2132b6e2/recipes/design/music/scorer/pipeline.py",
+      "sha256": "6644ab466b74fde06437714a1dc7094d9b0d486fb381a54616fbb82844bf6e0e"
+    },
+    {
+      "domain": "music",
+      "path": "sources/score.py",
+      "repository": "XiaomiMiMo/verl",
+      "revision": "79090e58195e80a9cfe251c95ae7a78a2132b6e2",
+      "upstream_path": "recipes/design/music/scorer/score.py",
+      "url": "https://raw.githubusercontent.com/XiaomiMiMo/verl/79090e58195e80a9cfe251c95ae7a78a2132b6e2/recipes/design/music/scorer/score.py",
+      "sha256": "8f4198724fe48998a36ea99892342ce43e57655eaa3d6a627bd8741206a25872"
+    }
+  ]
+}

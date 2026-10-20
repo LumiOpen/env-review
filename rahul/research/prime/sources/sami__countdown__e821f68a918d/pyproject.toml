@@ -1,0 +1,21 @@
+[project]
+name = "countdown"
+description = "Countdown Numbers Game - arithmetic puzzle solving from the classic UK TV show"
+tags = ["single-turn", "math", "reasoning", "train", "eval"]
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "verifiers>=0.1.9",
+    "datasets>=2.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = ["countdown.py", "pyproject.toml", "puzzles.json"]
+
+[tool.verifiers.eval]
+num_examples = 20
+rollouts_per_example = 4

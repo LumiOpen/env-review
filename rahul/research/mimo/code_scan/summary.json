@@ -1,0 +1,46 @@
+{
+  "schema_version": "mimo-code-static-scan/1",
+  "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "input": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/research/mimo/inventory/raw/code.parquet",
+  "input_sha256": "3a5310751054dad1ac58cbf407c9234c1bf7775af5f3cc9be57474b39bd2a93b",
+  "scan_time_utc": "2026-10-20T09:44:22.414861+00:00",
+  "slurm_job_id": "55627",
+  "slurm_resources": {
+    "partition": "amd-tw-verification",
+    "cpus": "2",
+    "memory_per_node": "4096"
+  },
+  "software": {
+    "python": "3.13.12",
+    "pyarrow": "24.0.0"
+  },
+  "source_only": true,
+  "task_code_executed": false,
+  "rows": 2602,
+  "expected_rows": 2602,
+  "row_count_matches_expected": true,
+  "rows_with_scanner_errors": 0,
+  "scanner_error_counts": {},
+  "rows_with_structural_errors": 0,
+  "structural_error_counts": {},
+  "rows_with_inspection_limits": 0,
+  "inspection_limit_counts": {},
+  "rows_with_coverage_flags": 476,
+  "coverage_flag_counts": {
+    "no_recognized_test_invocation": 365,
+    "explicit_success_suppression": 197,
+    "empty_test_filter": 7,
+    "collection_only": 1
+  },
+  "active_candidate_flag_counts": {
+    "no_recognized_test_invocation": 365,
+    "explicit_success_suppression": 115,
+    "empty_test_filter": 1
+  },
+  "rows_with_wrapper": 2602,
+  "rows_with_archive": 817,
+  "rows_with_bundled_command": 817,
+  "rows_with_behavioral_test_path": 2251,
+  "candidate_count": 6,
+  "interpretation": "Regex flags are triage cues only. Direct inline wrappers and encoded archives are packaging facts, not defects. Base preflight and setup suppression flags are excluded from candidate ranking. Size caps are scanner limits, not dataset errors."
+}

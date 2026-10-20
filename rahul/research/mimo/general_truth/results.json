@@ -1,0 +1,101 @@
+{
+  "consulting_target_intake": [
+    {
+      "intake_id": "INT-2024-0731-0042",
+      "case_id": "RFP-2024-000731",
+      "process_id": "PROCESS-RFP-001",
+      "validation_status": "rework_required",
+      "validation_outcome": "missing_supervisor_approval_evidence",
+      "change_version": "pre_change",
+      "cohort_case_count": 1,
+      "validated_rework_case_count": 1
+    }
+  ],
+  "consulting_history": [
+    {
+      "rework_id": "RW-2024-0731-01",
+      "intake_id": "INT-2024-0731-0042",
+      "rework_reason_code": "MISSING_SUPERVISOR_APPROVAL",
+      "validation_status": "validated",
+      "resolution_status": "reopened",
+      "resubmission_number": 1,
+      "validated_case_count": 1,
+      "opened_ts": "2024-05-21T10:18:00Z",
+      "resolved_ts": "2024-05-22T16:44:00Z"
+    },
+    {
+      "rework_id": "RW-2024-0731-02",
+      "intake_id": "INT-2024-0731-0042",
+      "rework_reason_code": "MISSING_SUPERVISOR_APPROVAL",
+      "validation_status": "validated",
+      "resolution_status": "resolved",
+      "resubmission_number": 2,
+      "validated_case_count": 0,
+      "opened_ts": "2024-05-23T08:11:00Z",
+      "resolved_ts": "2024-05-23T12:07:00Z"
+    }
+  ],
+  "consulting_case_count": [
+    {
+      "validated_history_rows": 2,
+      "distinct_reportable_cases": 1,
+      "recorded_validated_case_total": 1
+    }
+  ],
+  "ecommerce_dated_high_value": [
+    {
+      "sales_date": "2025-09-30",
+      "source_cohort_rows": 1,
+      "completed_transactions": 580
+    },
+    {
+      "sales_date": "2025-09-29",
+      "source_cohort_rows": 1,
+      "completed_transactions": 561
+    },
+    {
+      "sales_date": "2025-09-28",
+      "source_cohort_rows": 1,
+      "completed_transactions": 548
+    },
+    {
+      "sales_date": "2025-09-27",
+      "source_cohort_rows": 1,
+      "completed_transactions": 515
+    },
+    {
+      "sales_date": "2025-09-26",
+      "source_cohort_rows": 1,
+      "completed_transactions": 480
+    }
+  ],
+  "ecommerce_summary_control": [
+    {
+      "cohort_scope": "completed_sales",
+      "is_summary_row": 0,
+      "order_amount_band_lower_cents": 0,
+      "rows": 30,
+      "reported_transactions": 16058
+    },
+    {
+      "cohort_scope": "completed_sales",
+      "is_summary_row": 0,
+      "order_amount_band_lower_cents": 150000,
+      "rows": 5,
+      "reported_transactions": 2684
+    },
+    {
+      "cohort_scope": "processor_dashboard_total",
+      "is_summary_row": 1,
+      "order_amount_band_lower_cents": 0,
+      "rows": 1,
+      "reported_transactions": 19406
+    }
+  ],
+  "derived": {
+    "peak_date": "2025-09-30",
+    "peak_transactions": 580,
+    "clean_monthly_transactions": 2684,
+    "peak_share_percent": 21.609538
+  }
+}

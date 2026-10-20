@@ -1,0 +1,40 @@
+{
+  "selection_rank": 2,
+  "selection_reason": "greedy smallest nonempty test_patch with heuristic language/framework hints used to prefer diversity; deterministic row-index tie-break",
+  "selection_bias": "Concentrates on unusually small explicit test patches and heuristic language/framework keyword cues (unverified, may reflect generic prose); excludes empty patches and may underrepresent larger or less explicit task families. This is a triage sample, not representative and not a vulnerability claim.",
+  "row_index": 1057,
+  "language_hint": "javascript",
+  "framework_hint": "unknown",
+  "hints_unverified": true,
+  "row": {
+    "data_source": "opensource-code",
+    "ability": "swe",
+    "agent_name": "mimo_swe_agent",
+    "prompt": [
+      {
+        "content": "## `Block` JSON encoding drops the transaction list\n\nWhen I marshal an `ethgo` `Block` to JSON I get back the usual block fields\n(`number`, `hash`, `parentHash`, `gasLimit`, `uncles`, ...) but the transactions\nare missing entirely from the output. The `Block` value I'm marshalling does\nhave its transaction hashes populated — I'm picking them up from a previous\n`eth_getBlockByNumber` call — but they don't show up anywhere in the resulting\nJSON.\n\nRoughly what I'm doing:\n\n```go\nb, err := client.Eth().GetBlockByNumber(..., false)\n// b.TransactionsHashes is non-empty here\nout, _ := json.Marshal(b)\nfmt.Println(string(out))\n// -> {\"number\":\"0x...\",\"hash\":\"0x...\",..., \"uncles\":[...]}\n//    no \"transactions\" key at all\n```\n\nI'd expect the marshalled block to include the transaction hashes the same way\na node returns them over JSON-RPC, so I can forward / persist the block as-is\nwithout having to wrap it in my own struct just to re-attach the txns.",
+        "role": "user"
+      }
+    ],
+    "reward_model": {
+      "ground_truth": "",
+      "style": "rule"
+    },
+    "extra_info": {
+      "dataset_type": "opensource-code",
+      "index": 1186,
+      "instance_id": "format-code-task-002908",
+      "instance_json": "{\"cwd\": \"/testbed\", \"dataset_type\": \"opensource-code\", \"docker_image\": \"format-code-task-002908:latest\", \"instance_id\": \"format-code-task-002908\", \"problem_statement\": \"## `Block` JSON encoding drops the transaction list\\n\\nWhen I marshal an `ethgo` `Block` to JSON I get back the usual block fields\\n(`number`, `hash`, `parentHash`, `gasLimit`, `uncles`, ...) but the transactions\\nare missing entirely from the output. The `Block` value I'm marshalling does\\nhave its transaction hashes populated \\u2014 I'm picking them up from a previous\\n`eth_getBlockByNumber` call \\u2014 but they don't show up anywhere in the resulting\\nJSON.\\n\\nRoughly what I'm doing:\\n\\n```go\\nb, err := client.Eth().GetBlockByNumber(..., false)\\n// b.TransactionsHashes is non-empty here\\nout, _ := json.Marshal(b)\\nfmt.Println(string(out))\\n// -> {\\\"number\\\":\\\"0x...\\\",\\\"hash\\\":\\\"0x...\\\",..., \\\"uncles\\\":[...]}\\n//    no \\\"transactions\\\" key at all\\n```\\n\\nI'd expect the marshalled block to include the transaction hashes the same way\\na node returns them over JSON-RPC, so I can forward / persist the block as-is\\nwithout having to wrap it in my own struct just to re-attach the txns.\", \"test_command\": \"bash /testbed/mimo_test_command.sh\", \"test_patch\": \"diff --git a/structs_encoding_test.go b/structs_encoding_test.go\\nindex 3dbbb39e..8a3b773f 100644\\n--- a/structs_encoding_test.go\\n+++ b/structs_encoding_test.go\\n@@ -53,6 +53,9 @@ func TestJSONEncoding(t *testing.T) {\\n \\t\\t\\t\\t\\\"uncles\\\": [\\n \\t\\t\\t\\t\\t\\\"{{.Hash1}}\\\",\\n \\t\\t\\t\\t\\t\\\"{{.Hash2}}\\\"\\n+\\t\\t\\t\\t],\\n+\\t\\t\\t\\t\\\"transactions\\\": [\\n+\\t\\t\\t\\t\\t\\\"{{.Hash1}}\\\"\\n \\t\\t\\t\\t]\\n \\t\\t\\t}`,\\n \\t\\t\\tbuild: block,\\ndiff --git a/mimo_build_env.tar.gz.b64 b/mimo_build_env.tar.gz.b64\\nnew file mode 100644\\n--- /dev/null\\n+++ b/mimo_build_env.tar.gz.b64\\n@@ -0,0 +1,5 @@\\n+H4sIAAAAAAAAA+3SvW6DMBQFYGae4lYZMmFshM0TdOnQDumOACNAKraEDX39OgxNFKnNkiiKON9y\\n+/Sf5WsesnocvXbZmSaN74UEh5VqDy7qOhcx4pvKCSxVxIZTgEcm7dXRmdr6aiKLJWv/fuWv7T4qd\\n+8vet82Vjx7Eymrn+dndcy19kv/mrohAh/1yFJeK3a+FvG89/95LWg0nryvVxo2n9BHWrY90uifse\\n+fNNTZ0mwLI9DPe5SslAyzYb2n2H2dvh4fzWN1YPp9sTiR78HAAAAAAAAAAAAAAAAAAAAAGBLfgBl\\n+sp3zACgAAA==\\ndiff --git a/mimo_test_command.sh b/mimo_test_command.sh\\nnew file mode 100755\\n--- /dev/null\\n+++ b/mimo_test_command.sh\\n@@ -0,0 +1,6 @@\\n+#!/usr/bin/env bash\\n+\\n+set -uo pipefail\\n+cd /testbed || exit 1\\n+base64 -d mimo_build_env.tar.gz.b64 | tar -xzf - -C /testbed || exit 1\\n+exec bash -lc 'cd /testbed && bash -eo pipefail /testbed/.build_env/test_command.sh'\\n\", \"verifier_timeout_sec\": 1800}"
+    }
+  },
+  "instance_json_decoded": {
+    "cwd": "/testbed",
+    "dataset_type": "opensource-code",
+    "docker_image": "format-code-task-002908:latest",
+    "instance_id": "format-code-task-002908",
+    "problem_statement": "## `Block` JSON encoding drops the transaction list\n\nWhen I marshal an `ethgo` `Block` to JSON I get back the usual block fields\n(`number`, `hash`, `parentHash`, `gasLimit`, `uncles`, ...) but the transactions\nare missing entirely from the output. The `Block` value I'm marshalling does\nhave its transaction hashes populated — I'm picking them up from a previous\n`eth_getBlockByNumber` call — but they don't show up anywhere in the resulting\nJSON.\n\nRoughly what I'm doing:\n\n```go\nb, err := client.Eth().GetBlockByNumber(..., false)\n// b.TransactionsHashes is non-empty here\nout, _ := json.Marshal(b)\nfmt.Println(string(out))\n// -> {\"number\":\"0x...\",\"hash\":\"0x...\",..., \"uncles\":[...]}\n//    no \"transactions\" key at all\n```\n\nI'd expect the marshalled block to include the transaction hashes the same way\na node returns them over JSON-RPC, so I can forward / persist the block as-is\nwithout having to wrap it in my own struct just to re-attach the txns.",
+    "test_command": "bash /testbed/mimo_test_command.sh",
+    "test_patch": "diff --git a/structs_encoding_test.go b/structs_encoding_test.go\nindex 3dbbb39e..8a3b773f 100644\n--- a/structs_encoding_test.go\n+++ b/structs_encoding_test.go\n@@ -53,6 +53,9 @@ func TestJSONEncoding(t *testing.T) {\n \t\t\t\t\"uncles\": [\n \t\t\t\t\t\"{{.Hash1}}\",\n \t\t\t\t\t\"{{.Hash2}}\"\n+\t\t\t\t],\n+\t\t\t\t\"transactions\": [\n+\t\t\t\t\t\"{{.Hash1}}\"\n \t\t\t\t]\n \t\t\t}`,\n \t\t\tbuild: block,\ndiff --git a/mimo_build_env.tar.gz.b64 b/mimo_build_env.tar.gz.b64\nnew file mode 100644\n--- /dev/null\n+++ b/mimo_build_env.tar.gz.b64\n@@ -0,0 +1,5 @@\n+H4sIAAAAAAAAA+3SvW6DMBQFYGae4lYZMmFshM0TdOnQDumOACNAKraEDX39OgxNFKnNkiiKON9y\n+/Sf5WsesnocvXbZmSaN74UEh5VqDy7qOhcx4pvKCSxVxIZTgEcm7dXRmdr6aiKLJWv/fuWv7T4qd\n+8vet82Vjx7Eymrn+dndcy19kv/mrohAh/1yFJeK3a+FvG89/95LWg0nryvVxo2n9BHWrY90uifse\n+fNNTZ0mwLI9DPe5SslAyzYb2n2H2dvh4fzWN1YPp9sTiR78HAAAAAAAAAAAAAAAAAAAAAGBLfgBl\n+sp3zACgAAA==\ndiff --git a/mimo_test_command.sh b/mimo_test_command.sh\nnew file mode 100755\n--- /dev/null\n+++ b/mimo_test_command.sh\n@@ -0,0 +1,6 @@\n+#!/usr/bin/env bash\n+\n+set -uo pipefail\n+cd /testbed || exit 1\n+base64 -d mimo_build_env.tar.gz.b64 | tar -xzf - -C /testbed || exit 1\n+exec bash -lc 'cd /testbed && bash -eo pipefail /testbed/.build_env/test_command.sh'\n",
+    "verifier_timeout_sec": 1800
+  }
+}

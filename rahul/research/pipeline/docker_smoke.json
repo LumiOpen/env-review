@@ -1,0 +1,115 @@
+{
+  "schema_version": "rlaudit.pipeline/v1",
+  "name": "docker-executor-smoke",
+  "sources": [
+    {
+      "id": "tasks",
+      "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/examples/local/tasks.jsonl"
+    },
+    {
+      "id": "driver",
+      "path": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/examples/drivers/toy_reward.py"
+    }
+  ],
+  "adapter": {
+    "kind": "local_jsonl",
+    "source": "tasks",
+    "ids": [
+      "format-reward",
+      "toy-state"
+    ]
+  },
+  "checks": [
+    "schema",
+    "code_static",
+    "general_contract"
+  ],
+  "probes": [
+    {
+      "id": "format-reward-equivalence",
+      "task_ids": [
+        "format-reward"
+      ],
+      "command": [
+        "/usr/bin/python3",
+        "{source:driver}"
+      ],
+      "cases": [
+        {
+          "id": "comma-grouped",
+          "input": {
+            "answer": "1,000"
+          }
+        },
+        {
+          "id": "ungrouped",
+          "input": {
+            "answer": "1000"
+          }
+        }
+      ],
+      "relation": {
+        "kind": "invariant",
+        "justification": "The two strings represent the same integer; this toy relation asks whether formatting alone changes reward.",
+        "tolerance": 0
+      },
+      "executor": "docker",
+      "scope": "component",
+      "image": "docker.io/xiaomimimo/mimo-v2.6-rl-oss@sha256:88326a734ec3abb1fa9d44744796f819880f4801a74b940965d488ca69fd8b24"
+    },
+    {
+      "id": "toy-state-reward-transition",
+      "task_ids": [
+        "toy-state"
+      ],
+      "command": [
+        "/usr/bin/python3",
+        "{source:driver}"
+      ],
+      "cases": [
+        {
+          "id": "action-one",
+          "input": {
+            "state": {
+              "position": 0
+            },
+            "action": 1
+          }
+        },
+        {
+          "id": "action-two",
+          "input": {
+            "state": {
+              "position": 0
+            },
+            "action": 2
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          0.1,
+          0.2
+        ],
+        "justification": "This synthetic driver defines reward as clamp((position + action) / 10, 0, 1); at position zero, these inputs have explicit expected rewards 0.1 and 0.2.",
+        "tolerance": 0
+      },
+      "executor": "docker",
+      "scope": "component",
+      "image": "docker.io/xiaomimimo/mimo-v2.6-rl-oss@sha256:88326a734ec3abb1fa9d44744796f819880f4801a74b940965d488ca69fd8b24"
+    }
+  ],
+  "execution": {
+    "partition": "amd-tw-verification",
+    "allow_trusted_process": false,
+    "max_probe_cases": 20,
+    "timeout_seconds": 30,
+    "max_probe_seconds": 120,
+    "max_output_bytes": 1048576,
+    "max_source_bytes": 268435456,
+    "cpus": 1,
+    "memory": "1G",
+    "time_limit": "00:05:00"
+  }
+}

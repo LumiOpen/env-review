@@ -1,0 +1,123 @@
+{
+  "source": "https://datasets-server.huggingface.co/size?dataset=XiaomiMiMo/MiMo-V2.6-RL-oss",
+  "observed_date": "2026-10-20",
+  "response": {
+    "size": {
+      "dataset": {
+        "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+        "num_bytes_original_files": 20225309,
+        "num_bytes_parquet_files": 20225309,
+        "num_bytes_memory": 47459707,
+        "num_rows": 7684,
+        "estimated_num_rows": null
+      },
+      "configs": [
+        {
+          "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+          "config": "code",
+          "num_bytes_original_files": 12619588,
+          "num_bytes_parquet_files": 12619588,
+          "num_bytes_memory": 31730163,
+          "num_rows": 2602,
+          "num_columns": 6,
+          "estimated_num_rows": null
+        },
+        {
+          "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+          "config": "cyber",
+          "num_bytes_original_files": 227632,
+          "num_bytes_parquet_files": 227632,
+          "num_bytes_memory": 1807901,
+          "num_rows": 1000,
+          "num_columns": 5,
+          "estimated_num_rows": null
+        },
+        {
+          "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+          "config": "general",
+          "num_bytes_original_files": 3122244,
+          "num_bytes_parquet_files": 3122244,
+          "num_bytes_memory": 5988563,
+          "num_rows": 989,
+          "num_columns": 6,
+          "estimated_num_rows": null
+        },
+        {
+          "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+          "config": "music",
+          "num_bytes_original_files": 135467,
+          "num_bytes_parquet_files": 135467,
+          "num_bytes_memory": 611286,
+          "num_rows": 1000,
+          "num_columns": 5,
+          "estimated_num_rows": null
+        },
+        {
+          "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+          "config": "webdev",
+          "num_bytes_original_files": 4120378,
+          "num_bytes_parquet_files": 4120378,
+          "num_bytes_memory": 7321794,
+          "num_rows": 2093,
+          "num_columns": 6,
+          "estimated_num_rows": null
+        }
+      ],
+      "splits": [
+        {
+          "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+          "config": "code",
+          "split": "train",
+          "num_bytes_parquet_files": 12619588,
+          "num_bytes_memory": 31730163,
+          "num_rows": 2602,
+          "num_columns": 6,
+          "estimated_num_rows": null
+        },
+        {
+          "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+          "config": "cyber",
+          "split": "train",
+          "num_bytes_parquet_files": 227632,
+          "num_bytes_memory": 1807901,
+          "num_rows": 1000,
+          "num_columns": 5,
+          "estimated_num_rows": null
+        },
+        {
+          "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+          "config": "general",
+          "split": "train",
+          "num_bytes_parquet_files": 3122244,
+          "num_bytes_memory": 5988563,
+          "num_rows": 989,
+          "num_columns": 6,
+          "estimated_num_rows": null
+        },
+        {
+          "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+          "config": "music",
+          "split": "train",
+          "num_bytes_parquet_files": 135467,
+          "num_bytes_memory": 611286,
+          "num_rows": 1000,
+          "num_columns": 5,
+          "estimated_num_rows": null
+        },
+        {
+          "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+          "config": "webdev",
+          "split": "train",
+          "num_bytes_parquet_files": 4120378,
+          "num_bytes_memory": 7321794,
+          "num_rows": 2093,
+          "num_columns": 6,
+          "estimated_num_rows": null
+        }
+      ]
+    },
+    "pending": [],
+    "failed": [],
+    "partial": false
+  }
+}

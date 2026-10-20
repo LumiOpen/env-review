@@ -1,0 +1,80 @@
+{
+ "items": [
+  {
+   "id": "exact_governing_requirement_set",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final response identify the complete and exact set of approved proof-of-delivery requirement codes that governed the full September 9-27, 2024 audit window?",
+   "pass_anchor": "Pass only if the answer identifies exactly these four codes, in any order and with no additional requirement code presented as governing: POD-SCAN-ACTUAL-LOCATION; POD-SCAN-APPROVED-EXCEPTION; POD-STOP-THE-CLOCK; POD-SIGNATURE-RETAINED-PROOF. Normal punctuation, ordering, and list formatting differences are acceptable. Ground truth is from approved policy_requirement records whose effective dates are on or before September 9, 2024, whose superseded dates do not end before September 27, 2024, and whose classification and requirement text concern proof-of-delivery evidence."
+  },
+  {
+   "id": "controlling_sources_and_versions",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final response correctly map the governing requirements to their controlling source documents and versions?",
+   "pass_anchor": "The answer must map POD-SCAN-ACTUAL-LOCATION, POD-SCAN-APPROVED-EXCEPTION, and POD-STOP-THE-CLOCK to Proof-of-Delivery Evidence Sampling Methodology version 3.2, and map POD-SIGNATURE-RETAINED-PROOF to USPS Domestic Mail Manual S919 Signature Confirmation version 2024.09. Document identifiers METH-POD-2024-03 and SRC-DMM-S919-2024 may be included but are not required."
+  },
+  {
+   "id": "location_and_exception_meaning",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final response correctly explain the actual-location and approved-exception requirements?",
+   "pass_anchor": "The answer must explain that MDD stop-the-clock scans are required at the actual delivery location unless an approved exception applies, and must identify the approved exception categories as caller service, vacation hold, PO Box, undeliverable-as-addressed, and business closed. Equivalent plain-English wording is acceptable."
+  },
+  {
+   "id": "stop_the_clock_meaning",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final response correctly explain the stop-the-clock requirement?",
+   "pass_anchor": "The answer must state that a stop-the-clock scan records completion of the delivery or attempted-delivery commitment and must recognize Delivered, Available for Pickup, and No Access as examples. Equivalent capitalization and prose are acceptable."
+  },
+  {
+   "id": "signature_proof_meaning",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final response correctly explain the governing Signature Confirmation retained-proof requirement?",
+   "pass_anchor": "The answer must state that the retained Signature Confirmation delivery record contains the recipient signature and the delivery or attempt date and time. It must also recognize that proof may be requested by article number and that bulk proof is limited to electronic-option or privately printed-label mailers. Equivalent concise wording is acceptable."
+  },
+  {
+   "id": "superseded_signature_exclusion",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final response correctly identify and exclude the predecessor Signature Confirmation transcription using its lifecycle dates?",
+   "pass_anchor": "The answer must identify POD-SIGNATURE-RETAINED-PROOF-PRIOR as excluded because it was superseded effective through September 8, 2024 and therefore did not govern any part of the September 9-27, 2024 audit window. It should distinguish that predecessor from POD-SIGNATURE-RETAINED-PROOF, which became effective September 9, 2024. Do not pass an answer that includes the predecessor in the governing set merely because its parent controlled document is approved."
+  },
+  {
+   "id": "temporal_and_scope_selection_basis",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final response correctly explain the full-window temporal test and the proof-of-delivery scope exclusion?",
+   "pass_anchor": "The answer must make clear that a governing requirement needs approved row-level status and date coverage for the entire inclusive September 9-27, 2024 window, not merely validity on one date or approval of the parent document. It must also explain that current Change-of-Address identity-verification and parcel acceptance manifest/weight-dimension requirements are excluded because their subjects are outside proof-of-delivery evidence testing. Naming the unrelated codes is optional, but if named they are COA-IDENTITY-VERIFICATION, PARCEL-MANIFEST-RECONCILIATION, and PARCEL-WEIGHT-DIMENSION-CHECK."
+  }
+ ],
+ "check_code": "\"\"\"Read-only task: all scored conclusions use the LLM rubric.\"\"\"\n",
+ "gold_answer": null,
+ "input": "db",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

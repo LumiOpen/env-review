@@ -1,0 +1,93 @@
+{
+  "url": "https://huggingface.co/api/datasets/PrimeIntellect/Reverse-Text-RL",
+  "data": {
+    "_id": "689b87d855be2c9d8d30f28a",
+    "id": "PrimeIntellect/Reverse-Text-RL",
+    "author": "PrimeIntellect",
+    "sha": "b6dc8a0d8c9f59cbd4b38c490aed11f5a31c8c7f",
+    "lastModified": "2026-10-02T19:58:22.000Z",
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "tags": [
+      "task_categories:question-answering",
+      "task_categories:text-generation",
+      "language:en",
+      "license:mit",
+      "size_categories:1K<n<10K",
+      "format:parquet",
+      "modality:text",
+      "library:datasets",
+      "library:pandas",
+      "library:polars",
+      "library:mlcroissant",
+      "library:verifiers",
+      "region:us",
+      "rl",
+      "rl-environment",
+      "verifiers"
+    ],
+    "description": "\n\t\n\t\t\n\t\n\t\n\t\tReverse-Text-RL\n\t\n\nA small, scrappy RL dataset used in prime-rl's CI to debug RL training asking a model to reverse small sentences character-by-character. Follows the general format of PrimeIntellect/Reverse-Text-SFT\nThe following script was used to generate the dataset.\nfrom datasets import Dataset, load_dataset\n\ndataset = load_dataset(\"willcb/R1-reverse-wikipedia-paragraphs-v1-1000\", split=\"train\")\nprompt = \"Reverse the text character-by-character. Put your answer in\u2026 See the full description on the dataset page: https://huggingface.co/datasets/PrimeIntellect/Reverse-Text-RL.",
+    "downloads": 10979,
+    "likes": 2,
+    "cardData": {
+      "dataset_info": {
+        "features": [
+          {
+            "name": "prompt",
+            "dtype": "string"
+          }
+        ],
+        "splits": [
+          {
+            "name": "train",
+            "num_bytes": 89473,
+            "num_examples": 1000
+          }
+        ],
+        "download_size": 63899,
+        "dataset_size": 89473
+      },
+      "configs": [
+        {
+          "config_name": "default",
+          "data_files": [
+            {
+              "split": "train",
+              "path": "data/train-*"
+            }
+          ]
+        }
+      ],
+      "license": "mit",
+      "task_categories": [
+        "question-answering",
+        "text-generation"
+      ],
+      "language": [
+        "en"
+      ],
+      "tags": [
+        "rl",
+        "rl-environment",
+        "verifiers"
+      ],
+      "size_categories": [
+        "1K<n<10K"
+      ]
+    },
+    "siblings": [
+      {
+        "rfilename": ".gitattributes"
+      },
+      {
+        "rfilename": "README.md"
+      },
+      {
+        "rfilename": "data/train-00000-of-00001.parquet"
+      }
+    ],
+    "createdAt": "2025-08-12T18:28:40.000Z",
+    "usedStorage": 129689
+  }
+}

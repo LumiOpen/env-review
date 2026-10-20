@@ -1,0 +1,28 @@
+{
+  "task_id": "s3k_1401_healthcare_ops_en_t4_rl_007",
+  "status": "confirmed-static deterministic component false-negative candidate; runtime and overall reward untested",
+  "source": {
+    "metadata_path": "research/mimo/general_actions/snapshots/s3k_1401_healthcare_ops_en_t4_rl_007/verifier_meta.json",
+    "metadata_sha256": "3d15411d6621cc51c8787706aee50c636f6efa901ba48a5fecfbf416de719cd9",
+    "extracted_check_code_path": "research/mimo/general_review/snapshots/healthcare_check_code.py",
+    "extracted_check_code_sha256": "3658b34d1899273758606cae45312e0c7d1df28e6b05441e7b78dde577595c79"
+  },
+  "contract": "Instruction requires a readable metric table in a DOCX committee memo and specific financial figures, with no requirement to group thousands with commas. The LLM final-response rubric accepts equivalent wording and reasonable numeric formatting, whereas the DOCX rule requires particular textual formatting for positive amounts.",
+  "static_mechanism": "_text extracts literal DOCX paragraph and table-cell text. _money formats abs(value) with Python's comma grouping and searches for that substring or a dollar-prefixed version. For positive 184672.54 and 162826.17, it does not recognize 184672.54, $184672.54, 162826.17, or $162826.17 if no grouped version occurs elsewhere. For negative -21846.37, it additionally recognizes ungrouped (21846.37), but not an ungrouped bare or minus-prefixed value. check_memo_core_metrics uses _money for both positive amounts. check_memo_cross_source_control reuses it for corrected transfer amount. No normalization appears between DOCX extraction and rule invocation in the shared sidecar verifier path.",
+  "evidence": [
+    "research/mimo/general_actions/snapshots/s3k_1401_healthcare_ops_en_t4_rl_007/instruction.md:3",
+    "research/mimo/general_actions/snapshots/s3k_1401_healthcare_ops_en_t4_rl_007/verifier_meta.json:4",
+    "research/mimo/general_actions/snapshots/s3k_1401_healthcare_ops_en_t4_rl_007/verifier_meta.json:21",
+    "research/mimo/general_actions/snapshots/s3k_1401_healthcare_ops_en_t4_rl_007/verifier_meta.json:86",
+    "research/mimo/general_review/snapshots/healthcare_check_code.py:24",
+    "research/mimo/general_review/snapshots/healthcare_check_code.py:36",
+    "research/mimo/general_review/snapshots/healthcare_check_code.py:48",
+    "research/mimo/general_review/snapshots/healthcare_check_code.py:62",
+    "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py:15"
+  ],
+  "paired_probe": "On amd-tw-verification, create two otherwise byte-identical DOCX memos with one metric table. Include 24 reviewed, 9 transfer-rule, 7 affected, and a fixed negative '(21,846.37)' plus 'decrease'. In A, use 184,672.54 and 162,826.17 in every occurrence; in B use 184672.54 and 162826.17 in every occurrence. Keep the run/denominator/action wording constant. Invoke only the extracted check_memo_core_metrics and check_memo_cross_source_control in a disposable workspace, capture per-rule score and detail, and confirm DOCX extracted text. Do not call an external judge.",
+  "expected_component_result": "Under this code and controlled text, A passes both money-sensitive rule items and B fails both; the cause is only positive numeric grouping. A negative-only variant with '(21846.37)' should remain accepted by _money to confirm the branch's special case.",
+  "overall_reward_limit": "This is a two-rule component result, not a full reward claim. The metadata has eight non-gate items of default weight 1 (four rule, four LLM), so if all other scores remain equal and these two rules alone flip from 1 to 0, the sidecar raw weighted score differs by 2/8=0.25. The actual full verifier branch, source integrity, external LLM verdicts, controller binarization and trainer effects are not established by this probe.",
+  "alternative_explanation": "An author may have intended a currency style guide, but the task instruction does not specify one and the final-response rubric explicitly accepts reasonable numeric formatting. The DOCX table's lack of grouping is still legible and numerically unambiguous.",
+  "runtime_confirmed": false
+}

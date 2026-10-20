@@ -1,0 +1,25 @@
+{
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "files": [
+    {
+      "path": "research/mimo/general_review/snapshots/diverse/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verify.py",
+      "bytes": 23526,
+      "sha256": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/diverse/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/run_verify.py",
+      "bytes": 6300,
+      "sha256": "839c5826eafb0b87d161197b3ad6106aa8eca236ed82f5eda9d67bbe7ae88fb8"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/diverse/s3k_0568_ecommerce_ops_en_t3_rl_001/verify.py",
+      "bytes": 23526,
+      "sha256": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13"
+    },
+    {
+      "path": "research/mimo/general_review/snapshots/diverse/s3k_0568_ecommerce_ops_en_t3_rl_001/run_verify.py",
+      "bytes": 6300,
+      "sha256": "839c5826eafb0b87d161197b3ad6106aa8eca236ed82f5eda9d67bbe7ae88fb8"
+    }
+  ]
+}

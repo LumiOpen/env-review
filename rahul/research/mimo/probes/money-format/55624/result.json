@@ -1,0 +1,95 @@
+{
+  "id": "G4_money_grouping_false_rejection",
+  "task_id": "s3k_1401_healthcare_ops_en_t4_rl_007",
+  "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "status": "confirmed_component_counterexample",
+  "job_id": "55624",
+  "partition": "amd-tw-verification",
+  "source_hashes": {
+    "instruction.md": "e63f6e3ab3237f69a664c1dd808dd018e07f68f8f587f04815730e2783a403f0",
+    "verifier_meta.json": "3d15411d6621cc51c8787706aee50c636f6efa901ba48a5fecfbf416de719cd9"
+  },
+  "dependencies": {
+    "python": "3.13.12",
+    "python-docx": "1.2.0",
+    "lxml": "5.4.0"
+  },
+  "observations": [
+    {
+      "variant": "commas",
+      "table": [
+        [
+          "Reviewed population",
+          "24"
+        ],
+        [
+          "Transfer-rule population",
+          "9"
+        ],
+        [
+          "Affected claims",
+          "7"
+        ],
+        [
+          "Current billed amount",
+          "$184,672.54"
+        ],
+        [
+          "Corrected transfer amount",
+          "$162,826.17"
+        ],
+        [
+          "Estimated reimbursement decrease",
+          "$-21,846.37"
+        ]
+      ],
+      "rule_result": {
+        "score": 1,
+        "detail": "core metrics present"
+      },
+      "artifact": "research/mimo/probes/money-format/55624/commas/03_Reporting/Reimbursement_Committee_Reconciliation_Memo.docx",
+      "artifact_sha256": "6c561fdcb026cf61240398cb661657ec753ff6cd2aec16225066f4053c3facbd"
+    },
+    {
+      "variant": "no_commas",
+      "table": [
+        [
+          "Reviewed population",
+          "24"
+        ],
+        [
+          "Transfer-rule population",
+          "9"
+        ],
+        [
+          "Affected claims",
+          "7"
+        ],
+        [
+          "Current billed amount",
+          "$184672.54"
+        ],
+        [
+          "Corrected transfer amount",
+          "$162826.17"
+        ],
+        [
+          "Estimated reimbursement decrease",
+          "$-21846.37"
+        ]
+      ],
+      "rule_result": {
+        "score": 0,
+        "detail": "missing: 184672.54, 162826.17, 21846.37 decrease"
+      },
+      "artifact": "research/mimo/probes/money-format/55624/no_commas/03_Reporting/Reimbursement_Committee_Reconciliation_Memo.docx",
+      "artifact_sha256": "7ace1074287ca15d3490c0112fe9d52688605dcf02e72fb90198c2275b84f288"
+    }
+  ],
+  "interpretation": "The unmodified core-metrics rule accepts grouped monetary values and rejects numerically equivalent ungrouped values. The prompt does not specify a digit-grouping convention.",
+  "limitations": [
+    "Component-level rule execution using paired synthetic DOCX metric tables; neither is a complete task submission.",
+    "No LLM criterion, task container, source-integrity rule or trainer transformation was run.",
+    "This demonstrates a numeric-format counterexample for the core-metrics check, not a measured total reward or training effect."
+  ]
+}

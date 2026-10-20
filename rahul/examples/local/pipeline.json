@@ -1,0 +1,113 @@
+{
+  "schema_version": "rlaudit.pipeline/v1",
+  "name": "local-toy-paired-probes",
+  "sources": [
+    {
+      "id": "tasks",
+      "path": "tasks.jsonl"
+    },
+    {
+      "id": "driver",
+      "path": "../drivers/toy_reward.py"
+    }
+  ],
+  "adapter": {
+    "kind": "local_jsonl",
+    "source": "tasks",
+    "ids": [
+      "format-reward",
+      "toy-state"
+    ]
+  },
+  "checks": [
+    "schema",
+    "code_static",
+    "general_contract"
+  ],
+  "probes": [
+    {
+      "id": "format-reward-equivalence",
+      "task_ids": [
+        "format-reward"
+      ],
+      "command": [
+        "{python}",
+        "{source:driver}"
+      ],
+      "cases": [
+        {
+          "id": "comma-grouped",
+          "input": {
+            "answer": "1,000"
+          }
+        },
+        {
+          "id": "ungrouped",
+          "input": {
+            "answer": "1000"
+          }
+        }
+      ],
+      "relation": {
+        "kind": "invariant",
+        "justification": "The two strings represent the same integer; this toy relation asks whether formatting alone changes reward.",
+        "tolerance": 0
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "toy-state-reward-transition",
+      "task_ids": [
+        "toy-state"
+      ],
+      "command": [
+        "{python}",
+        "{source:driver}"
+      ],
+      "cases": [
+        {
+          "id": "action-one",
+          "input": {
+            "state": {
+              "position": 0
+            },
+            "action": 1
+          }
+        },
+        {
+          "id": "action-two",
+          "input": {
+            "state": {
+              "position": 0
+            },
+            "action": 2
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          0.1,
+          0.2
+        ],
+        "justification": "This synthetic driver defines reward as clamp((position + action) / 10, 0, 1); at position zero, these inputs have explicit expected rewards 0.1 and 0.2.",
+        "tolerance": 0
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    }
+  ],
+  "execution": {
+    "partition": "amd-tw-verification",
+    "allow_trusted_process": true,
+    "max_probe_cases": 20,
+    "timeout_seconds": 30,
+    "max_probe_seconds": 120,
+    "max_output_bytes": 1048576,
+    "max_source_bytes": 268435456,
+    "cpus": 1,
+    "memory": "2G",
+    "time_limit": "00:05:00"
+  }
+}

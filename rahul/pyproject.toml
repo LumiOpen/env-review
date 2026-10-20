@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rlaudit"
+version = "0.1.0"
+description = "Reproducible, evidence-backed audits of RL environment contracts and graders"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+mimo = ["pyarrow==24.0.0"]
+docx = ["python-docx==1.2.0", "lxml==5.4.0"]
+prime = ["verifiers==0.3.0", "datasets==4.3.0", "pyarrow==24.0.0"]
+
+[project.scripts]
+rlaudit = "rlaudit.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

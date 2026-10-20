@@ -1,0 +1,260 @@
+{
+  "task_id": "s3k_0000_accounting_audit_tax_en_t1_rl_008",
+  "status": "controlled_aggregation_reproduced",
+  "slurm": {
+    "job_id": "55615",
+    "partition": "amd-tw-verification",
+    "hostname": "tus1-p15-g62"
+  },
+  "source_sha256": {
+    "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verify.py": "caa22a4c64bea979f2b3bef85d77cab5a78880a4dd9e304b4b4ee2317f48ac13",
+    "research/mimo/general_review/snapshots/s3k_0000_accounting_audit_tax_en_t1_rl_008/verifier_meta.json": "64218a1c0573ad03c14c67909c77bd33fde6392443883cc308ff6c77d6ad87ef",
+    "research/mimo/probes/fixtures/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/dealcloud_disposition_workspace/state.db": "cb2a18e5355866cc7f713aafe28502531be392b9e4e12e2b008362cd313ef45f",
+    "research/mimo/probes/fixtures/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/sharepoint_tax_governance_library/state.db": "3f2b8c5bf394dff0d3b15b0966a3b806a316cc75e44625d2232de7bc778cc311"
+  },
+  "actual_source_check": {
+    "score": 1,
+    "detail": "Recommended installment transaction, seven active requirements, and approved decision are present"
+  },
+  "observations": [
+    {
+      "controlled_answer_score": 0.0,
+      "result": {
+        "score": 0.5,
+        "passed": false,
+        "gate_failed": [],
+        "by_method": {
+          "llm": 0.0,
+          "rule": 1.0
+        },
+        "items": {
+          "current_recommended_structure": {
+            "score": 0.0,
+            "detail": "Controlled judge substitute"
+          },
+          "documentary_tax_components": {
+            "score": 0.0,
+            "detail": "Controlled judge substitute"
+          },
+          "protection_statuses": {
+            "score": 0.0,
+            "detail": "Controlled judge substitute"
+          },
+          "controlled_payment_split_and_fallback": {
+            "score": 0.0,
+            "detail": "Controlled judge substitute"
+          },
+          "readiness_conclusion": {
+            "score": 0.0,
+            "detail": "Controlled judge substitute"
+          },
+          "source_data_present": {
+            "score": 1,
+            "detail": "Recommended installment transaction, seven active requirements, and approved decision are present"
+          }
+        },
+        "note": "sidecar self-contained: rule+text-llm \u8ba1\u5206"
+      }
+    },
+    {
+      "controlled_answer_score": 0.25,
+      "result": {
+        "score": 0.625,
+        "passed": false,
+        "gate_failed": [],
+        "by_method": {
+          "llm": 0.25,
+          "rule": 1.0
+        },
+        "items": {
+          "current_recommended_structure": {
+            "score": 0.25,
+            "detail": "Controlled judge substitute"
+          },
+          "documentary_tax_components": {
+            "score": 0.25,
+            "detail": "Controlled judge substitute"
+          },
+          "protection_statuses": {
+            "score": 0.25,
+            "detail": "Controlled judge substitute"
+          },
+          "controlled_payment_split_and_fallback": {
+            "score": 0.25,
+            "detail": "Controlled judge substitute"
+          },
+          "readiness_conclusion": {
+            "score": 0.25,
+            "detail": "Controlled judge substitute"
+          },
+          "source_data_present": {
+            "score": 1,
+            "detail": "Recommended installment transaction, seven active requirements, and approved decision are present"
+          }
+        },
+        "note": "sidecar self-contained: rule+text-llm \u8ba1\u5206"
+      }
+    },
+    {
+      "controlled_answer_score": 0.5,
+      "result": {
+        "score": 0.75,
+        "passed": false,
+        "gate_failed": [],
+        "by_method": {
+          "llm": 0.5,
+          "rule": 1.0
+        },
+        "items": {
+          "current_recommended_structure": {
+            "score": 0.5,
+            "detail": "Controlled judge substitute"
+          },
+          "documentary_tax_components": {
+            "score": 0.5,
+            "detail": "Controlled judge substitute"
+          },
+          "protection_statuses": {
+            "score": 0.5,
+            "detail": "Controlled judge substitute"
+          },
+          "controlled_payment_split_and_fallback": {
+            "score": 0.5,
+            "detail": "Controlled judge substitute"
+          },
+          "readiness_conclusion": {
+            "score": 0.5,
+            "detail": "Controlled judge substitute"
+          },
+          "source_data_present": {
+            "score": 1,
+            "detail": "Recommended installment transaction, seven active requirements, and approved decision are present"
+          }
+        },
+        "note": "sidecar self-contained: rule+text-llm \u8ba1\u5206"
+      }
+    },
+    {
+      "controlled_answer_score": 0.75,
+      "result": {
+        "score": 0.875,
+        "passed": false,
+        "gate_failed": [],
+        "by_method": {
+          "llm": 0.75,
+          "rule": 1.0
+        },
+        "items": {
+          "current_recommended_structure": {
+            "score": 0.75,
+            "detail": "Controlled judge substitute"
+          },
+          "documentary_tax_components": {
+            "score": 0.75,
+            "detail": "Controlled judge substitute"
+          },
+          "protection_statuses": {
+            "score": 0.75,
+            "detail": "Controlled judge substitute"
+          },
+          "controlled_payment_split_and_fallback": {
+            "score": 0.75,
+            "detail": "Controlled judge substitute"
+          },
+          "readiness_conclusion": {
+            "score": 0.75,
+            "detail": "Controlled judge substitute"
+          },
+          "source_data_present": {
+            "score": 1,
+            "detail": "Recommended installment transaction, seven active requirements, and approved decision are present"
+          }
+        },
+        "note": "sidecar self-contained: rule+text-llm \u8ba1\u5206"
+      }
+    },
+    {
+      "controlled_answer_score": 1.0,
+      "result": {
+        "score": 1.0,
+        "passed": true,
+        "gate_failed": [],
+        "by_method": {
+          "llm": 1.0,
+          "rule": 1.0
+        },
+        "items": {
+          "current_recommended_structure": {
+            "score": 1.0,
+            "detail": "Controlled judge substitute"
+          },
+          "documentary_tax_components": {
+            "score": 1.0,
+            "detail": "Controlled judge substitute"
+          },
+          "protection_statuses": {
+            "score": 1.0,
+            "detail": "Controlled judge substitute"
+          },
+          "controlled_payment_split_and_fallback": {
+            "score": 1.0,
+            "detail": "Controlled judge substitute"
+          },
+          "readiness_conclusion": {
+            "score": 1.0,
+            "detail": "Controlled judge substitute"
+          },
+          "source_data_present": {
+            "score": 1,
+            "detail": "Recommended installment transaction, seven active requirements, and approved decision are present"
+          }
+        },
+        "note": "sidecar self-contained: rule+text-llm \u8ba1\u5206"
+      }
+    },
+    {
+      "controlled_answer_score": "unavailable",
+      "result": {
+        "score": 0.0,
+        "passed": false,
+        "reward_error": "judge_crashed",
+        "judge_error": "Controlled offline failure",
+        "items": {
+          "current_recommended_structure": {
+            "score": 0.0,
+            "detail": "judge_unavailable"
+          },
+          "documentary_tax_components": {
+            "score": 0.0,
+            "detail": "judge_unavailable"
+          },
+          "protection_statuses": {
+            "score": 0.0,
+            "detail": "judge_unavailable"
+          },
+          "controlled_payment_split_and_fallback": {
+            "score": 0.0,
+            "detail": "judge_unavailable"
+          },
+          "readiness_conclusion": {
+            "score": 0.0,
+            "detail": "judge_unavailable"
+          }
+        },
+        "note": "sidecar self-contained: judge unavailable -> mask"
+      }
+    }
+  ],
+  "interpretation": [
+    "For this branch and pristine inputs, raw reward equals 0.5 + 0.5 * answer score.",
+    "This increasing affine map preserves within-task ordering of answer scores.",
+    "Judge unavailability is returned as reward_error, not the 0.5 baseline."
+  ],
+  "limitations": [
+    "Judge outputs were substituted; no real answer was graded.",
+    "Executed the extracted _grade_sc function, not _grade or the complete runtime.",
+    "No image inspection, actual model rollout, or RL training was performed.",
+    "External grading package selection, binarization and masking by trainer remain untested.",
+    "This establishes aggregation behavior, not an incentive-reversal exploit."
+  ]
+}

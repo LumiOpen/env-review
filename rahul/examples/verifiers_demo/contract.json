@@ -1,0 +1,28 @@
+{
+  "schema_version": "rlaudit.environment/v1",
+  "id": "verifiers-demo-copy-token",
+  "framework": "verifiers_v0",
+  "loader": {
+    "source": "environment",
+    "module": "environment",
+    "factory": "load_environment",
+    "kwargs": {}
+  },
+  "task": {
+    "dataset": "dataset",
+    "index": 0,
+    "expect": {
+      "question": {"task": "prompt"},
+      "answer": {"task": "metadata.answer"}
+    }
+  },
+  "interaction": {"kind": "completion"},
+  "score": {"metric": "reward", "required_metrics": ["copy_token_reward"]},
+  "capture": {"parsed_answer": true},
+  "oracle": {
+    "kind": "exact_text",
+    "candidate": {"case": "input.completion"},
+    "expected": {"task": "metadata.answer"},
+    "tag": "answer"
+  }
+}

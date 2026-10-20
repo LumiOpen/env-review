@@ -1,0 +1,266 @@
+[
+  {
+    "task_id": "format-code-task-000075",
+    "row_index": 755,
+    "test_command": "bash /testbed/mimo_test_command.sh base && bash /testbed/mimo_test_command.sh new",
+    "touched_paths": [
+      "config/lfu_defaults_test.go",
+      "internal/store/lfu_behavior_test.go",
+      "mimo_test_command.sh"
+    ],
+    "behavioral_test_paths": [
+      "config/lfu_defaults_test.go",
+      "internal/store/lfu_behavior_test.go"
+    ],
+    "bundled_commands": [],
+    "archive_members": [],
+    "structural_errors": [],
+    "coverage_flags": [
+      {
+        "source": "mimo_test_command.sh",
+        "flag": "empty_test_filter",
+        "line": 29,
+        "context": "      go test -v -race -count=1 ./internal/store -run \"^${test_name}$\"",
+        "context_truncated": false,
+        "stage": "test_or_unknown"
+      }
+    ],
+    "inspection_limits": []
+  },
+  {
+    "task_id": "format-code-task-002186",
+    "row_index": 20,
+    "test_command": "bash /workspace/repo/mimo_test_command.sh",
+    "touched_paths": [
+      "usercase-test-coderl/data_layer_stateful_test.go",
+      "mimo_test_command.sh"
+    ],
+    "behavioral_test_paths": [
+      "usercase-test-coderl/data_layer_stateful_test.go"
+    ],
+    "bundled_commands": [],
+    "archive_members": [],
+    "structural_errors": [],
+    "coverage_flags": [
+      {
+        "source": "mimo_test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 44,
+        "context": "    redis-cli -h 127.0.0.1 -p 6380 shutdown nosave >/dev/null 2>&1 || true",
+        "context_truncated": false,
+        "stage": "test_or_unknown"
+      }
+    ],
+    "inspection_limits": []
+  },
+  {
+    "task_id": "format-code-task-000179",
+    "row_index": 226,
+    "test_command": "bash /testbed/mimo_test_command.sh base && bash /testbed/mimo_test_command.sh new",
+    "touched_paths": [
+      "sale_order_carrier_auto_assign/tests/test_sale_order_carrier_auto_assign.py",
+      "mimo_test_command.sh"
+    ],
+    "behavioral_test_paths": [
+      "sale_order_carrier_auto_assign/tests/test_sale_order_carrier_auto_assign.py"
+    ],
+    "bundled_commands": [],
+    "archive_members": [],
+    "structural_errors": [],
+    "coverage_flags": [
+      {
+        "source": "mimo_test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 10,
+        "context": "pg_ctlcluster 16 main start 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "test_or_unknown"
+      },
+      {
+        "source": "mimo_test_command.sh",
+        "flag": "no_recognized_test_invocation",
+        "line": null,
+        "context": "#!/bin/bash\nset -euo pipefail\ncd /testbed\n\n\nset +u\nsource /opt/odoo-venv/bin/activate\nset -u\n\npg_ctlcluster 16 main start 2>/dev/null || true\n\n\nADDONS_PATH=\"/opt/odoo-venv/src/odoo/addons,/opt/odoo-venv/src/odoo/odoo/addons,/testbed\"\nMODULE=\"sale_order_carrier_auto_assign\"\nCLASS=\"TestSaleOrderCarrie"
+      }
+    ],
+    "inspection_limits": []
+  },
+  {
+    "task_id": "format-code-task-000133",
+    "row_index": 282,
+    "test_command": "bash /testbed/mimo_test_command.sh base && bash /testbed/mimo_test_command.sh new",
+    "touched_paths": [
+      "app/common/__tests__/network.test.js",
+      "app/models/__mocks__/uuid.js",
+      "mimo_test_command.sh"
+    ],
+    "behavioral_test_paths": [
+      "app/common/__tests__/network.test.js"
+    ],
+    "bundled_commands": [],
+    "archive_members": [],
+    "structural_errors": [],
+    "coverage_flags": [
+      {
+        "source": "mimo_test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 6,
+        "context": "dev-switch node 20 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "setup_or_cleanup"
+      },
+      {
+        "source": "mimo_test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 12,
+        "context": "  git config --global url.\"https://github.com/\".insteadOf \"git@github.com:\" 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "test_or_unknown"
+      }
+    ],
+    "inspection_limits": []
+  },
+  {
+    "task_id": "format-code-task-002677",
+    "row_index": 460,
+    "test_command": "bash /testbed/mimo_test_command.sh base && bash /testbed/mimo_test_command.sh new",
+    "touched_paths": [
+      "core/networking/peerstore_test.go",
+      "core/store/migrations/p2p_peerstore_test.go",
+      "mimo_test_command.sh"
+    ],
+    "behavioral_test_paths": [
+      "core/networking/peerstore_test.go",
+      "core/store/migrations/p2p_peerstore_test.go"
+    ],
+    "bundled_commands": [],
+    "archive_members": [],
+    "structural_errors": [],
+    "coverage_flags": [
+      {
+        "source": "mimo_test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 10,
+        "context": "    pg_ctlcluster 16 main start 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "setup_or_cleanup"
+      },
+      {
+        "source": "mimo_test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 17,
+        "context": "    pg_ctlcluster 16 main reload 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "setup_or_cleanup"
+      },
+      {
+        "source": "mimo_test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 23,
+        "context": "    su - postgres -c \"psql -c \\\"CREATE USER root WITH SUPERUSER CREATEDB;\\\"\" 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "test_or_unknown"
+      },
+      {
+        "source": "mimo_test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 27,
+        "context": "    psql -U root -d postgres -c \"CREATE DATABASE chainlink_test;\" 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "test_or_unknown"
+      }
+    ],
+    "inspection_limits": []
+  },
+  {
+    "task_id": "format-code-task-002092",
+    "row_index": 497,
+    "test_command": "bash /testbed/mimo_test_command.sh",
+    "touched_paths": [
+      "care/facility/tests/test_patient_and_consultation_access.py",
+      "mimo_build_env.tar.gz.b64",
+      "mimo_test_command.sh"
+    ],
+    "behavioral_test_paths": [
+      "care/facility/tests/test_patient_and_consultation_access.py"
+    ],
+    "bundled_commands": [
+      {
+        "path": ".build_env/test_command.sh",
+        "text": "#!/bin/bash\ncd /testbed\n\n# Start PostgreSQL if not running\npg_ctlcluster 16 main start 2>/dev/null || true\n\n# Ensure the test database and user exist\nsu - postgres -c \"createdb 'care-test'\" 2>/dev/null || true\nsu - postgres -c \"psql -c \\\"CREATE USER root WITH SUPERUSER PASSWORD 'root';\\\"\" 2>/dev/null || true\nsu - postgres -c \"psql -c \\\"ALTER USER root CREATEDB;\\\"\" 2>/dev/null || true\nsu - postgres -c \"psql -c \\\"GRANT ALL PRIVILEGES ON DATABASE \\\\\\\"care-test\\\\\\\" TO root;\\\"\" 2>/dev/null || true\n\n# Drop existing test database to start fresh\nsu - postgres -c \"dropdb 'test_care-test'\" 2>/dev/null || true\n\n# Ensure static files are collected\npipenv run python manage.py collectstatic --noinput --settings=config.settings.test 2>/dev/null || true\n\n# Run the target test file\n# Note: test_patient_consultation_access has a pre-existing DISTINCT ON bug\n# (from commit 338b510d6) unrelated to the PR patches.\n# Running the test added by the PR which validates the ordering filter feature.\npipenv run python manage.py test care.facility.tests.test_patient_and_consultation_access.TestPatientConsultationAccess.test_discharge_patient_ordering_filter --settings=config.settings.test -v 2\n"
+      }
+    ],
+    "archive_members": [
+      {
+        "name": ".build_env",
+        "size": 0,
+        "type": "dir"
+      },
+      {
+        "name": ".build_env/test_command.sh",
+        "size": 1183,
+        "type": "file"
+      }
+    ],
+    "structural_errors": [],
+    "coverage_flags": [
+      {
+        "source": ".build_env/test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 5,
+        "context": "pg_ctlcluster 16 main start 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "setup_or_cleanup"
+      },
+      {
+        "source": ".build_env/test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 8,
+        "context": "su - postgres -c \"createdb 'care-test'\" 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "setup_or_cleanup"
+      },
+      {
+        "source": ".build_env/test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 9,
+        "context": "su - postgres -c \"psql -c \\\"CREATE USER root WITH SUPERUSER PASSWORD 'root';\\\"\" 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "test_or_unknown"
+      },
+      {
+        "source": ".build_env/test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 10,
+        "context": "su - postgres -c \"psql -c \\\"ALTER USER root CREATEDB;\\\"\" 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "test_or_unknown"
+      },
+      {
+        "source": ".build_env/test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 11,
+        "context": "su - postgres -c \"psql -c \\\"GRANT ALL PRIVILEGES ON DATABASE \\\\\\\"care-test\\\\\\\" TO root;\\\"\" 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "test_or_unknown"
+      },
+      {
+        "source": ".build_env/test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 14,
+        "context": "su - postgres -c \"dropdb 'test_care-test'\" 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "test_or_unknown"
+      },
+      {
+        "source": ".build_env/test_command.sh",
+        "flag": "explicit_success_suppression",
+        "line": 17,
+        "context": "pipenv run python manage.py collectstatic --noinput --settings=config.settings.test 2>/dev/null || true",
+        "context_truncated": false,
+        "stage": "setup_or_cleanup"
+      }
+    ],
+    "inspection_limits": []
+  }
+]

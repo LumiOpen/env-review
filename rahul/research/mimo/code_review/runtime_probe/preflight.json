@@ -1,0 +1,27 @@
+{
+  "status": "prepared_not_launched",
+  "source_validation": {
+    "image": "docker.io/xiaomimimo/mimo-v2.6-rl-oss@sha256:88326a734ec3abb1fa9d44744796f819880f4801a74b940965d488ca69fd8b24",
+    "image_inspection_job": "55616",
+    "helper_path": "/testbed/pytago/tests/test_core.py",
+    "helper_sha256": "8c0c0021cb9cd2c2a48e76177081e2664cea4b8d69dab054a05ee08f44fc2d95",
+    "helper_evidence": "image_inspection/55616/files/pytago/tests/test_core.py:17-20 reads examples/<name>.py and .go; no existence guard",
+    "fixture_py_status": "missing",
+    "fixture_go_status": "missing",
+    "test_patch_evidence": "snapshots/format-code-task-002069/test.patch:1-11 adds only test method; remaining patch files are wrapper and encoded command",
+    "decoded_command": "snapshots/format-code-task-002069/test_command.sh:1-3 runs pytest for Test::test_bitwisenot"
+  },
+  "probe_design": {
+    "script": "scripts/code_reward_probe.py",
+    "slurm": "amd-tw-verification, tus1-p15-g62, 2 CPU, 4 GB, 12 min",
+    "cases": [
+      "pristine baseline after pinned setup and anti_hack_cleanup=true",
+      "fixture-only copy of existing helloworld example pair, no source implementation edits",
+      "independent original bitwise-NOT reproduction after reward"
+    ],
+    "isolation": "Docker network none; no binds, socket, or privileged mode; fresh writable overlay per case",
+    "runtime_semantics": "Pinned history purge, source cleanup commands, model diff capture, patch-path reset, git apply, bundled test command, and final reset",
+    "expected_interpretation": "A zero-exit fixture-only verdict plus nonzero original repro supports false acceptance, subject to logs and adapter limitations."
+  },
+  "script_sha256": "792ec5981e9d1f4829cffbb88fd92a4fba2226b4e51455697bcd1a14bc212b0d"
+}

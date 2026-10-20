@@ -1,0 +1,70 @@
+{
+ "items": [
+  {
+   "id": "denominator",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "是否识别出当前政府投资主体工程材料基准的有效类目总数为 12，并将项目汇总旧行排除在类目分母之外？",
+   "pass_anchor": "真实数据锚点：政府投资主体工程的启用材料类目编号为 1 至 12，共 12 个；目标项目的项目汇总记录 current_flag=0、record_kind=项目汇总、旧 summary_value_pct=66.67，不能作为材料类目。答案需明确给出 12，并表达排除该旧汇总行的口径。"
+  },
+  {
+   "id": "complete_count",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "是否算出按材料类目去重后的完整类目数为 7？",
+   "pass_anchor": "真实数据锚点：目标项目当前材料证据按 material_id 聚合后，材料编号 1、5、6、7、9、10、11 的状态为完整，共 7 个类目。对同一 material_id 的多条当前记录不能重复计数。数值应为 7。"
+  },
+  {
+   "id": "correction_count",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "是否正确报告需补正口径：普通需补正类目为 4（2、3、4、12），阻断待补正类目为 1（8），并明确两者分别统计、不将 8 重复计入普通需补正？答案可以把全部缺口合计写为 5，但必须给出普通 4 + 阻断 1 的分解。",
+   "pass_anchor": "真实数据锚点：当前有效材料类目中，编号 2、3、4、12 属于普通需补正，共 4 个；编号 8 是阻断待补正，独立统计为 1 个。将全部非完整类目合计写为 5 也可接受，但必须清楚分解为普通 4 + 阻断 1，且不得把重复扫描记录或历史待确认记录再加成类目数。"
+  },
+  {
+   "id": "blocking_count",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "是否识别出阻断待补正类目数为 1？",
+   "pass_anchor": "真实数据锚点：目标项目当前记录中只有材料编号 8 的多条证据记录标记为阻断待补正且阻断开工；按 material_id 去重后阻断类目数为 1。答案必须按类目而非文件数统计。"
+  },
+  {
+   "id": "gap_numbers",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "是否列出完整类目之外的缺口编号集合为 2、3、4、8、12？",
+   "pass_anchor": "真实数据锚点：当前按 material_id 聚合的非完整类目正好是材料编号 2、3、4、8、12；其中 8 为阻断待补正，其余 2、3、4、12 为需补正。集合可用逗号、顿号或列表表达，顺序不限，但不得漏项或加入其他编号。"
+  },
+  {
+   "id": "rate_and_traps",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "是否重算出材料完整率为 58.33%，并说明项目汇总中的旧完整率不能沿用、同一类目下的重复扫描不能增加类目数？旧值可以直接写出 66.67%，也可以用等价的记录口径说明（项目汇总、current_flag=0/历史快照）来解释其被排除。",
+   "pass_anchor": "真实数据锚点：完整率为 round(7/12*100, 2)=58.33%。项目汇总行保存的旧值为 66.67%，其 current_flag=0 且 record_kind=项目汇总；答案明确指出该行是历史/旧汇总、不能作为当前材料类目或当前完整率即可，不强制机械复述 66.67%。材料编号 2 的扫描件 A、B 具有相同 duplicate_group 和 checksum，且都属于同一 material_id，因此只能算一个类目。答案需同时给出 58.33% 并明确排除旧汇总和重复扫描的额外计数。"
+  }
+ ],
+ "check_code": "def unused_rule_placeholder(workspace):\n    return {\"score\": 0.0, \"detail\": \"本题为只读分析题，核心结论由文本判据核验。\"}\n",
+ "gold_answer": null,
+ "input": "db",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

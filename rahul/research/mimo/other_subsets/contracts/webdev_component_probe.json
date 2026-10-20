@@ -1,0 +1,41 @@
+{
+  "id": "webdev-runtime-gate-component",
+  "task_ids": [
+    "mimo-webdev-000000"
+  ],
+  "executor": "trusted_process",
+  "scope": "component",
+  "command": [
+    "{python}",
+    "{source:driver}",
+    "--source",
+    "{source:webdev_sources}/group_pick.py"
+  ],
+  "cases": [
+    {
+      "id": "runtime-failed",
+      "input": {
+        "pick_norm": 0.5,
+        "query_score": 0.9,
+        "runtime_factor": 0
+      }
+    },
+    {
+      "id": "runtime-passed",
+      "input": {
+        "pick_norm": 0.5,
+        "query_score": 0.9,
+        "runtime_factor": 1
+      }
+    }
+  ],
+  "relation": {
+    "kind": "expected",
+    "values": [
+      0.0,
+      0.8333
+    ],
+    "justification": "Synthetic fixed pick and query scores isolate the pinned Webdev group reward runtime gate. The reviewed source returns zero when runtime_factor is zero and the affine reward when it is one; this only validates component arithmetic, not page rendering or vision judging.",
+    "tolerance": 0.0001
+  }
+}

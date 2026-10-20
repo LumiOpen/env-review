@@ -1,0 +1,76 @@
+{
+  "scope": {
+    "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+    "sample_source": "research/mimo/general_sample/summary.json",
+    "selection": [
+      "s3k_0438_consulting_bizops_analytics_en_t3_rl_004",
+      "s3k_0568_ecommerce_ops_en_t3_rl_001"
+    ],
+    "reason": "The requested consulting task has three compact criteria. Ecommerce provides a contrasting domain with a simple calculation and an explicit no-database-change instruction. Inspection of all 12 sampled instructions and metadata found no task that actually requires a workspace or system write; the apparent accounting 'create' term refers to an event being created in historical data.",
+    "method": "Static inspection of instructions, verifier metadata, manifests and pinned verifier source only. No upstream code, sidecar, judge, or model executed.",
+    "source_hashes": "research/mimo/general_review/diverse_hashes.json",
+    "shared_verifier": "Both diverse verify.py and run_verify.py files have the same SHA-256 as the three earlier General bundles; task-specific rubrics are only in verifier_meta.json."
+  },
+  "tasks": [
+    {
+      "id": "s3k_0438_consulting_bizops_analytics_en_t3_rl_004",
+      "requested_behavior": "Review intake and both rework history rows in the TU/e Operations Intake system; explain validation, sequence, outcome and case-level count in the final response. The wording says the report can retain both evidence rows, but does not instruct the agent to write or update a report or system record.",
+      "metadata": "act=none, input=db, output=none. Three critical LLM criteria, all files=[answer.md], default equal weight 1 each. No rule criterion, gate, or src_protect. The embedded target_records_are_present helper is unreferenced by any item and is not executed by the sidecar scoring path.",
+      "evidence": [
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/instruction.md:1",
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verifier_meta.json:4",
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verifier_meta.json:14",
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verifier_meta.json:24",
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verifier_meta.json:34",
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verifier_meta.json:36"
+      ]
+    },
+    {
+      "id": "s3k_0568_ecommerce_ops_en_t3_rl_001",
+      "requested_behavior": "Analyze dated completed-sales cohorts, give the peak date/count, monthly count/share, and dashboard-summary exclusion in the final response; do not change database records.",
+      "metadata": "act=none, input=db, output=none. Four LLM criteria, each files=[answer.md], default equal weight 1; no rule criterion, gate, or src_protect. The embedded check_code is a docstring stating there is no deterministic post-state check.",
+      "evidence": [
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/instruction.md:1",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/verifier_meta.json:4",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/verifier_meta.json:14",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/verifier_meta.json:24",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/verifier_meta.json:34",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/verifier_meta.json:44"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "D1_final_answer_channel_precedence",
+      "status": "confirmed-static channel mismatch; runtime verdict unresolved",
+      "hypothesis": "Both prompts designate the final response as the deliverable, but the controller and verifier preserve a nonempty agent-written workspace/answer.md over that final response, and the entire rubric reads only answer.md. Therefore the text graded can differ from the final assistant response. This is a structural channel mismatch; whether it produces a false positive with a real judge is untested.",
+      "evidence": [
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/instruction.md:1",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/instruction.md:1",
+        "research/mimo/general_review/snapshots/pinned_verl/recipes/general/general_agent/environment.py:709",
+        "research/mimo/general_review/snapshots/diverse/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verify.py:420",
+        "research/mimo/general_review/snapshots/diverse/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verify.py:428",
+        "research/mimo/general_review/snapshots/diverse/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verify.py:285",
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verifier_meta.json:7",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/verifier_meta.json:9"
+      ],
+      "alternative_explanation": "answer.md is intentionally supported for agents that write their response as an artifact, and an agent may normally keep artifact and final reply consistent. The controller explicitly states that an agent-written answer.md wins, so this is documented behavior even though the task wording emphasizes the final reply.",
+      "next_probe": "On amd-tw-verification, use a disposable consulting task workspace and exact pinned controller/verifier sources. Pair A: write answer.md with the three rubric-anchor facts (INT-2024-0731-0042 for RFP-2024-000731, missing supervisor approval, RW-2024-0731-01 reopened attempt 1, RW-2024-0731-02 resolved attempt 2, one reportable case retaining both rows) while supplying final assistant text 'I cannot determine the answer.' Pair B: reverse the two texts. Hold system state fixed. Substitute only the external judge call with a deterministic local stub that records the extracted evidence and returns 1 iff the required facts appear. Expected evidence/score follows answer.md, not final text. This proves channel selection without a model API; it does not prove a production judge false verdict."
+    },
+    {
+      "id": "D2_side_effect_gap_not_established",
+      "status": "unresolved; sample unsuitable",
+      "hypothesis": "A true required-action gap cannot be demonstrated from these two tasks or the 12-task diverse sample because all sampled prompts request analysis in a final answer and every metadata act is none. The absence of state checks in these answer tasks is consistent with their read-only/output-only contracts.",
+      "evidence": [
+        "research/mimo/general_sample/summary.json:selected_tasks",
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/instruction.md:1",
+        "research/mimo/general_sample/snapshots/s3k_0438_consulting_bizops_analytics_en_t3_rl_004/verifier_meta.json:37",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/instruction.md:1",
+        "research/mimo/general_sample/snapshots/s3k_0568_ecommerce_ops_en_t3_rl_001/verifier_meta.json:47"
+      ],
+      "alternative_explanation": "There may be action-oriented General tasks outside this selected sample. The sample selection prioritized short prompts and domain diversity, not action requirements.",
+      "next_probe": "Select a General bundle outside this sample whose prompt explicitly requires an MCP-backed write or saved artifact. Then compare correct final text with unchanged state against the same text after the required state change. Do not spend judge calls until the exact write requirement and grader evidence are verified from the bundle."
+    }
+  ],
+  "relationship_to_prior_probe": "Slurm job 55615 showed first-task raw score aggregation under a controlled judge substitute. It establishes 0.5 + 0.5 * answer_score for that task and does not test final-answer precedence or any real judge verdict."
+}

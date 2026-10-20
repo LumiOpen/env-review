@@ -1,0 +1,80 @@
+{
+ "items": [
+  {
+   "id": "dedup_billable_hours",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Does the final answer compute the deduplicated posted billable client hours for the Potomac Basin PFAS engagement's 2025-Q3 management period?",
+   "pass_anchor": "Pass if the answer gives 31,274 billable client hours (allow equivalent comma/decimal formatting and at most ±1 hour). The calculation must be described as deduplicated posted billable labor for July 1 through September 28, 2025.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "active_capacity_hours",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Does the final answer identify the available productive-hour denominator from the active Q3 capacity rows?",
+   "pass_anchor": "Pass if the answer gives 38,640 active available productive hours for the engagement and management period July 1 through September 28, 2025 (allow equivalent comma/decimal formatting and at most ±1 hour), and treats it as the utilization denominator.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "utilization",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Does the final answer compute utilization using billable client hours divided by available productive hours, rather than the stored scheduled-hours basis?",
+   "pass_anchor": "Pass if the answer computes 31,274 / 38,640 = 80.94% utilization (accept 80.94% or an equivalent value within ±0.02 percentage points) and keeps this metric distinct from realization.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "labor_value_and_revenue",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Does the final answer report both aggregate standard labor value and aggregate recognized labor revenue for the deduplicated Q3 billable labor?",
+   "pass_anchor": "Pass if the answer reports standard labor value of $4,286,920 and recognized labor revenue of $3,938,744 (each within ±$1, using equivalent currency formatting) and assigns standard value as the realization denominator and recognized revenue as the numerator.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "realization",
+   "tier": "important",
+   "method": "llm",
+   "question": "Does the final answer compute realization as recognized labor revenue divided by standard labor value?",
+   "pass_anchor": "Pass if the answer computes $3,938,744 / $4,286,920 = 91.88% realization (accept 91.88% or an equivalent value within ±0.02 percentage points) and does not substitute gross contract revenue or utilization.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "duplicate_and_exclusions",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Does the final answer identify the exact duplicate and correctly state the exclusion treatment for both the duplicate and the internal-admin row?",
+   "pass_anchor": "Pass if the answer identifies TE-25Q3-01426 and TE-25Q3-01426-DUP as one duplicate pair and states: James Patel or EMP-1178; 2025-08-14; BILLABLE_CLIENT; 9,000 hours; source/reference DLT-417-Q3-ENV-002; export batch EXP-2025-09-30-B. It must say retain only one copy. It must also identify TE-25Q3-02402 as INTERNAL_ADMIN and excluded from billable operating totals. Equivalent labels such as source/source reference and employee name/ID are accepted, and the facts may be presented in a nearby table or reconciliation paragraph. Do not require a particular survivor ID.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "client_variant_and_basis_trap",
+   "tier": "important",
+   "method": "llm",
+   "question": "Does the final answer normalize the client-name variants by client ID and explain why the canonical stored utilization basis is not the required operating calculation?",
+   "pass_anchor": "Pass if the answer states that client_org_id ORG-USACE-BALT appears with both 'U.S. Army Corps of Engineers Baltimore District' and 'USACE Baltimore District', and recommends the canonical client name 'U.S. Army Corps of Engineers Baltimore District' for grouping/reporting. It must also explain that the stored engagement value is 8,742 basis points or equivalently 87.42%, based on 36,480 scheduled hours, whereas the required operating calculation uses 31,274 deduplicated billable hours / 38,640 active available productive hours = 8,094 basis points or equivalently 80.94%, so the stored scheduled-hours basis is not the required denominator.",
+   "files": [
+    "answer.md"
+   ]
+  }
+ ],
+ "check_code": "def noop_guard(workspace):\n    return {\"score\": 0, \"detail\": \"This is a read-only task; scored conclusions are evaluated by the text rubric.\"}\n",
+ "gold_answer": null,
+ "input": "both",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

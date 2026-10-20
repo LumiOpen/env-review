@@ -1,0 +1,40 @@
+{
+  "selection_rank": 4,
+  "selection_reason": "greedy smallest nonempty test_patch with heuristic language/framework hints used to prefer diversity; deterministic row-index tie-break",
+  "selection_bias": "Concentrates on unusually small explicit test patches and heuristic language/framework keyword cues (unverified, may reflect generic prose); excludes empty patches and may underrepresent larger or less explicit task families. This is a triage sample, not representative and not a vulnerability claim.",
+  "row_index": 2003,
+  "language_hint": "python",
+  "framework_hint": "unknown",
+  "hints_unverified": true,
+  "row": {
+    "data_source": "opensource-code",
+    "ability": "swe",
+    "agent_name": "mimo_swe_agent",
+    "prompt": [
+      {
+        "content": "## `~` (bitwise NOT) on integers fails to transpile\n\nI was trying to transpile a small Python snippet with pytago that uses the bitwise NOT operator and it crashes instead of producing Go.\n\nMinimal repro (`bitwisenot.py`):\n\n```python\ndef main():\n    yeah = 9\n    yeah &= ~0x3\n    print(yeah)\n\nif __name__ == '__main__':\n    main()\n```\n\nRunning it through pytago bombs out — no Go output is produced. Other unary ops on the same kind of code (e.g. `-x`, `not x`) seem to work fine, it's specifically `~` that pytago refuses to handle.\n\nI'd expect pytago to translate `~` on integers into the equivalent Go bitwise complement, so that the snippet above transpiles into something like:\n\n```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tyeah := 9\n\tyeah &= ^3\n\tfmt.Println(yeah)\n}\n```\n\ni.e. Python's `~expr` → Go's `^expr` as a unary operator. Right now I have to hand-edit any code that uses `~` before feeding it to pytago, which is awkward when the input has a lot of bit-twiddling. Could `~` be supported as part of the unary-operator translation?",
+        "role": "user"
+      }
+    ],
+    "reward_model": {
+      "ground_truth": "",
+      "style": "rule"
+    },
+    "extra_info": {
+      "dataset_type": "opensource-code",
+      "index": 2241,
+      "instance_id": "format-code-task-002069",
+      "instance_json": "{\"cwd\": \"/testbed\", \"dataset_type\": \"opensource-code\", \"docker_image\": \"format-code-task-002069:latest\", \"instance_id\": \"format-code-task-002069\", \"problem_statement\": \"## `~` (bitwise NOT) on integers fails to transpile\\n\\nI was trying to transpile a small Python snippet with pytago that uses the bitwise NOT operator and it crashes instead of producing Go.\\n\\nMinimal repro (`bitwisenot.py`):\\n\\n```python\\ndef main():\\n    yeah = 9\\n    yeah &= ~0x3\\n    print(yeah)\\n\\nif __name__ == '__main__':\\n    main()\\n```\\n\\nRunning it through pytago bombs out \\u2014 no Go output is produced. Other unary ops on the same kind of code (e.g. `-x`, `not x`) seem to work fine, it's specifically `~` that pytago refuses to handle.\\n\\nI'd expect pytago to translate `~` on integers into the equivalent Go bitwise complement, so that the snippet above transpiles into something like:\\n\\n```go\\npackage main\\n\\nimport \\\"fmt\\\"\\n\\nfunc main() {\\n\\tyeah := 9\\n\\tyeah &= ^3\\n\\tfmt.Println(yeah)\\n}\\n```\\n\\ni.e. Python's `~expr` \\u2192 Go's `^expr` as a unary operator. Right now I have to hand-edit any code that uses `~` before feeding it to pytago, which is awkward when the input has a lot of bit-twiddling. Could `~` be supported as part of the unary-operator translation?\", \"test_command\": \"bash /testbed/mimo_test_command.sh\", \"test_patch\": \"diff --git a/pytago/tests/test_core.py b/pytago/tests/test_core.py\\nindex 70cce8d..91eaa70 100644\\n--- a/pytago/tests/test_core.py\\n+++ b/pytago/tests/test_core.py\\n@@ -248,6 +248,9 @@ def test_algobisection(self):\\n     def test_algointersection(self):\\n         self.assert_examples_match(\\\"algointersection\\\")\\n \\n+    def test_bitwisenot(self):\\n+        self.assert_examples_match(\\\"bitwisenot\\\")\\n+\\n     # In development\\n \\n     #\\ndiff --git a/mimo_build_env.tar.gz.b64 b/mimo_build_env.tar.gz.b64\\nnew file mode 100644\\n--- /dev/null\\n+++ b/mimo_build_env.tar.gz.b64\\n@@ -0,0 +1,5 @@\\n+H4sIAAAAAAAAA+3SywrCMBAF0K77FSMuuuoj2ij0O9xL0wZbsIk0UfHvTQOiFNSNIuo9m5k8IAk3\\n+idi323ot1SEN3iVzlpz76oyr7xmfMbbIZ/PlPMhcl/GA+NtudGNvbNkTBb3W9tG+Z+tfKrnmb6Wx\\n+60p3XanqxDSvO+NZ/oyP888XzOWfve4K9/15/tNJKlqVitI0YVWT/wRC1uEwQfG2omh3so1WFHfk\\n+Orc6lHKj/U5z+TS9THanoli5UVH4OdHaY2uk0pbiQxR++p0AAAAAAAAAAAAAAAAAAAAAAL/oDFek\\n+UAwAKAAA\\ndiff --git a/mimo_test_command.sh b/mimo_test_command.sh\\nnew file mode 100755\\n--- /dev/null\\n+++ b/mimo_test_command.sh\\n@@ -0,0 +1,6 @@\\n+#!/usr/bin/env bash\\n+\\n+set -uo pipefail\\n+cd /testbed || exit 1\\n+base64 -d mimo_build_env.tar.gz.b64 | tar -xzf - -C /testbed || exit 1\\n+exec bash -lc 'cd /testbed && bash -eo pipefail /testbed/.build_env/test_command.sh'\\n\", \"verifier_timeout_sec\": 1800}"
+    }
+  },
+  "instance_json_decoded": {
+    "cwd": "/testbed",
+    "dataset_type": "opensource-code",
+    "docker_image": "format-code-task-002069:latest",
+    "instance_id": "format-code-task-002069",
+    "problem_statement": "## `~` (bitwise NOT) on integers fails to transpile\n\nI was trying to transpile a small Python snippet with pytago that uses the bitwise NOT operator and it crashes instead of producing Go.\n\nMinimal repro (`bitwisenot.py`):\n\n```python\ndef main():\n    yeah = 9\n    yeah &= ~0x3\n    print(yeah)\n\nif __name__ == '__main__':\n    main()\n```\n\nRunning it through pytago bombs out — no Go output is produced. Other unary ops on the same kind of code (e.g. `-x`, `not x`) seem to work fine, it's specifically `~` that pytago refuses to handle.\n\nI'd expect pytago to translate `~` on integers into the equivalent Go bitwise complement, so that the snippet above transpiles into something like:\n\n```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tyeah := 9\n\tyeah &= ^3\n\tfmt.Println(yeah)\n}\n```\n\ni.e. Python's `~expr` → Go's `^expr` as a unary operator. Right now I have to hand-edit any code that uses `~` before feeding it to pytago, which is awkward when the input has a lot of bit-twiddling. Could `~` be supported as part of the unary-operator translation?",
+    "test_command": "bash /testbed/mimo_test_command.sh",
+    "test_patch": "diff --git a/pytago/tests/test_core.py b/pytago/tests/test_core.py\nindex 70cce8d..91eaa70 100644\n--- a/pytago/tests/test_core.py\n+++ b/pytago/tests/test_core.py\n@@ -248,6 +248,9 @@ def test_algobisection(self):\n     def test_algointersection(self):\n         self.assert_examples_match(\"algointersection\")\n \n+    def test_bitwisenot(self):\n+        self.assert_examples_match(\"bitwisenot\")\n+\n     # In development\n \n     #\ndiff --git a/mimo_build_env.tar.gz.b64 b/mimo_build_env.tar.gz.b64\nnew file mode 100644\n--- /dev/null\n+++ b/mimo_build_env.tar.gz.b64\n@@ -0,0 +1,5 @@\n+H4sIAAAAAAAAA+3SywrCMBAF0K77FSMuuuoj2ij0O9xL0wZbsIk0UfHvTQOiFNSNIuo9m5k8IAk3\n+idi323ot1SEN3iVzlpz76oyr7xmfMbbIZ/PlPMhcl/GA+NtudGNvbNkTBb3W9tG+Z+tfKrnmb6Wx\n+60p3XanqxDSvO+NZ/oyP888XzOWfve4K9/15/tNJKlqVitI0YVWT/wRC1uEwQfG2omh3so1WFHfk\n+Orc6lHKj/U5z+TS9THanoli5UVH4OdHaY2uk0pbiQxR++p0AAAAAAAAAAAAAAAAAAAAAAL/oDFek\n+UAwAKAAA\ndiff --git a/mimo_test_command.sh b/mimo_test_command.sh\nnew file mode 100755\n--- /dev/null\n+++ b/mimo_test_command.sh\n@@ -0,0 +1,6 @@\n+#!/usr/bin/env bash\n+\n+set -uo pipefail\n+cd /testbed || exit 1\n+base64 -d mimo_build_env.tar.gz.b64 | tar -xzf - -C /testbed || exit 1\n+exec bash -lc 'cd /testbed && bash -eo pipefail /testbed/.build_env/test_command.sh'\n",
+    "verifier_timeout_sec": 1800
+  }
+}

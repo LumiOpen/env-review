@@ -1,0 +1,60 @@
+{
+ "items": [
+  {
+   "id": "phase_control_matrix",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final memo produce a phase-based decision matrix from the safeguards recommendation, selecting controls that are active, pending, scheduled, or conditional and preserving the control IDs, owners, statuses, review dates, approval requirements, and release conditions?",
+   "pass_anchor": "The answer must distinguish the three phases and accurately identify the recommendation's controls. Ground-truth examples from Table 3 include: Immediate IMM-01 (Priya Raman Desai; Active; authorized Compliance title; September 17, 2025; release only when an authorized approver confirms scope, notice, and review status), IMM-02 (Marcus Theodore Hale; Active; Supervisor + Compliance; September 16, 2025; two authorized sign-offs and written rationale), IMM-03 (Daniel Mercer; Active; Operations procedure + Compliance; September 16, 2025; beneficiary request independently verified), IMM-04 (Daniel Mercer; Active; Operations + Compliance; September 17, 2025; destination ownership and client intent validated), IMM-05 (Naomi Elise Calder; Pending; Compliance-approved script; Requested consent; September 17, 2025; client identity and intent documented without coercion cue), and IMM-08 (Malcolm Reed; Active; Compliance legal-hold instruction; September 17, 2025; evidence index complete and new attempts escalated same day). Review Period examples include REV-01 (Priya Raman Desai; Pending; October 6, 2025; validated instruction or documented rejection), REV-02 (Account Operations; Pending; October 6, 2025; verified ownership and documented purpose), REV-03 (Priya Raman Desai; Pending; September 19, 2025; independent contact verified and outcome recorded), REV-05 (Marcus Theodore Hale; Scheduled; December 15, 2025; risk accepted or safeguards documented), and REV-06 (Priya Raman Desai; Pending; October 6, 2025; agency, basis, and minimum disclosure documented). Longer Term examples include LTR-01 (Naomi Elise Calder; Scheduled; December 15, 2025; client enrolls and test succeeds), LTR-02 (Daniel Mercer; Scheduled; March 16, 2026; alerts active and contact revalidated), LTR-03 (Naomi Elise Calder; Scheduled; September 15, 2026; annual confirmation complete), and LTR-04 (Naomi Elise Calder; Scheduled; September 15, 2026; independent advice documented or declined). Equivalent prose/table formatting is acceptable, but the answer must not collapse the phases or invent owners, dates, or conditions."
+  },
+  {
+   "id": "consent_boundary",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the memo correctly separate protective controls that do not require Evelyn's consent from voluntary account changes or client-directed controls that do require consent?",
+   "pass_anchor": "The answer must state that authorized protective actions such as IMM-01 through IMM-04 and IMM-08 are not client-consent items (with IMM-01 'Not required for authorized protective action' and IMM-04 'Not required for protective block'), while client participation, implementation of a voluntary account change, or execution of a client-directed instruction requires Evelyn's consent. Ground truth: IMM-05 participation is requested; IMM-06 reset assistance requests consent; REV-01 client confirmation/instruction requests consent; REV-02 consent is required for release; REV-05 consent is required for voluntary changes; LTR-01, LTR-02, LTR-03, and LTR-04 are required/client-directed consent items. Semantically equivalent split descriptions must be accepted: for example, it is correct to say no consent is needed to initiate a protective callback, record review, verification, surveillance, or permitted protective disclosure while consent is requested or required for Evelyn's participation, authenticated direction, credential reset assistance, release, or resulting voluntary account change. Literal Yes/No labels are not required. The answer must not treat Claire Elizabeth Sutton as an agent or convert trusted-contact outreach into account authority."
+  },
+  {
+   "id": "hold_scope_and_timing",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the answer preserve the limited Rule 2165 hold scope and give the correct notification, initial-checkpoint, and internal-extension dates?",
+   "pass_anchor": "The ground truth is: effective September 15, 2025, Harbor Ridge Securities placed a Rule 2165 temporary hold on securities disbursements and securities transactions in account ending 7319 and opened an internal review. Notification is due within two business days, with the recommendation's September 17, 2025 checkpoint; the initial 15-business-day decision checkpoint is October 6, 2025; an internal-review extension may run up to 10 additional business days to October 20, 2025 only if properly approved and documented. The answer must say this is not a general account freeze and must not present October 20 as automatic."
+  },
+  {
+   "id": "controlled_release",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final memo explain that release is a controlled, authorized decision tied to documented conditions rather than an automatic result of elapsed time?",
+   "pass_anchor": "The answer must expressly reject release by inaction or mere expiration. It should state that release requires the relevant documented condition and authorized approval: for IMM-01, an authorized approver confirms scope, notice, and review status; for IMM-02, two authorized sign-offs and written rationale; for a full release, review completion, notice and beneficiary findings resolved, and destination validated; for a partial release, a verified ordinary expense with no unresolved destination concern and the required supervisor/Compliance approval and client consent when client-directed; alternatively, continue review or a properly documented extension is the decision path."
+  },
+  {
+   "id": "unresolved_indicator_posture",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the answer preserve the evidentiary and legal posture while using the quantified exposure to explain prioritization?",
+   "pass_anchor": "The answer should use the confirmed context of $187,642.83 across four settled flagged disbursements and a 22.27% exposure ratio, and may mention the September 9 unfamiliar-device beneficiary replacement and no completed verbal confirmation before the September 12 disbursement. It must describe Miles Daniel Price only as a person with suspected involvement or an unresolved indicator, never as a proven perpetrator. It must not decide capacity, criminal liability, ownership of funds, or beneficiary validity, and must frame Rule 2165 as permissive authority for a qualifying hold rather than a universal mandatory freeze."
+  }
+ ],
+ "check_code": "\"\"\"Read-only analysis task; scored conclusions use the text rubric.\"\"\"\n",
+ "gold_answer": null,
+ "input": "workspace",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

@@ -1,0 +1,60 @@
+{
+ "items": [
+  {
+   "id": "pending_action_set",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "最终回复是否准确识别出2025年5月9日到期且在跟踪单出具时尚未闭环的全部处置事项，且未混入其他事项？",
+   "pass_anchor": "应当且仅应当识别出两项：①暂停新增提款并冻结未提款额度；②按日监测结算账户并上传系统。不得把其他到期日的事项或同日已完成事项计入待推动清单。表述可有合理同义改写。"
+  },
+  {
+   "id": "responsible_person_mapping",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "最终回复是否给出了两项待推动事项各自正确的责任人对应关系？",
+   "pass_anchor": "对应关系必须为：暂停新增提款并冻结未提款额度—周芷宁；按日监测结算账户并上传系统—许承岳。姓名与事项不得互换。"
+  },
+  {
+   "id": "acceptance_evidence_mapping",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "最终回复是否给出了两项待推动事项各自正确的验收证据？",
+   "pass_anchor": "对应关系应为：暂停新增提款并冻结未提款额度—额度冻结截图、审批记录；按日监测结算账户并上传系统—日监测表、系统上传记录。允许连接词、标点和顺序差异，但证据不可串项。"
+  },
+  {
+   "id": "current_progress",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "最终回复是否准确说明两项待推动事项在跟踪单中的当前进展？",
+   "pass_anchor": "两项待推动事项在跟踪单中的当前进展均为“进行中”。可用“尚在推进”“未完成、正在办理”等等价表述。"
+  },
+  {
+   "id": "completed_item_exclusion",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "最终回复是否正确处理了同样在2025年5月9日到期但已经办结的事项？",
+   "pass_anchor": "必须明确或无歧义地体现：‘更新征信和涉诉查询’已完成，因此不属于待推动或催办事项。若将其列入待推动清单，则不通过。"
+  }
+ ],
+ "check_code": "\"\"\"This read-only task has no deterministic workspace-state checks.\"\"\"\n",
+ "gold_answer": null,
+ "input": "workspace",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

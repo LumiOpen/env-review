@@ -1,0 +1,55 @@
+{
+  "version": "mimo-audit/1",
+  "scope": {
+    "domains": [
+      "general",
+      "code"
+    ],
+    "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+    "target": "Discover reproducible task/grader inconsistencies and runtime faults; do not certify global correctness."
+  },
+  "rules": [
+    "A structural absence or narrow test alone is a coverage observation, not a confirmed defective verdict.",
+    "A static hypothesis must identify a prompt requirement, grader evidence and an alternative explanation.",
+    "A confirmed false acceptance requires a completed grading result and independently established task violation.",
+    "A confirmed false rejection requires a completed grading result and independently established valid solution.",
+    "Partial or stubbed executions must list substituted components and cannot be reported as complete environment reproductions.",
+    "Reward level or calibration alone does not prove an incentive reversal; examine ordering and effective training transformations.",
+    "Curated samples and heuristic selection do not support defect prevalence estimates.",
+    "An audit of current public artifacts does not establish behavior of historical training."
+  ],
+  "execution": {
+    "login": "Lightweight source/data inspection and job submission only",
+    "compute_partition": "amd-tw-verification",
+    "paid_judging": "Deferred in current phase",
+    "image_specific_probes": "Unresolved cases parked per latest user steering"
+  },
+  "finding_fields": [
+    "id",
+    "task_id",
+    "dataset_revision",
+    "image_digest_if_used",
+    "status",
+    "prompt_requirement",
+    "grader_evidence",
+    "actual_observation",
+    "expected_behavior_and_basis",
+    "alternative_explanations",
+    "reproduction_command",
+    "source_hashes",
+    "limitations",
+    "independent_review"
+  ],
+  "next_stage_gates": {
+    "source_to_probe": "Specific conflicting behavior with a minimal reproducible test and bounded resource estimate",
+    "probe_to_environment": "Reduced probe supports a meaningful failure hypothesis; pin image and use supported configuration",
+    "environment_to_training": "Reproduced reward mismatch with independent outcome measurement; define a bounded training experiment"
+  },
+  "phase1_deliverables": [
+    "Canonical per-row inventory and source hashes",
+    "Bulk static Code scan",
+    "Broader General prompt screening and selected rubric comparison",
+    "Reviewed candidate reports with uncertainty",
+    "Executable bounded probes where feasible; parked cases clearly identified"
+  ]
+}

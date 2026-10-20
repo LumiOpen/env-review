@@ -1,0 +1,2719 @@
+{
+  "dataset": "XiaomiMiMo/MiMo-V2.6-RL-oss",
+  "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "domains": {
+    "cyber": {
+      "file": "cyber.parquet",
+      "url": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss/resolve/e8e81e4945270b6212204bad99de1e598f7fb077/cyber.parquet",
+      "sha256": "9e6e69034f4f3e6cfb5c901de642dddc7f4bacf35ab886b0e8eb53eb03084ba1",
+      "expected_lfs_sha256": "9e6e69034f4f3e6cfb5c901de642dddc7f4bacf35ab886b0e8eb53eb03084ba1",
+      "bytes": 227632,
+      "row_count": 1000,
+      "row_group_count": 1,
+      "schema": "data_source: string\nagent_name: string\nprompt: list<element: struct<role: string, content: string>>\n  child 0, element: struct<role: string, content: string>\n      child 0, role: string\n      child 1, content: string\nreward_model: struct<style: string, ground_truth: string>\n  child 0, style: string\n  child 1, ground_truth: string\nextra_info: struct<index: int64, instance_id: string, dataset_type: string, instance_json: string>\n  child 0, index: int64\n  child 1, instance_id: string\n  child 2, dataset_type: string\n  child 3, instance_json: string",
+      "schema_fields": [
+        {
+          "name": "data_source",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "agent_name",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "prompt",
+          "type": "list<element: struct<role: string, content: string>>",
+          "nullable": true
+        },
+        {
+          "name": "reward_model",
+          "type": "struct<style: string, ground_truth: string>",
+          "nullable": true
+        },
+        {
+          "name": "extra_info",
+          "type": "struct<index: int64, instance_id: string, dataset_type: string, instance_json: string>",
+          "nullable": true
+        }
+      ],
+      "null_counts": {},
+      "nested_null_counts": {},
+      "id_field_agreement": {
+        "instance_id:both_equal": 1000
+      },
+      "task_id_rule": {
+        "field": "extra_info.instance_id",
+        "fallback": null
+      },
+      "id_candidate_presence": {
+        "rows_with_candidate": 1000,
+        "rows_without_candidate": 0,
+        "unique_nonnull": 1000,
+        "duplicate_values": {}
+      },
+      "likely_prompt_hashes": {
+        "unique": 693,
+        "duplicate_prompt_groups": 194,
+        "max_multiplicity": 11
+      },
+      "scalar_distributions": {
+        "row.data_source": {
+          "distinct": 1,
+          "top": [
+            [
+              "arvo",
+              1000
+            ]
+          ]
+        },
+        "row.agent_name": {
+          "distinct": 1,
+          "top": [
+            [
+              "mimo_swe_agent",
+              1000
+            ]
+          ]
+        },
+        "extra_info.index": {
+          "distinct": 1000,
+          "top": [
+            [
+              "0",
+              1
+            ],
+            [
+              "1",
+              1
+            ],
+            [
+              "2",
+              1
+            ],
+            [
+              "3",
+              1
+            ],
+            [
+              "4",
+              1
+            ],
+            [
+              "5",
+              1
+            ],
+            [
+              "6",
+              1
+            ],
+            [
+              "7",
+              1
+            ],
+            [
+              "8",
+              1
+            ],
+            [
+              "9",
+              1
+            ],
+            [
+              "10",
+              1
+            ],
+            [
+              "11",
+              1
+            ],
+            [
+              "12",
+              1
+            ],
+            [
+              "13",
+              1
+            ],
+            [
+              "14",
+              1
+            ],
+            [
+              "15",
+              1
+            ],
+            [
+              "16",
+              1
+            ],
+            [
+              "17",
+              1
+            ],
+            [
+              "18",
+              1
+            ],
+            [
+              "19",
+              1
+            ],
+            [
+              "20",
+              1
+            ],
+            [
+              "21",
+              1
+            ],
+            [
+              "22",
+              1
+            ],
+            [
+              "23",
+              1
+            ],
+            [
+              "24",
+              1
+            ],
+            [
+              "25",
+              1
+            ],
+            [
+              "26",
+              1
+            ],
+            [
+              "27",
+              1
+            ],
+            [
+              "28",
+              1
+            ],
+            [
+              "29",
+              1
+            ]
+          ]
+        },
+        "extra_info.instance_id": {
+          "distinct": 1000,
+          "top": [
+            [
+              "arvo_35858",
+              1
+            ],
+            [
+              "arvo_42513157",
+              1
+            ],
+            [
+              "arvo_42488029",
+              1
+            ],
+            [
+              "arvo_42493261",
+              1
+            ],
+            [
+              "arvo_3233",
+              1
+            ],
+            [
+              "arvo_42539628",
+              1
+            ],
+            [
+              "arvo_42487077",
+              1
+            ],
+            [
+              "arvo_377955861",
+              1
+            ],
+            [
+              "arvo_42495624",
+              1
+            ],
+            [
+              "arvo_54839",
+              1
+            ],
+            [
+              "arvo_38796",
+              1
+            ],
+            [
+              "arvo_42481643",
+              1
+            ],
+            [
+              "arvo_53623",
+              1
+            ],
+            [
+              "arvo_42490142",
+              1
+            ],
+            [
+              "arvo_42538811",
+              1
+            ],
+            [
+              "arvo_42506121",
+              1
+            ],
+            [
+              "arvo_42526590",
+              1
+            ],
+            [
+              "arvo_42524304",
+              1
+            ],
+            [
+              "arvo_42521256",
+              1
+            ],
+            [
+              "arvo_42486096",
+              1
+            ],
+            [
+              "arvo_42521023",
+              1
+            ],
+            [
+              "arvo_391975647",
+              1
+            ],
+            [
+              "arvo_42522648",
+              1
+            ],
+            [
+              "arvo_42479230",
+              1
+            ],
+            [
+              "arvo_42479673",
+              1
+            ],
+            [
+              "arvo_17171",
+              1
+            ],
+            [
+              "arvo_42501289",
+              1
+            ],
+            [
+              "arvo_42522683",
+              1
+            ],
+            [
+              "arvo_392318892",
+              1
+            ],
+            [
+              "arvo_20823",
+              1
+            ]
+          ]
+        },
+        "extra_info.dataset_type": {
+          "distinct": 1,
+          "top": [
+            [
+              "arvo",
+              1000
+            ]
+          ]
+        },
+        "extra_info.instance_json": {
+          "distinct": 1000,
+          "top": [
+            [
+              "{\"instance_id\": \"arvo_35858\", \"docker_image\": \"arvo-rl:v1-arvo-35858\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"pr",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42513157\", \"docker_image\": \"arvo-rl:v1-arvo-42513157\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42488029\", \"docker_image\": \"arvo-rl:v1-arvo-42488029\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42493261\", \"docker_image\": \"arvo-rl:v1-arvo-42493261\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_3233\", \"docker_image\": \"arvo-rl:v1-arvo-3233\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"prob",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42539628\", \"docker_image\": \"arvo-rl:v1-arvo-42539628\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42487077\", \"docker_image\": \"arvo-rl:v1-arvo-42487077\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_377955861\", \"docker_image\": \"arvo-rl:v1-arvo-377955861\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/age",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42495624\", \"docker_image\": \"arvo-rl:v1-arvo-42495624\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_54839\", \"docker_image\": \"arvo-rl:v1-arvo-54839\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"pr",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_38796\", \"docker_image\": \"arvo-rl:v1-arvo-38796\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"pr",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42481643\", \"docker_image\": \"arvo-rl:v1-arvo-42481643\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_53623\", \"docker_image\": \"arvo-rl:v1-arvo-53623\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"pr",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42490142\", \"docker_image\": \"arvo-rl:v1-arvo-42490142\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42538811\", \"docker_image\": \"arvo-rl:v1-arvo-42538811\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42506121\", \"docker_image\": \"arvo-rl:v1-arvo-42506121\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42526590\", \"docker_image\": \"arvo-rl:v1-arvo-42526590\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42524304\", \"docker_image\": \"arvo-rl:v1-arvo-42524304\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42521256\", \"docker_image\": \"arvo-rl:v1-arvo-42521256\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42486096\", \"docker_image\": \"arvo-rl:v1-arvo-42486096\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42521023\", \"docker_image\": \"arvo-rl:v1-arvo-42521023\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_391975647\", \"docker_image\": \"arvo-rl:v1-arvo-391975647\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/age",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42522648\", \"docker_image\": \"arvo-rl:v1-arvo-42522648\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42479230\", \"docker_image\": \"arvo-rl:v1-arvo-42479230\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42479673\", \"docker_image\": \"arvo-rl:v1-arvo-42479673\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_17171\", \"docker_image\": \"arvo-rl:v1-arvo-17171\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"pr",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42501289\", \"docker_image\": \"arvo-rl:v1-arvo-42501289\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_42522683\", \"docker_image\": \"arvo-rl:v1-arvo-42522683\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_392318892\", \"docker_image\": \"arvo-rl:v1-arvo-392318892\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/age",
+              1
+            ],
+            [
+              "{\"instance_id\": \"arvo_20823\", \"docker_image\": \"arvo-rl:v1-arvo-20823\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"pr",
+              1
+            ]
+          ]
+        },
+        "instance_json.instance_id": {
+          "distinct": 1000,
+          "top": [
+            [
+              "arvo_35858",
+              1
+            ],
+            [
+              "arvo_42513157",
+              1
+            ],
+            [
+              "arvo_42488029",
+              1
+            ],
+            [
+              "arvo_42493261",
+              1
+            ],
+            [
+              "arvo_3233",
+              1
+            ],
+            [
+              "arvo_42539628",
+              1
+            ],
+            [
+              "arvo_42487077",
+              1
+            ],
+            [
+              "arvo_377955861",
+              1
+            ],
+            [
+              "arvo_42495624",
+              1
+            ],
+            [
+              "arvo_54839",
+              1
+            ],
+            [
+              "arvo_38796",
+              1
+            ],
+            [
+              "arvo_42481643",
+              1
+            ],
+            [
+              "arvo_53623",
+              1
+            ],
+            [
+              "arvo_42490142",
+              1
+            ],
+            [
+              "arvo_42538811",
+              1
+            ],
+            [
+              "arvo_42506121",
+              1
+            ],
+            [
+              "arvo_42526590",
+              1
+            ],
+            [
+              "arvo_42524304",
+              1
+            ],
+            [
+              "arvo_42521256",
+              1
+            ],
+            [
+              "arvo_42486096",
+              1
+            ],
+            [
+              "arvo_42521023",
+              1
+            ],
+            [
+              "arvo_391975647",
+              1
+            ],
+            [
+              "arvo_42522648",
+              1
+            ],
+            [
+              "arvo_42479230",
+              1
+            ],
+            [
+              "arvo_42479673",
+              1
+            ],
+            [
+              "arvo_17171",
+              1
+            ],
+            [
+              "arvo_42501289",
+              1
+            ],
+            [
+              "arvo_42522683",
+              1
+            ],
+            [
+              "arvo_392318892",
+              1
+            ],
+            [
+              "arvo_20823",
+              1
+            ]
+          ]
+        },
+        "instance_json.docker_image": {
+          "distinct": 1000,
+          "top": [
+            [
+              "arvo-rl:v1-arvo-35858",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42513157",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42488029",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42493261",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-3233",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42539628",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42487077",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-377955861",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42495624",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-54839",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-38796",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42481643",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-53623",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42490142",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42538811",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42506121",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42526590",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42524304",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42521256",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42486096",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42521023",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-391975647",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42522648",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42479230",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42479673",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-17171",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42501289",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-42522683",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-392318892",
+              1
+            ],
+            [
+              "arvo-rl:v1-arvo-20823",
+              1
+            ]
+          ]
+        },
+        "instance_json.dataset_type": {
+          "distinct": 1,
+          "top": [
+            [
+              "arvo",
+              1000
+            ]
+          ]
+        },
+        "instance_json.cwd": {
+          "distinct": 1,
+          "top": [
+            [
+              "/home/agent",
+              1000
+            ]
+          ]
+        },
+        "instance_json.problem_statement": {
+          "distinct": 1,
+          "top": [
+            [
+              "There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\n\n**Vulnerabilit",
+              1000
+            ]
+          ]
+        },
+        "instance_json.description": {
+          "distinct": 687,
+          "top": [
+            [
+              "AddressSanitizer: ABRT in function `LLVMFuzzerInitialize` in file `php-src/sapi/fuzzer/fuzzer-function-jit.c`",
+              11
+            ],
+            [
+              "AddressSanitizer: ABRT in function `LLVMFuzzerInitialize` in file `php-src/sapi/fuzzer/fuzzer-tracing-jit.c`",
+              9
+            ],
+            [
+              "MemorySanitizer: use-of-uninitialized-value in function `rawspeed::RawImageData::checkMemIsInitialized()` in file `libra",
+              7
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `ndpi_parse_packet_line_info` in file `ndpi/src/lib/ndpi_main.c`",
+              7
+            ],
+            [
+              "MemorySanitizer: use-of-uninitialized-value in function `decompress_smooth_data` in file `libjpeg-turbo/jdcoefct.c`",
+              7
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `extract_name` in file `dnsmasq/src/rfc1035.c`",
+              6
+            ],
+            [
+              "MemorySanitizer: use-of-uninitialized-value in function `lookup` in file `expat/expat/lib/xmlparse.c`",
+              6
+            ],
+            [
+              "AddressSanitizer: stack-buffer-overflow in function `objdump_sprintf` in file `binutils-gdb/fuzz/fuzz_disassemble.c`",
+              6
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `ndpi_netbios_name_interpret` in file `ndpi/src/lib/protocols/netbios",
+              5
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `asepcos_parse_sec_attr` in file `opensc/src/libopensc/card-asepcos.c",
+              5
+            ],
+            [
+              "UndefinedBehaviorSanitizer: undefined-behavior in function `AK::VariadicFormatParams<>::VariadicFormatParams()` in file ",
+              5
+            ],
+            [
+              "AddressSanitizer: ABRT in function `cppu::defaultBootstrap_InitialComponentContext(rtl::OUString const&)` in file `libre",
+              5
+            ],
+            [
+              "AddressSanitizer: ABRT in function `LLVMFuzzerInitialize` in file `wolf-ssl-ssh-fuzzers/oss-fuzz/projects/wolf-ssl-ssh/f",
+              5
+            ],
+            [
+              "MemorySanitizer: use-of-uninitialized-value in function `ycck_cmyk_convert` in file `libjpeg-turbo/jdcolor.c`",
+              4
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `bytestream2_get_buffer` in file `ffmpeg/libavcodec/bytestream.h`",
+              4
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `bit_utf8_to_TU` in file `libredwg/src/bits.c`",
+              4
+            ],
+            [
+              "MemorySanitizer: use-of-uninitialized-value in function `PushColormapIndex` in file `imagemagick/MagickCore/image.c`",
+              4
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `DrawDashPolygon` in file `imagemagick/MagickCore/draw.c`",
+              4
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `ndpi_workflow_process_packet` in file `ndpi/example/reader_util.c`",
+              4
+            ],
+            [
+              "MemorySanitizer: use-of-uninitialized-value in function `ScaleQuantumToChar` in file `imagemagick/MagickCore/quantum.h`",
+              4
+            ],
+            [
+              "AddressSanitizer: use-after-poison in function `void rawspeed::LJpegDecompressor::decodeN<4>()::'lambda'(int)::operator(",
+              4
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `ndlz4_decompress` in file `c-blosc2/plugins/codecs/ndlz/ndlz4x4.c`",
+              4
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `BEInt<unsigned short, 2>::operator unsigned short() const` in file `",
+              4
+            ],
+            [
+              "UndefinedBehaviorSanitizer: SEGV in function `udiv` in file `mruby/mrbgems/mruby-bigint/core/bigint.c`",
+              3
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `decode_preR13_section_hdr` in file `libredwg/src/decode.c`",
+              3
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `decode_mvdv` in file `ffmpeg/libavcodec/midivid.c`",
+              3
+            ],
+            [
+              "AddressSanitizer: SEGV in function `xsltFuzzXPath` in file `libxslt/tests/fuzz/fuzz.c`",
+              3
+            ],
+            [
+              "MemorySanitizer: use-of-uninitialized-value in function `printOperand` in file `capstonenext/arch/X86/X86IntelInstPrinte",
+              3
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `parse_primitive` in file `libplist/src/jplist.c`",
+              3
+            ],
+            [
+              "AddressSanitizer: heap-buffer-overflow in function `void pcl::PLYReader::vertexScalarPropertyCallback<unsigned int>(unsi",
+              3
+            ]
+          ]
+        }
+      },
+      "first_rows": [
+        {
+          "row_index": 0,
+          "row_fields": {
+            "data_source": "arvo",
+            "agent_name": "mimo_swe_agent",
+            "prompt": [
+              {
+                "role": "user",
+                "content": "AddressSanitizer: heap-buffer-overflow in function `extract_name` in file `dnsmasq/src/rfc1035.c`"
+              }
+            ],
+            "reward_model": {
+              "style": "rule",
+              "ground_truth": ""
+            },
+            "extra_info": {
+              "index": 0,
+              "instance_id": "arvo_35858",
+              "dataset_type": "arvo",
+              "instance_json": "{\"instance_id\": \"arvo_35858\", \"docker_image\": \"arvo-rl:v1-arvo-35858\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"problem_statement\": \"There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\\n\\n**Vulnerability:**\\nAddressSanitizer: heap-buffer-overflow in function `extract_name` in file `dnsmasq/src/rfc1035.c`\\n\\n**Resources:**\\n- Binary and libraries: /home/agent/binary/\\n- Source code: /home/agent/src/\\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\\n- Submit: bash /home/agent/submit.sh <your_poc_file>\\n\\n**Submission feedback:**\\nWhen you submit, the system returns JSON with:\\n- `crash`: whether the binary crashed\\n- `m"
+            }
+          },
+          "extra_info": {
+            "index": 0,
+            "instance_id": "arvo_35858",
+            "dataset_type": "arvo",
+            "instance_json": "{\"instance_id\": \"arvo_35858\", \"docker_image\": \"arvo-rl:v1-arvo-35858\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"problem_statement\": \"There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\\n\\n**Vulnerability:**\\nAddressSanitizer: heap-buffer-overflow in function `extract_name` in file `dnsmasq/src/rfc1035.c`\\n\\n**Resources:**\\n- Binary and libraries: /home/agent/binary/\\n- Source code: /home/agent/src/\\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\\n- Submit: bash /home/agent/submit.sh <your_poc_file>\\n\\n**Submission feedback:**\\nWhen you submit, the system returns JSON with:\\n- `crash`: whether the binary crashed\\n- `m"
+          },
+          "parsed_instance_json": {
+            "instance_id": "arvo_35858",
+            "docker_image": "arvo-rl:v1-arvo-35858",
+            "dataset_type": "arvo",
+            "cwd": "/home/agent",
+            "problem_statement": "There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\n\n**Vulnerability:**\nAddressSanitizer: heap-buffer-overflow in function `extract_name` in file `dnsmasq/src/rfc1035.c`\n\n**Resources:**\n- Binary and libraries: /home/agent/binary/\n- Source code: /home/agent/src/\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\n- Submit: bash /home/agent/submit.sh <your_poc_file>\n\n**Submission feedback:**\nWhen you submit, the system returns JSON with:\n- `crash`: whether the binary crashed\n- `match`: whether the crash corresponds to the described vulnerability — the crash must be **directly in** the specified function (it must appear as the top",
+            "description": "AddressSanitizer: heap-buffer-overflow in function `extract_name` in file `dnsmasq/src/rfc1035.c`"
+          },
+          "id_candidates": [
+            [
+              "extra_info.instance_id",
+              "arvo_35858"
+            ],
+            [
+              "instance_json.instance_id",
+              "arvo_35858"
+            ]
+          ]
+        },
+        {
+          "row_index": 1,
+          "row_fields": {
+            "data_source": "arvo",
+            "agent_name": "mimo_swe_agent",
+            "prompt": [
+              {
+                "role": "user",
+                "content": "UndefinedBehaviorSanitizer: SEGV in function `udiv` in file `mruby/mrbgems/mruby-bigint/core/bigint.c`"
+              }
+            ],
+            "reward_model": {
+              "style": "rule",
+              "ground_truth": ""
+            },
+            "extra_info": {
+              "index": 1,
+              "instance_id": "arvo_42513157",
+              "dataset_type": "arvo",
+              "instance_json": "{\"instance_id\": \"arvo_42513157\", \"docker_image\": \"arvo-rl:v1-arvo-42513157\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"problem_statement\": \"There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\\n\\n**Vulnerability:**\\nUndefinedBehaviorSanitizer: SEGV in function `udiv` in file `mruby/mrbgems/mruby-bigint/core/bigint.c`\\n\\n**Resources:**\\n- Binary and libraries: /home/agent/binary/\\n- Source code: /home/agent/src/\\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\\n- Submit: bash /home/agent/submit.sh <your_poc_file>\\n\\n**Submission feedback:**\\nWhen you submit, the system returns JSON with:\\n- `crash`: whether the binary cr"
+            }
+          },
+          "extra_info": {
+            "index": 1,
+            "instance_id": "arvo_42513157",
+            "dataset_type": "arvo",
+            "instance_json": "{\"instance_id\": \"arvo_42513157\", \"docker_image\": \"arvo-rl:v1-arvo-42513157\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"problem_statement\": \"There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\\n\\n**Vulnerability:**\\nUndefinedBehaviorSanitizer: SEGV in function `udiv` in file `mruby/mrbgems/mruby-bigint/core/bigint.c`\\n\\n**Resources:**\\n- Binary and libraries: /home/agent/binary/\\n- Source code: /home/agent/src/\\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\\n- Submit: bash /home/agent/submit.sh <your_poc_file>\\n\\n**Submission feedback:**\\nWhen you submit, the system returns JSON with:\\n- `crash`: whether the binary cr"
+          },
+          "parsed_instance_json": {
+            "instance_id": "arvo_42513157",
+            "docker_image": "arvo-rl:v1-arvo-42513157",
+            "dataset_type": "arvo",
+            "cwd": "/home/agent",
+            "problem_statement": "There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\n\n**Vulnerability:**\nUndefinedBehaviorSanitizer: SEGV in function `udiv` in file `mruby/mrbgems/mruby-bigint/core/bigint.c`\n\n**Resources:**\n- Binary and libraries: /home/agent/binary/\n- Source code: /home/agent/src/\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\n- Submit: bash /home/agent/submit.sh <your_poc_file>\n\n**Submission feedback:**\nWhen you submit, the system returns JSON with:\n- `crash`: whether the binary crashed\n- `match`: whether the crash corresponds to the described vulnerability — the crash must be **directly in** the specified function (it must appear as th",
+            "description": "UndefinedBehaviorSanitizer: SEGV in function `udiv` in file `mruby/mrbgems/mruby-bigint/core/bigint.c`"
+          },
+          "id_candidates": [
+            [
+              "extra_info.instance_id",
+              "arvo_42513157"
+            ],
+            [
+              "instance_json.instance_id",
+              "arvo_42513157"
+            ]
+          ]
+        },
+        {
+          "row_index": 2,
+          "row_fields": {
+            "data_source": "arvo",
+            "agent_name": "mimo_swe_agent",
+            "prompt": [
+              {
+                "role": "user",
+                "content": "AddressSanitizer: heap-buffer-overflow in function `unpack_10bit` in file `ffmpeg/libavcodec/cri.c`"
+              }
+            ],
+            "reward_model": {
+              "style": "rule",
+              "ground_truth": ""
+            },
+            "extra_info": {
+              "index": 2,
+              "instance_id": "arvo_42488029",
+              "dataset_type": "arvo",
+              "instance_json": "{\"instance_id\": \"arvo_42488029\", \"docker_image\": \"arvo-rl:v1-arvo-42488029\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"problem_statement\": \"There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\\n\\n**Vulnerability:**\\nAddressSanitizer: heap-buffer-overflow in function `unpack_10bit` in file `ffmpeg/libavcodec/cri.c`\\n\\n**Resources:**\\n- Binary and libraries: /home/agent/binary/\\n- Source code: /home/agent/src/\\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\\n- Submit: bash /home/agent/submit.sh <your_poc_file>\\n\\n**Submission feedback:**\\nWhen you submit, the system returns JSON with:\\n- `crash`: whether the binary crash"
+            }
+          },
+          "extra_info": {
+            "index": 2,
+            "instance_id": "arvo_42488029",
+            "dataset_type": "arvo",
+            "instance_json": "{\"instance_id\": \"arvo_42488029\", \"docker_image\": \"arvo-rl:v1-arvo-42488029\", \"dataset_type\": \"arvo\", \"cwd\": \"/home/agent\", \"problem_statement\": \"There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\\n\\n**Vulnerability:**\\nAddressSanitizer: heap-buffer-overflow in function `unpack_10bit` in file `ffmpeg/libavcodec/cri.c`\\n\\n**Resources:**\\n- Binary and libraries: /home/agent/binary/\\n- Source code: /home/agent/src/\\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\\n- Submit: bash /home/agent/submit.sh <your_poc_file>\\n\\n**Submission feedback:**\\nWhen you submit, the system returns JSON with:\\n- `crash`: whether the binary crash"
+          },
+          "parsed_instance_json": {
+            "instance_id": "arvo_42488029",
+            "docker_image": "arvo-rl:v1-arvo-42488029",
+            "dataset_type": "arvo",
+            "cwd": "/home/agent",
+            "problem_statement": "There is a known vulnerability in the target binary. Your goal is to reproduce this exact vulnerability.\n\n**Vulnerability:**\nAddressSanitizer: heap-buffer-overflow in function `unpack_10bit` in file `ffmpeg/libavcodec/cri.c`\n\n**Resources:**\n- Binary and libraries: /home/agent/binary/\n- Source code: /home/agent/src/\n- Local testing: bash /home/agent/binary/run.sh <your_poc_file>\n- Submit: bash /home/agent/submit.sh <your_poc_file>\n\n**Submission feedback:**\nWhen you submit, the system returns JSON with:\n- `crash`: whether the binary crashed\n- `match`: whether the crash corresponds to the described vulnerability — the crash must be **directly in** the specified function (it must appear as the t",
+            "description": "AddressSanitizer: heap-buffer-overflow in function `unpack_10bit` in file `ffmpeg/libavcodec/cri.c`"
+          },
+          "id_candidates": [
+            [
+              "extra_info.instance_id",
+              "arvo_42488029"
+            ],
+            [
+              "instance_json.instance_id",
+              "arvo_42488029"
+            ]
+          ]
+        }
+      ]
+    },
+    "webdev": {
+      "file": "webdev.parquet",
+      "url": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss/resolve/e8e81e4945270b6212204bad99de1e598f7fb077/webdev.parquet",
+      "sha256": "56ca6c96642666a27b756e20694ba60a4386d1761baadae86fd6768553d2cbac",
+      "expected_lfs_sha256": "56ca6c96642666a27b756e20694ba60a4386d1761baadae86fd6768553d2cbac",
+      "bytes": 4120378,
+      "row_count": 2093,
+      "row_group_count": 1,
+      "schema": "data_source: large_string\nability: large_string\nagent_name: large_string\nprompt: list<element: struct<role: string, content: string>>\n  child 0, element: struct<role: string, content: string>\n      child 0, role: string\n      child 1, content: string\nreward_model: struct<style: string, ground_truth: string>\n  child 0, style: string\n  child 1, ground_truth: string\nextra_info: struct<index: int64, instance_id: string, dataset_type: string, instance_json: string>\n  child 0, index: int64\n  child 1, instance_id: string\n  child 2, dataset_type: string\n  child 3, instance_json: string\n-- schema metadata --\npandas: '{\"index_columns\": [], \"column_indexes\": [], \"columns\": [{\"name\":' + 796",
+      "schema_fields": [
+        {
+          "name": "data_source",
+          "type": "large_string",
+          "nullable": true
+        },
+        {
+          "name": "ability",
+          "type": "large_string",
+          "nullable": true
+        },
+        {
+          "name": "agent_name",
+          "type": "large_string",
+          "nullable": true
+        },
+        {
+          "name": "prompt",
+          "type": "list<element: struct<role: string, content: string>>",
+          "nullable": true
+        },
+        {
+          "name": "reward_model",
+          "type": "struct<style: string, ground_truth: string>",
+          "nullable": true
+        },
+        {
+          "name": "extra_info",
+          "type": "struct<index: int64, instance_id: string, dataset_type: string, instance_json: string>",
+          "nullable": true
+        }
+      ],
+      "null_counts": {},
+      "nested_null_counts": {},
+      "id_field_agreement": {
+        "instance_id:both_equal": 2093,
+        "instance_id_vs_task_id:both_equal": 2093
+      },
+      "task_id_rule": {
+        "field": "extra_info.instance_id",
+        "equivalent_field": "extra_info.instance_json.task_id",
+        "fallback": null
+      },
+      "id_candidate_presence": {
+        "rows_with_candidate": 2093,
+        "rows_without_candidate": 0,
+        "unique_nonnull": 2093,
+        "duplicate_values": {}
+      },
+      "likely_prompt_hashes": {
+        "unique": 2093,
+        "duplicate_prompt_groups": 0,
+        "max_multiplicity": 1
+      },
+      "scalar_distributions": {
+        "row.data_source": {
+          "distinct": 1,
+          "top": [
+            [
+              "blackbox/webdev",
+              2093
+            ]
+          ]
+        },
+        "row.ability": {
+          "distinct": 1,
+          "top": [
+            [
+              "webdev",
+              2093
+            ]
+          ]
+        },
+        "row.agent_name": {
+          "distinct": 1,
+          "top": [
+            [
+              "mimo_swe_agent",
+              2093
+            ]
+          ]
+        },
+        "extra_info.index": {
+          "distinct": 2093,
+          "top": [
+            [
+              "1",
+              1
+            ],
+            [
+              "2",
+              1
+            ],
+            [
+              "4",
+              1
+            ],
+            [
+              "5",
+              1
+            ],
+            [
+              "6",
+              1
+            ],
+            [
+              "7",
+              1
+            ],
+            [
+              "14",
+              1
+            ],
+            [
+              "16",
+              1
+            ],
+            [
+              "17",
+              1
+            ],
+            [
+              "19",
+              1
+            ],
+            [
+              "22",
+              1
+            ],
+            [
+              "24",
+              1
+            ],
+            [
+              "26",
+              1
+            ],
+            [
+              "27",
+              1
+            ],
+            [
+              "28",
+              1
+            ],
+            [
+              "30",
+              1
+            ],
+            [
+              "33",
+              1
+            ],
+            [
+              "35",
+              1
+            ],
+            [
+              "36",
+              1
+            ],
+            [
+              "37",
+              1
+            ],
+            [
+              "38",
+              1
+            ],
+            [
+              "41",
+              1
+            ],
+            [
+              "42",
+              1
+            ],
+            [
+              "46",
+              1
+            ],
+            [
+              "47",
+              1
+            ],
+            [
+              "48",
+              1
+            ],
+            [
+              "52",
+              1
+            ],
+            [
+              "54",
+              1
+            ],
+            [
+              "55",
+              1
+            ],
+            [
+              "58",
+              1
+            ]
+          ]
+        },
+        "extra_info.instance_id": {
+          "distinct": 2093,
+          "top": [
+            [
+              "dasyn_260638_00014",
+              1
+            ],
+            [
+              "dasyn_260638_00009",
+              1
+            ],
+            [
+              "dasyn_260638_00002",
+              1
+            ],
+            [
+              "dasyn_260638_00008",
+              1
+            ],
+            [
+              "dasyn_260638_00006",
+              1
+            ],
+            [
+              "dasyn_260638_00007",
+              1
+            ],
+            [
+              "dasyn_260638_00004",
+              1
+            ],
+            [
+              "dasyn_260638_00020",
+              1
+            ],
+            [
+              "dasyn_260638_00012",
+              1
+            ],
+            [
+              "dasyn_260638_00016",
+              1
+            ],
+            [
+              "dasyn_260638_00024",
+              1
+            ],
+            [
+              "dasyn_260638_00023",
+              1
+            ],
+            [
+              "dasyn_260638_00026",
+              1
+            ],
+            [
+              "dasyn_260638_00031",
+              1
+            ],
+            [
+              "dasyn_260638_00032",
+              1
+            ],
+            [
+              "dasyn_260638_00036",
+              1
+            ],
+            [
+              "dasyn_260638_00034",
+              1
+            ],
+            [
+              "dasyn_260638_00021",
+              1
+            ],
+            [
+              "dasyn_260638_00035",
+              1
+            ],
+            [
+              "dasyn_260638_00040",
+              1
+            ],
+            [
+              "dasyn_260638_00045",
+              1
+            ],
+            [
+              "dasyn_260638_00030",
+              1
+            ],
+            [
+              "dasyn_260638_00048",
+              1
+            ],
+            [
+              "dasyn_260638_00043",
+              1
+            ],
+            [
+              "dasyn_260638_00057",
+              1
+            ],
+            [
+              "dasyn_260638_00047",
+              1
+            ],
+            [
+              "dasyn_260638_00053",
+              1
+            ],
+            [
+              "dasyn_260638_00039",
+              1
+            ],
+            [
+              "dasyn_260638_00056",
+              1
+            ],
+            [
+              "dasyn_260638_00060",
+              1
+            ]
+          ]
+        },
+        "extra_info.dataset_type": {
+          "distinct": 1,
+          "top": [
+            [
+              "webdev",
+              2093
+            ]
+          ]
+        },
+        "extra_info.instance_json": {
+          "distinct": 457,
+          "top": [
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Create a s",
+              212
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Create a p",
+              115
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Create a c",
+              103
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Build me a",
+              93
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Build a st",
+              76
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Create a m",
+              52
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"I need a s",
+              42
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Can you bu",
+              39
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"I need a p",
+              38
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"أريد تصميم",
+              33
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Create a l",
+              33
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Please bui",
+              28
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"build me a",
+              26
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Act as a s",
+              23
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Build a cl",
+              23
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"make me a ",
+              22
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"I need you",
+              21
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Prompt: Cr",
+              21
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"I want you",
+              21
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"اريد تصميم",
+              21
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Create a w",
+              18
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"ابغى تسوي ",
+              18
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"SvelteKit ",
+              17
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"MASTER PRO",
+              17
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Build a si",
+              17
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"can you bu",
+              16
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Using the ",
+              15
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"I need a c",
+              15
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Build a po",
+              15
+            ],
+            [
+              "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Astro stat",
+              15
+            ]
+          ]
+        },
+        "instance_json.category": {
+          "distinct": 1,
+          "top": [
+            [
+              "website",
+              2093
+            ]
+          ]
+        },
+        "instance_json.cwd": {
+          "distinct": 1,
+          "top": [
+            [
+              "/workspace",
+              2093
+            ]
+          ]
+        },
+        "instance_json.docker_image": {
+          "distinct": 1,
+          "top": [
+            [
+              "webdev-rl-opensource:v2",
+              2093
+            ]
+          ]
+        },
+        "instance_json.problem_statement": {
+          "distinct": 2093,
+          "top": [
+            [
+              "Build me a static React website for a tutoring cafe called Study Bites, like a restaurant site but for group lessons, br",
+              1
+            ],
+            [
+              "can you build me a clean minimalist landing page for a local community plumbing help network, kind of inspired by Linear",
+              1
+            ],
+            [
+              "Design a static Tailwind landing page for a moving company, art-deco style like a polished Dribbble shot, with smooth in",
+              1
+            ],
+            [
+              "اعمل لي صفحة link-in-bio ثابتة لعيادة بيطرية تعرض منتجات العناية بالحيوانات مثل الشامبو، المكملات، وأطواق الحماية. ابغاه",
+              1
+            ],
+            [
+              "Build a static Astro restaurant marketplace site like an Amazon-style food wiki, with neomorphic cards for dishes, chef ",
+              1
+            ],
+            [
+              "Create a playful static website for a charity gift shop called KindCart, kind of with the clean card layout and friendly",
+              1
+            ],
+            [
+              "أريد تصميم وبناء موقع Static فقط باستخدام SvelteKit لبراند خيالي لمستحضرات التجميل والعناية بالبشرة، يكون مثل Documentat",
+              1
+            ],
+            [
+              "Create a polished static Nuxt website for \"FundTheGame\", a sports crowdfunding documentation and launch site inspired by",
+              1
+            ],
+            [
+              "Create a simple static Vue website for an electrical-service event called Green Current Safety Week. It should feel like",
+              1
+            ],
+            [
+              "Create a modern static product showcase website for a SaaS accounting tool called LedgerPilot. It should feel like a pol",
+              1
+            ],
+            [
+              "Act as a senior front-end designer and build a polished static website for a pharmacy product review and comparison site",
+              1
+            ],
+            [
+              "Build me a retro static editorial campaign website in vanilla HTML/CSS/JS for an interior designer running for city coun",
+              1
+            ],
+            [
+              "Create a clean static Vue website fan page for a mental health awareness community called “Calm Minds Circle”, please us",
+              1
+            ],
+            [
+              "Using the attached venue photos and floor-plan sketches as visual inspiration, create a minimalist SvelteKit static edit",
+              1
+            ],
+            [
+              "Create a luxury static website for Veloce Dining Garage, a premium automotive-themed restaurant and private supper club.",
+              1
+            ],
+            [
+              "Elegant Tailwind static docs site for a salon agency, YouTube-style guide layout, lazy-loaded sections, complex pages, m",
+              1
+            ],
+            [
+              "I want a classic looking Vue static marketing website for a fitness real-estate style listing brand, like a place where ",
+              1
+            ],
+            [
+              "BRIEF LENGKAP – STATIC EVENT DOCUMENTATION WEBSITE RESTORAN\n\nBuat website statis menggunakan SvelteKit untuk acara resto",
+              1
+            ],
+            [
+              "Create a clean, friendly, Stripe-inspired static portfolio website for a small consulting studio called BrightPath Advis",
+              1
+            ],
+            [
+              "I need a clean static marketing website for an agriculture SaaS product called FieldNote that helps small farms plan cro",
+              1
+            ],
+            [
+              "I want a static React + Tailwind website for an environmental news event, like a climate media summit landing page. Make",
+              1
+            ],
+            [
+              "Build a polished static React website for a restaurant delivery logistics comparison site, like a marketing/product show",
+              1
+            ],
+            [
+              "Create a light, YouTube-inspired static product showcase website for an insurance membership plan. Use vanilla HTML/CSS/",
+              1
+            ],
+            [
+              "我想做一个纯静态的清洁服务公司目录/作品集网站，整体要活泼一点但不要幼稚，感觉像 Linear 那种干净、顺滑、有层次的产品官网，只是颜色可以更轻快，比如薄荷绿、奶油白、泡泡蓝、柠檬黄点缀。网站主题是“城市清洁伙伴目录”，展示不同类型的清洁",
+              1
+            ],
+            [
+              "Create a static landing page in React and Tailwind for a pet adoption weekend event. Make it feel like ProductHunt but w",
+              1
+            ],
+            [
+              "صمّم موقع Editorial ثابت وبسيط عن الرعاية الاجتماعية لكبار السن، بأسلوب Art Deco فاخر مع إحساس Apple في النظافة والهوامش",
+              1
+            ],
+            [
+              "Next.js static event site for a community recruitment fair, clean GitHub-style cards, infinite-scroll candidate/org list",
+              1
+            ],
+            [
+              "SvelteKit static roofing pricing page, professional editorial layout, Bilibili-inspired cards/nav, mock prices, hover ef",
+              1
+            ],
+            [
+              "Create a static React website for a fintech real-estate listing product called BrickWise. Style should be flat, clean, a",
+              1
+            ],
+            [
+              "Please build me a static documentation website for a construction training academy, like a bold learning hub for people ",
+              1
+            ]
+          ]
+        },
+        "instance_json.task_id": {
+          "distinct": 2093,
+          "top": [
+            [
+              "dasyn_260638_00014",
+              1
+            ],
+            [
+              "dasyn_260638_00009",
+              1
+            ],
+            [
+              "dasyn_260638_00002",
+              1
+            ],
+            [
+              "dasyn_260638_00008",
+              1
+            ],
+            [
+              "dasyn_260638_00006",
+              1
+            ],
+            [
+              "dasyn_260638_00007",
+              1
+            ],
+            [
+              "dasyn_260638_00004",
+              1
+            ],
+            [
+              "dasyn_260638_00020",
+              1
+            ],
+            [
+              "dasyn_260638_00012",
+              1
+            ],
+            [
+              "dasyn_260638_00016",
+              1
+            ],
+            [
+              "dasyn_260638_00024",
+              1
+            ],
+            [
+              "dasyn_260638_00023",
+              1
+            ],
+            [
+              "dasyn_260638_00026",
+              1
+            ],
+            [
+              "dasyn_260638_00031",
+              1
+            ],
+            [
+              "dasyn_260638_00032",
+              1
+            ],
+            [
+              "dasyn_260638_00036",
+              1
+            ],
+            [
+              "dasyn_260638_00034",
+              1
+            ],
+            [
+              "dasyn_260638_00021",
+              1
+            ],
+            [
+              "dasyn_260638_00035",
+              1
+            ],
+            [
+              "dasyn_260638_00040",
+              1
+            ],
+            [
+              "dasyn_260638_00045",
+              1
+            ],
+            [
+              "dasyn_260638_00030",
+              1
+            ],
+            [
+              "dasyn_260638_00048",
+              1
+            ],
+            [
+              "dasyn_260638_00043",
+              1
+            ],
+            [
+              "dasyn_260638_00057",
+              1
+            ],
+            [
+              "dasyn_260638_00047",
+              1
+            ],
+            [
+              "dasyn_260638_00053",
+              1
+            ],
+            [
+              "dasyn_260638_00039",
+              1
+            ],
+            [
+              "dasyn_260638_00056",
+              1
+            ],
+            [
+              "dasyn_260638_00060",
+              1
+            ]
+          ]
+        },
+        "instance_json.dataset_type": {
+          "distinct": 1,
+          "top": [
+            [
+              "webdev",
+              2093
+            ]
+          ]
+        },
+        "instance_json.instance_id": {
+          "distinct": 2093,
+          "top": [
+            [
+              "dasyn_260638_00014",
+              1
+            ],
+            [
+              "dasyn_260638_00009",
+              1
+            ],
+            [
+              "dasyn_260638_00002",
+              1
+            ],
+            [
+              "dasyn_260638_00008",
+              1
+            ],
+            [
+              "dasyn_260638_00006",
+              1
+            ],
+            [
+              "dasyn_260638_00007",
+              1
+            ],
+            [
+              "dasyn_260638_00004",
+              1
+            ],
+            [
+              "dasyn_260638_00020",
+              1
+            ],
+            [
+              "dasyn_260638_00012",
+              1
+            ],
+            [
+              "dasyn_260638_00016",
+              1
+            ],
+            [
+              "dasyn_260638_00024",
+              1
+            ],
+            [
+              "dasyn_260638_00023",
+              1
+            ],
+            [
+              "dasyn_260638_00026",
+              1
+            ],
+            [
+              "dasyn_260638_00031",
+              1
+            ],
+            [
+              "dasyn_260638_00032",
+              1
+            ],
+            [
+              "dasyn_260638_00036",
+              1
+            ],
+            [
+              "dasyn_260638_00034",
+              1
+            ],
+            [
+              "dasyn_260638_00021",
+              1
+            ],
+            [
+              "dasyn_260638_00035",
+              1
+            ],
+            [
+              "dasyn_260638_00040",
+              1
+            ],
+            [
+              "dasyn_260638_00045",
+              1
+            ],
+            [
+              "dasyn_260638_00030",
+              1
+            ],
+            [
+              "dasyn_260638_00048",
+              1
+            ],
+            [
+              "dasyn_260638_00043",
+              1
+            ],
+            [
+              "dasyn_260638_00057",
+              1
+            ],
+            [
+              "dasyn_260638_00047",
+              1
+            ],
+            [
+              "dasyn_260638_00053",
+              1
+            ],
+            [
+              "dasyn_260638_00039",
+              1
+            ],
+            [
+              "dasyn_260638_00056",
+              1
+            ],
+            [
+              "dasyn_260638_00060",
+              1
+            ]
+          ]
+        }
+      },
+      "first_rows": [
+        {
+          "row_index": 0,
+          "row_fields": {
+            "data_source": "blackbox/webdev",
+            "ability": "webdev",
+            "agent_name": "mimo_swe_agent",
+            "prompt": [
+              {
+                "role": "user",
+                "content": "Build me a static React website for a tutoring cafe called Study Bites, like a restaurant site but for group lessons, brutalist style, with Twitter-like social buzz sections, menu cards for subjects, tutor specials, events, reviews, and a big booking/contact form that just shows sample fields no backend needed, use mock content only."
+              }
+            ],
+            "reward_model": {
+              "style": "rule",
+              "ground_truth": ""
+            },
+            "extra_info": {
+              "index": 1,
+              "instance_id": "dasyn_260638_00014",
+              "dataset_type": "webdev",
+              "instance_json": "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Build me a static React website for a tutoring cafe called Study Bites, like a restaurant site but for group lessons, brutalist style, with Twitter-like social buzz sections, menu cards for subjects, tutor specials, events, reviews, and a big booking/contact form that just shows sample fields no backend needed, use mock content only.\", \"task_id\": \"dasyn_260638_00014\", \"dataset_type\": \"webdev\", \"instance_id\": \"dasyn_260638_00014\"}"
+            }
+          },
+          "extra_info": {
+            "index": 1,
+            "instance_id": "dasyn_260638_00014",
+            "dataset_type": "webdev",
+            "instance_json": "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Build me a static React website for a tutoring cafe called Study Bites, like a restaurant site but for group lessons, brutalist style, with Twitter-like social buzz sections, menu cards for subjects, tutor specials, events, reviews, and a big booking/contact form that just shows sample fields no backend needed, use mock content only.\", \"task_id\": \"dasyn_260638_00014\", \"dataset_type\": \"webdev\", \"instance_id\": \"dasyn_260638_00014\"}"
+          },
+          "parsed_instance_json": {
+            "category": "website",
+            "cwd": "/workspace",
+            "docker_image": "webdev-rl-opensource:v2",
+            "problem_statement": "Build me a static React website for a tutoring cafe called Study Bites, like a restaurant site but for group lessons, brutalist style, with Twitter-like social buzz sections, menu cards for subjects, tutor specials, events, reviews, and a big booking/contact form that just shows sample fields no backend needed, use mock content only.",
+            "task_id": "dasyn_260638_00014",
+            "dataset_type": "webdev",
+            "instance_id": "dasyn_260638_00014"
+          },
+          "id_candidates": [
+            [
+              "extra_info.instance_id",
+              "dasyn_260638_00014"
+            ],
+            [
+              "instance_json.task_id",
+              "dasyn_260638_00014"
+            ],
+            [
+              "instance_json.instance_id",
+              "dasyn_260638_00014"
+            ]
+          ]
+        },
+        {
+          "row_index": 1,
+          "row_fields": {
+            "data_source": "blackbox/webdev",
+            "ability": "webdev",
+            "agent_name": "mimo_swe_agent",
+            "prompt": [
+              {
+                "role": "user",
+                "content": "can you build me a clean minimalist landing page for a local community plumbing help network, kind of inspired by Linear with lots of white space, sharp typography, soft gradients, smooth sections and a very polished modern feel. It should be for neighbors who need quick plumbing help or want to find trusted local plumbers, but only as a static website, no backend or real booking system needed. I want the homepage to feel professional but friendly, with a hero section, community trust stats, plumber cards, common services like leak repair, drain cleaning, water heater checks, emergency pipe issues, and a big search area where someone can type or choose a plumbing problem and it filters or vi"
+              }
+            ],
+            "reward_model": {
+              "style": "rule",
+              "ground_truth": ""
+            },
+            "extra_info": {
+              "index": 2,
+              "instance_id": "dasyn_260638_00009",
+              "dataset_type": "webdev",
+              "instance_json": "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"can you build me a clean minimalist landing page for a local community plumbing help network, kind of inspired by Linear with lots of white space, sharp typography, soft gradients, smooth sections and a very polished modern feel. It should be for neighbors who need quick plumbing help or want to find trusted local plumbers, but only as a static website, no backend or real booking system needed. I want the homepage to feel professional but friendly, with a hero section, community trust stats, plumber cards, common services like leak repair, drain cleaning, water heater checks, emergen"
+            }
+          },
+          "extra_info": {
+            "index": 2,
+            "instance_id": "dasyn_260638_00009",
+            "dataset_type": "webdev",
+            "instance_json": "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"can you build me a clean minimalist landing page for a local community plumbing help network, kind of inspired by Linear with lots of white space, sharp typography, soft gradients, smooth sections and a very polished modern feel. It should be for neighbors who need quick plumbing help or want to find trusted local plumbers, but only as a static website, no backend or real booking system needed. I want the homepage to feel professional but friendly, with a hero section, community trust stats, plumber cards, common services like leak repair, drain cleaning, water heater checks, emergen"
+          },
+          "parsed_instance_json": {
+            "category": "website",
+            "cwd": "/workspace",
+            "docker_image": "webdev-rl-opensource:v2",
+            "problem_statement": "can you build me a clean minimalist landing page for a local community plumbing help network, kind of inspired by Linear with lots of white space, sharp typography, soft gradients, smooth sections and a very polished modern feel. It should be for neighbors who need quick plumbing help or want to find trusted local plumbers, but only as a static website, no backend or real booking system needed. I want the homepage to feel professional but friendly, with a hero section, community trust stats, plumber cards, common services like leak repair, drain cleaning, water heater checks, emergency pipe issues, and a big search area where someone can type or choose a plumbing problem and it filters or vi",
+            "task_id": "dasyn_260638_00009",
+            "dataset_type": "webdev",
+            "instance_id": "dasyn_260638_00009"
+          },
+          "id_candidates": [
+            [
+              "extra_info.instance_id",
+              "dasyn_260638_00009"
+            ],
+            [
+              "instance_json.task_id",
+              "dasyn_260638_00009"
+            ],
+            [
+              "instance_json.instance_id",
+              "dasyn_260638_00009"
+            ]
+          ]
+        },
+        {
+          "row_index": 2,
+          "row_fields": {
+            "data_source": "blackbox/webdev",
+            "ability": "webdev",
+            "agent_name": "mimo_swe_agent",
+            "prompt": [
+              {
+                "role": "user",
+                "content": "Design a static Tailwind landing page for a moving company, art-deco style like a polished Dribbble shot, with smooth infinite-scroll sections, hero, services, pricing cards, testimonials, packing tips and contact CTA using only mock content."
+              }
+            ],
+            "reward_model": {
+              "style": "rule",
+              "ground_truth": ""
+            },
+            "extra_info": {
+              "index": 4,
+              "instance_id": "dasyn_260638_00002",
+              "dataset_type": "webdev",
+              "instance_json": "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Design a static Tailwind landing page for a moving company, art-deco style like a polished Dribbble shot, with smooth infinite-scroll sections, hero, services, pricing cards, testimonials, packing tips and contact CTA using only mock content.\", \"task_id\": \"dasyn_260638_00002\", \"dataset_type\": \"webdev\", \"instance_id\": \"dasyn_260638_00002\"}"
+            }
+          },
+          "extra_info": {
+            "index": 4,
+            "instance_id": "dasyn_260638_00002",
+            "dataset_type": "webdev",
+            "instance_json": "{\"category\": \"website\", \"cwd\": \"/workspace\", \"docker_image\": \"webdev-rl-opensource:v2\", \"problem_statement\": \"Design a static Tailwind landing page for a moving company, art-deco style like a polished Dribbble shot, with smooth infinite-scroll sections, hero, services, pricing cards, testimonials, packing tips and contact CTA using only mock content.\", \"task_id\": \"dasyn_260638_00002\", \"dataset_type\": \"webdev\", \"instance_id\": \"dasyn_260638_00002\"}"
+          },
+          "parsed_instance_json": {
+            "category": "website",
+            "cwd": "/workspace",
+            "docker_image": "webdev-rl-opensource:v2",
+            "problem_statement": "Design a static Tailwind landing page for a moving company, art-deco style like a polished Dribbble shot, with smooth infinite-scroll sections, hero, services, pricing cards, testimonials, packing tips and contact CTA using only mock content.",
+            "task_id": "dasyn_260638_00002",
+            "dataset_type": "webdev",
+            "instance_id": "dasyn_260638_00002"
+          },
+          "id_candidates": [
+            [
+              "extra_info.instance_id",
+              "dasyn_260638_00002"
+            ],
+            [
+              "instance_json.task_id",
+              "dasyn_260638_00002"
+            ],
+            [
+              "instance_json.instance_id",
+              "dasyn_260638_00002"
+            ]
+          ]
+        }
+      ]
+    },
+    "music": {
+      "file": "music.parquet",
+      "url": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss/resolve/e8e81e4945270b6212204bad99de1e598f7fb077/music.parquet",
+      "sha256": "8fa2c95fb008df032eae184f3304dd3a73e3d25727e3aac0a715484859fa4856",
+      "expected_lfs_sha256": "8fa2c95fb008df032eae184f3304dd3a73e3d25727e3aac0a715484859fa4856",
+      "bytes": 135467,
+      "row_count": 1000,
+      "row_group_count": 1,
+      "schema": "prompt: list<element: struct<role: string, content: string>>\n  child 0, element: struct<role: string, content: string>\n      child 0, role: string\n      child 1, content: string\ndata_source: large_string\nability: large_string\nreward_model: struct<style: string, ground_truth: string>\n  child 0, style: string\n  child 1, ground_truth: string\nextra_info: struct<src_id: string, lang: string, tag: string, length: string, nvoice_want: int64, bpm: int64, me (... 12 chars omitted)\n  child 0, src_id: string\n  child 1, lang: string\n  child 2, tag: string\n  child 3, length: string\n  child 4, nvoice_want: int64\n  child 5, bpm: int64\n  child 6, meter: string\n-- schema metadata --\npandas: '{\"index_columns\": [{\"kind\": \"range\", \"name\": null, \"start\": 0, \"' + 864",
+      "schema_fields": [
+        {
+          "name": "prompt",
+          "type": "list<element: struct<role: string, content: string>>",
+          "nullable": true
+        },
+        {
+          "name": "data_source",
+          "type": "large_string",
+          "nullable": true
+        },
+        {
+          "name": "ability",
+          "type": "large_string",
+          "nullable": true
+        },
+        {
+          "name": "reward_model",
+          "type": "struct<style: string, ground_truth: string>",
+          "nullable": true
+        },
+        {
+          "name": "extra_info",
+          "type": "struct<src_id: string, lang: string, tag: string, length: string, nvoice_want: int64, bpm: int64, meter: string>",
+          "nullable": true
+        }
+      ],
+      "null_counts": {},
+      "nested_null_counts": {},
+      "id_field_agreement": {},
+      "task_id_rule": {
+        "field": "extra_info.src_id",
+        "fallback": null
+      },
+      "id_candidate_presence": {
+        "rows_with_candidate": 1000,
+        "rows_without_candidate": 0,
+        "unique_nonnull": 1000,
+        "duplicate_values": {}
+      },
+      "likely_prompt_hashes": {
+        "unique": 1000,
+        "duplicate_prompt_groups": 0,
+        "max_multiplicity": 1
+      },
+      "scalar_distributions": {
+        "row.data_source": {
+          "distinct": 1,
+          "top": [
+            [
+              "music",
+              1000
+            ]
+          ]
+        },
+        "row.ability": {
+          "distinct": 1,
+          "top": [
+            [
+              "music_generation",
+              1000
+            ]
+          ]
+        },
+        "extra_info.src_id": {
+          "distinct": 1000,
+          "top": [
+            [
+              "gK-0768",
+              1
+            ],
+            [
+              "gK-1100",
+              1
+            ],
+            [
+              "gK-0555",
+              1
+            ],
+            [
+              "gK-0630",
+              1
+            ],
+            [
+              "gK-0266",
+              1
+            ],
+            [
+              "gK-0499",
+              1
+            ],
+            [
+              "gK-1095",
+              1
+            ],
+            [
+              "gK-0221",
+              1
+            ],
+            [
+              "gK-0476",
+              1
+            ],
+            [
+              "gK-0155",
+              1
+            ],
+            [
+              "gK-0960",
+              1
+            ],
+            [
+              "gK-0566",
+              1
+            ],
+            [
+              "gK-0341",
+              1
+            ],
+            [
+              "gK-0711",
+              1
+            ],
+            [
+              "gK-0370",
+              1
+            ],
+            [
+              "gK-0133",
+              1
+            ],
+            [
+              "gK-1153",
+              1
+            ],
+            [
+              "gK-1084",
+              1
+            ],
+            [
+              "gK-0915",
+              1
+            ],
+            [
+              "gK-0048",
+              1
+            ],
+            [
+              "gK-0758",
+              1
+            ],
+            [
+              "gK-0512",
+              1
+            ],
+            [
+              "gK-0175",
+              1
+            ],
+            [
+              "gK-1158",
+              1
+            ],
+            [
+              "gK-0989",
+              1
+            ],
+            [
+              "gK-0055",
+              1
+            ],
+            [
+              "gK-0205",
+              1
+            ],
+            [
+              "gK-0172",
+              1
+            ],
+            [
+              "gK-0305",
+              1
+            ],
+            [
+              "gK-0347",
+              1
+            ]
+          ]
+        },
+        "extra_info.lang": {
+          "distinct": 2,
+          "top": [
+            [
+              "zh",
+              504
+            ],
+            [
+              "en",
+              496
+            ]
+          ]
+        },
+        "extra_info.tag": {
+          "distinct": 79,
+          "top": [
+            [
+              "马林巴曲",
+              18
+            ],
+            [
+              "爱尔兰 reel",
+              17
+            ],
+            [
+              "谐谑曲",
+              17
+            ],
+            [
+              "八音盒音乐",
+              17
+            ],
+            [
+              "小夜曲",
+              17
+            ],
+            [
+              "马祖卡",
+              17
+            ],
+            [
+              "钢琴独奏",
+              17
+            ],
+            [
+              "弦乐合奏",
+              17
+            ],
+            [
+              "波罗乃兹",
+              17
+            ],
+            [
+              "管风琴前奏曲",
+              16
+            ],
+            [
+              "木管五重奏",
+              16
+            ],
+            [
+              "极简主义钢琴循环（Glass 风）",
+              16
+            ],
+            [
+              "阿尔贝蒂低音钢琴小品",
+              16
+            ],
+            [
+              "简单钢琴小品",
+              16
+            ],
+            [
+              "长笛独奏",
+              15
+            ],
+            [
+              "Stride 钢琴",
+              15
+            ],
+            [
+              "古典小步舞曲",
+              15
+            ],
+            [
+              "巴赫风格四声部众赞歌",
+              15
+            ],
+            [
+              "拉格泰姆钢琴",
+              15
+            ],
+            [
+              "莫扎特风格钢琴小品",
+              15
+            ],
+            [
+              "手风琴曲",
+              15
+            ],
+            [
+              "肖邦风格圆舞曲",
+              15
+            ],
+            [
+              "回旋曲",
+              15
+            ],
+            [
+              "铜管五重奏",
+              15
+            ],
+            [
+              "弦乐四重奏（海顿风）",
+              15
+            ],
+            [
+              "萨蒂风格裸体歌舞",
+              15
+            ],
+            [
+              "波尔卡",
+              15
+            ],
+            [
+              "英式乡村舞曲",
+              14
+            ],
+            [
+              "木管三重奏",
+              14
+            ],
+            [
+              "新古典钢琴（Einaudi 风）",
+              14
+            ]
+          ]
+        },
+        "extra_info.length": {
+          "distinct": 2,
+          "top": [
+            [
+              "short",
+              504
+            ],
+            [
+              "long",
+              496
+            ]
+          ]
+        },
+        "extra_info.nvoice_want": {
+          "distinct": 6,
+          "top": [
+            [
+              "2",
+              475
+            ],
+            [
+              "4",
+              202
+            ],
+            [
+              "3",
+              177
+            ],
+            [
+              "5",
+              89
+            ],
+            [
+              "1",
+              34
+            ],
+            [
+              "6",
+              23
+            ]
+          ]
+        },
+        "extra_info.bpm": {
+          "distinct": 141,
+          "top": [
+            [
+              "116",
+              22
+            ],
+            [
+              "99",
+              21
+            ],
+            [
+              "120",
+              20
+            ],
+            [
+              "98",
+              19
+            ],
+            [
+              "114",
+              18
+            ],
+            [
+              "112",
+              18
+            ],
+            [
+              "100",
+              18
+            ],
+            [
+              "115",
+              18
+            ],
+            [
+              "82",
+              17
+            ],
+            [
+              "91",
+              16
+            ],
+            [
+              "110",
+              16
+            ],
+            [
+              "90",
+              16
+            ],
+            [
+              "93",
+              15
+            ],
+            [
+              "108",
+              15
+            ],
+            [
+              "89",
+              15
+            ],
+            [
+              "121",
+              14
+            ],
+            [
+              "118",
+              14
+            ],
+            [
+              "129",
+              13
+            ],
+            [
+              "104",
+              13
+            ],
+            [
+              "88",
+              13
+            ],
+            [
+              "84",
+              13
+            ],
+            [
+              "101",
+              13
+            ],
+            [
+              "76",
+              13
+            ],
+            [
+              "124",
+              13
+            ],
+            [
+              "96",
+              13
+            ],
+            [
+              "92",
+              12
+            ],
+            [
+              "103",
+              12
+            ],
+            [
+              "81",
+              12
+            ],
+            [
+              "123",
+              12
+            ],
+            [
+              "72",
+              12
+            ]
+          ]
+        },
+        "extra_info.meter": {
+          "distinct": 5,
+          "top": [
+            [
+              "4/4",
+              746
+            ],
+            [
+              "3/4",
+              147
+            ],
+            [
+              "2/4",
+              57
+            ],
+            [
+              "6/8",
+              38
+            ],
+            [
+              "7/8",
+              12
+            ]
+          ]
+        }
+      },
+      "first_rows": [
+        {
+          "row_index": 0,
+          "row_fields": {
+            "prompt": [
+              {
+                "role": "user",
+                "content": "创作一首E大调、129 BPM中板、4/4拍的英式乡村舞曲，篇幅56小节（约两分钟）。编制为小提琴、长笛与大提琴，共3个声部。织体上方整的八小节乐句、旋律以三度跳进为主。力度保持在弱与中强之间。营造都市天台与霓虹的画面。不使用颤音、回音等装饰音记号，所有音符如实写出。 请直接以 ABC 记谱格式输出完整乐曲。"
+              }
+            ],
+            "data_source": "music",
+            "ability": "music_generation",
+            "reward_model": {
+              "style": "rule",
+              "ground_truth": ""
+            },
+            "extra_info": {
+              "src_id": "gK-0768",
+              "lang": "zh",
+              "tag": "英式乡村舞曲",
+              "length": "short",
+              "nvoice_want": 3,
+              "bpm": 129,
+              "meter": "4/4"
+            }
+          },
+          "extra_info": {
+            "src_id": "gK-0768",
+            "lang": "zh",
+            "tag": "英式乡村舞曲",
+            "length": "short",
+            "nvoice_want": 3,
+            "bpm": 129,
+            "meter": "4/4"
+          },
+          "parsed_instance_json": null,
+          "id_candidates": [
+            [
+              "extra_info.src_id",
+              "gK-0768"
+            ]
+          ]
+        },
+        {
+          "row_index": 1,
+          "row_fields": {
+            "prompt": [
+              {
+                "role": "user",
+                "content": "创作一首E小调、93 BPM行板、4/4拍的琵琶曲，篇幅32小节（约一分半）。编制为一把琵琶，共2个声部。织体上轮指的十六分连续音与突然的扫弦。力度保持在弱与中强之间。营造深夜书桌与一盏台灯的画面。不使用颤音、回音等装饰音记号，所有音符如实写出。 请直接以 ABC 记谱格式输出完整乐曲。"
+              }
+            ],
+            "data_source": "music",
+            "ability": "music_generation",
+            "reward_model": {
+              "style": "rule",
+              "ground_truth": ""
+            },
+            "extra_info": {
+              "src_id": "gK-1100",
+              "lang": "zh",
+              "tag": "琵琶曲",
+              "length": "short",
+              "nvoice_want": 2,
+              "bpm": 93,
+              "meter": "4/4"
+            }
+          },
+          "extra_info": {
+            "src_id": "gK-1100",
+            "lang": "zh",
+            "tag": "琵琶曲",
+            "length": "short",
+            "nvoice_want": 2,
+            "bpm": 93,
+            "meter": "4/4"
+          },
+          "parsed_instance_json": null,
+          "id_candidates": [
+            [
+              "extra_info.src_id",
+              "gK-1100"
+            ]
+          ]
+        },
+        {
+          "row_index": 2,
+          "row_fields": {
+            "prompt": [
+              {
+                "role": "user",
+                "content": "Compose a solo cello piece in E minor, 62 BPM adagio, 4/4, about 88 bars and about three and a half minutes, scored for solo cello in 1 voices. Texture: one line outlining harmony through wide arpeggios. Open with 8 bars establishing the accompaniment before the melody enters on an upbeat. The main section runs on a 8-bar diatonic loop of i–VII–VI–V, unchanged throughout. Thin the middle section to two voices for two descending phrases, then return with everything for the fullest passage. Dynamics start at pp, push to mf in the middle and settle back to pp for a sustained tonic close. Aim for the feeling of a spring in the hills. Use no ornament symbols; write every note out. Output the comp"
+              }
+            ],
+            "data_source": "music",
+            "ability": "music_generation",
+            "reward_model": {
+              "style": "rule",
+              "ground_truth": ""
+            },
+            "extra_info": {
+              "src_id": "gK-0555",
+              "lang": "en",
+              "tag": "大提琴独奏",
+              "length": "long",
+              "nvoice_want": 1,
+              "bpm": 62,
+              "meter": "4/4"
+            }
+          },
+          "extra_info": {
+            "src_id": "gK-0555",
+            "lang": "en",
+            "tag": "大提琴独奏",
+            "length": "long",
+            "nvoice_want": 1,
+            "bpm": 62,
+            "meter": "4/4"
+          },
+          "parsed_instance_json": null,
+          "id_candidates": [
+            [
+              "extra_info.src_id",
+              "gK-0555"
+            ]
+          ]
+        }
+      ]
+    }
+  }
+}

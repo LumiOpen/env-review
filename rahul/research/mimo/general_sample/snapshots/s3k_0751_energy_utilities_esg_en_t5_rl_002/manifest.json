@@ -1,0 +1,159 @@
+{
+ "cwd": "/work/workspace",
+ "uploads": [
+  {
+   "source": "workspace",
+   "target": "/work/workspace",
+   "container": "main"
+  },
+  {
+   "source": "system",
+   "target": "/work/system",
+   "container": "sidecar"
+  },
+  {
+   "source": "tools",
+   "target": "/work/tools",
+   "container": "sidecar"
+  },
+  {
+   "source": "sidecar_entrypoint.py",
+   "target": "/installed-agent/sidecar_entrypoint.py",
+   "container": "sidecar"
+  },
+  {
+   "source": "mcp_http.py",
+   "target": "/installed-agent/mcp_http.py",
+   "container": "sidecar"
+  },
+  {
+   "source": "mcp_bridge.py",
+   "target": "/work/_setup/mcp_bridge.py",
+   "container": "main"
+  }
+ ],
+ "setup": {
+  "command": "python3 /installed-agent/sidecar_entrypoint.py --start-and-detach",
+  "container": "sidecar",
+  "timeout_sec": 300
+ },
+ "wait_ports": [
+  39101,
+  39102,
+  39103,
+  39104,
+  39105,
+  39106,
+  39107,
+  39108,
+  39109,
+  39110,
+  39111,
+  39112,
+  39113,
+  39114,
+  39115,
+  39116,
+  39117,
+  39118
+ ],
+ "mcp_servers": [
+  {
+   "name": "ariba_contractor_assurance",
+   "url": "http://127.0.0.1:39101/mcp"
+  },
+  {
+   "name": "dynamics365_approvals",
+   "url": "http://127.0.0.1:39102/mcp"
+  },
+  {
+   "name": "enablon_environmental_compliance",
+   "url": "http://127.0.0.1:39103/mcp"
+  },
+  {
+   "name": "lims_laboratory_results",
+   "url": "http://127.0.0.1:39104/mcp"
+  },
+  {
+   "name": "maximo_asset_management",
+   "url": "http://127.0.0.1:39105/mcp"
+  },
+  {
+   "name": "metricstream_program_risk",
+   "url": "http://127.0.0.1:39106/mcp"
+  },
+  {
+   "name": "opentext_audit_evidence_index",
+   "url": "http://127.0.0.1:39107/mcp"
+  },
+  {
+   "name": "powerbi_circularity_metrics",
+   "url": "http://127.0.0.1:39108/mcp"
+  },
+  {
+   "name": "primavera_decommissioning_controls",
+   "url": "http://127.0.0.1:39109/mcp"
+  },
+  {
+   "name": "sap_ehs_drum_inventory",
+   "url": "http://127.0.0.1:39110/mcp"
+  },
+  {
+   "name": "sap_program_finance",
+   "url": "http://127.0.0.1:39111/mcp"
+  },
+  {
+   "name": "servicenow_environmental_exceptions",
+   "url": "http://127.0.0.1:39112/mcp"
+  },
+  {
+   "name": "sharepoint_controlled_documents",
+   "url": "http://127.0.0.1:39113/mcp"
+  },
+  {
+   "name": "sphera_waste_classification",
+   "url": "http://127.0.0.1:39114/mcp"
+  },
+  {
+   "name": "tableau_executive_esg_dashboard",
+   "url": "http://127.0.0.1:39115/mcp"
+  },
+  {
+   "name": "velocityehs_field_assurance",
+   "url": "http://127.0.0.1:39116/mcp"
+  },
+  {
+   "name": "veolia_chain_of_custody",
+   "url": "http://127.0.0.1:39117/mcp"
+  },
+  {
+   "name": "veolia_treatment_receipts",
+   "url": "http://127.0.0.1:39118/mcp"
+  }
+ ],
+ "verifier": {
+  "uploads": [
+   {
+    "source": "verify.py",
+    "target": "/work/verify.py"
+   },
+   {
+    "source": "verifier_meta.json",
+    "target": "/work/verifier_meta.json"
+   },
+   {
+    "source": "_helpers.py",
+    "target": "/work/_helpers.py"
+   },
+   {
+    "source": "run_verify.py",
+    "target": "/work/run_verify.py"
+   }
+  ],
+  "command": "python3 /work/run_verify.py",
+  "reward_file": "/logs/verifier/reward.json",
+  "reward_detail_file": "/logs/verifier/reward_detail.json",
+  "timeout_sec": null,
+  "env_passthrough": null
+ }
+}

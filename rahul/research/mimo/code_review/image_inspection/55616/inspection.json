@@ -1,0 +1,61 @@
+{
+  "image": "docker.io/xiaomimimo/mimo-v2.6-rl-oss@sha256:88326a734ec3abb1fa9d44744796f819880f4801a74b940965d488ca69fd8b24",
+  "job_id": "55616",
+  "method": "docker pull by digest; docker create stopped, read-only, network none, no mounts; docker cp selected files",
+  "files": [
+    {
+      "path": "/testbed/pytago/tests/test_core.py",
+      "status": "present",
+      "size_bytes": 7453,
+      "sha256": "8c0c0021cb9cd2c2a48e76177081e2664cea4b8d69dab054a05ee08f44fc2d95"
+    },
+    {
+      "path": "/testbed/examples/bitwisenot.py",
+      "status": "missing",
+      "size_bytes": null,
+      "sha256": null
+    },
+    {
+      "path": "/testbed/examples/bitwisenot.go",
+      "status": "missing",
+      "size_bytes": null,
+      "sha256": null
+    },
+    {
+      "path": "/testbed/pyproject.toml",
+      "status": "present",
+      "size_bytes": 104,
+      "sha256": "634633fa3426b545f963606a0f31bc5f3ba789f9b0d0d080f7f93494a33bb6e4"
+    },
+    {
+      "path": "/testbed/setup.py",
+      "status": "present",
+      "size_bytes": 899,
+      "sha256": "7445881d1d40be585476478992c4dd7bec4aa960b079abab0fac874a5f6f7af6"
+    },
+    {
+      "path": "/testbed/.git/HEAD",
+      "status": "present",
+      "size_bytes": 41,
+      "sha256": "0f2c91f4cb7d23f7ac1251f831510e81c6f1c4215584bee27f0e0f37fe2951b1"
+    },
+    {
+      "path": "/testbed/.git/packed-refs",
+      "status": "present",
+      "size_bytes": 744,
+      "sha256": "c02fd8aa2f2340eeb0c216afa9a4e01b5ebaa52d82fc95a0433cf8a1cdd6062c"
+    },
+    {
+      "path": "/testbed/.git/refs/heads/main",
+      "status": "missing",
+      "size_bytes": null,
+      "sha256": null
+    },
+    {
+      "path": "/testbed/.git/refs/heads/master",
+      "status": "missing",
+      "size_bytes": null,
+      "sha256": null
+    }
+  ]
+}

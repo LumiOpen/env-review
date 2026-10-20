@@ -1,0 +1,50 @@
+{
+ "items": [
+  {
+   "id": "bucket_classification",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Does the final answer correctly identify the three nonzero provisional federal credit planning buckets by character, amount, and provisional expiry fiscal year?",
+   "pass_anchor": "The workbook's nonzero federal planning rows are: research credit — $1.237 million, provisional expiry FY2038; orphan-drug credit — $0.482 million, provisional expiry FY2044; other general business credit — $0.227 million, provisional expiry FY2036. Accept equivalent wording and reasonable rounding that preserves these values and fiscal years; do not require row IDs or exact formatting.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "audited_reconciliation",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Does the final answer reconcile the three planning buckets to the audited federal tax-credit carryforward balance and state the correct agreement conclusion?",
+   "pass_anchor": "The bucket sum is $1.946 million (1.237 + 0.482 + 0.227), which agrees to the audited FY2024 federal tax-credit carryforward balance of $1.946 million reported at October 31, 2024. The answer should distinguish the modeled component allocation from the audited aggregate balance.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "ordering_and_limitation",
+   "tier": "critical",
+   "method": "llm",
+   "question": "Does the final answer correctly explain the ordering and separate limitation treatment for the federal credits?",
+   "pass_anchor": "Federal tax-credit carryforwards are not a federal NOL deduction. Under the planning model's ordering, credits are applied after NOL deductions, and their use is subject to a separate IRC Section 38 general business credit limitation; the credit schedule is provisional pending validation of credit character, vintage, expiry, and related support. Do not accept an answer saying credits reduce NOLs or are subject only to the NOL 80% limitation.",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "provisional_status",
+   "tier": "important",
+   "method": "llm",
+   "question": "Does the final answer preserve the provisional nature of the workbook allocation rather than presenting it as a filed-return conclusion?",
+   "pass_anchor": "The answer explicitly labels the three component buckets and their expiry years as provisional planning assumptions/allocation, while the $1.946 million aggregate is the audited reported balance. It should note that Form 3800/component support or equivalent return-level validation remains needed before relying on the character and expiry breakdown.",
+   "files": [
+    "answer.md"
+   ]
+  }
+ ],
+ "check_code": "\"\"\"No deterministic post-state checks: this is a read-only, answer-text task.\"\"\"\n",
+ "gold_answer": null,
+ "input": "workspace",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

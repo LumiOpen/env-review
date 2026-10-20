@@ -1,0 +1,50 @@
+{
+  "source": "research/mimo/code_scan/rows.jsonl",
+  "canonical_scan_job": "55627",
+  "canonical_script_sha256": "4bedf47780bbe0b756292aa7d177fbbbf5b1aeb13bdc7ea4eb55f0de06571ed2",
+  "scope": "Manual source-only review of three heuristic flags; no upstream code or image executed",
+  "reviewed": [
+    {
+      "task_id": "format-code-task-000075",
+      "row_index": 755,
+      "flag": "empty_test_filter",
+      "disposition": "false positive",
+      "evidence": "mimo_test_command.sh line 29 uses -run \"^${test_name}$\" inside a loop over ten explicit named tests; ${test_name} expands to a name, not an empty regex. test_command runs base && new."
+    },
+    {
+      "task_id": "format-code-task-002186",
+      "row_index": 20,
+      "flag": "explicit_success_suppression",
+      "disposition": "expected cleanup behavior",
+      "evidence": "mimo_test_command.sh line 44 masks only redis-cli shutdown in cleanup() registered with trap EXIT; line 59 runs go test -v -count=1 ./usercase-test-coderl/... under set -euo pipefail."
+    },
+    {
+      "task_id": "format-code-task-000179",
+      "row_index": 226,
+      "flag": "no_recognized_test_invocation",
+      "disposition": "recognizer miss",
+      "evidence": "mimo_test_command.sh defines run_odoo_tests using odoo --test-enable --stop-after-init --test-tags; test_command runs base && new branches. pg_ctlcluster || true is service startup, followed by DB creation and the Odoo test runner."
+    }
+  ],
+  "additional_context": [
+    {
+      "task_id": "format-code-task-000171",
+      "disposition": "base collection-only is preflight; new branch runs tests/test_comment_report.py under pytest"
+    },
+    {
+      "task_id": "format-code-task-001235",
+      "disposition": "base -run ^$ compiles package; new branch runs six named Go tests"
+    },
+    {
+      "task_id": "format-code-task-002544",
+      "disposition": "Ruby runner false negative: full wrapper runs bundle exec ruby test/yarp/encoding_test.rb in base and new branches"
+    }
+  ],
+  "structural_result": {
+    "rows": 2602,
+    "scanner_errors": 0,
+    "structural_errors": 0,
+    "inspection_limits": 0
+  },
+  "conclusion": "No confirmed Code contract defect from this static scan. Coverage flags remain unverified hypotheses and include recognizer false positives; C1 image-specific execution remains parked."
+}

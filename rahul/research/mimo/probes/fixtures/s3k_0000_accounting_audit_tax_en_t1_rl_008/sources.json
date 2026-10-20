@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss/resolve/e8e81e4945270b6212204bad99de1e598f7fb077/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/dealcloud_disposition_workspace/state.db",
+    "path": "research/mimo/probes/fixtures/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/dealcloud_disposition_workspace/state.db",
+    "bytes": 53248,
+    "sha256": "cb2a18e5355866cc7f713aafe28502531be392b9e4e12e2b008362cd313ef45f"
+  },
+  {
+    "url": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss/resolve/e8e81e4945270b6212204bad99de1e598f7fb077/general/envs/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/sharepoint_tax_governance_library/state.db",
+    "path": "research/mimo/probes/fixtures/s3k_0000_accounting_audit_tax_en_t1_rl_008/system/sharepoint_tax_governance_library/state.db",
+    "bytes": 90112,
+    "sha256": "3f2b8c5bf394dff0d3b15b0966a3b806a316cc75e44625d2232de7bc778cc311"
+  }
+]

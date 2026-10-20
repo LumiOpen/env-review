@@ -1,0 +1,78 @@
+{
+  "source": "https://huggingface.co/api/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss/tree/e8e81e4945270b6212204bad99de1e598f7fb077",
+  "observed_date": "2026-10-20",
+  "response": [
+    {
+      "type": "directory",
+      "oid": "9ebe01ebe810d92b535b63f45a7551e1cbd047e3",
+      "size": 0,
+      "path": "general"
+    },
+    {
+      "type": "file",
+      "oid": "b01df2e1bea6a03590b8f7f97629a2b67269aa06",
+      "size": 2597,
+      "path": ".gitattributes"
+    },
+    {
+      "type": "file",
+      "oid": "3b9dadbe31d6e6b452ae513b62a2d760f07cf06c",
+      "size": 1064,
+      "path": "README.md"
+    },
+    {
+      "type": "file",
+      "oid": "659dd3427c3623fd5447a18eeefda7603498dd4d",
+      "size": 12619588,
+      "lfs": {
+        "oid": "3a5310751054dad1ac58cbf407c9234c1bf7775af5f3cc9be57474b39bd2a93b",
+        "size": 12619588,
+        "pointerSize": 133
+      },
+      "xetHash": "eb0e35765651b1b6740f5127d386464a9d683ebb8a7620bc9c1d7ec8b367e296",
+      "path": "code.parquet"
+    },
+    {
+      "type": "file",
+      "oid": "6ed0795666de360a62923b37484bbd93c6cc0632",
+      "size": 227632,
+      "lfs": {
+        "oid": "9e6e69034f4f3e6cfb5c901de642dddc7f4bacf35ab886b0e8eb53eb03084ba1",
+        "size": 227632,
+        "pointerSize": 131
+      },
+      "xetHash": "724b79ced6066d629d0b0b46009423f2a2da625a5e6ae34bb7d1f342bfc09d75",
+      "path": "cyber.parquet"
+    },
+    {
+      "type": "file",
+      "oid": "0afc45da94468718e6ef651fff9e20f1c0293679",
+      "size": 482537,
+      "path": "image-mapping.jsonl"
+    },
+    {
+      "type": "file",
+      "oid": "66888076388bf307a5f842825abdfcab962f5082",
+      "size": 135467,
+      "lfs": {
+        "oid": "8fa2c95fb008df032eae184f3304dd3a73e3d25727e3aac0a715484859fa4856",
+        "size": 135467,
+        "pointerSize": 131
+      },
+      "xetHash": "e0e2ea3510467bc0a33952822ab05d6fb7df6566ceabe00448acb7e2eefbaed5",
+      "path": "music.parquet"
+    },
+    {
+      "type": "file",
+      "oid": "0d61ad6f48721a01c5bc880db5c00a041b2fb360",
+      "size": 4120378,
+      "lfs": {
+        "oid": "56ca6c96642666a27b756e20694ba60a4386d1761baadae86fd6768553d2cbac",
+        "size": 4120378,
+        "pointerSize": 132
+      },
+      "xetHash": "30fe40953273e529ac53b30a4d3dcddc1d810c79ebc7eed3bae5ccc47789194f",
+      "path": "webdev.parquet"
+    }
+  ]
+}

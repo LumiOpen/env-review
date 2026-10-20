@@ -1,0 +1,50 @@
+{
+ "items": [
+  {
+   "id": "target_event_identity_and_amount",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final answer correctly identify the September manufacturing work order and its post-cutoff cost event, including the event amount?",
+   "pass_anchor": "The answer must identify work order MO-25-09-1070 and source transaction TXN-ISSUE-250930-1070, and give the event amount as $284,763.42 (or an equivalent exact cents value of 28,476,342)."
+  },
+  {
+   "id": "exact_cutoff_times_and_lag",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final answer correctly compare the event-created timestamp with the cost period's Pending Close timestamp and calculate the elapsed delay?",
+   "pass_anchor": "The answer must state that the event was created at 2025-09-30 19:15 (ISO T notation is acceptable), Pending Close was at 2025-09-30 18:00, and the elapsed lag was 75 minutes. Equivalent clear timezone-free timestamp formatting is acceptable; the dates and times must remain exact."
+  },
+  {
+   "id": "recorded_status",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final answer correctly report the event's recorded accounting status?",
+   "pass_anchor": "The event's recorded accounting status is POSTED. The answer must identify POSTED as the stored status, not ERROR, PENDING, ACCOUNTED, or HELD."
+  },
+  {
+   "id": "pending_close_classification",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final answer correctly determine whether the recorded status is consistent with the documented Pending Close rule for a newly created post-cutoff transaction?",
+   "pass_anchor": "The conclusion must be that POSTED is inconsistent with the documented rule: Pending Close holds newly created transactions that fall in or before the period from being staged, so an event created after the 2025-09-30 18:00 cutoff should have been held from staging rather than recorded as POSTED. The answer must not claim that the database was changed."
+  }
+ ],
+ "check_code": "\"\"\"No deterministic post-state checks apply: this is a read-only analysis task.\"\"\"\n",
+ "gold_answer": null,
+ "input": "db",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

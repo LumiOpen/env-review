@@ -1,0 +1,64 @@
+{
+  "endpoint": "https://api.primeintellect.ai/api/v1/environmentshub/apple999/wordle/@latest",
+  "retrieved_utc": "2026-10-20",
+  "data": {
+    "id": "b4lgd428i7av02i3fflr6ww9",
+    "name": "wordle",
+    "description": "Multi-turn Wordle played through a guess tool, with shaped solve + green-progress rewards.",
+    "license": "",
+    "visibility": "PUBLIC",
+    "owner": {
+      "type": "user",
+      "name": "apple999"
+    },
+    "created_at": "2026-07-12T13:47:00.276000",
+    "updated_at": "2026-07-12T14:55:18.752000",
+    "version_id": "rkmfxgz03s3zf0wni3ek2thw",
+    "sha256": "7cea003c4fb93bc42ff062089dfa2f2be6bd18f50ab8ac805863a29aeec88437",
+    "metadata": {
+      "tags": [
+        "multi-turn",
+        "tool-use",
+        "games",
+        "train",
+        "eval"
+      ],
+      "license": "",
+      "description": "Multi-turn Wordle played through a guess tool, with shaped solve + green-progress rewards.",
+      "dependencies": [
+        "verifiers>=0.1.14"
+      ],
+      "requires_dist": [
+        "verifiers>=0.1.14"
+      ],
+      "python_requires": ">=3.10",
+      "original_filename": "wordle-0.1.1.tar.gz"
+    },
+    "wheel_url": "https://hub.primeintellect.ai/apple999/wordle/@5c67eee8/wordle-0.1.1-py3-none-any.whl",
+    "package_url": null,
+    "tracked_package_url": "https://hub.primeintellect.ai/apple999/wordle/@5c67eee8/download",
+    "simple_index_url": "https://hub.primeintellect.ai/apple999/simple/",
+    "install_index_url": "https://hub.primeintellect.ai/apple999/wordle/install/simple/",
+    "url_dependencies": [],
+    "runtime": "VERIFIERS_V0",
+    "verifiers_requirement": ">=0.1.14",
+    "download_observed_final_url": "https://storage.googleapis.com/pihub-environments-prod/environments/packages/5c67eee87769-7cea003c4fb93bc42ff062089dfa2f2be6bd18f50ab8ac805863a29aeec88437-b4lgd428i7av02i3fflr6ww9.tar.gz",
+    "archive_sha256": "7cea003c4fb93bc42ff062089dfa2f2be6bd18f50ab8ac805863a29aeec88437",
+    "archive_bytes": 59918,
+    "archive_member_files": [
+      "README.md",
+      "pyproject.toml",
+      "scripts/build_valid_guesses.py",
+      "scripts/curate_answers.py",
+      "scripts/generate_answers.py",
+      "scripts/local_baseline.py",
+      "wordle/__init__.py",
+      "wordle/data/answers.txt",
+      "wordle/data/valid_guesses.txt",
+      "wordle/wordle.py",
+      "wordle/words.py"
+    ],
+    "archive_members_safe": true,
+    "retrieved_utc": "2026-10-20"
+  }
+}

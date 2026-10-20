@@ -1,0 +1,111 @@
+{
+  "status": "completed",
+  "collection": "runs/prime-v1",
+  "audit_job_id": 55684,
+  "unit_tests": {
+    "count": 56,
+    "status": "passed",
+    "job_id": 55683,
+    "log": "research/prime/tests-55683.log"
+  },
+  "partition": "amd-tw-verification",
+  "gpus": 0,
+  "model_calls": 0,
+  "paid_judge_calls": 0,
+  "task_rows": 7,
+  "cases_per_pass": 34,
+  "reviewed_findings": 4,
+  "all_replays_reproduced": true,
+  "results": [
+    {
+      "name": "prime-reverse-text",
+      "run": "runs/prime-v1/prime-reverse-text",
+      "replay": "runs/prime-v1/prime-reverse-text-replay",
+      "task_count": 4,
+      "finding_counts": {
+        "candidate": 2
+      },
+      "case_count": 12,
+      "probe_relations": 6,
+      "integrity": {
+        "status": "verified",
+        "fingerprint": "72e03b81d467d46d2fd686792f9a3c8d86a913f87cdc872d8a2e3b6a1b0c4a93",
+        "artifacts": 78
+      },
+      "fingerprint": "72e03b81d467d46d2fd686792f9a3c8d86a913f87cdc872d8a2e3b6a1b0c4a93",
+      "semantic_sha256": "9cc8933dd5ba27e1ff99328c7e36802b385f8cca0d1db8da4f0a994791c42b7e",
+      "comparison": {
+        "same_fingerprint": true,
+        "same_semantic_results": true,
+        "reproduced": true,
+        "left_semantic_sha256": "9cc8933dd5ba27e1ff99328c7e36802b385f8cca0d1db8da4f0a994791c42b7e",
+        "right_semantic_sha256": "9cc8933dd5ba27e1ff99328c7e36802b385f8cca0d1db8da4f0a994791c42b7e"
+      }
+    },
+    {
+      "name": "prime-countdown",
+      "run": "runs/prime-v1/prime-countdown",
+      "replay": "runs/prime-v1/prime-countdown-replay",
+      "task_count": 1,
+      "finding_counts": {
+        "candidate": 2
+      },
+      "case_count": 8,
+      "probe_relations": 4,
+      "integrity": {
+        "status": "verified",
+        "fingerprint": "b30e9741f43878d8aaebd0ed2eb78be1df8878cdca67c723cda3f511496c6efd",
+        "artifacts": 61
+      },
+      "fingerprint": "b30e9741f43878d8aaebd0ed2eb78be1df8878cdca67c723cda3f511496c6efd",
+      "semantic_sha256": "787fb70e97411aa87f9984c037f2e82fcc7b68f9c74671f406e8660430ad6de4",
+      "comparison": {
+        "same_fingerprint": true,
+        "same_semantic_results": true,
+        "reproduced": true,
+        "left_semantic_sha256": "787fb70e97411aa87f9984c037f2e82fcc7b68f9c74671f406e8660430ad6de4",
+        "right_semantic_sha256": "787fb70e97411aa87f9984c037f2e82fcc7b68f9c74671f406e8660430ad6de4"
+      }
+    },
+    {
+      "name": "prime-wordle",
+      "run": "runs/prime-v1/prime-wordle",
+      "replay": "runs/prime-v1/prime-wordle-replay",
+      "task_count": 2,
+      "finding_counts": {},
+      "case_count": 14,
+      "probe_relations": 7,
+      "integrity": {
+        "status": "verified",
+        "fingerprint": "2add65b68148696ac9f371d16a9f5d5e7fa505562b87914016eb20b73323be08",
+        "artifacts": 91
+      },
+      "fingerprint": "2add65b68148696ac9f371d16a9f5d5e7fa505562b87914016eb20b73323be08",
+      "semantic_sha256": "2f65a259cef449f806fe561aed0aa8c9c4b8336d2ab1ef4eb8e11a1a77cf973a",
+      "comparison": {
+        "same_fingerprint": true,
+        "same_semantic_results": true,
+        "reproduced": true,
+        "left_semantic_sha256": "2f65a259cef449f806fe561aed0aa8c9c4b8336d2ab1ef4eb8e11a1a77cf973a",
+        "right_semantic_sha256": "2f65a259cef449f806fe561aed0aa8c9c4b8336d2ab1ef4eb8e11a1a77cf973a"
+      }
+    }
+  ],
+  "runtime_pins": {
+    "verifiers": "0.3.0",
+    "datasets": "4.3.0",
+    "pyarrow": "24.0.0"
+  },
+  "local_file_sha256": {
+    "examples/prime_countdown.json": "cceedf498912b0571e215a81dedc2784a48d41122b6f34fa769a88e0b79f7fa7",
+    "examples/prime_reverse_text.json": "2ae19cb16e59e0c779b470db6b6e88a438ca97293cece1fe840f5dd0f85ad0a8",
+    "examples/prime_wordle.json": "582fa559dec9f68206ab890ca4422d2f38fc2828c144f34ae067747858260205",
+    "examples/drivers/prime_countdown.py": "cdbd58f6bc7012cd68040a660285a81e8164702db4b844cd20127204c4b9393f",
+    "examples/drivers/prime_reverse_text.py": "6462c6d3bc60d6267d9163f0a491364f5e58385a1f36ea4f831f221d008356c6",
+    "examples/drivers/prime_wordle.py": "2e376d4333d52e6600cc3ecb531d3377c6baa47488d3628fef9147d7c6fbfdff"
+  },
+  "limits": [
+    "Source component evidence only, not model performance or learned exploitation.",
+    "Selected cases are purposive and cannot estimate environment or Hub defect prevalence."
+  ]
+}

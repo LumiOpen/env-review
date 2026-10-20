@@ -1,0 +1,60 @@
+{
+ "items": [
+  {
+   "id": "unit_demand_breakdown",
+   "tier": "important",
+   "method": "llm",
+      "question": "是否将题目所称“当前最紧迫”的容量核算明确限定为高紧迫度的四个填报单位，并正确给出各自拟参训人数？",
+      "pass_anchor": "本次容量核算的纳入项应为且仅为高紧迫度的四条：计算机学院24人、通识教育中心60人、学生工作处55人、财务处60人。顺序和表述格式不限，但不得漏掉单位、错配人数或把“合并保留”的通识教育中心记录排除。可以另作全类别扩围对照，但不能将中/低紧迫度记录列为本题主核算的纳入集合。",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "external_project_identity",
+   "tier": "important",
+   "method": "llm",
+   "question": "是否正确确认四项需求共同指向的外部项目及承办机构？",
+   "pass_anchor": "共同项目为2025GZ29“高职院校‘AI+职教’课堂改革高级研修”，培训机构/承办机构为重庆电子科技职业大学。引号样式和简称可不同，但项目编号、项目含义与机构须一致。",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "total_high_priority_demand",
+   "tier": "critical",
+   "method": "llm",
+      "question": "是否以高紧迫度口径一致地算出题目所问的信息技术应用需求总量及相对60人容量的名额缺口？",
+      "pass_anchor": "题目所问的主容量核算应按需求明细中紧迫度为高且归入信息技术应用类的四条记录汇总：需求总量199人（允许写199人次），相对60人容量的缺口为139人（199减60），两者均须作为主结果且口径一致。若答案将14条全类别的639人及其579人缺口作为本题主结果，即使另行提到199人和139人，也不通过；639人/579人仅可作为明确标注的扩围对照。",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "external_capacity",
+   "tier": "critical",
+   "method": "llm",
+   "question": "是否从重庆项目表核准2025GZ29的项目容量？",
+   "pass_anchor": "2025GZ29项目公布人数/容量为60人。",
+   "files": [
+    "answer.md"
+   ]
+  },
+  {
+   "id": "capacity_coverage_rate",
+   "tier": "critical",
+   "method": "llm",
+      "question": "是否按高紧迫度主核算正确计算容量覆盖率并给出承载结论？",
+      "pass_anchor": "题目所问主核算的覆盖率按外部容量÷高紧迫度校内需求总量计算，即60÷199，约为30.15%（接受30.1%至30.2%）；结论应明确60个名额不足以覆盖199人的需求，只能覆盖约三成。若答案把9.39%（60÷639）作为本题主结论，即使另行提到30.15%，也不通过；9.39%仅可作为明确标注的扩围对照。",
+   "files": [
+    "answer.md"
+   ]
+  }
+ ],
+ "check_code": "\"\"\"No deterministic post-state checks are required for this read-only task.\"\"\"\n",
+ "gold_answer": null,
+ "input": "workspace",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

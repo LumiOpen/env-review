@@ -1,0 +1,76 @@
+{
+ "items": [
+  {
+   "id": "effective_replacement_demand",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "最终回复是否正确重算出有效、已确认且按业务唯一需求去重后的客户换货需求，并与主计划口径比较？",
+   "pass_anchor": "真实数据口径：主计划采用的客户换货需求为1,287瓶；Salesforce中排除已撤销或已撤回案件，只保留需要替换且已确认的需求，再按business_unique_key去重后也是1,287瓶，差异0瓶。回答必须明确现有1,287瓶口径可以沿用。数量不接受误差。",
+   "weight": 1
+  },
+  {
+   "id": "duplicate_import_reconciliation",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "最终回复是否识别并量化了两条重复导入副本及其虚高影响？",
+   "pass_anchor": "真实数据：有效主案中有两组相同business_unique_key的重复导入。原始行TRL-20241025-00044与副本TRL-20241025-00047均为228瓶；原始行TRL-20241029-00068与副本TRL-20241029-00072均为141瓶。应保留每组较早创建的业务唯一行，排除两个副本，合计消除369瓶虚高。接受用对应单据CRD-PD-20241025-006第20行、CRD-PD-20241029-009第40行来等价定位，但必须给出228瓶、141瓶及合计369瓶。",
+   "weight": 1
+  },
+  {
+   "id": "cancelled_subcase_exclusion",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "最终回复是否识别已撤销子案及其中不应计入正式口径的换货残留？",
+   "pass_anchor": "真实数据：CASE-CQC-2024-1022-002状态为CANCELLED，撤销原因是客户确认其与CASE-CQC-2024-1022-001为同一投诉、该子案并入主投诉事件；其需求行TRL-20241027-00058（单据CRD-SH-20241027-021第10行）虽显示已确认换货88瓶，仍必须因案件撤销而排除。回答需正确给出撤销子案及88瓶影响。",
+   "weight": 1
+  },
+  {
+   "id": "pending_demand_exclusion",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "最终回复是否识别并量化尚未确认、不能进入正式换货口径的需求？",
+   "pass_anchor": "真实数据：有效主案CASE-CQC-2024-1022-001中的TRL-20241101-00089（单据CRD-PD-20241101-016第70行）为74瓶，但确认状态为PENDING，因此不得计入正式已确认换货需求。回答需正确给出74瓶并说明待确认排除。",
+   "weight": 1
+  },
+  {
+   "id": "gross_to_effective_bridge",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "最终回复是否给出了从未治理逐行汇总到正式有效需求的完整数量桥接？",
+   "pass_anchor": "真实数据：该投诉事件及问题批次下所有标记需要替换的需求行直接相加为1,818瓶；依次排除重复副本369瓶、撤销子案88瓶和待确认需求74瓶后为1,287瓶，即1,818-369-88-74=1,287。接受等价次序，但各项及算式必须自洽。",
+   "weight": 1
+  },
+  {
+   "id": "business_scope_reasoning",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "最终回复是否清楚说明正式口径所依据的案件状态、确认状态和业务唯一性原则？",
+   "pass_anchor": "合格回答应说明：投诉事件下CASE-CQC-2024-1022-001是有效主案且处于替换计划阶段，CASE-CQC-2024-1022-002是撤销子案；只有有效案件中明确需要替换且已确认的需求可计入，并须按业务唯一键去重而不是简单汇总逐行数量或只看需求行自身是否已确认。允许使用中文业务表述，不强制枚举英文状态值或字段名。",
+   "weight": 1
+  }
+ ],
+ "check_code": "def no_rule_items_are_expected(workspace):\n    return {\n        \"score\": 0,\n        \"detail\": \"This is a read-only cross-source analysis task; scored conclusions are evaluated by the text rubric.\",\n    }\n",
+ "gold_answer": null,
+ "input": "both",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

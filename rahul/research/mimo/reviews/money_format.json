@@ -1,0 +1,32 @@
+{
+  "review_type": "Independent review of paired DOCX component probe",
+  "task_id": "s3k_1401_healthcare_ops_en_t4_rl_007",
+  "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+  "primary_probe": "research/mimo/probes/money-format/55626/result.json",
+  "status": "confirmed component-level numeric-format false negative",
+  "finding": "The prompt asks for a readable DOCX metric table but specifies no thousands-separator convention. In the controlled pair, changing only two positive monetary cells from $184,672.54/$162,826.17 to $184672.54/$162826.17 changes check_memo_core_metrics from score 1 to score 0. The ungrouped values are numerically identical, and the rule detail identifies precisely those two missing values. The negative estimated decrease stays identical as ($21,846.37) in both artifacts.",
+  "independent_checks": [
+    "Recomputed SHA-256 of both DOCX files; each matches its result.json artifact_sha256.",
+    "Opened both files as ZIP containers, tested all members for corruption, and read word/document.xml using the standard library.",
+    "Verified both contain the same two-column metric table, six metric rows, headings and negative amount; replacing the two commas in the grouped DOCX document.xml makes its XML exactly equal to the ungrouped version's XML.",
+    "Read the probe script: it loads check_code from the pinned metadata and directly invokes check_memo_core_metrics in a Slurm amd-tw-verification job. No task image or full verifier path was invoked."
+  ],
+  "mechanism": "_money uses f'{abs(value):,.2f}' and, for positive values, searches only the grouped string or its dollar-prefixed form. DOCX text is read literally. Its negative-value branch has an ungrouped parenthesized exception, but that exception cannot apply to the two positive cells.",
+  "evidence": [
+    "research/mimo/general_actions/snapshots/s3k_1401_healthcare_ops_en_t4_rl_007/instruction.md:3",
+    "research/mimo/general_review/snapshots/healthcare_check_code.py:24",
+    "research/mimo/general_review/snapshots/healthcare_check_code.py:36",
+    "research/mimo/general_review/snapshots/healthcare_check_code.py:48",
+    "research/mimo/probes/money-format/55626/result.json:1",
+    "scripts/probe_general_money_format.py:31",
+    "scripts/probe_general_money_format.py:48",
+    "scripts/probe_general_money_format.py:79"
+  ],
+  "limits": [
+    "This directly validates only check_memo_core_metrics on synthetic, valid DOCX tables. Neither artifact is a complete task submission.",
+    "The probe did not run check_memo_cross_source_control, source_integrity, any LLM item, the controller, binarization, or training. Static source suggests cross_source_control reuses the same money matcher, but no outcome for that component is claimed here.",
+    "The sidecar metadata contains eight non-gate items with default weight 1. A hypothetical change in exactly one item would alter its raw weighted score by 1/8 if all else were held fixed, but no total reward was measured.",
+    "The older 55624 probe changed the negative amount as well and therefore does not isolate the positive-format effect; 55626 is the decisive paired result."
+  ],
+  "additional_testing": "None requested or performed after the isolated rerun."
+}

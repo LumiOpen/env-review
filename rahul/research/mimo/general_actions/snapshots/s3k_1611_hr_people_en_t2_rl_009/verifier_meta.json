@@ -1,0 +1,65 @@
+{
+ "items": [
+  {
+   "id": "published_control_exception",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final response correctly state the published Q3 2025 organization-level completion result, denominator, numerator, and threshold shortfall, and classify the result against the correct control threshold?",
+   "pass_anchor": "Pass only if the answer identifies 12,846 assigned role-applicable requirements, 12,045 current requirements, a 93.76% completion rate (12,045 / 12,846, allowing normal rounding or a materially equivalent percentage), and 159 additional current requirements needed to reach the quarterly 95.00% internal control threshold. It must classify 93.76% as a control exception below 95.00%, while distinguishing that SaTH Policy W32's published minimum target is 90.00% and the result remains above that published minimum. Ground truth is confirmed by the published Power BI compliance_snapshot row CS-2025Q3-ORG-001, the CTRL_ML_Q3_95 metric definition, and the Executive Summary/Committee briefing.",
+   "weight": 1.0
+  },
+  {
+   "id": "oracle_independent_recompute",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final response independently recalculate the Q3 role-applicable rate from Oracle ESR/OLM using the governed population and exclusions?",
+   "pass_anchor": "Pass when the response shows an independent Oracle ESR/OLM ledger aggregation at the 30 September 2025 Q3 cut-off, identifies the governed role-applicable active population and current-status test, and produces 12,045 current out of 12,846 assigned, equaling 93.76% (allow two-decimal rounding). The governed denominator/exclusion treatment may be stated with equivalent wording or evidenced by the active role-applicable denominator plus a status breakdown (for example, completed-but-expired, expired, overdue, and not-started rows); the literal flag names are not required. Merely citing an unverified dashboard number without the Oracle population, numerator, denominator, and current/noncurrent logic is insufficient. Ground truth is the PERIOD_2025_Q3 learning_requirement_ledger aggregate with role_applicable_flag=1, active_staff_flag=1, exemption_approved_flag=0: assigned 12,846 and current 12,045.",
+   "weight": 1.0
+  },
+  {
+   "id": "controlled_servicenow_difference",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final response correctly reconcile the quarter-end ESR/OLM unresolved population to the ServiceNow live queue and explain the controlled difference?",
+   "pass_anchor": "Pass if the answer states that the fixed 30 September 2025 ESR/OLM snapshot contains 801 unresolved/overdue learning requirements, while the ServiceNow live escalation queue contains 633 unresolved cases, a difference of 168, and explains that ServiceNow is a later live queue affected by post-quarter completions, case closures, and newly opened cases. It must not call the 168 difference an automatic source-data error or compare the counts without acknowledging the different reference dates. Ground truth is the Power BI source_refresh_audit rows for CS-2025Q3-ORG-001 (ESR_OLM at 2025-09-30 = 801; SERVICENOW_HR at 2025-10-06 = 633; status controlled_difference) and the ServiceNow PERIOD_2025_Q3 non-test cohort.",
+   "weight": 1.0
+  },
+  {
+   "id": "retired_directorate_exclusion",
+   "tier": "critical",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final response identify and correctly interpret the retired-directorate data-quality exception and its cohort treatment?",
+   "pass_anchor": "The answer must identify D_RET_EDU as the retired local directorate code in the Q3 ESR/OLM refresh audit, state that it has no matching current Power BI compliance_snapshot directorate mapping, and explain that it is a data-quality/reconciliation exception that must be excluded or quarantined from the published current organization cohort rather than reported as live compliance performance. The answer should recognize that the audit row has 96 assigned, 71 current, and 25 unresolved requirements only as source-quality evidence, not as a live published directorate result. Ground truth is REF-ESR-2025Q3-RET-07 with reconciliation_status data_quality_exception and its documented difference reason; no D_RET_EDU compliance_snapshot row exists.",
+   "weight": 1.0
+  },
+  {
+   "id": "governance_conclusion_and_remediation",
+   "tier": "important",
+   "method": "llm",
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the final response give the supported Workforce Committee governance conclusion and cite a supported remediation owner and date without conflating exception types?",
+   "pass_anchor": "Pass if the response recommends noting the Q3 control exception at 93.76%, endorsing the documented October escalation timetable, and maintaining monthly assurance rather than relabeling the result as compliant. It must name at least one supported remediation owner/date from the controlled materials, such as Helen Cartwright owning recovery of the quantified gap by 31 October 2025, People and OD Compliance's TNA refresh due 31 March 2026, or the documented October milestones of 3 October, 10 October, 17 October, and 31 October 2025. It must keep the 159-requirement performance gap, the 168-count cross-system controlled difference, and D_RET_EDU's retired-code exception distinct. Ground truth is the workbook Executive Summary/Control Recommendations and the Workforce Committee briefing slides 13-18.",
+   "weight": 1.0
+  }
+ ],
+ "check_code": "#!/usr/bin/env python3\n\"\"\"Read-only task: substantive grading is performed on the final response.\"\"\"\n\n\ndef read_only_task_guard(workspace):\n    return {\"score\": 0, \"detail\": \"No deterministic post-state is defined for this read-only review.\"}\n",
+ "gold_answer": null,
+ "input": "both",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

@@ -1,0 +1,131 @@
+{
+ "items": [
+  {
+   "id": "controlling_communication",
+   "tier": "critical",
+   "method": "llm",
+   "weight": 3,
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the response identify the one controlling final sent communication and correctly collapse its journal copy rather than treating it as a second external transmission?",
+   "pass_anchor": "The answer must identify message MSG-TM-2025-0919-0088 as the one controlling final sent communication (September 19, 2025 at 2:03:27 p.m. Eastern Time) and treat MSG-TM-2025-0919-0088-JRN as only its journal copy. It must explain the de-duplication with evidence that the records share the transmission identity and content (for example, the same Internet Message-ID, sent time, subject, sender, recipient, and body); reproducing the long Internet Message-ID value is not required when the shared-identity evidence is clear. It must not report two controlling external messages.",
+   "ground_truth": {
+    "primary_message_id": "MSG-TM-2025-0919-0088",
+    "journal_message_id": "MSG-TM-2025-0919-0088-JRN",
+    "internet_message_id": "<20250919180327.90813.jreed@hollisreedlaw.com>",
+    "sent_at": "2025-09-19T14:03:27-04:00",
+    "distinct_external_communications": 1
+   }
+  },
+  {
+   "id": "commitment_count",
+   "tier": "critical",
+   "method": "llm",
+   "weight": 2,
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the response report the correct number and complete set of distinct commitments attached to the controlling communication?",
+   "pass_anchor": "The answer must report exactly three distinct external commitments: the claimant substantiation request, the principals-and-counsel conference offer, and the proposed mutual standstill. The journal copy must not double the count to six, and ancillary letter language such as the September 22 request for written confirmation or circulation of an agenda must not be promoted into additional normalized commitments because the Exchange commitment schedule contains only these three controlling entries.",
+   "ground_truth": {
+    "count": 3,
+    "commitment_types": [
+     "SUBSTANTIATION_REQUEST",
+     "CONFERENCE_OFFER",
+     "MUTUAL_STANDSTILL"
+    ]
+   }
+  },
+  {
+   "id": "substantiation_commitment",
+   "tier": "critical",
+   "method": "llm",
+   "weight": 2,
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the response normalize the substantiation commitment with the correct deadline and calendar treatment?",
+   "pass_anchor": "The claimant is requested to provide registration, use, confusion, and damages substantiation by September 24, 2025. This is a calendar-date commitment, represented as due through the end of that date in Eastern Time (2025-09-24T23:59:59-04:00, America/New_York), not a scheduled meeting time and not a business-day duration. Natural-language date formatting is acceptable.",
+   "ground_truth": {
+    "commitment_id": "CMT-TM-2025-023",
+    "due_at": "2025-09-24T23:59:59-04:00",
+    "duration_business_days": null,
+    "calendar_basis": "CALENDAR_DATE",
+    "time_zone": "America/New_York"
+   }
+  },
+  {
+   "id": "conference_commitment",
+   "tier": "critical",
+   "method": "llm",
+   "weight": 2,
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the response normalize the conference offer with the correct local date-time and Eastern Time treatment?",
+   "pass_anchor": "The offered principals-and-counsel conference is September 26, 2025 at 1:00 p.m. Eastern Time. It is a local date-time commitment in America/New_York, represented as 2025-09-26T13:00:00-04:00. The answer must preserve 1:00 p.m. Eastern rather than flattening it to a date-only deadline or presenting only a UTC conversion.",
+   "ground_truth": {
+    "commitment_id": "CMT-TM-2025-027",
+    "due_at": "2025-09-26T13:00:00-04:00",
+    "duration_business_days": null,
+    "calendar_basis": "LOCAL_DATETIME",
+    "time_zone": "America/New_York"
+   }
+  },
+  {
+   "id": "standstill_commitment",
+   "tier": "critical",
+   "method": "llm",
+   "weight": 2,
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the response normalize the standstill with the correct duration, end date, calendar basis, and time zone?",
+   "pass_anchor": "The proposal is a mutual standstill lasting ten business days through or ending October 3, 2025. Its governing basis is business days and its time-zone treatment is Eastern Time/America/New_York; natural-language end-date wording (including an explicit end-of-day normalization or simply stating that it ends/continues through October 3) is equivalent to 2025-10-03T23:59:59-04:00. The answer must not call it ten calendar days or omit either the ten-business-day duration or the through-date.",
+   "ground_truth": {
+    "commitment_id": "CMT-TM-2025-019",
+    "due_at": "2025-10-03T23:59:59-04:00",
+    "duration_business_days": 10,
+    "calendar_basis": "BUSINESS_DAY",
+    "time_zone": "America/New_York"
+   }
+  },
+  {
+   "id": "document_reconciliation",
+   "tier": "important",
+   "method": "llm",
+   "weight": 1,
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the response accurately reconcile the normalized Exchange schedule to the external response letter?",
+   "pass_anchor": "The answer must conclude that the three normalized Exchange commitments agree with the response letter: substantiation by September 24, 2025; the September 26, 2025 conference at 1:00 p.m. Eastern Time; and the ten-business-day mutual standstill through October 3, 2025. No discrepancy exists among those three controlling commitments. It may distinguish other letter requests, but must not claim a conflict where there is none.",
+   "ground_truth": {
+    "status": "MATCH",
+    "document": "Response_to_Briar_and_Bridle_Trademark_Demand.docx"
+   }
+  },
+  {
+   "id": "external_confidentiality_boundary",
+   "tier": "important",
+   "method": "llm",
+   "weight": 1,
+   "files": [
+    "answer.md"
+   ],
+   "question": "Does the response stay within the externally communicated commitment schedule without disclosing privileged internal strategy, legal analysis, or cost planning?",
+   "pass_anchor": "The answer should report the external communication and its commitment schedule without disclosing internal privileged defense assessments, recommended rebranding strategy, risk scoring, or internal cost figures such as the phased-rebrand estimate. Merely stating that such internal material was excluded is acceptable. Public-facing reservation-of-rights context, externally stated meeting details, and non-privileged provenance/reconciliation notes are not violations unless they reveal internal strategy, legal analysis, risk scoring, or cost planning.",
+   "ground_truth": {
+    "prohibited_internal_cost_figure": 564540,
+    "scope": "externally communicated commitments only"
+   }
+  }
+ ],
+ "check_code": "#!/usr/bin/env python3\n\"\"\"Read-only task: substantive grading is performed on the final response.\"\"\"\n\n\ndef read_only_task_guard(workspace):\n    return {\n        \"score\": 0,\n        \"detail\": \"No deterministic workspace post-state exists for this read-only task.\",\n    }\n",
+ "gold_answer": null,
+ "input": "both",
+ "act": "none",
+ "output": "none",
+ "reward": "rl_grade"
+}

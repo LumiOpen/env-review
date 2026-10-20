@@ -1,0 +1,195 @@
+{
+  "status": "implemented_and_validated",
+  "package": "rlaudit",
+  "version": "0.1.0",
+  "entrypoint": "PYTHONPATH=src python -m rlaudit",
+  "workflow": [
+    "plan",
+    "snapshot",
+    "normalize",
+    "static_checks",
+    "paired_probes",
+    "report",
+    "verify",
+    "replay",
+    "compare"
+  ],
+  "adapters": [
+    "local_jsonl",
+    "mimo_code",
+    "mimo_general"
+  ],
+  "executors": [
+    "slurm_compute_worker",
+    "reviewed_trusted_process",
+    "digest_pinned_network_disabled_docker"
+  ],
+  "checks": [
+    "mandatory_schema",
+    "code_static",
+    "general_contract"
+  ],
+  "relations": [
+    "invariant",
+    "nondecreasing",
+    "expected"
+  ],
+  "unit_tests": {
+    "count": 37,
+    "job_id": 55657,
+    "log": "research/pipeline/tests-55657.log",
+    "status": "passed"
+  },
+  "end_to_end": {
+    "job_id": 55658,
+    "validation": "runs/pipeline-v1-final/validation.json",
+    "runs": [
+      {
+        "name": "toy",
+        "run": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/runs/pipeline-v1-final/toy",
+        "replay": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/runs/pipeline-v1-final/toy-replay",
+        "task_count": 2,
+        "finding_counts": {
+          "candidate": 1
+        },
+        "integrity": {
+          "status": "verified",
+          "fingerprint": "10adab687d4ed97fc23ce65241aeaac2563dfdaf08535659fac95e66590cfdd9",
+          "artifacts": 37
+        },
+        "comparison": {
+          "same_fingerprint": true,
+          "same_semantic_results": true,
+          "reproduced": true,
+          "left_semantic_sha256": "7a23afda946ed33694940137f2dfb096d9dcaf7104a8f358f2887b00a314f88b",
+          "right_semantic_sha256": "7a23afda946ed33694940137f2dfb096d9dcaf7104a8f358f2887b00a314f88b"
+        }
+      },
+      {
+        "name": "mimo-general",
+        "run": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/runs/pipeline-v1-final/mimo-general",
+        "replay": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/runs/pipeline-v1-final/mimo-general-replay",
+        "task_count": 1,
+        "finding_counts": {
+          "candidate": 1
+        },
+        "integrity": {
+          "status": "verified",
+          "fingerprint": "9c233c08a887a711ed6af25768466ddebb094dfdd5f164eccd05c28f6fe834ef",
+          "artifacts": 60
+        },
+        "comparison": {
+          "same_fingerprint": true,
+          "same_semantic_results": true,
+          "reproduced": true,
+          "left_semantic_sha256": "1c6eee1a2cca46e03d56024cafcc1d3752ce98aec09ce314b61f36e2593908ef",
+          "right_semantic_sha256": "1c6eee1a2cca46e03d56024cafcc1d3752ce98aec09ce314b61f36e2593908ef"
+        }
+      },
+      {
+        "name": "mimo-code",
+        "run": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/runs/pipeline-v1-final/mimo-code",
+        "replay": "/shared_silo/scratch/rahul.aralikatte@amd.com/random/hackathon26/runs/pipeline-v1-final/mimo-code-replay",
+        "task_count": 2602,
+        "finding_counts": {
+          "observation": 395,
+          "candidate": 2
+        },
+        "integrity": {
+          "status": "verified",
+          "fingerprint": "65edafc2c25567ff9996631e8635e29684b47d1a5ee314e05b8f7f3d4cdf8941",
+          "artifacts": 20
+        },
+        "comparison": {
+          "same_fingerprint": true,
+          "same_semantic_results": true,
+          "reproduced": true,
+          "left_semantic_sha256": "ebfc0078fb9792bf7fcc31617413af28b838545f0c0e3a0d5f377e9fb30638c2",
+          "right_semantic_sha256": "ebfc0078fb9792bf7fcc31617413af28b838545f0c0e3a0d5f377e9fb30638c2"
+        }
+      }
+    ]
+  },
+  "docker_smoke": {
+    "job_id": 55659,
+    "output": "runs/pipeline-v1-final/docker-smoke",
+    "status": "passed",
+    "fingerprint": "b15227434b943b892a0069011e9d871438f2d5dffb27eed9c7156ce9721549c0",
+    "semantic_sha256": "9b42bebb7a524aaeb50efd63e1748952e31092d3153c1ffc9894c828c003d9f1"
+  },
+  "archived_engine_replay": {
+    "job_id": 55656,
+    "original": "runs/pipeline-v1/mimo-general",
+    "replay": "runs/pipeline-v1/mimo-general-archived-replay",
+    "result": "same_fingerprint_and_semantic_results",
+    "note": "Saved engine works independently of newer repository code."
+  },
+  "source_file_sha256": {
+    "src/rlaudit/__init__.py": "a1d0afb77f72d774813b41b79ded6281b01700a11a7ebb2e8375baa54f993fed",
+    "src/rlaudit/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/rlaudit/adapters.py": "f2f6066d5c93e4ef50050e92451049298e3c5b3c32ca4555f8094228997e1020",
+    "src/rlaudit/cli.py": "d1989a0653f90d6c7438f27b2f66385302923c572d8d464bb49240a2a47003d4",
+    "src/rlaudit/manifest.py": "a2be13cc478688e11c50bb7f94f0afbab51deeea7eb48e5601cba21093a0f428",
+    "src/rlaudit/pipeline.py": "0a644c4c00c5d8c5c0f39ec5193089dfd8ea7d7fdf36a13a989fa622f56b2aa4",
+    "src/rlaudit/probes.py": "92a82e6e125d04d19927903d67eb1f20891d45bbc04db01d5010fe7202e32104",
+    "src/rlaudit/slurm.py": "0204f098b6ad240c417f1481f0df1006e4625f643d4d5552686fe253739920da",
+    "src/rlaudit/snapshot.py": "095bb9c7989b9f92c12118f21628114af367e3df4439a46d7e03e8255c5d8c70"
+  },
+  "limits": [
+    "Environment-specific semantic oracles and drivers remain required.",
+    "Declared relation violations remain candidates pending independent semantic review.",
+    "General counterexample is a component probe, not a full environment or training result.",
+    "Docker GPU passthrough is unsupported; CPU examples did not validate actual GPU execution.",
+    "Trusted-process mode is not a security sandbox."
+  ],
+  "docs": [
+    "README.md",
+    "docs/pipeline.md"
+  ],
+  "example_manifests": [
+    "examples/local/pipeline.json",
+    "examples/mimo_code.json",
+    "examples/mimo_general.json"
+  ],
+  "extensions": [
+    {
+      "name": "mimo_other_subsets",
+      "status": "implemented_and_validated",
+      "adapters": [
+        "mimo_cyber",
+        "mimo_webdev",
+        "mimo_music"
+      ],
+      "checks": [
+        "mimo_contract"
+      ],
+      "validation": "research/mimo/other_subsets/validation.json",
+      "unit_tests": {
+        "count": 52,
+        "job_id": 55671
+      },
+      "audit_job": 55672,
+      "note": "Baseline validation and source hashes above refer to the original implementation; extension record contains current engine hashes and new run/replay evidence."
+    },
+    {
+      "name": "prime_hub_pilot",
+      "status": "implemented_and_validated",
+      "adapter": "local_jsonl",
+      "validation": "research/prime/validation.json",
+      "audits": 3,
+      "task_rows": 7,
+      "cases_per_pass": 34,
+      "reviewed_component_findings": 4,
+      "unit_tests": {
+        "count": 56,
+        "job_id": 55683
+      },
+      "audit_job": 55684,
+      "new_components": [
+        "Three source-backed Prime grader/state drivers",
+        "Generic manifest collection runner",
+        "Framework grading-error guard and fault-injection test"
+      ]
+    }
+  ]
+}

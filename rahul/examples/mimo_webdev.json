@@ -1,0 +1,110 @@
+{
+  "schema_version": "rlaudit.pipeline/v1",
+  "name": "mimo-webdev-bounded",
+  "provenance": {
+    "dataset": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss",
+    "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+    "source_revisions": {
+      "XiaomiMiMo/verl": "79090e58195e80a9cfe251c95ae7a78a2132b6e2"
+    },
+    "scope": "All rows; narrow static metadata contracts, plus explicitly declared component probes.",
+    "deferred": [
+      "Rendered websites, visual judging and group-relative rollout behavior are deferred.",
+      "The configured probe is synthetic reward arithmetic attached to a representative row; it does not validate that environment."
+    ]
+  },
+  "sources": [
+    {
+      "id": "webdev",
+      "path": "../research/mimo/other_subsets/raw/webdev.parquet",
+      "sha256": "56ca6c96642666a27b756e20694ba60a4386d1761baadae86fd6768553d2cbac"
+    },
+    {
+      "id": "group-pick",
+      "path": "../research/mimo/other_subsets/contracts/sources/group_pick.py",
+      "sha256": "5f8edbc6ed5e0c4c842658b8c06069b8c7c69e5482d19399c61f8dbb98b0fe38"
+    },
+    {
+      "id": "group-reward",
+      "path": "../research/mimo/other_subsets/contracts/sources/group_reward.py",
+      "sha256": "f42cc7461be88d1eef1b7e999e44442658681fdae81c0d21c592b3aedf9d929f"
+    },
+    {
+      "id": "source-manifest",
+      "path": "../research/mimo/other_subsets/contracts/source_manifest.json",
+      "sha256": "207842027cc507caa8d813eaee81ac3400624acf8ad9292bd2bd29497c87d6b0"
+    },
+    {
+      "id": "driver",
+      "path": "drivers/mimo_webdev_reward.py",
+      "sha256": "394012f49ff2cbe5fe1e69a4ff309928a56b2cbc30697b5dc546def03e286789"
+    }
+  ],
+  "adapter": {
+    "kind": "mimo_webdev",
+    "source": "webdev"
+  },
+  "checks": [
+    "schema",
+    "mimo_contract"
+  ],
+  "probes": [
+    {
+      "id": "synthetic-runtime-gate",
+      "task_ids": [
+        "mimo-webdev-000000"
+      ],
+      "scope": "component",
+      "executor": "trusted_process",
+      "command": [
+        "{python}",
+        "{source:driver}",
+        "--source",
+        "{source:group-pick}"
+      ],
+      "cases": [
+        {
+          "id": "runtime-fails",
+          "input": {
+            "pick_norm": 0.5,
+            "query_score": 0.9,
+            "runtime_factor": 0
+          }
+        },
+        {
+          "id": "runtime-succeeds",
+          "input": {
+            "pick_norm": 0.5,
+            "query_score": 0.9,
+            "runtime_factor": 1
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          0.0,
+          0.8333
+        ],
+        "tolerance": 0,
+        "justification": "Exercise the pinned reward_one arithmetic with fixed synthetic judge inputs. The documented runtime gate floors a failed runtime at zero; the successful runtime follows the fixed affine formula. This does not assess this task's rendered website or any judge verdict."
+      }
+    }
+  ],
+  "execution": {
+    "partition": "amd-tw-verification",
+    "cpus": 1,
+    "memory": "2G",
+    "time_limit": "00:03:00",
+    "max_source_bytes": 16777216,
+    "max_source_files": 12,
+    "max_tasks": 2200,
+    "max_probe_cases": 4,
+    "timeout_seconds": 5,
+    "max_probe_seconds": 15,
+    "allow_trusted_process": true,
+    "dependencies": {
+      "pyarrow": "24.0.0"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "rlaudit.pipeline/v1",
+  "name": "mimo-code-static",
+  "provenance": {
+    "dataset": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss",
+    "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+    "artifact_source": "Previously captured local sources; worker hashes and snapshots these bytes."
+  },
+  "sources": [
+    {
+      "id": "code",
+      "path": "../research/mimo/inventory/raw/code.parquet",
+      "sha256": "3a5310751054dad1ac58cbf407c9234c1bf7775af5f3cc9be57474b39bd2a93b"
+    }
+  ],
+  "adapter": {
+    "kind": "mimo_code",
+    "source": "code"
+  },
+  "checks": [
+    "schema",
+    "code_static"
+  ],
+  "probes": [],
+  "execution": {
+    "partition": "amd-tw-verification",
+    "cpus": 2,
+    "memory": "4G",
+    "dependencies": {
+      "pyarrow": "24.0.0"
+    }
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "schema_version": "rlaudit.pipeline/v1",
+  "name": "mimo-general-money-component",
+  "provenance": {
+    "dataset": "https://huggingface.co/datasets/XiaomiMiMo/MiMo-V2.6-RL-oss",
+    "revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+    "artifact_source": "Previously captured local sources; worker hashes and snapshots these bytes."
+  },
+  "sources": [
+    {
+      "id": "bundles",
+      "path": "../research/mimo/general_actions/snapshots"
+    },
+    {
+      "id": "driver",
+      "path": "drivers/mimo_money.py"
+    }
+  ],
+  "adapter": {
+    "kind": "mimo_general",
+    "source": "bundles",
+    "ids": [
+      "s3k_1401_healthcare_ops_en_t4_rl_007"
+    ]
+  },
+  "checks": [
+    "schema",
+    "general_contract"
+  ],
+  "probes": [
+    {
+      "id": "money-grouping",
+      "task_ids": [
+        "s3k_1401_healthcare_ops_en_t4_rl_007"
+      ],
+      "executor": "trusted_process",
+      "scope": "component",
+      "command": [
+        "{python}",
+        "{source:driver}",
+        "--metadata",
+        "{source:bundles}/s3k_1401_healthcare_ops_en_t4_rl_007/verifier_meta.json"
+      ],
+      "cases": [
+        {
+          "id": "grouped",
+          "input": {
+            "table": [
+              [
+                "Reviewed population",
+                "24"
+              ],
+              [
+                "Transfer-rule population",
+                "9"
+              ],
+              [
+                "Affected claims",
+                "7"
+              ],
+              [
+                "Current billed amount",
+                "$184,672.54"
+              ],
+              [
+                "Corrected transfer amount",
+                "$162,826.17"
+              ],
+              [
+                "Estimated reimbursement decrease",
+                "($21,846.37)"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "ungrouped",
+          "input": {
+            "table": [
+              [
+                "Reviewed population",
+                "24"
+              ],
+              [
+                "Transfer-rule population",
+                "9"
+              ],
+              [
+                "Affected claims",
+                "7"
+              ],
+              [
+                "Current billed amount",
+                "$184672.54"
+              ],
+              [
+                "Corrected transfer amount",
+                "$162826.17"
+              ],
+              [
+                "Estimated reimbursement decrease",
+                "($21,846.37)"
+              ]
+            ]
+          }
+        }
+      ],
+      "relation": {
+        "kind": "invariant",
+        "justification": "The two DOCX metric tables differ only in thousands separators for two positive monetary cells. Both encode the same figures; the visible prompt does not require grouping. This is a core-metrics component probe, not a complete task submission.",
+        "tolerance": 0
+      }
+    }
+  ],
+  "execution": {
+    "partition": "amd-tw-verification",
+    "allow_trusted_process": true,
+    "cpus": 1,
+    "memory": "2G",
+    "dependencies": {
+      "python-docx": "1.2.0",
+      "lxml": "5.4.0"
+    }
+  }
+}

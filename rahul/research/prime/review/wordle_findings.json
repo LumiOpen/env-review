@@ -1,0 +1,27 @@
+{
+  "status": "no_concern_in_selected_cases",
+  "selected_targets": [
+    "abbey",
+    "apple"
+  ],
+  "cases": 14,
+  "duplicate_example": {
+    "answer": "apple",
+    "guess": "allee",
+    "expected_marks": [
+      "correct",
+      "present",
+      "absent",
+      "absent",
+      "correct"
+    ],
+    "observed_marks": [
+      "correct",
+      "present",
+      "absent",
+      "absent",
+      "correct"
+    ]
+  },
+  "limits": "Direct state/tool/rubric replay only; not a full agent rollout or exhaustive feedback test."
+}

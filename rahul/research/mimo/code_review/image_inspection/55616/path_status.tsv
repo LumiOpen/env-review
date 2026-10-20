@@ -1,0 +1,9 @@
+present	pytago/tests/test_core.py
+missing	examples/bitwisenot.py
+missing	examples/bitwisenot.go
+present	pyproject.toml
+present	setup.py
+present	.git/HEAD
+present	.git/packed-refs
+missing	.git/refs/heads/main
+missing	.git/refs/heads/master

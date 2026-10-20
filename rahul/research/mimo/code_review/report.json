@@ -1,0 +1,173 @@
+{
+  "scope": "Source-only review of three small Code rows; no task code or image executed",
+  "pins": {
+    "dataset_revision": "e8e81e4945270b6212204bad99de1e598f7fb077",
+    "runtime_commit": "c3df8469f250b15e7906487a6d52be4c1827a509",
+    "task_images": "Rows use :latest tags; digest not pinned or inspected"
+  },
+  "runtime_contract": {
+    "source_files": [
+      "sources/opensource_code.py",
+      "sources/base.py"
+    ],
+    "observations": [
+      {
+        "finding": "Setup captures base ref, initializes git if absent, purges later history",
+        "evidence": "sources/opensource_code.py:92-125,126-171"
+      },
+      {
+        "finding": "Reward resets paths named in test patch, applies patch, executes test_command with verifier timeout unless caller overrides, and rewards only returncode 0",
+        "evidence": "sources/opensource_code.py:177-236"
+      },
+      {
+        "finding": "Reset enumerates diff --git paths; restores paths existing at base, deletes absent paths. This does not cover unmodified verifier dependencies or extracted .build_env contents.",
+        "evidence": "sources/base.py:453-499"
+      },
+      {
+        "finding": "Base reward capture stages changes and records model diff before verifier; generic exceptions return zero",
+        "evidence": "sources/base.py:299-348,370-393"
+      },
+      {
+        "finding": "The wrapper extracts a tar encoded in the patch, then executes its internal test_command.sh",
+        "evidence": "snapshots/*/test.patch:25-36"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "task_id": "format-code-task-002069",
+      "framework": "Python pytest / pytago",
+      "priority": "high",
+      "status": "candidate, conditional on task-image contents",
+      "requirement": "Translate Python integer unary ~ to Go unary ^ so the supplied program transpiles.",
+      "evidence": [
+        {
+          "file": "snapshots/format-code-task-002069/problem_statement.md",
+          "lines": "1-31",
+          "point": "Natural-language contract and concrete expected Go."
+        },
+        {
+          "file": "snapshots/format-code-task-002069/test.patch",
+          "lines": "1-11",
+          "point": "Hidden patch only adds test method assert_examples_match(\"bitwisenot\") to test_core.py."
+        },
+        {
+          "file": "snapshots/format-code-task-002069/test_command.sh",
+          "lines": "1-3",
+          "point": "Runs only that pytest case."
+        },
+        {
+          "file": "sources/pytago_198034521b4d/pytago/tests/test_core.py",
+          "lines": "14-17",
+          "point": "Context upstream helper reads mutable examples/bitwisenot.py and .go from repository, then compares .go to python_to_go(.py)."
+        },
+        {
+          "file": "sources/base.py",
+          "lines": "453-499",
+          "point": "Runtime reset only protects paths touched by test patch."
+        }
+      ],
+      "hypothesis": "If image helper and example files match context upstream, agent can modify examples/bitwisenot.go (or .py) so incorrect transpiler output matches a changed reference, yielding false acceptance. The patch does not restore these reference files.",
+      "alternative_explanations": [
+        "Task image may have a different helper or protect examples by other means.",
+        "The image may omit fixture files, in which case the case fails for a different reason.",
+        "Out-of-band trainer checks might detect edits despite zero-exit runtime reward."
+      ],
+      "cheapest_probe": "On amd-tw-verification, inspect image fixture/helper and run baseline plus a controlled golden-file mutation under exact runtime; record reward and diff. No code execution on login node.",
+      "runtime_dependencies": [
+        "Task image format-code-task-002069:latest or immutable digest",
+        "Python/pytest and pytago dependencies in image",
+        "Exact task image source tree",
+        "Slurm compute node"
+      ]
+    },
+    {
+      "task_id": "format-code-task-002654",
+      "framework": "JavaScript AVA / eslint-plugin-unicorn",
+      "priority": "medium",
+      "status": "candidate coverage gap",
+      "requirement": "Avoid reporting class property this.size in the decorated TypeScript component example.",
+      "evidence": [
+        {
+          "file": "snapshots/format-code-task-002654/problem_statement.md",
+          "lines": "1-22",
+          "point": "Issue shows Angular @Input size?: HeadlineSizes and if (this.size)."
+        },
+        {
+          "file": "snapshots/format-code-task-002654/test.patch",
+          "lines": "1-23",
+          "point": "Added valid test is plain JavaScript class A, with if (this.length) and while (!this.size || foo); no decorator, TypeScript parser, or positive if (this.size) form."
+        },
+        {
+          "file": "snapshots/format-code-task-002654/test_command.sh",
+          "lines": "1-2",
+          "point": "Runs one AVA test file."
+        }
+      ],
+      "hypothesis": "Patch may accept a change that suppresses these two syntactic forms while still flagging the actual Angular TypeScript example; it also assumes all this.length references should be exempt without checking type.",
+      "alternative_explanations": [
+        "The actual rule may be syntax-only and class-member behavior may generalize across JS and TS parsers.",
+        "Existing tests in the selected file may cover broader relevant behavior.",
+        "Snapshot helper may verify both diagnostics and fixes beyond visible snippet."
+      ],
+      "cheapest_probe": "Inspect task-image test helper/config, then on Slurm add a targeted Angular TypeScript parser case and a plain if (this.size) case; compare baseline, intended fix, and a narrow workaround.",
+      "runtime_dependencies": [
+        "Task image format-code-task-002654:latest or immutable digest",
+        "Node/npx and AVA dependencies",
+        "TypeScript parser/decorator support in image",
+        "Slurm compute node"
+      ]
+    },
+    {
+      "task_id": "format-code-task-002908",
+      "framework": "Go test / ethgo",
+      "priority": "low",
+      "status": "candidate coverage gap",
+      "requirement": "Block JSON marshaling should include populated transaction hashes from GetBlockByNumber(false).",
+      "evidence": [
+        {
+          "file": "snapshots/format-code-task-002908/problem_statement.md",
+          "lines": "1-21",
+          "point": "Requires preservation of populated TransactionsHashes in encoded JSON."
+        },
+        {
+          "file": "snapshots/format-code-task-002908/test.patch",
+          "lines": "1-14",
+          "point": "Adds one expected transactions array containing only Hash1 to existing TestJSONEncoding block fixture."
+        },
+        {
+          "file": "snapshots/format-code-task-002908/test_command.sh",
+          "lines": "1-4",
+          "point": "Runs go test -run TestJSONEncoding in current package."
+        }
+      ],
+      "hypothesis": "A single one-hash fixture may not establish correct behavior for empty blocks, multiple hashes, or Block values returned by GetBlockByNumber(false). This is possible false acceptance through narrow coverage, not a demonstrated contradiction.",
+      "alternative_explanations": [
+        "Existing TestJSONEncoding cases may cover those scenarios.",
+        "Underlying fixture may exercise exactly the RPC-decoded Block path.",
+        "The task may only require basic JSON field inclusion."
+      ],
+      "cheapest_probe": "Inspect exact image fixture and encoding implementation; add multi-hash and RPC-decoded block cases on Slurm if gaps remain.",
+      "runtime_dependencies": [
+        "Task image format-code-task-002908:latest or immutable digest",
+        "Go 1.24 via dev-switch in image",
+        "Slurm compute node"
+      ]
+    }
+  ],
+  "limitations": [
+    "No image digests or image contents inspected",
+    "No task code/test execution",
+    "Current pytago upstream helper at commit 1980345 is contextual, not proven identical to task image",
+    "No confirmed false verdict"
+  ],
+  "provenance": {
+    "candidate_exports": [
+      "research/mimo/inventory/candidates/candidate_02.json",
+      "research/mimo/inventory/candidates/candidate_03.json",
+      "research/mimo/inventory/candidates/candidate_04.json"
+    ],
+    "pytago_context_commit": "198034521b4d1b05df24b7aba5877d3ce7d82911",
+    "pytago_context_url": "https://github.com/nottheswimmer/pytago/tree/198034521b4d1b05df24b7aba5877d3ce7d82911"
+  }
+}

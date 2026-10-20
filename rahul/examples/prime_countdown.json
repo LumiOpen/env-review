@@ -1,0 +1,229 @@
+{
+  "schema_version": "rlaudit.pipeline/v1",
+  "name": "prime-countdown",
+  "provenance": {
+    "hub_url": "https://app.primeintellect.ai/dashboard/environments/sami/countdown",
+    "environment": "sami/countdown",
+    "archive_sha256": "e821f68a918df0cab078c4eae433a283b7afbad8e0e58f6b6af006ae177d0786",
+    "version_id": "uuz9frv8l704r2hzzj584jjf",
+    "runtime": "VERIFIERS_V0",
+    "scope": "Model-free source parser/rubric or state/tool component replay on frozen real task rows.",
+    "limitations": [
+      "No model rollout, policy training, paid judge, or inference service.",
+      "Framework trajectory metrics are scaffolding, not evidence of a real agent rollout.",
+      "Findings apply to the selected package and compatible pinned framework, not every Hub environment."
+    ]
+  },
+  "sources": [
+    {
+      "id": "tasks",
+      "path": "../research/prime/tasks/countdown.jsonl",
+      "sha256": "cd7f1d99c98b84c2eb8c1cc5721c95d13b6f330af4e3086a4c353e65995950a0"
+    },
+    {
+      "id": "contract",
+      "path": "../examples/contracts/prime_countdown.json",
+      "sha256": "deed7b564f3f7f89d52c969fb0d377832eacee8c8a8dba4280a6a2321c53e6e6"
+    },
+    {
+      "id": "countdown",
+      "path": "../research/prime/sources/sami__countdown__e821f68a918d"
+    },
+    {
+      "id": "archive",
+      "path": "../research/prime/sources/sami__countdown__e821f68a918d.tar.gz",
+      "sha256": "e821f68a918df0cab078c4eae433a283b7afbad8e0e58f6b6af006ae177d0786"
+    },
+    {
+      "id": "catalog",
+      "path": "../research/prime/catalog/sami__countdown.json",
+      "sha256": "f6d670427197605c8ca742c2cf70c562d2d257d0f740752641c38d45ee2637cc"
+    },
+    {
+      "id": "independent_oracle",
+      "path": "../research/prime/review/countdown_oracle.py",
+      "sha256": "545f8ed0f3d1f08cc250059baefafe965f7e44fab866a4598929819b82dff112"
+    },
+    {
+      "id": "oracle_reproduction",
+      "path": "../research/prime/review/verify_countdown.py",
+      "sha256": "886b7ec833c055b4fc8ad766d428804f2e868ba5cacf7b159d28df4c8af21ea9"
+    }
+  ],
+  "adapter": {
+    "kind": "local_jsonl",
+    "source": "tasks"
+  },
+  "checks": [
+    "schema"
+  ],
+  "probes": [
+    {
+      "id": "exact-valid-versus-wrong",
+      "task_ids": [
+        "prime-countdown-seed-339-row-0"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "reference",
+          "input": {
+            "completion": "<reasoning>Compute using the displayed expression.</reasoning><solution>(5*50)/2</solution>"
+          }
+        },
+        {
+          "id": "variant",
+          "input": {
+            "completion": "<reasoning>Compute using the displayed expression.</reasoning><solution>5+3</solution>"
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          1,
+          0
+        ],
+        "tolerance": 1e-12,
+        "justification": "The legal witness uses available numbers once and reaches125; 5+3 reaches8. Only the exact-match component is returned; details retain the full weighted rubric."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "fractional-intermediate",
+      "task_ids": [
+        "prime-countdown-seed-339-row-0"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "reference",
+          "input": {
+            "completion": "<reasoning>Compute using the displayed expression.</reasoning><solution>(5*50)/2</solution>"
+          }
+        },
+        {
+          "id": "variant",
+          "input": {
+            "completion": "<reasoning>Compute using the displayed expression.</reasoning><solution>(5/2)*50</solution>"
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          1,
+          0
+        ],
+        "tolerance": 1e-12,
+        "justification": "The prompt requires every intermediate result to be a positive integer. (5*50)/2 is legal; (5/2)*50 creates the fractional intermediate5/2. An independent AST/Fraction oracle verifies the distinction."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "forbidden-exponent",
+      "task_ids": [
+        "prime-countdown-seed-339-row-0"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "reference",
+          "input": {
+            "completion": "<reasoning>Compute using the displayed expression.</reasoning><solution>(5*50)/2</solution>"
+          }
+        },
+        {
+          "id": "variant",
+          "input": {
+            "completion": "<reasoning>Compute using the displayed expression.</reasoning><solution>5**3</solution>"
+          }
+        }
+      ],
+      "relation": {
+        "kind": "expected",
+        "values": [
+          1,
+          0
+        ],
+        "tolerance": 1e-12,
+        "justification": "The prompt permits only addition, subtraction, multiplication, and division. Exponentiation is a different operation even though it reaches125 using available numeric literals."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    },
+    {
+      "id": "unicode-arithmetic-operators",
+      "task_ids": [
+        "prime-countdown-seed-339-row-0"
+      ],
+      "command": [
+        "{python}",
+        "-m",
+        "rlaudit.verifiers_adapter",
+        "--contract",
+        "{source:contract}"
+      ],
+      "cases": [
+        {
+          "id": "ascii",
+          "input": {
+            "completion": "<reasoning>Compute using the displayed expression.</reasoning><solution>(5*50)/2</solution>"
+          }
+        },
+        {
+          "id": "unicode",
+          "input": {
+            "completion": "<reasoning>Compute using the displayed expression.</reasoning><solution>(5×50)÷2</solution>"
+          }
+        }
+      ],
+      "relation": {
+        "kind": "invariant",
+        "tolerance": 0,
+        "justification": "The expressions use identical numbers and arithmetic; only standard multiplication/division glyphs differ. The pinned source explicitly normalizes these glyphs."
+      },
+      "executor": "trusted_process",
+      "scope": "component"
+    }
+  ],
+  "execution": {
+    "partition": "amd-tw-verification",
+    "cpus": 2,
+    "memory": "4G",
+    "time_limit": "00:05:00",
+    "max_source_bytes": 4194304,
+    "max_source_files": 64,
+    "max_tasks": 10,
+    "max_probe_cases": 20,
+    "timeout_seconds": 45,
+    "max_probe_seconds": 240,
+    "max_output_bytes": 262144,
+    "allow_trusted_process": true,
+    "dependencies": {
+      "verifiers": "0.3.0",
+      "datasets": "4.3.0",
+      "pyarrow": "24.0.0"
+    }
+  }
+}
