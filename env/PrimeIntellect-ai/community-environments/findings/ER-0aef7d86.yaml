@@ -1,0 +1,73 @@
+schema_version: '1'
+id: ER-0aef7d86
+dataset: gh:PrimeIntellect-ai/community-environments
+revision: cf220ee86500e94b5415d8b226557ce5d950f1db
+title: gptworld reward parsed from stdout regex — any code printing [N][True] scores 1.0
+status: confirmed
+category: reward_shortcut
+tasks:
+  - id: gptworld
+problem:
+  description: >
+    Both reward functions (__moves_reward and __win_reward) parse their signals
+    exclusively from the sandbox stdout string using re.findall(r"\[(.*?)\]",
+    output_str). The agent's submitted code runs in a sandbox and its entire
+    stdout is captured as state["output"]. Any code that prints a string
+    matching [<integer>][True] at any point scores full win reward (1.0) and
+    a moves reward of min_moves/printed_integer — regardless of whether the
+    maze was actually solved.
+  expected: >
+    Reward must be derived from the actual game state after execution, not
+    from stdout text that the agent's code can freely produce.
+  actual: >
+    extract_values (line 103-108) applies re.findall(r"\[(.*?)\]", output_str)
+    to the full stdout. __win_reward (line 97-99) returns 1.0 when the parsed
+    second bracket value is "true". __moves_reward (line 90-94) returns
+    min_moves/moves with no upper cap — printing "[1][True]" yields
+    moves_reward = min_moves/1 which exceeds 1.0 for any puzzle where
+    min_moves > 1. The simplest exploit: `print("[1][True]")`.
+evidence:
+  - source: environments/gptworld/gptworld.py
+    line_start: 90
+    line_end: 108
+    quote: |
+      def __moves_reward(state: vf.State, completion, answer, **kwargs) -> float:
+          extracted_values = extract_values(state["output"])
+          moves = extracted_values[0] if extracted_values[0] > 0 else -1
+          min_moves = int(answer)
+          return max(min_moves / moves, 0.0)
+
+
+      def __win_reward(state: vf.State, completion, **kwargs) -> float:
+          _, win = extract_values(state["output"])
+          return 1.0 if win else 0.0
+
+
+      # Parse Code Output to extract moves and win
+      def extract_values(output_str):
+          values = re.findall(r"\[(.*?)\]", output_str)
+          if len(values) >= 2:
+              first = int(values[0])
+              second = values[1].strip().lower() == "true"
+              return first, second
+validation:
+  method: static
+  summary: >
+    Static reading of extract_values (lines 103-108), __win_reward (97-99),
+    and __moves_reward (90-94) confirms the reward is computed solely from
+    regex-parsed stdout. The agent's submitted code is executed via bash in a
+    sandbox (line 166-169) and its full output is stored as state["output"]
+    with no sanitisation before being passed to both reward functions.
+    Concrete exploit: submitted code contains `print("[1][True]")`;
+    win_reward = 1.0, moves_reward = min_moves (unbounded above 1.0).
+  assumptions:
+    - The sandbox does not strip or filter stdout before storing it in state["output"].
+    - No additional reward normalisation is applied downstream.
+  not_run:
+    - End-to-end execution confirming the exploit in a live sandbox.
+provenance:
+  discovered_by: AI-assisted static code review, 2026-10-20
+discussion: >
+  Fix requires deriving win/move count from the game engine's internal state
+  after execution, not from stdout. The current design conflates the game's
+  reporting protocol (printing [moves][win]) with a tamper-proof reward signal.
