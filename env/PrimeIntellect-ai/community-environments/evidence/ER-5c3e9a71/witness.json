@@ -1,0 +1,49 @@
+{
+  "finding": "ER-5c3e9a71",
+  "environment": "llm_writing_detection",
+  "hub_package": "primeintellect/llm-writing-detection 0.1.0",
+  "source_match": "Hub package files llm_writing_detection.py, utils/reward_functions.py and pyproject.toml are byte-identical to environments/llm_writing_detection/ at revision cf220ee86500e94b5415d8b226557ce5d950f1db.",
+  "run": {
+    "date": "2026-10-20",
+    "command": "vf-eval llm-writing-detection -m mock -n 5 -r 1 -t 64 (OpenAI-compatible mock server; one isolated microVM per run)",
+    "installed": {"verifiers": "0.3.1"},
+    "tasks": "First 5 rows of the train split (eval_dataset_len 10000); first prompt: 'Write a wikipedia article on: William Whitehouse'.",
+    "judge": "No judge model was available. The judge request was answered by the mock server, and judge_negative_reward scored 0.0 on every rollout in both runs. Neither run reaches the -0.3 or 1.0 values a working judge returns."
+  },
+  "replies": {
+    "garbage": "I think the answer is 0.\n\n\\boxed{0}",
+    "reference": "The row's own `answer` field (the human-written Wikipedia text), sent verbatim."
+  },
+  "per_function_mean": {
+    "garbage": {
+      "quote_consistency_penalty_reward": 1.0,
+      "emoji_penalty_reward": 1.0,
+      "formatting_density_penalty_reward": 1.0,
+      "list_structure_penalty_reward": 1.0,
+      "punctuation_penalty_reward": 1.0,
+      "similarity_reward": 0.005,
+      "judge_negative_reward": 0.0,
+      "reward": 0.451
+    },
+    "reference": {
+      "quote_consistency_penalty_reward": 0.88,
+      "emoji_penalty_reward": 1.0,
+      "formatting_density_penalty_reward": 1.0,
+      "list_structure_penalty_reward": 1.0,
+      "punctuation_penalty_reward": 1.0,
+      "similarity_reward": 1.0,
+      "judge_negative_reward": 0.0,
+      "reward": 0.688
+    }
+  },
+  "arithmetic": {
+    "style_terms_weight": 0.45,
+    "style_terms_minimum_contribution": "0.1*0.7 + 0.1*0.8 + 0.1*0.75 + 0.1*0.8 + 0.05*0.8 = 0.345 (penalty floors in utils/reward_functions.py)",
+    "topic_independent_weight": "0.45 (style) + 0.30 (judge; the judge prompt contains only the completion) = 0.75",
+    "topic_dependent_weight": "0.25 (similarity_reward)"
+  },
+  "not_run": [
+    "No real LLM judge; the judge term's behavior on short or off-topic replies is not measured.",
+    "No policy training run; no measurement that a trained policy exploits the floor."
+  ]
+}

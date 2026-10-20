@@ -1,0 +1,145 @@
+schema_version: "1"
+id: ER-5c3e9a71
+dataset: gh:PrimeIntellect-ai/community-environments
+revision: "cf220ee86500e94b5415d8b226557ce5d950f1db"
+title: llm_writing_detection pays up to 0.75 of the reward without looking at the requested topic; a nonsense reply scored 0.45
+status: candidate
+category: reward_shortcut
+tasks:
+  - id: llm_writing_detection
+    path: environments/llm_writing_detection
+problem:
+  description: >
+    Each task asks for a Wikipedia article on a given title. The reference
+    answer is the human-written article. The rubric combines seven weighted
+    functions. Five style penalties (total weight 0.45) and the LLM judge
+    (weight 0.3) never see the prompt or the reference. Only similarity_reward
+    (weight 0.25) compares the reply with the reference article. The style
+    penalties are floored, so they contribute at least 0.345 for any text and
+    exactly 0.45 for plain text without emojis, mixed quotes, bold/italic,
+    mixed list markers or em-dashes. The judge prompt contains only the
+    completion and asks whether it looks AI-generated, so a short off-topic
+    reply the judge considers human-written gets the full 0.3. At most 0.25 of
+    the reward depends on writing about the requested subject.
+  expected: >
+    The environment README says the task is to "write Wikipedia-style articles
+    that avoid AI-detectable patterns while maintaining human-like writing
+    quality", and the prompt asks for an article on a specific title. A reply
+    that does not address the title should score well below an on-topic
+    article.
+  actual: >
+    In our run, a fixed nonsense reply ("I think the answer is 0." plus
+    \boxed{0}) scored 0.451 on all 5 tasks: every style penalty 1.0,
+    similarity 0.005, judge term 0.0 because no judge model was available.
+    Replying with each row's own human-written reference article scored 0.688.
+    The reference itself lost points on quote_consistency (mean 0.88), so the
+    "AI pattern" penalty also applies to the human reference text. With no
+    judge, nonsense earns 66% of the reference's reward. With a working judge,
+    the maximum topic-independent reward is 0.75 out of 1.0.
+evidence:
+  - source: environments/llm_writing_detection/llm_writing_detection.py
+    line_start: 115
+    line_end: 142
+    quote: |
+      async def judge_negative_reward(prompt, completion, answer, state, **kwargs) -> float:
+          is_ai_detected = await judge_rubric.judge(prompt, completion, answer, state, **kwargs)
+          penalty = -0.3 if is_ai_detected else 1
+          return penalty
+
+      # 5. Combine all rewards into a single hybrid rubric
+      hybrid_rubric = vf.Rubric(
+          funcs=[
+              # Verifiable style-based rewards
+              quote_consistency_penalty_reward,
+              emoji_penalty_reward,
+              formatting_density_penalty_reward,
+              list_structure_penalty_reward,
+              punctuation_penalty_reward,
+              similarity_reward,
+              # LLM Judge reward
+              judge_negative_reward,
+          ],
+          weights=[
+              0.1,  # Quote consistency is a strong signal
+              0.1,  # Emoji usage is a strong signal
+              0.1,  # Formatting density
+              0.1,  # List structure
+              0.05,  # Punctuation patterns
+              0.25,  # similarity reward using difflib
+              0.3,  # LLM as Judge
+          ],
+      )
+  - source: environments/llm_writing_detection/llm_writing_detection.py
+    line_start: 72
+    line_end: 77
+    quote: |
+      if isinstance(completion, list):
+          text_to_judge = completion[-1].get("content", "")
+      else:
+          text_to_judge = str(completion)
+
+      judge_prompt = self.judge_prompt.format(text=text_to_judge)
+    note: The judge template (lines 34-58) has a single {text} slot. The article title and reference are not passed to the judge.
+  - source: environments/llm_writing_detection/utils/reward_functions.py
+    line_start: 32
+    line_end: 42
+    quote: |
+      async def emoji_penalty_reward(completion) -> float:
+          """
+          Penalize emoji usage in formal writing.
+          Returns: 1.0 (no emojis) or 0.8 (emojis detected - penalty applied)
+          """
+          text = extract_text_from_completion(completion)
+          emoji_score = emoji_density_score(text)
+
+          # If emoji_score is 0.0, emojis were detected (AI-like)
+          penalty = -0.2 if emoji_score == 0.0 else 0.0
+          return 1.0 + penalty
+    note: The other four style penalties (lines 45-96) have the same shape. They take only the completion and return 1.0 minus a capped penalty (floors 0.7, 0.75, 0.8, 0.8).
+  - source: environments/llm_writing_detection/utils/reward_functions.py
+    line_start: 99
+    line_end: 103
+    quote: |
+      async def similarity_reward(completion, answer) -> float:
+          # Lexical similarity
+          text = extract_text_from_completion(completion)
+          lexical_sim = difflib.SequenceMatcher(None, text, answer).ratio()
+          return lexical_sim
+  - source: environments/llm_writing_detection/README.md
+    line_start: 5
+    line_end: 5
+    quote: |
+      - **Short description**: Train models to write Wikipedia-style articles that avoid AI-detectable patterns while maintaining human-like writing quality
+validation:
+  method: reproduction
+  summary: >
+    We installed the Environments Hub package primeintellect/llm-writing-detection
+    0.1.0 in an isolated microVM (verifiers 0.3.1) and ran vf-eval on 5 tasks
+    with a mock model, first replying with a fixed nonsense string and then
+    with each row's reference answer. The cited hub files
+    (llm_writing_detection.py, utils/reward_functions.py, pyproject.toml) are
+    byte-identical to the pinned revision. Per-function means for both runs
+    are in the witness. An agent then read the rubric and penalty functions to
+    confirm that only similarity_reward uses the reference and that nothing
+    uses the requested title. The topic-independent 0.75 maximum is
+    arithmetic over the documented weights and penalty floors. It has not been
+    measured with a real judge.
+  assumptions:
+    - The environment is presented as published, with the default rubric weights and a working judge model as documented in the README.
+    - A reply that does not address the requested title should not receive most of the reward. The README's stated goal includes writing the requested Wikipedia-style article, not only avoiding style patterns.
+  not_run:
+    - No real LLM judge was configured. Whether gpt-4.1-mini (the default) labels short or off-topic replies as human-written is not measured.
+    - No training run demonstrated that a policy learns to exploit the topic-independent reward.
+    - Hub copies under other namespaces were not compared.
+  reproducer: env/PrimeIntellect-ai/community-environments/evidence/ER-5c3e9a71/witness.json
+provenance:
+  discovered_by: Daniel Zautner's Prime Environments Hub audit (automated gold-vs-garbage reward check, then AI-agent code review; not independently human-validated)
+  experiment: experiments/prime-hub-audit
+discussion: >
+  The README lists the weights and penalty ranges, so the floor is documented
+  rather than hidden. This finding is about how well those weights fit the
+  stated task. Possible fixes: make style terms multiply a topic or similarity
+  term instead of adding to it, or give the judge the requested title and ask
+  whether the reply is an on-topic article. The reference reply scored
+  similarity 1.0 in our run, so the reply text did reach the reward functions;
+  the measured floor is not an artifact of message parsing.
