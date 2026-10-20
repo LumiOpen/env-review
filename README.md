@@ -22,6 +22,7 @@ are deferred separately. See [review scope](docs/scope.md) for this boundary.
 
 - [XiaomiMiMo / MiMo-V2.6-RL-oss](env/XiaomiMiMo/MiMo-V2.6-RL-oss): initial exploration of exposed knowledge-work environments.
 - [allenai / Dolci-Think-RL-7B](env/allenai/Dolci-Think-RL-7B): full-split audit with an instruction-contradiction witness.
+- [allenai / Dolci-Think-SFT-7B](env/allenai/Dolci-Think-SFT-7B): IF-source audit of contradictory constraints and stored reasoning-format mismatches.
 - [LumiOpen / AutoIF-FI](env/LumiOpen/AutoIF-FI): full-split audit of saved prompts and focused verifier review.
 
 ## Layout

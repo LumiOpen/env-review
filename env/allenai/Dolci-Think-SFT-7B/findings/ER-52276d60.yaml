@@ -1,0 +1,31 @@
+schema_version: '1'
+id: ER-52276d60
+dataset: hf:allenai/Dolci-Think-SFT-7B
+revision: 72ec0fe32428bada1ec686a9168a0681eecd2094
+title: Precise IF prompt requires a fifth paragraph in a four-paragraph response
+status: confirmed
+category: specification
+tasks:
+  - id: if_qwq_reasoning_verified_filtered_decontam_v2_110
+    config: default
+    split: train
+    row_index: 1264478
+problem:
+  description: The instruction simultaneously fixes the response at four paragraphs and requires paragraph five to start with a word.
+  expected: All constraints in one instruction-following prompt should admit a common response.
+  actual: A fifth paragraph cannot exist in a response of exactly four paragraphs.
+evidence:
+  - source: data/train-00086-of-00156.parquet
+    note: Global train row 1264478, first user message; local shard row 14038.
+    quote: |
+      There should be 4 paragraphs. Paragraphs and only paragraphs are separated with each other by two new lines as if it was '\n\n' in python. Paragraph 5 must start with word office.
+validation:
+  method: static
+  summary: Read the pinned user prompt and compared its exact paragraph count with the required paragraph index. The same mechanical pattern occurs in 46 IF rows, all from the Precise IF source; this finding records one reviewed task.
+  assumptions:
+    - Both requirements govern the same assistant response, as the single user message states.
+  not_run:
+    - Original verification functions, which are not included in this SFT schema.
+  reproducer: https://datasets-server.huggingface.co/rows?dataset=allenai%2FDolci-Think-SFT-7B&config=default&split=train&offset=1264478&length=1
+provenance:
+  discovered_by: AI-assisted full IF-source static scan, 2026-10-20
