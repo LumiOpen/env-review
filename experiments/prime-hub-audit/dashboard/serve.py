@@ -2,7 +2,7 @@
 
   python3 serve.py [PORT]      then open http://127.0.0.1:8000
 
-Answers /api/* from data/*.json (a snapshot of the live dashboard), serves static/, and returns
+Answers /api/* from snapshot/*.json (a snapshot of the live dashboard), serves static/, and returns
 index.html for every page path so deep links and reloads work. Logs and env source code are not
 included in this snapshot.
 """
@@ -11,7 +11,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-DATA, STATIC = ROOT / "data", ROOT / "static"
+DATA, STATIC = ROOT / "snapshot", ROOT / "static"
 
 
 class H(SimpleHTTPRequestHandler):
